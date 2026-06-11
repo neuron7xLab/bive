@@ -1,42 +1,117 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "verification_report.schema.json",
   "title": "BIVE VerificationReport",
   "type": "object",
   "required": [
-    "report_id", "created_at", "subject_scope", "input_summary", "claims", "signals",
-    "evidence_events", "hypotheses", "final_status", "final_assessment", "limitations",
-    "missing_evidence", "verification_questions", "policy_invariants"
+    "report_id",
+    "created_at",
+    "report_version",
+    "subject_scope",
+    "input_summary",
+    "claims",
+    "signals",
+    "evidence_events",
+    "hypotheses",
+    "final_status",
+    "final_assessment",
+    "limitations",
+    "missing_evidence",
+    "verification_questions",
+    "provenance",
+    "policy_invariants"
   ],
+  "additionalProperties": false,
   "properties": {
-    "report_id": {"type": "string"},
-    "created_at": {"type": "string"},
-    "subject_scope": {"type": "string"},
-    "input_summary": {"type": "object"},
-    "claims": {"type": "array"},
-    "signals": {"type": "array"},
-    "evidence_events": {"type": "array", "items": {"$ref": "evidence_event.schema.json"}},
-    "hypotheses": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "required": ["hypothesis_id", "label", "description", "score", "uncertainty", "status"],
-        "properties": {
-          "hypothesis_id": {"type": "string"},
-          "label": {"type": "string"},
-          "description": {"type": "string"},
-          "score": {"type": "number", "minimum": 0, "maximum": 1},
-          "uncertainty": {"type": "number", "minimum": 0, "maximum": 1},
-          "status": {"enum": ["inconclusive", "review_required", "low_risk", "elevated_risk", "invalid_input"]},
-          "alternative_explanations": {"type": "array", "items": {"type": "string"}}
-        }
+    "report_id": {"type": "string", "minLength": 1},
+    "created_at": {"type": "string", "minLength": 1},
+    "report_version": {"type": "string", "minLength": 1},
+    "subject_scope": {"type": "string", "minLength": 1},
+    "input_summary": {
+      "type": "object",
+      "required": ["segments", "claims", "modalities", "evidence_graph_entropy", "graph_nodes", "graph_edges"],
+      "additionalProperties": false,
+      "properties": {
+        "segments": {"type": "integer", "minimum": 0},
+        "claims": {"type": "integer", "minimum": 0},
+        "modalities": {"type": "array", "items": {"type": "string"}},
+        "evidence_graph_entropy": {"type": "number", "minimum": 0},
+        "graph_nodes": {"type": "integer", "minimum": 0},
+        "graph_edges": {"type": "integer", "minimum": 0}
       }
     },
-    "final_status": {"enum": ["inconclusive", "review_required", "low_risk", "elevated_risk", "invalid_input"]},
-    "final_assessment": {"type": "string"},
+    "claims": {"type": "array", "items": {"$ref": "#/$defs/claim"}},
+    "signals": {"type": "array", "items": {"$ref": "#/$defs/signal"}},
+    "evidence_events": {"type": "array", "items": {"$ref": "evidence_event.schema.json"}},
+    "hypotheses": {"type": "array", "items": {"$ref": "#/$defs/hypothesis"}},
+    "final_status": {"$ref": "#/$defs/review_status"},
+    "final_assessment": {"type": "string", "minLength": 1},
     "limitations": {"type": "array", "items": {"type": "string"}},
     "missing_evidence": {"type": "array", "items": {"type": "string"}},
     "verification_questions": {"type": "array", "items": {"type": "string"}},
-    "policy_invariants": {"type": "array", "items": {"type": "string"}}
+    "provenance": {"type": "array", "items": {"$ref": "#/$defs/provenance_record"}},
+    "policy_invariants": {"type": "array", "items": {"type": "string"}, "minItems": 1}
   },
-  "additionalProperties": true
+  "$defs": {
+    "review_status": {"enum": ["inconclusive", "review_required", "low_risk", "elevated_risk", "invalid_input"]},
+    "modality": {"enum": ["text", "audio", "vision", "context", "system"]},
+    "claim": {
+      "type": "object",
+      "required": ["claim_id", "speaker", "text", "start", "end", "source_id", "qualifiers"],
+      "additionalProperties": false,
+      "properties": {
+        "claim_id": {"type": "string", "minLength": 1},
+        "speaker": {"type": "string"},
+        "text": {"type": "string", "minLength": 1},
+        "start": {"type": ["number", "null"]},
+        "end": {"type": ["number", "null"]},
+        "source_id": {"type": "string", "minLength": 1},
+        "qualifiers": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "signal": {
+      "type": "object",
+      "required": ["signal_id", "modality", "name", "value", "confidence", "interpretation", "limitations"],
+      "additionalProperties": false,
+      "properties": {
+        "signal_id": {"type": "string", "minLength": 1},
+        "modality": {"$ref": "#/$defs/modality"},
+        "name": {"type": "string", "minLength": 1},
+        "value": {"anyOf": [{"type": "number"}, {"type": "integer"}, {"type": "string"}, {"type": "object", "additionalProperties": false}]},
+        "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+        "interpretation": {"type": "string"},
+        "limitations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "hypothesis": {
+      "type": "object",
+      "required": ["hypothesis_id", "label", "description", "prior", "evidence_for", "evidence_against", "score", "uncertainty", "status", "alternative_explanations"],
+      "additionalProperties": false,
+      "properties": {
+        "hypothesis_id": {"type": "string", "minLength": 1},
+        "label": {"type": "string", "minLength": 1},
+        "description": {"type": "string"},
+        "prior": {"type": "number", "minimum": 0, "maximum": 1},
+        "evidence_for": {"type": "array", "items": {"type": "string"}},
+        "evidence_against": {"type": "array", "items": {"type": "string"}},
+        "score": {"type": "number", "minimum": 0, "maximum": 1},
+        "uncertainty": {"type": "number", "minimum": 0, "maximum": 1},
+        "status": {"$ref": "#/$defs/review_status"},
+        "alternative_explanations": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "provenance_record": {
+      "type": "object",
+      "required": ["entity_id", "activity", "agent", "source", "generated_at", "parameters"],
+      "additionalProperties": false,
+      "properties": {
+        "entity_id": {"type": "string"},
+        "activity": {"type": "string"},
+        "agent": {"type": "string"},
+        "source": {"type": "string"},
+        "generated_at": {"type": "string"},
+        "parameters": {"type": "object", "additionalProperties": {"type": ["string", "number", "integer", "boolean", "null"]}}
+      }
+    }
+  }
 }

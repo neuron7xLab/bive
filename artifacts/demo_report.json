@@ -319,5 +319,6 @@
     "No single cue may decide a hypothesis.",
     "Every elevated hypothesis must include counter-evidence or missing evidence.",
     "Human review required for real-world decisions."
-  ]
+  ],
+  "report_version": "1.0"
 }

@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 118,
+  "test_functions": 122,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -167,7 +167,10 @@
       "test_report_serialization"
     ],
     "tests/test_schema_contract.py": [
-      "test_transcript_schema_rejects_extra_fields"
+      "test_transcript_schema_rejects_extra_fields",
+      "test_verification_report_schema_accepts_generated_demo",
+      "test_verification_report_schema_rejects_top_level_drift",
+      "test_verification_report_schema_rejects_invalid_claim_shape"
     ],
     "tests/test_science_api_contract.py": [
       "test_science_registry_endpoint_exposes_boundaries",
@@ -185,7 +188,8 @@
     ],
     "tests/test_storage_operational_contract.py": [
       "test_storage_exposes_schema_version",
-      "test_storage_handles_concurrent_report_writes"
+      "test_storage_handles_concurrent_report_writes",
+      "test_storage_structured_logs_do_not_emit_report_body"
     ],
     "tests/test_ui_assets.py": [
       "test_ui_assets_exist"

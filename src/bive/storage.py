@@ -8,6 +8,7 @@ from pathlib import Path
 from typing import Any
 
 from .models import VerificationReport, utc_now_iso
+from .observability import log_event
 from .report import load_report
 
 SCHEMA_VERSION = 1
@@ -98,6 +99,7 @@ class ReportStore:
                 "report_saved", report.report_id, {"status": report.final_status.value}, conn=conn
             )
             conn.commit()
+        log_event("storage_report_saved", report_id=report.report_id, status=report.final_status.value)
 
     def get(self, report_id: str) -> VerificationReport | None:
         with closing(self._connect()) as conn:
@@ -131,6 +133,7 @@ class ReportStore:
                 "INSERT INTO audit_log(created_at, action, entity_id, metadata_json) VALUES (?, ?, ?, ?)",
                 (utc_now_iso(), action, entity_id, payload),
             )
+            log_event("storage_audit_event", action=action, entity_id=entity_id)
             if close:
                 active.commit()
         finally:

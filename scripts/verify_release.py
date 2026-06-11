@@ -21,7 +21,9 @@ class GateCommand:
 
 COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("repo-clean", [sys.executable, "scripts/check_repo_clean.py"], 60),
+    GateCommand("environment", [sys.executable, "scripts/check_environment.py"], 60),
     GateCommand("metadata", [sys.executable, "scripts/validate_metadata.py"], 60),
+    GateCommand("compile", [sys.executable, "-m", "compileall", "-q", "src", "scripts", "tests"], 120),
     GateCommand("dependency-contracts", [sys.executable, "scripts/validate_dependency_contracts.py"], 60),
     GateCommand("test-architecture", [sys.executable, "scripts/validate_test_architecture.py"], 60),
     GateCommand("automation-contract", [sys.executable, "scripts/validate_automation_contract.py"], 60),
@@ -41,6 +43,7 @@ COMMANDS: tuple[GateCommand, ...] = (
         240,
     ),
     GateCommand("api-smoke", [sys.executable, "scripts/api_smoke.py"], 120),
+    GateCommand("dependency-audit", [sys.executable, "scripts/dependency_audit.py"], 240),
     GateCommand("pr-check", [sys.executable, "scripts/pr_check.py", "--repo", "."], 120),
     GateCommand("schema", [sys.executable, "scripts/validate_schemas.py", "--strict", "--instances"], 120),
     GateCommand("ui-check", [sys.executable, "scripts/check_ui_assets.py"], 60),
@@ -51,7 +54,9 @@ COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("security-static", ["bandit", "-q", "-r", "src", "scripts", "-c", "pyproject.toml", "-ll"], 120),
     GateCommand("wheel-smoke", [sys.executable, "scripts/wheel_smoke.py"], 180),
     GateCommand("manifest-check", [sys.executable, "scripts/validate_release_manifest.py"], 60),
-    GateCommand("evidence-bundle", [sys.executable, "scripts/generate_evidence_bundle.py"], 60),
+    GateCommand("demo", ["make", "demo"], 120),
+    GateCommand("demo-gate", [sys.executable, "-m", "bive.cli", "gate", "--input", "artifacts/local_demo_report.json"], 60),
+    GateCommand("evidence-bundle", [sys.executable, "scripts/generate_evidence_bundle.py"], 120),
 )
 
 
@@ -89,7 +94,7 @@ def main() -> int:
     env["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"
     with LOG.open("w", encoding="utf-8") as log:
         log.write(
-            "VERIFY_RELEASE Stage 11: repo hygiene, metadata, dependency contracts, "
+            "VERIFY_RELEASE Stage 12: repo hygiene, environment preflight, metadata, compile, dependency contracts, "
             "test architecture, automation, bibliography, threat model, Microsoft REST contract, operational excellence, AOS prompt OS kernel, cognitive control plane, neurocognitive protocol, product readiness, lint, typecheck, non-slow coverage, "
             "schemas, API, frontend, science registry, dynamic probe, OpenAPI, static security, "
             "wheel smoke, manifest and evidence bundle. External dependency CVE audit and Docker "

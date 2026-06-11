@@ -12,12 +12,14 @@ RUN adduser --disabled-password --gecos "" --home /home/bive bive \
     && chown -R bive:bive /data /app
 
 COPY pyproject.toml README.md LICENSE NOTICE ./
+COPY requirements ./requirements
 COPY src ./src
 COPY schemas ./schemas
 COPY docs ./docs
 COPY scripts ./scripts
 
-RUN pip install --no-cache-dir '.[api]' \
+RUN pip install --no-cache-dir --upgrade pip==24.0 setuptools==69.5.1 wheel==0.43.0 \
+    && pip install --no-cache-dir --no-build-isolation --constraint requirements/constraints.txt '.[api]' \
     && python -c "import bive; import bive.api"
 
 USER bive

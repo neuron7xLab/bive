@@ -1,7 +1,36 @@
-.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run clean
+.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean
 
 PYTHON ?= python
+VENV ?= .venv
+BIN = $(VENV)/bin
+CONSTRAINTS ?= requirements/constraints.txt
 export PYTHONDONTWRITEBYTECODE := 1
+
+purge-cache:
+	rm -rf .pytest_cache .ruff_cache .mypy_cache ruff_cache build dist *.egg-info src/*.egg-info $(VENV)
+	find . -type d -name __pycache__ -prune -exec rm -rf {} +
+	find . -type f -name '*.pyc' -delete
+
+bootstrap-env: purge-cache
+	$(PYTHON) -m venv $(VENV)
+	$(BIN)/python -m pip install --upgrade pip==24.0 setuptools==69.5.1 wheel==0.43.0
+	$(BIN)/python -m pip install --no-build-isolation --constraint $(CONSTRAINTS) -e '.[dev,api,security]'
+
+preflight-env:
+	PYTHONPATH=src $(PYTHON) scripts/check_environment.py
+
+test-all:
+	PYTHONPATH=src pytest -vv
+
+secure-audit: dependency-audit
+
+docker-smoke:
+	docker run --rm -d -e BIVE_API_TOKEN=local-dev-token -p 8080:8080 --name bive_smoke bive:local
+	sleep 3
+	python scripts/api_smoke.py --base-url http://127.0.0.1:8080 --token local-dev-token || (docker stop bive_smoke && exit 1)
+	docker stop bive_smoke
+
+docker-verify: docker-build docker-smoke
 
 verify: test schema ui-check science-registry aos-kernel dynamic-probe determinism-stress simulate red-team pr-check api-smoke dependency-contracts automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence cognitive-control neurocognitive-protocol product-readiness
 	@echo "VERIFY_PASS"
@@ -106,8 +135,7 @@ security-static:
 	PYTHONPATH=src bandit -q -r src scripts -c pyproject.toml -ll
 
 dependency-audit:
-	mkdir -p artifacts/security
-	pip-audit --format=json --output artifacts/security/pip-audit.json
+	PYTHONPATH=src $(PYTHON) scripts/dependency_audit.py
 
 license-audit:
 	mkdir -p artifacts/security

@@ -36,15 +36,21 @@ BIVE is a research-to-product engineering repository for analysts, auditors, inv
 ```bash
 python -m venv .venv
 . .venv/bin/activate
-pip install -e '.[dev,api]'
+python -m pip install -U pip
+python -m pip install -e ".[dev,api,security]"
+python -m pip check
+python scripts/check_environment.py
 make verify-release
 ```
 
-Expected terminal invariant:
+Expected terminal invariants:
 
 ```text
+[BIVE PREFLIGHT] pass
 VERIFY_RELEASE_PASS
 ```
+
+The repository uses an in-tree PEP 517/660 backend, so editable installs do not need to download setuptools before project metadata can be read. If a package index or proxy is unavailable, dependency installation can still fail; use a pre-populated wheel cache or the pinned `constraints/py310.txt` / `requirements/*.txt` files and rerun the same commands. `make bootstrap-env` remains a convenience wrapper around the constrained local setup path.
 
 ## CLI
 

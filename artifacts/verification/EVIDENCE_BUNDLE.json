@@ -1,59 +1,75 @@
 {
-  "status": "pass",
+  "commit": "8b68edd0be4169816ff3fe50601a79e8609bdc7c",
   "entries": [
     {
+      "bytes": 41084,
+      "exists": true,
       "path": "ARTIFACT_MANIFEST.json",
-      "exists": true,
-      "sha256": "6babc956612583b9832150f4d1063697fcd138f0c129768aa50789d69751cde5",
-      "bytes": 41084
+      "sha256": "6babc956612583b9832150f4d1063697fcd138f0c129768aa50789d69751cde5"
     },
     {
+      "bytes": 1316,
+      "exists": true,
       "path": "PRODUCT_SYSTEM_INDEX.json",
-      "exists": true,
-      "sha256": "7c5347043cff28e9793d749eac6d8582d0b50eba893bea3a0c38a352c7d8d6f3",
-      "bytes": 1316
+      "sha256": "7c5347043cff28e9793d749eac6d8582d0b50eba893bea3a0c38a352c7d8d6f3"
     },
     {
+      "bytes": 5801,
+      "exists": true,
       "path": "SOURCE_REGISTRY.yaml",
-      "exists": true,
-      "sha256": "8ddb22d4bf79e1b7e7e3296675d394cd7d344ae3485f974e191c3551fee16c07",
-      "bytes": 5801
+      "sha256": "8ddb22d4bf79e1b7e7e3296675d394cd7d344ae3485f974e191c3551fee16c07"
     },
     {
+      "bytes": 33496,
+      "exists": true,
       "path": "docs/openapi.json",
-      "exists": true,
-      "sha256": "675d311a9b1dcf1c9cb9a4093d3c14a3414ccfb7a5e4c3116bf36ca479076f21",
-      "bytes": 33496
+      "sha256": "675d311a9b1dcf1c9cb9a4093d3c14a3414ccfb7a5e4c3116bf36ca479076f21"
     },
     {
+      "bytes": 2226,
+      "exists": true,
       "path": "artifacts/verification/DEPENDENCY_CONTRACT_VALIDATION.json",
-      "exists": true,
-      "sha256": "9ffc0d8b49efa0c3085879e314dd2e7238460567d180793c18199fbd9bc9c981",
-      "bytes": 2226
+      "sha256": "9ffc0d8b49efa0c3085879e314dd2e7238460567d180793c18199fbd9bc9c981"
     },
     {
+      "bytes": 8231,
+      "exists": true,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "exists": true,
-      "sha256": "ebb735130155dfc860e3e7235e88f77b7e848b9291060f57bed2063a400d4a0d",
-      "bytes": 7971
+      "sha256": "c984b9faedd47ceb713367033fd472ba3494747f5a170e625231326dac71f048"
     },
     {
+      "bytes": 1808,
+      "exists": true,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "exists": true,
-      "sha256": "83930b2a91c7e2a406ca3606c2e78babd595c54d7718443332cd6d7a388a6180",
-      "bytes": 1670
+      "sha256": "56737756d51a810afcc940f66ac04142806acbbd45cd06bbc3948beb6d76ef3a"
     },
     {
+      "bytes": 657,
+      "exists": true,
       "path": "artifacts/verification/BIBLIOGRAPHY_VALIDATION.json",
-      "exists": true,
-      "sha256": "8fbb5f1e848de6974b94895b4e0cbece5557a6dab29220fefb5efbdf9819559f",
-      "bytes": 657
+      "sha256": "8fbb5f1e848de6974b94895b4e0cbece5557a6dab29220fefb5efbdf9819559f"
     },
     {
-      "path": "artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json",
+      "bytes": 408,
       "exists": true,
-      "sha256": "45f36d26f665c03c2cf8e84f82646e5b8e6b16cd7edc7ba56d87883339391560",
-      "bytes": 408
+      "path": "artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json",
+      "sha256": "45f36d26f665c03c2cf8e84f82646e5b8e6b16cd7edc7ba56d87883339391560"
+    },
+    {
+      "bytes": 228,
+      "exists": true,
+      "path": "artifacts/security/pip-audit.json",
+      "sha256": "60e9337f01099911b079333b5016524ddf1fac8b7de590a50185ef5c2f6daa9d"
+    },
+    {
+      "bytes": 1016,
+      "exists": true,
+      "path": "artifacts/verification/gates.json",
+      "sha256": "65952fba4bf7247755cd6a44b5f235dedaac0ce3e57465ef1ce82b9a8900eabc"
     }
-  ]
+  ],
+  "gates_path": "artifacts/verification/gates.json",
+  "generated_at": "2026-06-11T13:52:08Z",
+  "schema_version": 1,
+  "status": "pass"
 }

@@ -57,27 +57,41 @@ def check_import(module: str, purpose: str, extra: str | None = None) -> CheckRe
     return CheckResult(module, purpose, "pass", "", _distribution_version(module))
 
 
-def check_build_backend() -> CheckResult:
-    backend = ROOT / "build_backend.py"
-    if not backend.exists():
-        return CheckResult(
-            "build_backend",
-            "in-tree PEP 517/660 build backend",
-            "fail",
-            "MISSING_BUILD_BACKEND: build_backend.py must be present at repository root.",
-        )
+def _read_pyproject() -> dict[str, object]:
     try:
-        importlib.import_module("build_backend")
-    except ImportError as exc:
+        import tomllib  # type: ignore[import-not-found]
+    except ModuleNotFoundError:  # Python < 3.11
+        import tomli as tomllib  # type: ignore[no-redef]
+    with (ROOT / "pyproject.toml").open("rb") as handle:
+        return tomllib.load(handle)
+
+
+def check_build_backend() -> CheckResult:
+    """Validate the declared PEP 517 backend resolves and is importable.
+
+    The project ships no in-tree backend; it relies on the proven, PyPA-maintained
+    ``setuptools.build_meta`` backend (see docs/BUILD_BACKEND_DECISION.md).
+    """
+    purpose = "PEP 517/660 build backend"
+    try:
+        config = _read_pyproject()
+        build_system = config.get("build-system", {})
+        backend = build_system.get("build-backend") if isinstance(build_system, dict) else None
+    except Exception as exc:  # noqa: BLE001 - surface any parse failure as a gate failure
+        return CheckResult("build_backend", purpose, "fail", "UNREADABLE_PYPROJECT: cannot parse pyproject.toml.", None, str(exc))
+    if not backend:
+        return CheckResult("build_backend", purpose, "fail", "MISSING_BUILD_BACKEND: [build-system] build-backend is not declared.")
+    module_name = str(backend).split(":", 1)[0]
+    if importlib.util.find_spec(module_name) is None:
         return CheckResult(
             "build_backend",
-            "in-tree PEP 517/660 build backend",
+            purpose,
             "fail",
-            "MISSING_BUILD_BACKEND: repository build_backend.py is not importable.",
+            f"UNIMPORTABLE_BUILD_BACKEND: '{backend}' is not importable; install build requirements.",
             None,
-            str(exc),
+            str(backend),
         )
-    return CheckResult("build_backend", "in-tree PEP 517/660 build backend", "pass", "", None, str(backend))
+    return CheckResult("build_backend", purpose, "pass", "", None, str(backend))
 
 
 def check_entrypoint(command: str) -> CheckResult:

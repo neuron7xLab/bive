@@ -270,25 +270,42 @@ def _limits() -> RuntimeLimitsResponse:
 
 
 def _latest_gate_statuses() -> tuple[GateStatus, ...]:
+    """Return the canonical release-gate contract, enriched with observed results.
+
+    The status surface always exposes the full :data:`RELEASE_GATES` set with
+    stable short names (a contract, not a run log). When an evidence
+    ``gates.json`` is present, the last-observed result for a gate is overlaid by
+    matching on the executed command string. Missing or malformed evidence leaves
+    the declared ``last_observed`` untouched and never drops a gate.
+    """
     gates_path = REPO_ROOT / "artifacts" / "verification" / "gates.json"
-    if not gates_path.exists():
-        return RELEASE_GATES
-    try:
-        payload = __import__("json").loads(gates_path.read_text(encoding="utf-8"))
-    except (OSError, ValueError):
-        return RELEASE_GATES
-    observed = []
-    for item in payload.get("gates", []):
-        if not isinstance(item, dict):
-            continue
-        command = item.get("command", [])
-        name = " ".join(str(part) for part in command) or "unknown"
-        status = str(item.get("result", "unknown"))
-        if status not in {"pass", "fail", "unknown"}:
-            status = "unknown"
-        observed_status = cast(Literal["pass", "fail", "unknown"], status)
-        observed.append(GateStatus(name=name, command=name, last_observed=observed_status))
-    return tuple(observed) or RELEASE_GATES
+    observed_by_command: dict[str, Literal["pass", "fail", "unknown"]] = {}
+    if gates_path.exists():
+        try:
+            payload = __import__("json").loads(gates_path.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            payload = {}
+        for item in payload.get("gates", []):
+            if not isinstance(item, dict):
+                continue
+            command_parts = item.get("command", [])
+            command = " ".join(str(part) for part in command_parts)
+            if not command:
+                continue
+            status = str(item.get("result", "unknown"))
+            if status not in {"pass", "fail", "unknown"}:
+                status = "unknown"
+            observed_by_command[command] = cast(Literal["pass", "fail", "unknown"], status)
+    enriched = [
+        GateStatus(
+            name=gate.name,
+            command=gate.command,
+            required_for_release=gate.required_for_release,
+            last_observed=observed_by_command.get(gate.command, gate.last_observed),
+        )
+        for gate in RELEASE_GATES
+    ]
+    return tuple(enriched)
 
 
 def _storage_stats() -> StorageStatsResponse:

@@ -50,7 +50,7 @@ Expected terminal invariants:
 VERIFY_RELEASE_PASS
 ```
 
-The repository uses an in-tree PEP 517/660 backend, so editable installs do not need to download setuptools before project metadata can be read. If a package index or proxy is unavailable, dependency installation can still fail; use a pre-populated wheel cache or the pinned `constraints/py310.txt` / `requirements/*.txt` files and rerun the same commands. `make bootstrap-env` remains a convenience wrapper around the constrained local setup path.
+The repository builds with the standard, PyPA-maintained `setuptools.build_meta` backend (see [docs/BUILD_BACKEND_DECISION.md](docs/BUILD_BACKEND_DECISION.md)); build requirements are pinned to non-vulnerable floors in `pyproject.toml`. The canonical, advisory-clean version set lives in [`requirements/constraints.txt`](requirements/constraints.txt); install with `pip install --constraint requirements/constraints.txt -e '.[dev,api,security]'`. If a package index or proxy is unavailable, dependency installation can still fail; use a pre-populated wheel cache and rerun the same commands. `make bootstrap-env` remains a convenience wrapper around the constrained local setup path.
 
 ## CLI
 

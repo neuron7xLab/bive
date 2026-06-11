@@ -13,8 +13,8 @@ purge-cache:
 
 bootstrap-env: purge-cache
 	$(PYTHON) -m venv $(VENV)
-	$(BIN)/python -m pip install --upgrade pip==24.0 setuptools==69.5.1 wheel==0.43.0
-	$(BIN)/python -m pip install --no-build-isolation --constraint $(CONSTRAINTS) -e '.[dev,api,security]'
+	$(BIN)/python -m pip install --upgrade pip==26.1.2 setuptools==78.1.1 wheel==0.46.2
+	$(BIN)/python -m pip install --constraint $(CONSTRAINTS) -e '.[dev,api,security]'
 
 preflight-env:
 	PYTHONPATH=src $(PYTHON) scripts/check_environment.py

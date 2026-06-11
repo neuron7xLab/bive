@@ -1,27 +1,27 @@
 # BIVE Verification Report `bive-report-0001`
 
-Created: 2026-06-10T16:25:43Z
+Created: 2026-06-11T14:31:07Z
 Final status: **review_required**
 
 ## Assessment
-Status: review_required. The system extracted 3 claims and 5 evidence events. Top hypotheses: inconsistency_risk=0.73/u=0.45, manipulation_risk=0.73/u=0.45. This is a review surface, not a person-level verdict.
+Status: review_required. The system extracted 3 claims and 5 evidence events. Top hypotheses: inconsistency_risk=0.66/u=0.51, manipulation_risk=0.66/u=0.51. Evidence graph entropy=0.86. This is a review surface, not a person-level verdict.
 
 ## Hypotheses
 ### inconsistency_risk
-- score: `0.734`
-- uncertainty: `0.4472`
-- status: `elevated_risk`
+- score: `0.6575`
+- uncertainty: `0.5109`
+- status: `review_required`
 - evidence_for: `4`
 - evidence_against: `0`
-- alternatives: imprecise wording rather than deception, translation or dialect mismatch, memory uncertainty, stress-induced simplification, defensive communication under pressure, Language-only cue; must be checked against context and counter-evidence.
+- alternatives: imprecise wording rather than deception, translation or dialect mismatch, memory uncertainty, stress-induced simplification, defensive communication under pressure, Language-only cue; must be checked against context and counter-evidence., single modality penalty applied
 
 ### manipulation_risk
-- score: `0.734`
-- uncertainty: `0.4472`
-- status: `elevated_risk`
+- score: `0.6575`
+- uncertainty: `0.5109`
+- status: `review_required`
 - evidence_for: `4`
 - evidence_against: `0`
-- alternatives: imprecise wording rather than deception, translation or dialect mismatch, memory uncertainty, stress-induced simplification, defensive communication under pressure, Language-only cue; must be checked against context and counter-evidence.
+- alternatives: imprecise wording rather than deception, translation or dialect mismatch, memory uncertainty, stress-induced simplification, defensive communication under pressure, Language-only cue; must be checked against context and counter-evidence., single modality penalty applied
 
 ### cognitive_load_risk
 - score: `0.0`
@@ -29,7 +29,7 @@ Status: review_required. The system extracted 3 claims and 5 evidence events. To
 - status: `inconclusive`
 - evidence_for: `0`
 - evidence_against: `0`
-- alternatives: none
+- alternatives: no evidence
 
 ### evidence_gap_risk
 - score: `0.0`
@@ -37,7 +37,7 @@ Status: review_required. The system extracted 3 claims and 5 evidence events. To
 - status: `inconclusive`
 - evidence_for: `0`
 - evidence_against: `0`
-- alternatives: none
+- alternatives: no evidence
 
 ## Verification questions
 - Can the time anchor in claim `claim:0:0` be verified by an independent source?

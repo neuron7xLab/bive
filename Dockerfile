@@ -18,7 +18,7 @@ COPY schemas ./schemas
 COPY docs ./docs
 COPY scripts ./scripts
 
-RUN pip install --no-cache-dir --upgrade pip==24.0 setuptools==69.5.1 wheel==0.43.0 \
+RUN pip install --no-cache-dir --upgrade pip==26.1.2 setuptools==78.1.1 wheel==0.46.2 \
     && pip install --no-cache-dir --no-build-isolation --constraint requirements/constraints.txt '.[api]' \
     && python -c "import bive; import bive.api"
 

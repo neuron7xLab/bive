@@ -46,9 +46,9 @@ def validate_report_dict(data: dict[str, object]) -> list[str]:
                 continue
             score = h.get("score")
             uncertainty = h.get("uncertainty")
-            if not isinstance(score, (float, int)) or not 0 <= float(score) <= 1:
+            if not isinstance(score, float | int) or not 0 <= float(score) <= 1:
                 errors.append(f"hypothesis {idx} score must be in [0,1]")
-            if not isinstance(uncertainty, (float, int)) or not 0 <= float(uncertainty) <= 1:
+            if not isinstance(uncertainty, float | int) or not 0 <= float(uncertainty) <= 1:
                 errors.append(f"hypothesis {idx} uncertainty must be in [0,1]")
             if h.get("status") in {"elevated_risk", "review_required"} and not h.get(
                 "alternative_explanations"

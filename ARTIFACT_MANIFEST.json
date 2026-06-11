@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 247,
+  "file_count": 252,
   "files": [
     {
       "bytes": 113,
@@ -18,9 +18,9 @@
       "sha256": "a9052c9648277fad9ad86c89443e9e5403b0f9f754208068d6ca1ebc74639aaa"
     },
     {
-      "bytes": 374,
+      "bytes": 610,
       "path": ".gitignore",
-      "sha256": "02c7c468a3db73420237ee1d704126501560623cf119a53526ab5bd48a8aaf2a"
+      "sha256": "f2225bc498f1e97753fba60e7e94583d0f4683c3bd56d95b8247647005a612e6"
     },
     {
       "bytes": 721,
@@ -53,9 +53,9 @@
       "sha256": "82458c006c1021235a7a3a8f4cded41240174f25ccdaed4f6553f8842da4decb"
     },
     {
-      "bytes": 708,
+      "bytes": 895,
       "path": "Dockerfile",
-      "sha256": "a8e9b230a97b3a957250dfcaacfa7cb65699f4646b1fc4192cd9be2093c70f7d"
+      "sha256": "84f412f883d0b65c3b638a3f2c8452d81e02a3bc4696f5a1a5a1002e2a85043b"
     },
     {
       "bytes": 3900,
@@ -63,9 +63,9 @@
       "sha256": "07c3db3e08ce16478090cadf0d99d4f01b1d31a6d2c828da6bc3ea1666c49752"
     },
     {
-      "bytes": 5582,
+      "bytes": 6577,
       "path": "Makefile",
-      "sha256": "a12c8d54f8810095b21be0333f784a13aea19997375e8a383cc4fb21d53c939e"
+      "sha256": "1bc597f404d08cd6abf4c2f5b5daf127e5e9505b17013b27236b1af5874ba322"
     },
     {
       "bytes": 123,
@@ -73,9 +73,9 @@
       "sha256": "c2bce05a62fb38a880ac893a4d52755f2537d89981d6fc31ee758722f3aaa0fd"
     },
     {
-      "bytes": 7954,
+      "bytes": 8766,
       "path": "README.md",
-      "sha256": "d5057e68f90c4672482bf1b547ab99acd39a80b51f151648fc8ee7c8e011d2a2"
+      "sha256": "5edbf1dee94cac6e833f55ea7fd2d028fd300e1defa6a23f9d0b11a5dab85da2"
     },
     {
       "bytes": 599,
@@ -108,19 +108,19 @@
       "sha256": "6ffd8b6f18c817465711bcb341c014bad9af8bb53dc6e62857e03e85d6fb5e78"
     },
     {
-      "bytes": 10439,
+      "bytes": 10783,
       "path": "artifacts/demo_report.json",
-      "sha256": "f4e42960d6f8476d64dfce27b62fba6e5894014c36c21d9f7bf67293a2b7dae0"
+      "sha256": "34bdd2d3f33ecd5d8b12b4cf4ec1e769e684a78b3389054856de1893af619be5"
     },
     {
-      "bytes": 2308,
+      "bytes": 2423,
       "path": "artifacts/demo_report.md",
-      "sha256": "78b108455db5fa72b9ad28abebc38c166160a72ef3d7380ba1d9740b9fef8bc1"
+      "sha256": "7846e6d6453e93ea201d26c06e021bb44da5e79625f0f4a4846eb3aab2d2bcf2"
     },
     {
-      "bytes": 10756,
+      "bytes": 10784,
       "path": "artifacts/demo_report_v0_4_0.json",
-      "sha256": "878e76a528f682ad8c70fd42efa09a0b5027d88670267b2701041a54372ead79"
+      "sha256": "e85f1e0910fbb72b729c7d70f43fefc9f6d9ebc04c916d11def9fa5e0df81c57"
     },
     {
       "bytes": 2423,
@@ -148,9 +148,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 1670,
+      "bytes": 1808,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "83930b2a91c7e2a406ca3606c2e78babd595c54d7718443332cd6d7a388a6180"
+      "sha256": "56737756d51a810afcc940f66ac04142806acbbd45cd06bbc3948beb6d76ef3a"
     },
     {
       "bytes": 657,
@@ -170,7 +170,7 @@
     {
       "bytes": 408,
       "path": "artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json",
-      "sha256": "45f36d26f665c03c2cf8e84f82646e5b8e6b16cd7edc7ba56d87883339391560"
+      "sha256": "9024b43a9ece79e2caf5adf0ee870d4af6e717921ecea4a2c84eebf9199fdc89"
     },
     {
       "bytes": 1723,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 7971,
+      "bytes": 8279,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "ebb735130155dfc860e3e7235e88f77b7e848b9291060f57bed2063a400d4a0d"
+      "sha256": "221db439f115c8edb25a5f00ec25ecb6c4e127e8f97fa5c285df17e690af3d5c"
     },
     {
       "bytes": 826,
@@ -371,6 +371,11 @@
       "bytes": 4248,
       "path": "docs/BIBLIOGRAPHY.md",
       "sha256": "03360abb104e0030a1a49edf3ff8493ef3eded3a40a1c233c936c48ed49052c8"
+    },
+    {
+      "bytes": 3033,
+      "path": "docs/BUILD_BACKEND_DECISION.md",
+      "sha256": "62fea88c2a70ed7f41221cd58e14261eb7f99d2d75865df6a61bb42796ba2c78"
     },
     {
       "bytes": 1159,
@@ -613,9 +618,9 @@
       "sha256": "77d62cc7f017d0a0cfad8ca6aaf22ddf9a257ec165980bac0603db6acf403720"
     },
     {
-      "bytes": 2918,
+      "bytes": 3194,
       "path": "pyproject.toml",
-      "sha256": "05df75898f25da23700a247bdfdbb2811cd4a359bb58972268b3d0cb945216ad"
+      "sha256": "f804d8d65862a8993b792cdec93c8ab60ca4f849f331f54d378b80347281dfe8"
     },
     {
       "bytes": 115,
@@ -653,9 +658,9 @@
       "sha256": "9fb7fb31b00601b1102c6e7a547d4d0b976630d1079b9e7a4b95f7d0ef03eb21"
     },
     {
-      "bytes": 969,
+      "bytes": 1707,
       "path": "schemas/evidence_event.schema.json",
-      "sha256": "f5c28f58782de1c977c449b87560c501617eca52c4fb7b53a6a67105d4060478"
+      "sha256": "fbc96c23580eb37320988d7d598cf45cf80cc39546416ec8a1b09997f7f2d4b1"
     },
     {
       "bytes": 1002,
@@ -663,19 +668,24 @@
       "sha256": "4c69224e1556b06953ea1a9559b02b611eac5b56330183d5574deff01726b116"
     },
     {
-      "bytes": 1904,
+      "bytes": 5163,
       "path": "schemas/verification_report.schema.json",
-      "sha256": "c942bf73e7996ae2fcce71072c14c20bde2fcd469be21a3b9b9be96548f44029"
+      "sha256": "9998b55b3bb876bdd45af47be95404b6f935fc78c2797e70b0a0bc678a618cb1"
     },
     {
-      "bytes": 1380,
+      "bytes": 4031,
       "path": "scripts/api_smoke.py",
-      "sha256": "70c71ac0d3fc730ddb5bb34a9a61a7091b6c14136abf69668c5f4f2ccaf3e816"
+      "sha256": "424e8b22e46ea0acb06671684d712361f6bd3c9f45642bfd2647724264a59105"
     },
     {
       "bytes": 1689,
       "path": "scripts/benchmark_pipeline.py",
       "sha256": "b7c310b6cb094543baa9487edb44c8e93ecb880376956d91b68c26ed62285915"
+    },
+    {
+      "bytes": 5792,
+      "path": "scripts/check_environment.py",
+      "sha256": "8c6a100503ab6b2b08167b890d1c9b239c8527514e5ee849f7c4790baedc47c2"
     },
     {
       "bytes": 2208,
@@ -693,6 +703,11 @@
       "sha256": "b6e64449bc9f38ee3d0a187bc3228d95abbced90039a0f0be05a35e72422e131"
     },
     {
+      "bytes": 2253,
+      "path": "scripts/dependency_audit.py",
+      "sha256": "0932c5317c419c358bee6f570799b7e5ec3fa3a8d8bb682838908ffee01c3ded"
+    },
+    {
       "bytes": 3036,
       "path": "scripts/determinism_stress.py",
       "sha256": "6d2c67c7c753873b1d31a8ba51de5fc6394ce71bae8c926e28c92025d7672a05"
@@ -708,9 +723,9 @@
       "sha256": "d364247c7f6ab266c2c5c09ff56630013c867f8210cca56daaaf03689df8a5e8"
     },
     {
-      "bytes": 1499,
+      "bytes": 3896,
       "path": "scripts/generate_evidence_bundle.py",
-      "sha256": "ad6e864f2adf14d0c8f4ee31c11ce0c84ea177c6943eaeb624ea5d82e4853295"
+      "sha256": "c3dd23e471093eb5e2f914174bdc380ab176361da6452fc3dd6c9bf2d9ab28d9"
     },
     {
       "bytes": 8786,
@@ -778,9 +793,9 @@
       "sha256": "6e055e123e93968a40bff98f158a2efa2e31becbf6c35568bdcfe2d52e49cd6d"
     },
     {
-      "bytes": 2633,
+      "bytes": 2847,
       "path": "scripts/validate_schemas.py",
-      "sha256": "bc387509fe6ddc6ebaa543284aa16698b6353bc0d0d338e484726c628b518bcd"
+      "sha256": "ca859d5d1189705500200543c54f7125d9a6162c414b92166d19fb591d127cc6"
     },
     {
       "bytes": 1569,
@@ -798,9 +813,9 @@
       "sha256": "323a086df4e1a288e111a0ae1d807f703560f4b147e13070b7d75353ef7c7885"
     },
     {
-      "bytes": 5987,
+      "bytes": 6474,
       "path": "scripts/verify_release.py",
-      "sha256": "7d7eec8ff37ae70c0bc0f71d5760e288d2f8f159c59500b5b43ad6f8f6e97b7e"
+      "sha256": "da81fc4ceb01e68e86bd3bcf4b4a10fce2956d7485ef064b1cc16c55eb983d8c"
     },
     {
       "bytes": 2223,
@@ -848,14 +863,19 @@
       "sha256": "8fa8e8f5db09da05356c198270fc6607b04fda9a1331d586f7891819a4ce5fde"
     },
     {
-      "bytes": 18400,
+      "bytes": 2427,
       "path": "src/bive/api.py",
-      "sha256": "ee3a712cca5bbe816835a13ac1120672bdec98e37df5b6b6edb84f73caf9e1ba"
+      "sha256": "c1552b7ec753162dc46d41f99b9e62f6e602767e81ff6c3f90b3eff60001cee2"
     },
     {
       "bytes": 2346,
       "path": "src/bive/api_models.py",
       "sha256": "17ad56340ed1aea420102f7ec8df3d84e1ff7c492c8637e174eba3ab84aa14ee"
+    },
+    {
+      "bytes": 20367,
+      "path": "src/bive/api_runtime.py",
+      "sha256": "98d521038bf1b406b514ad8da6ba9fc2282be4c632609a4444d2fab463870476"
     },
     {
       "bytes": 3107,
@@ -908,14 +928,19 @@
       "sha256": "50bc2996c8a58747fc6a3990fff20aabbc95cfab67bdcef25108b083a3d30aad"
     },
     {
-      "bytes": 9096,
+      "bytes": 10610,
       "path": "src/bive/models.py",
-      "sha256": "7590f91e97f43705e6ec3c76c5cd0f4825323bcc25b7f8e75b4e5263cbb82fb4"
+      "sha256": "5ba51a24d3d395c8977064753b472e99eee00e44700f029cce6a4b023f6ae630"
     },
     {
       "bytes": 1141,
       "path": "src/bive/neurocognitive.py",
       "sha256": "70f9bf3d468ef4e914cd3ee20946cb0e55cfba48a7da9cfc00a3096c70349fa2"
+    },
+    {
+      "bytes": 706,
+      "path": "src/bive/observability.py",
+      "sha256": "8657f9fedb87b471d9cfd437c436edc17ee0d0b454b09a8bbdb2f0f5f8998899"
     },
     {
       "bytes": 1894,
@@ -1023,14 +1048,14 @@
       "sha256": "3d512eb6a25dfcc4cbeca44c6f7a89694c87979d5ea80bcf7ba1537183148403"
     },
     {
-      "bytes": 5611,
+      "bytes": 5833,
       "path": "src/bive/storage.py",
-      "sha256": "a80e996fa94a8621ab1c1280bead331a85254e4bf019af60dc0e46dd7b2dc937"
+      "sha256": "6d34994efba8d0067936fa853145fb0ce5aaea7bb37816955486aa8f17f7e727"
     },
     {
-      "bytes": 2074,
+      "bytes": 2072,
       "path": "src/bive/validation.py",
-      "sha256": "5164ac0329a999ea5350b95550aab76efe84fda46000b51807a54b1a4c7d31da"
+      "sha256": "6159ef3078f13023f1f040aa763e971b439d284ef0125d206c0a571e1f3945be"
     },
     {
       "bytes": 8859,
@@ -1038,9 +1063,9 @@
       "sha256": "a5cb668f62dea97eb262977ccf5d515a5adcff002c4879cdc099b45e22234013"
     },
     {
-      "bytes": 13812,
+      "bytes": 15161,
       "path": "src/bive/web/static/app.js",
-      "sha256": "95509db6839d3fb4fa8824aeb4c7655a90aa0ecb1fc39b7c618199cd70205482"
+      "sha256": "e17f9478bd734fc9ba8d65abb9c54e63f1a5c6205fdd6183fcaca5bdd37eb39f"
     },
     {
       "bytes": 10883,
@@ -1078,9 +1103,9 @@
       "sha256": "5104c81167ee24579b9c9eb373f2224f0c0ac6da3c298e3c0951b8cd3941b82e"
     },
     {
-      "bytes": 2286,
+      "bytes": 2607,
       "path": "tests/test_api_security_runtime.py",
-      "sha256": "4616ad26d811cbd7547fb582670c0c20bd23dec9126535ed6ade05d834001732"
+      "sha256": "1588fe6acfa206e7dc92d24e85d412663a1fdd8926cb972834e6e3eed9aa1494"
     },
     {
       "bytes": 2003,
@@ -1143,9 +1168,9 @@
       "sha256": "84a22e1f3574041002d9838d5d42514c9d14b468b33d71e58b21cca421bcf283"
     },
     {
-      "bytes": 962,
+      "bytes": 1677,
       "path": "tests/test_frontend_contract.py",
-      "sha256": "d1100ad80c64c83ec1bfdee4d71a67618332c4001f8201d8a455de66148c3910"
+      "sha256": "eeb5296b427faf4df6e8bd5797ff135472eba1d4e7681d14629359db8eae7eb0"
     },
     {
       "bytes": 634,
@@ -1198,9 +1223,9 @@
       "sha256": "337ee08ed0771d0e07283d27f670e002f55760756e59dc9dce7bd15742be1939"
     },
     {
-      "bytes": 499,
+      "bytes": 1885,
       "path": "tests/test_schema_contract.py",
-      "sha256": "69b4fa44761c0d1d9a60a6a5ab3e4a9cd4e6e066eebe84c41070acdc09b2c3db"
+      "sha256": "69b2049071e412ea53ee50e7ed016a7dfeb436191e065cf7209bbc71b54f05ea"
     },
     {
       "bytes": 866,
@@ -1223,9 +1248,9 @@
       "sha256": "845ac6a64b0491d565825e5f4d383a887810a80e06451e91268dcc67d0bd7008"
     },
     {
-      "bytes": 1012,
+      "bytes": 1584,
       "path": "tests/test_storage_operational_contract.py",
-      "sha256": "b06fbff62fb952957ec889f3b1a1df6b9c4b2d87ddf51cdad55373edccf27abb"
+      "sha256": "28a13b6096c3fec92f1593b72d26e88842d97355397883535b308d434d39ee5a"
     },
     {
       "bytes": 229,
@@ -1238,7 +1263,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T12:19:15+00:00",
+  "generated_at_utc": "2026-06-11T14:46:32+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

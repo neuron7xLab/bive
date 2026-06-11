@@ -36,7 +36,22 @@ def _load_app() -> Any:
     return runtime_app
 
 
+def _load_settings() -> Any:
+    """Expose runtime settings on the public ``bive.api`` surface.
+
+    Returns ``None`` when the optional API extra is absent so that importing
+    ``bive.api`` (and the core CLI) never requires FastAPI. Consumers that need
+    settings must install the ``api`` extra; tests and the server runtime do.
+    """
+    if missing_api_dependencies():
+        return None
+    from .api_runtime import settings as runtime_settings
+
+    return runtime_settings
+
+
 app = _load_app()
+settings = _load_settings()
 
 
 def main(argv: list[str] | None = None) -> int:

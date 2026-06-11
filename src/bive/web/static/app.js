@@ -66,6 +66,41 @@ function setStatus(message, mode = 'neutral') {
   statusText.dataset.mode = mode;
 }
 
+// Session-bounded API token lifecycle. The token lives only in this browsing
+// session (sessionStorage) or in memory; it is never written to persistent
+// device storage, so it does not survive the tab being closed. Threat model: a
+// shared-machine or XSS-persisted credential must not outlive the session. See
+// docs/BACKEND_FRONTEND_CONTRACT.md.
+const SESSION_TOKEN_KEY = 'bive_api_token';
+
+function clearSessionToken() {
+  sessionStorage.removeItem(SESSION_TOKEN_KEY);
+  apiToken.value = '';
+}
+
+function persistSessionToken() {
+  const value = apiToken.value.trim();
+  if (value) {
+    sessionStorage.setItem(SESSION_TOKEN_KEY, value);
+  } else {
+    sessionStorage.removeItem(SESSION_TOKEN_KEY);
+  }
+}
+
+// Accept a token passed via ?api-token= once, then scrub it from the URL so it
+// is never retained in history, bookmarks or referrer headers.
+function captureUrlToken() {
+  const params = new URLSearchParams(window.location.search);
+  const urlToken = params.get('api-token');
+  if (!urlToken) return;
+  apiToken.value = urlToken.trim();
+  persistSessionToken();
+  params.delete('api-token');
+  const scrubbed = params.toString();
+  const next = window.location.pathname + (scrubbed ? `?${scrubbed}` : '') + window.location.hash;
+  window.history.replaceState({}, document.title, next);
+}
+
 function authHeaders() {
   const token = apiToken.value.trim();
   return token ? {'x-bive-api-key': token} : {};
@@ -82,6 +117,7 @@ async function fetchJson(url, options = {}) {
     data = {error: 'non_json_response', details: [error.message], request_id: requestId};
   }
   if (!response.ok) {
+    if (response.status === 401) clearSessionToken();
     const message = (data.error && data.error.code) || data.error || `http_${response.status}`;
     throw new Error(`${message} [${requestId}]`);
   }
@@ -339,8 +375,8 @@ el('#refreshSystem').addEventListener('click', () => refreshSystem().catch((erro
 el('#refreshContracts').addEventListener('click', () => refreshContracts().catch((error) => setStatus(error.message, 'error')));
 
 el('#saveToken').addEventListener('click', () => {
-  localStorage.setItem('bive_api_token', apiToken.value.trim());
-  setStatus('Token збережено локально у браузері.', 'ok');
+  persistSessionToken();
+  setStatus('Token збережено лише на цю сесію браузера.', 'ok');
 });
 
 el('#copyOutput').addEventListener('click', async () => {
@@ -372,7 +408,8 @@ el('#downloadOutput').addEventListener('click', () => {
   setStatus('JSON підготовлено до завантаження.', 'ok');
 });
 
-const savedToken = localStorage.getItem('bive_api_token');
+const savedToken = sessionStorage.getItem(SESSION_TOKEN_KEY);
 if (savedToken) apiToken.value = savedToken;
+captureUrlToken();
 payload.value = JSON.stringify(demo, null, 2);
 Promise.all([refreshSystem(), refreshContracts()]).catch((error) => setStatus(error.message, 'error'));

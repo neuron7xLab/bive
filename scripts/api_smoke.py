@@ -32,9 +32,13 @@ def _request(base_url: str, method: str, path: str, *, token: str | None = None,
     headers = {"content-type": "application/json"}
     if token:
         headers["x-bive-api-key"] = token
-    req = urllib.request.Request(base_url.rstrip("/") + path, data=data, headers=headers, method=method)
+    target = base_url.rstrip("/") + path
+    if not target.startswith(("http://", "https://")):
+        raise ValueError(f"smoke target must be http(s); got {target!r}")
+    req = urllib.request.Request(target, data=data, headers=headers, method=method)
     try:
-        with urllib.request.urlopen(req, timeout=10) as response:  # noqa: S310 - smoke target is caller supplied
+        # Scheme asserted http(s) above; target is an operator-supplied API base URL.
+        with urllib.request.urlopen(req, timeout=10) as response:  # noqa: S310  # nosec B310
             return int(response.status), response.read().decode("utf-8")
     except urllib.error.HTTPError as exc:
         return int(exc.code), exc.read().decode("utf-8")

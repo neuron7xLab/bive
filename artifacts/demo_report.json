@@ -1,13 +1,17 @@
 {
   "report_id": "bive-report-0001",
-  "created_at": "2026-06-10T16:25:43Z",
+  "created_at": "2026-06-11T14:31:07Z",
+  "report_version": "1.0",
   "subject_scope": "single_session",
   "input_summary": {
     "segments": 2,
     "claims": 3,
     "modalities": [
       "text"
-    ]
+    ],
+    "evidence_graph_entropy": 0.8636,
+    "graph_nodes": 12,
+    "graph_edges": 18
   },
   "claims": [
     {
@@ -82,7 +86,7 @@
         "activity": "linguistic_feature_extraction",
         "agent": "bive.linguistics.LinguisticAnalyzer",
         "source": "segment:0",
-        "generated_at": "2026-06-10T16:25:43Z",
+        "generated_at": "2026-06-11T14:31:07Z",
         "parameters": {
           "feature": "absolute_framing"
         }
@@ -111,7 +115,7 @@
         "activity": "linguistic_feature_extraction",
         "agent": "bive.linguistics.LinguisticAnalyzer",
         "source": "segment:0",
-        "generated_at": "2026-06-10T16:25:43Z",
+        "generated_at": "2026-06-11T14:31:07Z",
         "parameters": {
           "feature": "verification_pressure"
         }
@@ -140,7 +144,7 @@
         "activity": "linguistic_feature_extraction",
         "agent": "bive.linguistics.LinguisticAnalyzer",
         "source": "segment:0",
-        "generated_at": "2026-06-10T16:25:43Z",
+        "generated_at": "2026-06-11T14:31:07Z",
         "parameters": {
           "feature": "temporal_anchor"
         }
@@ -169,7 +173,7 @@
         "activity": "linguistic_feature_extraction",
         "agent": "bive.linguistics.LinguisticAnalyzer",
         "source": "segment:0",
-        "generated_at": "2026-06-10T16:25:43Z",
+        "generated_at": "2026-06-11T14:31:07Z",
         "parameters": {
           "feature": "absolute_framing"
         }
@@ -198,7 +202,7 @@
         "activity": "linguistic_feature_extraction",
         "agent": "bive.linguistics.LinguisticAnalyzer",
         "source": "segment:1",
-        "generated_at": "2026-06-10T16:25:43Z",
+        "generated_at": "2026-06-11T14:31:07Z",
         "parameters": {
           "feature": "absolute_framing"
         }
@@ -209,7 +213,7 @@
     {
       "hypothesis_id": "H_INCONSISTENCY_RISK",
       "label": "inconsistency_risk",
-      "description": "Risk that claims contain unresolved contradictions or timeline tensions.",
+      "description": "Risk that claims contain unresolved contradictions, timeline tensions or semantic incompatibilities.",
       "prior": 0.5,
       "evidence_for": [
         "event:absolute_framing:claim:0:0",
@@ -218,22 +222,23 @@
         "event:absolute_framing:claim:1:0"
       ],
       "evidence_against": [],
-      "score": 0.734,
-      "uncertainty": 0.4472,
-      "status": "elevated_risk",
+      "score": 0.6575,
+      "uncertainty": 0.5109,
+      "status": "review_required",
       "alternative_explanations": [
         "imprecise wording rather than deception",
         "translation or dialect mismatch",
         "memory uncertainty",
         "stress-induced simplification",
         "defensive communication under pressure",
-        "Language-only cue; must be checked against context and counter-evidence."
+        "Language-only cue; must be checked against context and counter-evidence.",
+        "single modality penalty applied"
       ]
     },
     {
       "hypothesis_id": "H_MANIPULATION_RISK",
       "label": "manipulation_risk",
-      "description": "Risk that communication attempts to reduce verification or pressure interpretation.",
+      "description": "Risk that communication attempts to reduce verification, pressure interpretation or control the review frame.",
       "prior": 0.5,
       "evidence_for": [
         "event:absolute_framing:claim:0:0",
@@ -242,16 +247,17 @@
         "event:absolute_framing:claim:1:0"
       ],
       "evidence_against": [],
-      "score": 0.734,
-      "uncertainty": 0.4472,
-      "status": "elevated_risk",
+      "score": 0.6575,
+      "uncertainty": 0.5109,
+      "status": "review_required",
       "alternative_explanations": [
         "imprecise wording rather than deception",
         "translation or dialect mismatch",
         "memory uncertainty",
         "stress-induced simplification",
         "defensive communication under pressure",
-        "Language-only cue; must be checked against context and counter-evidence."
+        "Language-only cue; must be checked against context and counter-evidence.",
+        "single modality penalty applied"
       ]
     },
     {
@@ -264,7 +270,9 @@
       "score": 0.0,
       "uncertainty": 1.0,
       "status": "inconclusive",
-      "alternative_explanations": []
+      "alternative_explanations": [
+        "no evidence"
+      ]
     },
     {
       "hypothesis_id": "H_EVIDENCE_GAP_RISK",
@@ -276,11 +284,13 @@
       "score": 0.0,
       "uncertainty": 1.0,
       "status": "inconclusive",
-      "alternative_explanations": []
+      "alternative_explanations": [
+        "no evidence"
+      ]
     }
   ],
   "final_status": "review_required",
-  "final_assessment": "Status: review_required. The system extracted 3 claims and 5 evidence events. Top hypotheses: inconsistency_risk=0.73/u=0.45, manipulation_risk=0.73/u=0.45. This is a review surface, not a person-level verdict.",
+  "final_assessment": "Status: review_required. The system extracted 3 claims and 5 evidence events. Top hypotheses: inconsistency_risk=0.66/u=0.51, manipulation_risk=0.66/u=0.51. Evidence graph entropy=0.86. This is a review surface, not a person-level verdict.",
   "limitations": [
     "This report is not a lie detector and must not be used as an automated accusation.",
     "Nonverbal and paralinguistic cues are weak without baseline, context, and corroborating evidence.",
@@ -307,7 +317,7 @@
       "activity": "verification_report_generation",
       "agent": "bive.report.build_report_from_segments",
       "source": "transcript_segments",
-      "generated_at": "2026-06-10T16:25:43Z",
+      "generated_at": "2026-06-11T14:31:07Z",
       "parameters": {
         "segment_count": 2,
         "claim_count": 3
@@ -319,6 +329,5 @@
     "No single cue may decide a hypothesis.",
     "Every elevated hypothesis must include counter-evidence or missing evidence.",
     "Human review required for real-world decisions."
-  ],
-  "report_version": "1.0"
+  ]
 }

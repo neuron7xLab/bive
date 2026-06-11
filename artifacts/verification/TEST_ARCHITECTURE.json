@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 122,
+  "test_functions": 123,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -110,7 +110,8 @@
       "test_evidence_graph_has_nodes_and_entropy"
     ],
     "tests/test_frontend_contract.py": [
-      "test_frontend_static_contract"
+      "test_frontend_static_contract",
+      "test_frontend_token_is_session_bounded"
     ],
     "tests/test_linguistics.py": [
       "test_extract_claims_marks_absolute_and_temporal",

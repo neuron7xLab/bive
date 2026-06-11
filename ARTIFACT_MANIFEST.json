@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 261,
+  "file_count": 265,
   "files": [
     {
       "bytes": 113,
@@ -43,14 +43,24 @@
       "sha256": "9528a65f9d2b58eef6bb511a80535bca0ef88e9d6a82f30780844d0cf7fdae4f"
     },
     {
-      "bytes": 3545,
+      "bytes": 4290,
       "path": ".github/workflows/ci.yml",
-      "sha256": "e465c2409d1cb8ce671d3232d00e865357cbb20f6f5ae599d59b7539cace8261"
+      "sha256": "3de4d0e7875ef01f68be7a95ac253439e2271ce770102f9f6df7233cb9e65be0"
     },
     {
       "bytes": 1575,
       "path": ".github/workflows/codeql.yml",
       "sha256": "34a175d2e862ca992602d28e88560a3f997b64b8e343da6632c67cbd6450d1ba"
+    },
+    {
+      "bytes": 1626,
+      "path": ".github/workflows/dependabot-auto-merge.yml",
+      "sha256": "5d357859883beb7271a0253956734c9020d9404a36f79e1f6e01693e7f62c1ae"
+    },
+    {
+      "bytes": 2375,
+      "path": ".github/workflows/manifest-sync.yml",
+      "sha256": "28fb560b932d8fb2c08c310d64f785ef3ca32d77a1861f82eae4e0fa7908b6a1"
     },
     {
       "bytes": 3523,
@@ -103,9 +113,9 @@
       "sha256": "07c3db3e08ce16478090cadf0d99d4f01b1d31a6d2c828da6bc3ea1666c49752"
     },
     {
-      "bytes": 5467,
+      "bytes": 5582,
       "path": "Makefile",
-      "sha256": "e14e27bf217685917e8ad0fff8c1bedd2abffd47302d3383ec3d2e3ac0855bac"
+      "sha256": "a12c8d54f8810095b21be0333f784a13aea19997375e8a383cc4fb21d53c939e"
     },
     {
       "bytes": 123,
@@ -188,9 +198,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 1644,
+      "bytes": 1670,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "dcedd244b5e6f0fd7480fdacc7b3340da9bcdca41517bedc408ffcc74ad14cdc"
+      "sha256": "83930b2a91c7e2a406ca3606c2e78babd595c54d7718443332cd6d7a388a6180"
     },
     {
       "bytes": 657,
@@ -298,9 +308,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 7616,
+      "bytes": 7971,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "aef0cda98aebbfe7565f8d0bec1bbafe82517f141cea7156655f889e932adc2e"
+      "sha256": "ebb735130155dfc860e3e7235e88f77b7e848b9291060f57bed2063a400d4a0d"
     },
     {
       "bytes": 386,
@@ -773,6 +783,11 @@
       "sha256": "b6e64449bc9f38ee3d0a187bc3228d95abbced90039a0f0be05a35e72422e131"
     },
     {
+      "bytes": 3036,
+      "path": "scripts/determinism_stress.py",
+      "sha256": "6d2c67c7c753873b1d31a8ba51de5fc6394ce71bae8c926e28c92025d7672a05"
+    },
+    {
       "bytes": 5957,
       "path": "scripts/dynamic_environment_probe.py",
       "sha256": "c552c2effea946cd3af748a0cc4668c1a12efdffcfc5a1aa9852d8c651a592ba"
@@ -1198,6 +1213,11 @@
       "sha256": "3c389e40738134db1dbd97d7f36e926df014881a4301330c15d4e63bb75bd5a6"
     },
     {
+      "bytes": 3977,
+      "path": "tests/test_determinism_stress.py",
+      "sha256": "bc68805f1bcbe4593d9eb3ff8d44e07a83b74c32dcbaaa6eaeb02988085bcff2"
+    },
+    {
       "bytes": 836,
       "path": "tests/test_dynamic_environment_probe.py",
       "sha256": "a70085bc18251c9e7ec5ccd491fe378f67a93f8472faed2cb32588021567e06c"
@@ -1308,7 +1328,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T11:43:53+00:00",
+  "generated_at_utc": "2026-06-11T11:58:12+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

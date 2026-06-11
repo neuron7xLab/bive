@@ -58,6 +58,28 @@ jobs:
             PRODUCT_SYSTEM_INDEX.json
             docs/openapi.json
 
+  determinism:
+    name: Determinism calibration
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+        with:
+          egress-policy: audit
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: actions/setup-python@0b93645e9fea7318ecaed2b359559ac225c90a2b # v5.3.0
+        with:
+          python-version: '3.12'
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e .
+      - name: Stress the structural hash across rebuilds and hash seeds
+        run: make determinism-stress
+
   dependency-review:
     name: Dependency review
     if: github.event_name == 'pull_request'

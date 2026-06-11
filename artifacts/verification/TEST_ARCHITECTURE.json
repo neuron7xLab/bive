@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 112,
+  "test_functions": 118,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -91,6 +91,14 @@
       "test_constraints_are_exact_pins",
       "test_pyproject_has_bounded_core_and_api_ranges",
       "test_dependency_policy_is_documented"
+    ],
+    "tests/test_determinism_stress.py": [
+      "test_structural_hash_invariant_to_wall_clock",
+      "test_structural_hash_stable_over_many_builds",
+      "test_normalizer_preserves_substantive_content",
+      "test_normalizer_blanks_only_volatile_keys",
+      "test_manifest_excludes_nonreproducible_log",
+      "test_volatile_log_is_gitignored"
     ],
     "tests/test_dynamic_environment_probe.py": [
       "test_dynamic_environment_probe_script_runs"

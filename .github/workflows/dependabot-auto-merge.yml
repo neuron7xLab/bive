@@ -1,0 +1,39 @@
+name: Dependabot auto-merge
+
+# Enable auto-merge for low-risk Dependabot updates. GitHub still holds the
+# merge until every required status check (branch protection) is green, so this
+# never bypasses CI — it only removes the manual click for patch/minor bumps.
+# Major version bumps are left for human review.
+
+on: pull_request
+
+permissions:
+  contents: read
+
+jobs:
+  auto-merge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@0080882f6c36860b6ba35c610c98ce87d4e2f26f # v2.10.2
+        with:
+          egress-policy: audit
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@d7267f607e9d3fb96fc2fbe83e0af444713e90b7 # v2.3.0
+      - name: Enable auto-merge for patch and minor updates
+        if: steps.meta.outputs.update-type == 'version-update:semver-patch' || steps.meta.outputs.update-type == 'version-update:semver-minor'
+        run: gh pr merge --auto --squash "$PR_URL"
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Flag major updates for manual review
+        if: steps.meta.outputs.update-type == 'version-update:semver-major'
+        run: gh pr comment "$PR_URL" --body "🛑 Major version bump (${{ steps.meta.outputs.dependency-names }}) — held for manual review; not auto-merged."
+        env:
+          PR_URL: ${{ github.event.pull_request.html_url }}
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

@@ -313,9 +313,9 @@
       "sha256": "ebb735130155dfc860e3e7235e88f77b7e848b9291060f57bed2063a400d4a0d"
     },
     {
-      "bytes": 386,
+      "bytes": 385,
       "path": "constraints/py310.txt",
-      "sha256": "6ed4d7759871e9a42ac67ff37a2507b190313604feb51a4deb116ba07d10461a"
+      "sha256": "6f1916a2f3d880e61cb70f14ba6a9fffdfa70de8d5ced8144629f5a4ddc9a86d"
     },
     {
       "bytes": 826,
@@ -1328,7 +1328,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T12:04:42+00:00",
+  "generated_at_utc": "2026-06-11T12:13:05+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

@@ -1,9 +1,9 @@
-.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run clean
+.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run clean
 
 PYTHON ?= python
 export PYTHONDONTWRITEBYTECODE := 1
 
-verify: test schema ui-check science-registry aos-kernel dynamic-probe simulate red-team pr-check api-smoke dependency-contracts automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence cognitive-control neurocognitive-protocol product-readiness
+verify: test schema ui-check science-registry aos-kernel dynamic-probe determinism-stress simulate red-team pr-check api-smoke dependency-contracts automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence cognitive-control neurocognitive-protocol product-readiness
 	@echo "VERIFY_PASS"
 
 verify-release:
@@ -89,6 +89,9 @@ product-readiness:
 
 dynamic-probe:
 	PYTHONPATH=src $(PYTHON) scripts/dynamic_environment_probe.py
+
+determinism-stress:
+	PYTHONPATH=src $(PYTHON) scripts/determinism_stress.py
 
 api-smoke:
 	PYTHONPATH=src $(PYTHON) scripts/api_smoke.py

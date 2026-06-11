@@ -8,6 +8,7 @@
 .github/pull_request_template.md
 .github/workflows/ci.yml
 .github/workflows/codeql.yml
+.github/workflows/dependabot-auto-merge.yml
 .github/workflows/release.yml
 .gitignore
 .pre-commit-config.yaml
@@ -152,6 +153,7 @@ scripts/benchmark_pipeline.py
 scripts/check_frontend_quality.py
 scripts/check_repo_clean.py
 scripts/check_ui_assets.py
+scripts/determinism_stress.py
 scripts/dynamic_environment_probe.py
 scripts/export_openapi.py
 scripts/generate_evidence_bundle.py
@@ -237,6 +239,7 @@ tests/test_cli_failure_contract.py
 tests/test_cli_strict_contract.py
 tests/test_cognitive_control_plane.py
 tests/test_dependency_contracts.py
+tests/test_determinism_stress.py
 tests/test_dynamic_environment_probe.py
 tests/test_eval.py
 tests/test_evidence_graph.py

@@ -1,11 +1,21 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 256,
+  "file_count": 261,
   "files": [
     {
       "bytes": 113,
       "path": ".dockerignore",
       "sha256": "31096c210bf7f9002c519bb56c964207cd4bbaa791af293699cff9d466ecfece"
+    },
+    {
+      "bytes": 261,
+      "path": ".editorconfig",
+      "sha256": "dfff464cf9ead9071de7812e023c22544fec8e694f0727e34a740953b904b524"
+    },
+    {
+      "bytes": 482,
+      "path": ".gitattributes",
+      "sha256": "a9052c9648277fad9ad86c89443e9e5403b0f9f754208068d6ca1ebc74639aaa"
     },
     {
       "bytes": 471,
@@ -23,9 +33,9 @@
       "sha256": "8b74c79fbe7fbf62b80b7f86130579722fca6861fce75405035fbe6a2d76aba1"
     },
     {
-      "bytes": 237,
+      "bytes": 570,
       "path": ".github/dependabot.yml",
-      "sha256": "2ae51dcc4e7aa4c92df9c87b36b3d8426b32dc7bf3549a52cb993904b6ed000f"
+      "sha256": "8315a8bdefc5e3e893d193d1b6f577f227d6ecd56e1232dd82484b4644b2b4ff"
     },
     {
       "bytes": 409,
@@ -33,9 +43,19 @@
       "sha256": "9528a65f9d2b58eef6bb511a80535bca0ef88e9d6a82f30780844d0cf7fdae4f"
     },
     {
-      "bytes": 2161,
+      "bytes": 3545,
       "path": ".github/workflows/ci.yml",
-      "sha256": "234db4b47f30fb56648dd793d7d3796ac857de20d546873fec955c342c37c4aa"
+      "sha256": "7e0a7bedf94f513c92e19be511e2b8be911afa0a431b3f8363be11194db88023"
+    },
+    {
+      "bytes": 1368,
+      "path": ".github/workflows/codeql.yml",
+      "sha256": "4327e1a6b0f52276cdd9b8e4c93178f04e49aa256cfb6377dd495f22f605080d"
+    },
+    {
+      "bytes": 3523,
+      "path": ".github/workflows/release.yml",
+      "sha256": "e57f8bdfd65d26fdbde5eb8c2eff2c0ab9a08eec684894ac73cd69c2f9d4920f"
     },
     {
       "bytes": 374,
@@ -43,14 +63,19 @@
       "sha256": "02c7c468a3db73420237ee1d704126501560623cf119a53526ab5bd48a8aaf2a"
     },
     {
-      "bytes": 262,
+      "bytes": 721,
       "path": ".pre-commit-config.yaml",
-      "sha256": "14922ece0a56a92fce820f73e9b50d5a09fe70ac5a1040c04fe13700dede34de"
+      "sha256": "f765d2bc578045834878b66fcda306da3599d8644beff5fd08842c0d912c03a2"
     },
     {
       "bytes": 690,
       "path": "CHANGELOG.md",
       "sha256": "cd79b698051dd4c434e4848b28cc68698acd31ddc8fc2367fd6adcf11f16c1c8"
+    },
+    {
+      "bytes": 713,
+      "path": "CITATION.cff",
+      "sha256": "2f61ec9580907646cc7fc68a725096294b265577c116e54822b7f153a23e1515"
     },
     {
       "bytes": 70,
@@ -88,9 +113,9 @@
       "sha256": "c2bce05a62fb38a880ac893a4d52755f2537d89981d6fc31ee758722f3aaa0fd"
     },
     {
-      "bytes": 7304,
+      "bytes": 7954,
       "path": "README.md",
-      "sha256": "0b9cdbe8de97ee19c7240cfbb8048dd27a16619f037c03ce142a7c6ccd3d20be"
+      "sha256": "d5057e68f90c4672482bf1b547ab99acd39a80b51f151648fc8ee7c8e011d2a2"
     },
     {
       "bytes": 599,
@@ -103,9 +128,9 @@
       "sha256": "5ee09bfc845f0cdf56a9a693607c89d704d3f6b2db98e6d98416e1a8f6d0faf1"
     },
     {
-      "bytes": 1051,
+      "bytes": 1850,
       "path": "SECURITY.md",
-      "sha256": "a99d212f331308990a571cb2f6b5c64f72b3d7c21a186309d9d9653ff8af268e"
+      "sha256": "b0051cfa9a815a6b526b9bc591e1e9eeab0114c49faa08243958006747b9acd6"
     },
     {
       "bytes": 5801,
@@ -1283,7 +1308,7 @@
       "sha256": "b537a3aba0e8c3e673eb22cebb53200b9a62691ddfd7431d4e303492131999b1"
     }
   ],
-  "generated_at_utc": "2026-06-11T11:23:59+00:00",
+  "generated_at_utc": "2026-06-11T11:25:55+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

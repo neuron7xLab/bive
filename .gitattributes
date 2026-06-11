@@ -1,0 +1,21 @@
+# Normalize line endings to LF for all text; let Git detect text automatically.
+* text=auto eol=lf
+
+*.py    text diff=python
+*.md    text
+*.yml   text
+*.yaml  text
+*.json  text
+*.toml  text
+Makefile text
+
+# Binary / generated assets — never normalize or diff.
+*.png   binary
+*.jpg   binary
+*.ico   binary
+*.whl   binary
+*.tar.gz binary
+
+# Keep release/provenance artifacts out of language statistics.
+docs/openapi.json linguist-generated=true
+artifacts/** linguist-generated=true

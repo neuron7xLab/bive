@@ -9,6 +9,7 @@
 .github/workflows/ci.yml
 .github/workflows/codeql.yml
 .github/workflows/dependabot-auto-merge.yml
+.github/workflows/manifest-sync.yml
 .github/workflows/release.yml
 .gitignore
 .pre-commit-config.yaml

@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 264,
+  "file_count": 265,
   "files": [
     {
       "bytes": 113,
@@ -56,6 +56,11 @@
       "bytes": 1626,
       "path": ".github/workflows/dependabot-auto-merge.yml",
       "sha256": "5d357859883beb7271a0253956734c9020d9404a36f79e1f6e01693e7f62c1ae"
+    },
+    {
+      "bytes": 2375,
+      "path": ".github/workflows/manifest-sync.yml",
+      "sha256": "28fb560b932d8fb2c08c310d64f785ef3ca32d77a1861f82eae4e0fa7908b6a1"
     },
     {
       "bytes": 3523,
@@ -1323,7 +1328,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T11:54:24+00:00",
+  "generated_at_utc": "2026-06-11T11:58:12+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

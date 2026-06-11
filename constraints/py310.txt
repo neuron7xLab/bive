@@ -3,7 +3,7 @@
 pydantic==2.13.3
 pytest==9.0.2
 pytest-cov==7.0.0
-coverage==7.13.3
+coverage==7.14.1
 ruff==0.15.16
 mypy==2.1.0
 jsonschema==4.26.0

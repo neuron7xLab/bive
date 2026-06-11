@@ -39,7 +39,6 @@ artifacts/security/pip-audit.stage6.attempt.log
 artifacts/security/pip-audit.stage7.attempt.log
 artifacts/verification/AUTOMATION_CONTRACT.json
 artifacts/verification/BIBLIOGRAPHY_VALIDATION.json
-artifacts/verification/DEPENDENCY_CONTRACT_VALIDATION.json
 artifacts/verification/DOCKER_RUNTIME_ATTEMPT.log
 artifacts/verification/DOCKER_RUNTIME_STAGE6_ATTEMPT.log
 artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json
@@ -60,7 +59,6 @@ artifacts/verification/STAGE6_DYNAMIC_SCIENCE_PACKAGING_SUMMARY.md
 artifacts/verification/STAGE6_INDEPENDENT_GATES_FINAL.log
 artifacts/verification/STAGE7_ENGINEERING_AUTOMATION_SUMMARY.md
 artifacts/verification/TEST_ARCHITECTURE.json
-constraints/py310.txt
 contracts/execution_contract_template.yaml
 contracts/tool_contract_template.yaml
 contracts/workflow_contract_template.yaml
@@ -133,17 +131,11 @@ evals/aos_score_schema.json
 prompts/AOS_PROMPT_KERNEL_v1.0.txt
 prompts/CODE_AGENT_PRODUCTION_PROMPT.md
 pyproject.toml
-requirements/README.md
 requirements/api.in
-requirements/api.txt
 requirements/core.in
-requirements/core.txt
 requirements/dev.in
-requirements/dev.txt
 requirements/prod.in
-requirements/prod.txt
 requirements/security.in
-requirements/security.txt
 samples/demo_transcript.json
 samples/eval_binary.json
 schemas/evidence_event.schema.json

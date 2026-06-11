@@ -45,7 +45,7 @@
     {
       "bytes": 3545,
       "path": ".github/workflows/ci.yml",
-      "sha256": "e0d2dd065731aff2c3570499fc8d2c8ee5c2362b904f4e5227e36f56577a2856"
+      "sha256": "e465c2409d1cb8ce671d3232d00e865357cbb20f6f5ae599d59b7539cace8261"
     },
     {
       "bytes": 1575,
@@ -1308,7 +1308,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T11:36:38+00:00",
+  "generated_at_utc": "2026-06-11T11:43:53+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

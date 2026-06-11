@@ -3,7 +3,10 @@ from __future__ import annotations
 from importlib import metadata
 from pathlib import Path
 
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11 ships no stdlib tomllib
+    import tomli as tomllib
 from fastapi.testclient import TestClient
 
 from bive.api import app

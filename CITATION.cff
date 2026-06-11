@@ -1,0 +1,21 @@
+cff-version: 1.2.0
+message: "If you use BIVE in academic or applied work, please cite it as below."
+title: "BIVE — Behavioral Integrity Verification Engine"
+abstract: >-
+  Evidence-first transcript verification system that builds reviewable evidence
+  graphs, calibrated hypotheses, counter-evidence, uncertainty and follow-up
+  questions. BIVE does not label people as truthful or deceptive; every output
+  requires human review.
+type: software
+version: 0.4.0
+license: Apache-2.0
+repository-code: "https://github.com/neuron7xLab/bive"
+url: "https://github.com/neuron7xLab/bive"
+keywords:
+  - multimodal
+  - verification
+  - provenance
+  - deception-research
+  - evidence-graph
+authors:
+  - name: "neuron7xLab"

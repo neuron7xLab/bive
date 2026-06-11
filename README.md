@@ -1,5 +1,11 @@
 # BIVE v0.4.0 — Behavioral Integrity Verification Engine
 
+[![CI](https://github.com/neuron7xLab/bive/actions/workflows/ci.yml/badge.svg)](https://github.com/neuron7xLab/bive/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/neuron7xLab/bive/actions/workflows/codeql.yml/badge.svg)](https://github.com/neuron7xLab/bive/actions/workflows/codeql.yml)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/neuron7xLab/bive/badge)](https://scorecard.dev/viewer/?uri=github.com/neuron7xLab/bive)
+[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](pyproject.toml)
+
 BIVE is an evidence-first transcript verification system. It builds reviewable evidence graphs, calibrated hypotheses, counter-evidence, uncertainty, missing-evidence lists and follow-up questions. It does **not** label people as liars, guilty or truthful.
 
 ## Product boundary

@@ -5,7 +5,10 @@ import re
 import sys
 from pathlib import Path
 
-import tomllib
+try:
+    import tomllib
+except ModuleNotFoundError:  # Python < 3.11 ships no stdlib tomllib
+    import tomli as tomllib
 
 ROOT = Path(__file__).resolve().parents[1]
 

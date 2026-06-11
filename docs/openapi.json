@@ -499,6 +499,22 @@
               ],
               "title": "X-Bive-Api-Key"
             }
+          },
+          {
+            "in": "header",
+            "name": "X-BIVE-API-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Api-Token"
+            }
           }
         ],
         "responses": {
@@ -578,6 +594,22 @@
                 }
               ],
               "title": "X-Bive-Api-Key"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-BIVE-API-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Api-Token"
             }
           }
         ],
@@ -678,6 +710,22 @@
               ],
               "title": "X-Bive-Api-Key"
             }
+          },
+          {
+            "in": "header",
+            "name": "X-BIVE-API-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Api-Token"
+            }
           }
         ],
         "responses": {
@@ -766,6 +814,22 @@
                 }
               ],
               "title": "X-Bive-Api-Key"
+            }
+          },
+          {
+            "in": "header",
+            "name": "X-BIVE-API-Token",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Api-Token"
             }
           }
         ],

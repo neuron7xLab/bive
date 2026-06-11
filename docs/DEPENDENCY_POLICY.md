@@ -12,7 +12,7 @@ BIVE uses dependency contracts because “works on my machine” is not a releas
 
 ## Files
 
-- `pyproject.toml`: canonical package metadata and dependency ranges.
+- `pyproject.toml`: canonical package metadata and locked runtime/API/tooling pins for the release lane.
 - `requirements/*.in`: human-maintained install intent.
 - `constraints/py310.txt`: known-good pinned graph for the current packaging pass.
 - `scripts/validate_dependency_contracts.py`: offline dependency contract gate.

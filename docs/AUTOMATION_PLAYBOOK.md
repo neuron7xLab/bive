@@ -5,6 +5,8 @@ BIVE automation is organized around fail-closed release evidence.
 ## Local loop
 
 ```bash
+python3 -m venv .venv
+. .venv/bin/activate
 make verify-release
 ```
 

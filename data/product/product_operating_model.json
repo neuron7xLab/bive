@@ -71,7 +71,7 @@
     {
       "step": 1,
       "name": "Install",
-      "command": "pip install -e '.[dev,api,security]'",
+      "command": "make verify-bootstrap",
       "evidence": "pip check and import smoke"
     },
     {

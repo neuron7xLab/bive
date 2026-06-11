@@ -34,9 +34,8 @@ BIVE is a research-to-product engineering repository for analysts, auditors, inv
 ## Install and verify
 
 ```bash
-python -m venv .venv
+python3 -m venv .venv
 . .venv/bin/activate
-pip install -e '.[dev,api]'
 make verify-release
 ```
 

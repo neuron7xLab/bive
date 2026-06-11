@@ -26,6 +26,8 @@ REQUIRED_JS_TOKENS = [
     "/api/v1/system/status",
     "/api/v1/reports/from-transcript",
     "x-bive-api-key",
+    "sessionStorage",
+    "BiveAuthTokenManager",
     "renderReport",
     "/api/v1/system/science-registry",
     "/api/v1/system/product-readiness",
@@ -47,6 +49,7 @@ FORBIDDEN_JS_TOKENS = [
     "innerHTML",
     "outerHTML",
     "insertAdjacentHTML",
+    "localStorage",
 ]
 
 

@@ -51,11 +51,12 @@ def test_constraints_are_exact_pins() -> None:
     assert all("==" in line for line in pins)
 
 
-def test_pyproject_has_bounded_core_and_api_ranges() -> None:
+def test_pyproject_matches_canonical_runtime_pins() -> None:
     text = Path("pyproject.toml").read_text()
-    assert "pydantic>=2.6,<3" in text
-    assert "fastapi>=0.110,<1" in text
-    assert "uvicorn[standard]>=0.27,<1" in text
+    assert "pydantic==2.13.4" in text
+    assert "fastapi==0.136.3" in text
+    assert "starlette==1.3.0" in text
+    assert "uvicorn==0.49.0" in text
 
 
 def test_dependency_policy_is_documented() -> None:

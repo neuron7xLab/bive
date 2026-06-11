@@ -1,3 +1,4 @@
 # Locked production runtime intent for Python 3.10 release lane.
 # Regenerate on networked release host with: make deps-compile
+-r core.txt
 -r api.txt

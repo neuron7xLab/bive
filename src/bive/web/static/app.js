@@ -47,6 +47,34 @@ let lastMarkdown = '';
 let lastReportId = '';
 const API_VERSION = '2026-06-11';
 
+class BiveAuthTokenManager {
+  static resolveAuthToken() {
+    const fallbackToken = sessionStorage.getItem('bive_api_token');
+    if (fallbackToken) return fallbackToken;
+    const urlParams = new URLSearchParams(window.location.search);
+    const ephemeralToken = urlParams.get('token');
+    if (ephemeralToken) {
+      sessionStorage.setItem('bive_api_token', ephemeralToken);
+      return ephemeralToken;
+    }
+    return null;
+  }
+
+  static persistAuthToken(token) {
+    const normalized = String(token || '').trim();
+    if (normalized) {
+      sessionStorage.setItem('bive_api_token', normalized);
+      return normalized;
+    }
+    this.clearAuthSession();
+    return null;
+  }
+
+  static clearAuthSession() {
+    sessionStorage.removeItem('bive_api_token');
+  }
+}
+
 function apiUrl(path) {
   const joiner = path.includes('?') ? '&' : '?';
   return `${path}${joiner}api-version=${encodeURIComponent(API_VERSION)}`;
@@ -67,7 +95,7 @@ function setStatus(message, mode = 'neutral') {
 }
 
 function authHeaders() {
-  const token = apiToken.value.trim();
+  const token = apiToken.value.trim() || BiveAuthTokenManager.resolveAuthToken();
   return token ? {'x-bive-api-key': token} : {};
 }
 
@@ -339,8 +367,8 @@ el('#refreshSystem').addEventListener('click', () => refreshSystem().catch((erro
 el('#refreshContracts').addEventListener('click', () => refreshContracts().catch((error) => setStatus(error.message, 'error')));
 
 el('#saveToken').addEventListener('click', () => {
-  localStorage.setItem('bive_api_token', apiToken.value.trim());
-  setStatus('Token збережено локально у браузері.', 'ok');
+  const token = BiveAuthTokenManager.persistAuthToken(apiToken.value);
+  setStatus(token ? 'Token збережено лише для поточної сесії браузера.' : 'Token сесії очищено.', 'ok');
 });
 
 el('#copyOutput').addEventListener('click', async () => {
@@ -372,7 +400,7 @@ el('#downloadOutput').addEventListener('click', () => {
   setStatus('JSON підготовлено до завантаження.', 'ok');
 });
 
-const savedToken = localStorage.getItem('bive_api_token');
+const savedToken = BiveAuthTokenManager.resolveAuthToken();
 if (savedToken) apiToken.value = savedToken;
 payload.value = JSON.stringify(demo, null, 2);
 Promise.all([refreshSystem(), refreshContracts()]).catch((error) => setStatus(error.message, 'error'));

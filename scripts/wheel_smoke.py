@@ -5,6 +5,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+import venv
 import zipfile
 from pathlib import Path
 
@@ -28,9 +29,13 @@ def run(cmd: list[str], cwd: Path | None = None, env: dict[str, str] | None = No
     subprocess.run(cmd, cwd=cwd or ROOT, env=clean_env, check=True)
 
 
+def _venv_python(path: Path) -> Path:
+    return path / ("Scripts/python.exe" if os.name == "nt" else "bin/python")
+
+
 def main() -> int:
     shutil.rmtree(ROOT / "dist", ignore_errors=True)
-    run([sys.executable, "-m", "pip", "wheel", ".", "--no-deps", "-w", str(ROOT / "dist")])
+    run([sys.executable, "-m", "build", "--wheel", "--no-isolation", "--outdir", str(ROOT / "dist")])
     wheels = sorted((ROOT / "dist").glob("*.whl"))
     if len(wheels) != 1:
         raise RuntimeError(f"expected exactly one wheel, found {wheels}")
@@ -41,27 +46,17 @@ def main() -> int:
     if missing:
         raise RuntimeError(f"wheel missing required members: {missing}")
     with tempfile.TemporaryDirectory(prefix="bive-wheel-smoke-") as tmp:
-        target = Path(tmp) / "site"
+        venv_dir = Path(tmp) / "venv"
+        venv.EnvBuilder(with_pip=True, system_site_packages=True).create(venv_dir)
+        python = _venv_python(venv_dir)
+        run([str(python), "-m", "pip", "install", "--no-deps", str(wheel)], cwd=Path(tmp))
         run(
             [
-                sys.executable,
-                "-m",
-                "pip",
-                "install",
-                "--no-deps",
-                "--target",
-                str(target),
-                str(wheel),
-            ]
-        )
-        run(
-            [
-                sys.executable,
+                str(python),
                 "-c",
                 "import bive.api; from importlib.resources import files; assert files('bive').joinpath('web/static/app.js').is_file(); assert files('bive.resources').joinpath('product_operating_model.json').is_file(); print('WHEEL_IMPORT_OK')",
             ],
             cwd=Path(tmp),
-            env={"PYTHONPATH": str(target)},
         )
     print("WHEEL_SMOKE_PASS")
     return 0

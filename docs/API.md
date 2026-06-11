@@ -26,7 +26,7 @@ make api
 - `GET /api/v1/reports/{report_id}` — fetch report JSON.
 - `GET /api/v1/reports/{report_id}/markdown` — render report as Markdown.
 
-In `production` or `staging`, report endpoints require `Authorization: Bearer <token>` or `x-bive-api-key: <token>`.
+In `production` or `staging`, report endpoints require `Authorization: Bearer <token>`, `x-bive-api-key: <token>`, or `X-BIVE-API-Token: <token>`.
 
 ## Request shape
 

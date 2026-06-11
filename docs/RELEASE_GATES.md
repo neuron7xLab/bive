@@ -5,6 +5,8 @@ A release is not approved by documentation. It is approved by passing commands.
 ## Mandatory local gate
 
 ```bash
+python3 -m venv .venv
+. .venv/bin/activate
 make verify-release
 ```
 

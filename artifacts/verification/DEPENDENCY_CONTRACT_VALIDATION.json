@@ -23,6 +23,7 @@
     "mypy",
     "pip-audit",
     "pip-licenses",
+    "pip-tools",
     "pydantic",
     "pytest",
     "pytest-cov",
@@ -30,21 +31,86 @@
     "starlette",
     "uvicorn"
   ],
+  "strict_alignment_groups": {
+    "bandit": [
+      "requirements/security.txt",
+      "constraints/py310.txt"
+    ],
+    "build": [
+      "requirements/dev.txt",
+      "constraints/py310.txt"
+    ],
+    "cyclonedx-bom": [
+      "requirements/security.txt",
+      "constraints/py310.txt"
+    ],
+    "fastapi": [
+      "requirements/api.txt",
+      "constraints/py310.txt"
+    ],
+    "httpx": [
+      "requirements/dev.txt",
+      "constraints/py310.txt"
+    ],
+    "jsonschema": [
+      "requirements/dev.txt",
+      "constraints/py310.txt"
+    ],
+    "mypy": [
+      "requirements/dev.txt",
+      "constraints/py310.txt"
+    ],
+    "pip-audit": [
+      "requirements/security.txt",
+      "constraints/py310.txt"
+    ],
+    "pip-licenses": [
+      "requirements/security.txt",
+      "constraints/py310.txt"
+    ],
+    "pip-tools": [
+      "requirements/dev.txt",
+      "constraints/py310.txt"
+    ],
+    "pydantic": [
+      "requirements/core.txt",
+      "constraints/py310.txt"
+    ],
+    "pytest": [
+      "requirements/dev.txt",
+      "constraints/py310.txt"
+    ],
+    "pytest-cov": [
+      "requirements/dev.txt",
+      "constraints/py310.txt"
+    ],
+    "ruff": [
+      "requirements/dev.txt",
+      "constraints/py310.txt"
+    ],
+    "starlette": [
+      "requirements/api.txt",
+      "constraints/py310.txt"
+    ],
+    "uvicorn": [
+      "requirements/api.txt",
+      "constraints/py310.txt"
+    ]
+  },
   "requirement_packages": {
     "core.in": [
       "pydantic"
     ],
     "api.in": [
       "fastapi",
+      "starlette",
       "uvicorn"
     ],
     "dev.in": [
-      "bandit",
       "build",
       "httpx",
       "jsonschema",
       "mypy",
-      "pip-licenses",
       "pip-tools",
       "pytest",
       "pytest-cov",
@@ -66,60 +132,14 @@
       "uvicorn"
     ],
     "dev.txt": [
-      "annotated-doc",
-      "annotated-types",
-      "anyio",
-      "ast-serialize",
-      "attrs",
-      "bandit",
       "build",
-      "certifi",
-      "click",
-      "coverage",
-      "exceptiongroup",
-      "fastapi",
-      "h11",
-      "httpcore",
-      "httptools",
       "httpx",
-      "idna",
-      "iniconfig",
       "jsonschema",
-      "jsonschema-specifications",
-      "librt",
-      "markdown-it-py",
-      "mdurl",
       "mypy",
-      "mypy-extensions",
-      "packaging",
-      "pathspec",
-      "pip-licenses",
       "pip-tools",
-      "pluggy",
-      "prettytable",
-      "pydantic",
-      "pydantic-core",
-      "pygments",
-      "pyproject-hooks",
       "pytest",
       "pytest-cov",
-      "python-dotenv",
-      "pyyaml",
-      "referencing",
-      "rich",
-      "rpds-py",
-      "ruff",
-      "starlette",
-      "stevedore",
-      "tomli",
-      "typing-extensions",
-      "typing-inspection",
-      "uvicorn",
-      "uvloop",
-      "watchfiles",
-      "wcwidth",
-      "websockets",
-      "wheel"
+      "ruff"
     ],
     "security.txt": [
       "bandit",

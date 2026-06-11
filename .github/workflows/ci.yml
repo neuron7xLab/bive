@@ -34,16 +34,20 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
-      - name: Install
-        run: |
-          python -m pip install --upgrade pip
-          pip install -e '.[dev,api,security]'
       - name: Verify release gate
-        run: make verify-release
+        run: |
+          python -m venv .venv
+          . .venv/bin/activate
+          make verify-release
       - name: Dependency audit
-        run: make dependency-audit
+        run: |
+          . .venv/bin/activate
+          python -m pip install -r requirements/security.txt
+          make dependency-audit
       - name: License audit
-        run: make license-audit
+        run: |
+          . .venv/bin/activate
+          make license-audit
       - name: Upload verification artifacts
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         if: always()
@@ -75,10 +79,13 @@ jobs:
           cache: pip
       - name: Install
         run: |
-          python -m pip install --upgrade pip
-          pip install -e .
+          python -m venv .venv
+          . .venv/bin/activate
+          make verify-bootstrap
       - name: Stress the structural hash across rebuilds and hash seeds
-        run: make determinism-stress
+        run: |
+          . .venv/bin/activate
+          make determinism-stress
 
   dependency-review:
     name: Dependency review

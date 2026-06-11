@@ -16,7 +16,7 @@ The red-team layer exists to find where BIVE cracks into pseudoscience.
 ## Command
 
 ```bash
-PYTHONPATH=src python -m bive.cli red-team
+python -m bive.cli red-team
 ```
 
 Expected: every case passes.

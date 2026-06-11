@@ -228,13 +228,14 @@ def require_api_version(api_version: str | None = Query(default=None, alias="api
 def require_api_auth(
     authorization: str | None = Header(default=None),
     x_bive_api_key: str | None = Header(default=None),
+    x_bive_api_token: str | None = Header(default=None, alias="X-BIVE-API-Token"),
 ) -> None:
     if not settings.auth_required:
         return
     if not settings.api_token:
         raise HTTPException(status_code=503, detail="api_token_not_configured")
     bearer = f"Bearer {settings.api_token}"
-    if authorization == bearer or x_bive_api_key == settings.api_token:
+    if authorization == bearer or x_bive_api_key == settings.api_token or x_bive_api_token == settings.api_token:
         return
     raise HTTPException(status_code=401, detail="authentication_required")
 

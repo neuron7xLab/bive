@@ -25,7 +25,9 @@ This document defines the current GitHub-ready product package.
 ## Required command sequence
 
 ```bash
-pip install -e '.[dev,api,security]'
+python3 -m venv .venv
+. .venv/bin/activate
+make verify-bootstrap
 make verify
 make product-readiness
 make wheel-smoke

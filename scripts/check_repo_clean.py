@@ -6,7 +6,7 @@ ROOT = Path(__file__).resolve().parents[1]
 FORBIDDEN_DIRS = {"__pycache__", ".pytest_cache", ".ruff_cache", ".mypy_cache", "htmlcov"}
 FORBIDDEN_SUFFIXES = {".pyc", ".pyo"}
 FORBIDDEN_NAMES = {".coverage", ".dmypy.json", "bive.sqlite3"}
-ALLOWED_PREFIXES = {".venv", "build", "dist"}
+ALLOWED_PREFIXES = {".venv", ".audit_venv", "venv", "env", "ENV", "build", "dist"}
 
 
 def is_allowed_generated(path: Path) -> bool:

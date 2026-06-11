@@ -5,7 +5,8 @@
 ```bash
 python -m venv .venv
 . .venv/bin/activate
-pip install -e '.[dev,api]'
+python3 -m venv .venv
+. .venv/bin/activate
 make verify-release
 make api
 ```

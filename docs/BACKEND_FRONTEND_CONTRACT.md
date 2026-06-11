@@ -24,7 +24,7 @@ Local mode may run open for demos. Staging and production must require either:
 - `Authorization: Bearer <token>`; or
 - `x-bive-api-key: <token>`.
 
-The frontend exposes a token field and stores it only in browser `localStorage` when the user explicitly clicks the local save button.
+The frontend exposes a token field and stores it only in browser `sessionStorage` for the current tab/session when the user explicitly clicks the session save button; persistent `localStorage` token retention is forbidden.
 
 ## Request contract
 

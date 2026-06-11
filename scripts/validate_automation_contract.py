@@ -9,6 +9,10 @@ ARTIFACT = ROOT / "artifacts" / "verification" / "AUTOMATION_CONTRACT.json"
 
 REQUIRED_MAKE_TARGETS = {
     "verify-release",
+    "verify-bootstrap",
+    "env-check",
+    "check-dependencies",
+    "check-repo-clean",
     "test",
     "coverage",
     "lint",
@@ -72,9 +76,11 @@ REQUIRED_WORKFLOW_FRAGMENTS = {
 def _target_names(makefile: str) -> set[str]:
     names: set[str] = set()
     for line in makefile.splitlines():
-        if line.startswith("\t") or not line or line.startswith(".") or ":" not in line:
+        if line.startswith("\t") or not line or line.startswith(".") or ":" not in line or ":=" in line:
             continue
         left = line.split(":", 1)[0]
+        if "=" in left:
+            continue
         for token in left.split():
             if re.match(r"^[A-Za-z0-9_.-]+$", token):
                 names.add(token)

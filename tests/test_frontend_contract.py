@@ -17,6 +17,9 @@ def test_frontend_static_contract() -> None:
     assert 'id="scienceList"' in html
     assert 'id="productReadiness"' in html
     assert "x-bive-api-key" in js
+    assert "sessionStorage" in js
+    assert "localStorage" not in js
+    assert "BiveAuthTokenManager" in js
     assert "renderReport" in js
     assert "innerHTML" not in js
     assert "insertAdjacentHTML" not in js

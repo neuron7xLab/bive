@@ -34,6 +34,13 @@ def test_staging_api_requires_token(monkeypatch, tmp_path) -> None:  # type: ign
     )
     assert allowed.status_code == 200
 
+    alternate_header = client.post(
+        "/api/v1/reports/from-transcript?api-version=2026-06-11",
+        json=payload,
+        headers={"X-BIVE-API-Token": "secret"},
+    )
+    assert alternate_header.status_code == 200
+
 
 def test_staging_readiness_fails_without_token(monkeypatch, tmp_path) -> None:  # type: ignore[no-untyped-def]
     api_module = reload_api_module(monkeypatch, tmp_path, env="staging", token=None)

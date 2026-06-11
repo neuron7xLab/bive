@@ -12,7 +12,7 @@ BIVE includes deterministic scenario simulation for entropy resistance.
 ## Command
 
 ```bash
-PYTHONPATH=src python -m bive.cli simulate
+python -m bive.cli simulate
 ```
 
 ## Design target

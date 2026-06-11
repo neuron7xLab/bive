@@ -20,6 +20,7 @@ class GateCommand:
 
 
 COMMANDS: tuple[GateCommand, ...] = (
+    GateCommand("environment", [sys.executable, "scripts/check_environment.py"], 60),
     GateCommand("repo-clean", [sys.executable, "scripts/check_repo_clean.py"], 60),
     GateCommand("metadata", [sys.executable, "scripts/validate_metadata.py"], 60),
     GateCommand("dependency-contracts", [sys.executable, "scripts/validate_dependency_contracts.py"], 60),
@@ -33,7 +34,7 @@ COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("neurocognitive-protocol", [sys.executable, "scripts/validate_neurocognitive_protocol.py"], 60),
     GateCommand("product-readiness", [sys.executable, "scripts/validate_product_operating_model.py"], 60),
     GateCommand("microsoft-rest", [sys.executable, "scripts/validate_microsoft_rest_contract.py"], 60),
-    GateCommand("lint", ["ruff", "check", "src", "tests", "scripts"], 120),
+    GateCommand("lint", [sys.executable, "-m", "ruff", "check", "src", "tests", "scripts"], 120),
     GateCommand("typecheck", [sys.executable, "-m", "mypy", "--no-incremental", "src"], 180),
     GateCommand(
         "coverage",
@@ -48,7 +49,7 @@ COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("science-registry", [sys.executable, "scripts/validate_science_registry.py"], 60),
     GateCommand("dynamic-probe", [sys.executable, "scripts/dynamic_environment_probe.py"], 120),
     GateCommand("openapi", [sys.executable, "scripts/export_openapi.py", "--output", "docs/openapi.json", "--check"], 120),
-    GateCommand("security-static", ["bandit", "-q", "-r", "src", "scripts", "-c", "pyproject.toml", "-ll"], 120),
+    GateCommand("security-static", [sys.executable, "-m", "bandit", "-q", "-r", "src", "scripts", "-c", "pyproject.toml", "-ll"], 120),
     GateCommand("wheel-smoke", [sys.executable, "scripts/wheel_smoke.py"], 180),
     GateCommand("manifest-check", [sys.executable, "scripts/validate_release_manifest.py"], 60),
     GateCommand("evidence-bundle", [sys.executable, "scripts/generate_evidence_bundle.py"], 60),
@@ -83,7 +84,6 @@ def run_gate(item: GateCommand, env: dict[str, str]) -> tuple[int, str]:
 def main() -> int:
     LOG.parent.mkdir(parents=True, exist_ok=True)
     env = os.environ.copy()
-    env["PYTHONPATH"] = "src"
     env["PYTHONDONTWRITEBYTECODE"] = "1"
     env["RUFF_CACHE_DIR"] = str(ROOT / "build" / "ruff-cache")
     env["PYTEST_DISABLE_PLUGIN_AUTOLOAD"] = "1"

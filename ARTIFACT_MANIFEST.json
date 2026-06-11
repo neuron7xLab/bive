@@ -48,9 +48,9 @@
       "sha256": "7e0a7bedf94f513c92e19be511e2b8be911afa0a431b3f8363be11194db88023"
     },
     {
-      "bytes": 1368,
+      "bytes": 1575,
       "path": ".github/workflows/codeql.yml",
-      "sha256": "4327e1a6b0f52276cdd9b8e4c93178f04e49aa256cfb6377dd495f22f605080d"
+      "sha256": "517ff60c05b077c04babbe01649a4d7e62e62e435f6f46a775380dc3e0c1f8a0"
     },
     {
       "bytes": 3523,
@@ -663,9 +663,9 @@
       "sha256": "77d62cc7f017d0a0cfad8ca6aaf22ddf9a257ec165980bac0603db6acf403720"
     },
     {
-      "bytes": 2858,
+      "bytes": 2918,
       "path": "pyproject.toml",
-      "sha256": "93a303f77644c2bacc74655d65c29b9dee6cb03a5906434d2e703c3ec1821323"
+      "sha256": "05df75898f25da23700a247bdfdbb2811cd4a359bb58972268b3d0cb945216ad"
     },
     {
       "bytes": 768,
@@ -788,9 +788,9 @@
       "sha256": "ad6e864f2adf14d0c8f4ee31c11ce0c84ea177c6943eaeb624ea5d82e4853295"
     },
     {
-      "bytes": 7671,
+      "bytes": 7777,
       "path": "scripts/generate_manifest.py",
-      "sha256": "b375ab36caec5bf4a92cdbb9c2671e8844a23a341c77266588ade950246a5a58"
+      "sha256": "e3d8cd878ed81441b9795568fd0d741aa6847f277a8336d23c4af526fa21786f"
     },
     {
       "bytes": 123,
@@ -823,9 +823,9 @@
       "sha256": "68ed58128bf09fde0feb6a88b0aab5727be84a3738da1bd914740b432481155c"
     },
     {
-      "bytes": 1677,
+      "bytes": 1783,
       "path": "scripts/validate_metadata.py",
-      "sha256": "7a583bb7d556c523068ff8e117c9ddbd7b53d5fcf64c1268cf1c8269a91441f7"
+      "sha256": "9ed516b5e591ca96eef0ca6b763040ee4751b3b473dd9f840f9744fceb086074"
     },
     {
       "bytes": 3770,
@@ -1308,7 +1308,7 @@
       "sha256": "b537a3aba0e8c3e673eb22cebb53200b9a62691ddfd7431d4e303492131999b1"
     }
   ],
-  "generated_at_utc": "2026-06-11T11:25:55+00:00",
+  "generated_at_utc": "2026-06-11T11:31:27+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

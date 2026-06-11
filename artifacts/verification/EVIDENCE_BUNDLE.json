@@ -4,13 +4,13 @@
     {
       "path": "ARTIFACT_MANIFEST.json",
       "exists": true,
-      "sha256": "61a8173ec1bde37c624a56b4368f166ba8ce824f8885eac230966c9642c398d9",
-      "bytes": 42753
+      "sha256": "6babc956612583b9832150f4d1063697fcd138f0c129768aa50789d69751cde5",
+      "bytes": 41084
     },
     {
       "path": "PRODUCT_SYSTEM_INDEX.json",
       "exists": true,
-      "sha256": "4907d0cc3edc2c9497eaaa43a1c6ab0eba41d5902657b8ef2f5d3b42100ce855",
+      "sha256": "7c5347043cff28e9793d749eac6d8582d0b50eba893bea3a0c38a352c7d8d6f3",
       "bytes": 1316
     },
     {

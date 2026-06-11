@@ -35,7 +35,7 @@ jobs:
       - name: License audit
         run: make license-audit
       - name: Upload verification artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         if: always()
         with:
           name: verification-${{ matrix.python-version }}

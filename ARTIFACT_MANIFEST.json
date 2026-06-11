@@ -45,12 +45,12 @@
     {
       "bytes": 3545,
       "path": ".github/workflows/ci.yml",
-      "sha256": "7e0a7bedf94f513c92e19be511e2b8be911afa0a431b3f8363be11194db88023"
+      "sha256": "e0d2dd065731aff2c3570499fc8d2c8ee5c2362b904f4e5227e36f56577a2856"
     },
     {
       "bytes": 1575,
       "path": ".github/workflows/codeql.yml",
-      "sha256": "517ff60c05b077c04babbe01649a4d7e62e62e435f6f46a775380dc3e0c1f8a0"
+      "sha256": "34a175d2e862ca992602d28e88560a3f997b64b8e343da6632c67cbd6450d1ba"
     },
     {
       "bytes": 3523,
@@ -1303,12 +1303,12 @@
       "sha256": "4466a18615758f43db2d5817cc9e3a0c215dca81521c50868e8aa29230b56b22"
     },
     {
-      "bytes": 804,
+      "bytes": 910,
       "path": "tests/test_version_contract.py",
-      "sha256": "b537a3aba0e8c3e673eb22cebb53200b9a62691ddfd7431d4e303492131999b1"
+      "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T11:31:27+00:00",
+  "generated_at_utc": "2026-06-11T11:36:38+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

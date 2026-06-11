@@ -5,8 +5,14 @@ import json
 from pathlib import Path
 from typing import Any
 
-from jsonschema import Draft202012Validator
-from referencing import Registry, Resource
+try:
+    from jsonschema import Draft202012Validator
+    from referencing import Registry, Resource
+except ImportError as exc:
+    raise SystemExit(
+        "SCHEMA_VALIDATION_DEPENDENCY_MISSING: install the dev extra with `make bootstrap-env` "
+        "or `pip install -e '.[dev]'`."
+    ) from exc
 
 ROOT = Path(__file__).resolve().parents[1]
 SCHEMA_DIR = ROOT / "schemas"

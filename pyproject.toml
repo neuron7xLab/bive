@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools>=69", "wheel"]
+requires = ["setuptools>=78.1.1", "wheel>=0.46.2"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -88,3 +88,11 @@ exclude_dirs = ["tests", "dist", "build"]
 module = ["IPython.*", "matplotlib_inline.*", "dns.*", "email_validator.*", "pydantic.v1.*", "tomli", "tomli.*"]
 follow_imports = "skip"
 ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = ["fastapi", "fastapi.*", "uvicorn", "uvicorn.*", "jsonschema", "jsonschema.*", "referencing", "referencing.*"]
+ignore_missing_imports = true
+
+[[tool.mypy.overrides]]
+module = "bive.api_runtime"
+disallow_untyped_decorators = false

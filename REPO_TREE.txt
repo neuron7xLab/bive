@@ -72,6 +72,7 @@ docs/AUTOMATION_PLAYBOOK.md
 docs/BACKEND_FRONTEND_CONTRACT.md
 docs/BEHAVIORAL_PROGRAMS.md
 docs/BIBLIOGRAPHY.md
+docs/BUILD_BACKEND_DECISION.md
 docs/CALIBRATION_MODEL.md
 docs/COGNITIVE_CONTROL_PLANE.md
 docs/COMPONENT_ARCHITECTURE.md
@@ -133,9 +134,11 @@ schemas/transcript_analyze_request.schema.json
 schemas/verification_report.schema.json
 scripts/api_smoke.py
 scripts/benchmark_pipeline.py
+scripts/check_environment.py
 scripts/check_frontend_quality.py
 scripts/check_repo_clean.py
 scripts/check_ui_assets.py
+scripts/dependency_audit.py
 scripts/determinism_stress.py
 scripts/dynamic_environment_probe.py
 scripts/export_openapi.py
@@ -169,6 +172,7 @@ src/bive/aos.py
 src/bive/aos_cli.py
 src/bive/api.py
 src/bive/api_models.py
+src/bive/api_runtime.py
 src/bive/calibration.py
 src/bive/cli.py
 src/bive/cognitive_control.py
@@ -181,6 +185,7 @@ src/bive/ingest.py
 src/bive/linguistics.py
 src/bive/models.py
 src/bive/neurocognitive.py
+src/bive/observability.py
 src/bive/pipeline.py
 src/bive/pr_gate.py
 src/bive/product.py

@@ -1,21 +1,54 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "evidence_event.schema.json",
   "title": "BIVE EvidenceEvent",
   "type": "object",
-  "required": ["event_id", "source_id", "modality", "feature", "value", "confidence", "direction", "magnitude"],
+  "required": [
+    "event_id",
+    "source_id",
+    "modality",
+    "feature",
+    "value",
+    "confidence",
+    "direction",
+    "magnitude",
+    "timestamp_start",
+    "timestamp_end",
+    "hypothesis_refs",
+    "limitations",
+    "provenance"
+  ],
+  "additionalProperties": false,
   "properties": {
     "event_id": {"type": "string", "minLength": 1},
     "source_id": {"type": "string", "minLength": 1},
     "modality": {"enum": ["text", "audio", "vision", "context", "system"]},
     "feature": {"type": "string", "minLength": 1},
-    "value": {},
+    "value": {
+      "anyOf": [
+        {"type": "string"},
+        {"type": "number"},
+        {"type": "integer"},
+        {"type": "boolean"},
+        {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "speaker": {"type": "string"},
+            "claim_a": {"type": "string"},
+            "claim_b": {"type": "string"},
+            "overlap": {"type": "array", "items": {"type": "string"}}
+          }
+        }
+      ]
+    },
     "confidence": {"type": "number", "minimum": 0, "maximum": 1},
     "direction": {"enum": ["supports", "refutes", "neutral"]},
     "magnitude": {"type": "number", "minimum": 0, "maximum": 1},
     "timestamp_start": {"type": ["number", "null"]},
     "timestamp_end": {"type": ["number", "null"]},
     "hypothesis_refs": {"type": "array", "items": {"type": "string"}},
-    "limitations": {"type": "array", "items": {"type": "string"}}
-  },
-  "additionalProperties": true
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "provenance": {"$ref": "verification_report.schema.json#/$defs/provenance_record"}
+  }
 }

@@ -13,6 +13,12 @@ def reload_api_module(monkeypatch, tmp_path, *, env: str, token: str | None = No
         monkeypatch.delenv("BIVE_API_TOKEN", raising=False)
     else:
         monkeypatch.setenv("BIVE_API_TOKEN", token)
+    # The FastAPI app and its settings are constructed in ``bive.api_runtime``;
+    # ``bive.api`` is only a fail-closed loader. Reload the runtime first so the
+    # rebuilt app observes the patched environment, then reload the loader.
+    import bive.api_runtime as runtime_module
+
+    importlib.reload(runtime_module)
     import bive.api as api_module
 
     return importlib.reload(api_module)

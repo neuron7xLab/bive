@@ -23,3 +23,14 @@ def test_frontend_static_contract() -> None:
     assert "createElement" in js
     assert "@media" in css
     assert ":focus" in css
+
+
+def test_frontend_token_is_session_bounded() -> None:
+    """The API token must never be persisted to localStorage and must be
+    cleared on an unauthorized response (session-bounded lifecycle)."""
+    js = (ROOT / "src/bive/web/static/app.js").read_text(encoding="utf-8")
+    assert "localStorage" not in js, "API token must not be persisted to localStorage"
+    assert "sessionStorage" in js, "API token must use session-bounded storage"
+    assert "clearSessionToken" in js, "401 responses must clear the session token"
+    assert "response.status === 401" in js, "unauthorized responses must drop the token"
+    assert "history.replaceState" in js, "URL-supplied token must be scrubbed from the address bar"

@@ -38,7 +38,7 @@ jobs:
         run: python -m build
       - name: Generate CycloneDX SBOM
         run: |
-          pip install -e '.[api,ml]'
+          pip install --constraint requirements/constraints.txt -e '.[api,ml]'
           cyclonedx-py environment --output-format JSON --outfile dist/bive.cdx.json
       - name: Compute artifact hashes
         id: hash

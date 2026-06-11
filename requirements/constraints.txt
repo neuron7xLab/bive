@@ -1,0 +1,21 @@
+# Canonical, reproducible, advisory-clean constraint set for BIVE release gates.
+# Versions are chosen to satisfy `make dependency-audit` (live pip-audit, fail on
+# any known vulnerability) while staying inside the ranges declared in
+# pyproject.toml. Build tooling (setuptools/wheel/pip) is held at the lowest
+# non-vulnerable release; mypy/ruff are held stable to keep the lint/typecheck
+# gates deterministic. See docs/DEPENDENCY_POLICY.md.
+pip==26.1.2
+setuptools==78.1.1
+wheel==0.46.2
+pydantic==2.13.4
+fastapi==0.136.3
+starlette==1.3.0
+uvicorn==0.49.0
+httpx==0.28.1
+jsonschema==4.26.0
+pytest==9.0.3
+pytest-cov==7.1.0
+ruff==0.6.9
+mypy==1.10.0
+bandit==1.7.9
+pip-audit==2.10.1

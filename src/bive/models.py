@@ -37,6 +37,12 @@ def _bounded(name: str, value: float, low: float = 0.0, high: float = 1.0) -> No
         raise ValueError(f"{name} must be in [{low}, {high}], got {value}")
 
 
+def _reject_extra(model_name: str, data: dict[str, Any], allowed: set[str]) -> None:
+    extra = sorted(set(data) - allowed)
+    if extra:
+        raise ValueError(f"{model_name} contains unsupported fields: {', '.join(extra)}")
+
+
 @dataclass(frozen=True)
 class ProvenanceRecord:
     entity_id: str
@@ -110,6 +116,25 @@ class EvidenceEvent:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> EvidenceEvent:
+        _reject_extra(
+            "EvidenceEvent",
+            data,
+            {
+                "event_id",
+                "source_id",
+                "modality",
+                "feature",
+                "value",
+                "confidence",
+                "direction",
+                "magnitude",
+                "timestamp_start",
+                "timestamp_end",
+                "hypothesis_refs",
+                "limitations",
+                "provenance",
+            },
+        )
         prov = data.get("provenance")
         return cls(
             event_id=str(data["event_id"]),
@@ -187,6 +212,7 @@ class VerificationReport:
     missing_evidence: tuple[str, ...]
     verification_questions: tuple[str, ...]
     provenance: tuple[ProvenanceRecord, ...] = ()
+    report_version: str = "1.0"
     policy_invariants: tuple[str, ...] = (
         "No automatic person-level liar label.",
         "No single cue may decide a hypothesis.",
@@ -198,6 +224,7 @@ class VerificationReport:
         return {
             "report_id": self.report_id,
             "created_at": self.created_at,
+            "report_version": self.report_version,
             "subject_scope": self.subject_scope,
             "input_summary": self.input_summary,
             "claims": [c.to_dict() for c in self.claims],
@@ -215,9 +242,32 @@ class VerificationReport:
 
     @classmethod
     def from_dict(cls, data: dict[str, Any]) -> VerificationReport:
+        _reject_extra(
+            "VerificationReport",
+            data,
+            {
+                "report_id",
+                "created_at",
+                "report_version",
+                "subject_scope",
+                "input_summary",
+                "claims",
+                "signals",
+                "evidence_events",
+                "hypotheses",
+                "final_status",
+                "final_assessment",
+                "limitations",
+                "missing_evidence",
+                "verification_questions",
+                "provenance",
+                "policy_invariants",
+            },
+        )
         return cls(
             report_id=str(data["report_id"]),
             created_at=str(data["created_at"]),
+            report_version=str(data.get("report_version", "1.0")),
             subject_scope=str(data["subject_scope"]),
             input_summary=dict(data["input_summary"]),
             claims=tuple(Claim(**c) for c in data.get("claims", [])),

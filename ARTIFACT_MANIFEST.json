@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 265,
+  "file_count": 257,
   "files": [
     {
       "bytes": 113,
@@ -208,11 +208,6 @@
       "sha256": "8fbb5f1e848de6974b94895b4e0cbece5557a6dab29220fefb5efbdf9819559f"
     },
     {
-      "bytes": 2226,
-      "path": "artifacts/verification/DEPENDENCY_CONTRACT_VALIDATION.json",
-      "sha256": "9ffc0d8b49efa0c3085879e314dd2e7238460567d180793c18199fbd9bc9c981"
-    },
-    {
       "bytes": 204,
       "path": "artifacts/verification/DOCKER_RUNTIME_ATTEMPT.log",
       "sha256": "52f30d1f75622f2460569f468b790b32edad98f20f02e1a68b5aad6c2f579ea9"
@@ -311,11 +306,6 @@
       "bytes": 7971,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
       "sha256": "ebb735130155dfc860e3e7235e88f77b7e848b9291060f57bed2063a400d4a0d"
-    },
-    {
-      "bytes": 386,
-      "path": "constraints/py310.txt",
-      "sha256": "6ed4d7759871e9a42ac67ff37a2507b190313604feb51a4deb116ba07d10461a"
     },
     {
       "bytes": 826,
@@ -678,19 +668,9 @@
       "sha256": "05df75898f25da23700a247bdfdbb2811cd4a359bb58972268b3d0cb945216ad"
     },
     {
-      "bytes": 768,
-      "path": "requirements/README.md",
-      "sha256": "400432a9c97f962f39773f50cc38c3ccee5bc0a72aa74ed7d0e63d0da87a040a"
-    },
-    {
       "bytes": 115,
       "path": "requirements/api.in",
       "sha256": "979bd12cd62b96f1d5eaee9ff6dbce65862afc59cf15985faf50d9b362bced44"
-    },
-    {
-      "bytes": 184,
-      "path": "requirements/api.txt",
-      "sha256": "fe2e9635b5c3b6692e116b3d069d36d36f0a37be3ff86b7ba49a99c1e0d46063"
     },
     {
       "bytes": 141,
@@ -698,19 +678,9 @@
       "sha256": "aefec8a2f8ae73966e4eab6deb2695b27c15dd91d8ca88c17a613562dc1e4401"
     },
     {
-      "bytes": 139,
-      "path": "requirements/core.txt",
-      "sha256": "7d5bf1e801198b4b1090cad4b0468b35c8e9f8022bae5c8fd4a0f23a146d919a"
-    },
-    {
       "bytes": 238,
       "path": "requirements/dev.in",
       "sha256": "ee4d8f4038eb7b24e17278b99b92a40ffddb6a38957d79bff8d7da962a7d10a4"
-    },
-    {
-      "bytes": 1084,
-      "path": "requirements/dev.txt",
-      "sha256": "c87d75aaa42c7c8dea4244cbfe8e5ffbfdfc8f5fcadad42a2e33601b096714cd"
     },
     {
       "bytes": 101,
@@ -718,19 +688,9 @@
       "sha256": "93a830bc3142dc4e3e194c3266e627515c347260e7ab46135445ae95b02cb189"
     },
     {
-      "bytes": 139,
-      "path": "requirements/prod.txt",
-      "sha256": "5aada9f67e77ced6a0bec515e7f53ba6c02b9851df33e9bc326d513bf61574bf"
-    },
-    {
       "bytes": 170,
       "path": "requirements/security.in",
       "sha256": "09c79205cf12fa36575c55e098aa763b7f6eee18a9391c584a8d4c75e77b3224"
-    },
-    {
-      "bytes": 199,
-      "path": "requirements/security.txt",
-      "sha256": "c3b6c87a08a2908147ea44dca3cd26d0e336e386e6846222b4becff8bb8ede21"
     },
     {
       "bytes": 394,
@@ -803,9 +763,9 @@
       "sha256": "ad6e864f2adf14d0c8f4ee31c11ce0c84ea177c6943eaeb624ea5d82e4853295"
     },
     {
-      "bytes": 7777,
+      "bytes": 8421,
       "path": "scripts/generate_manifest.py",
-      "sha256": "e3d8cd878ed81441b9795568fd0d741aa6847f277a8336d23c4af526fa21786f"
+      "sha256": "8843b5cc9f96a184dac0df8f4a8dd74de58795fe168fec08a74ee51ac0e43517"
     },
     {
       "bytes": 123,
@@ -1328,7 +1288,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T12:04:42+00:00",
+  "generated_at_utc": "2026-06-11T12:12:08+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

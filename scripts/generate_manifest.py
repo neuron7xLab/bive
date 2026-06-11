@@ -74,6 +74,16 @@ def include(path: Path) -> bool:
         part in DENY_PARTS or part.endswith(".egg-info") for part in path.relative_to(ROOT).parts
     ):
         return False
+    # Dependabot-managed lockfiles are intentionally NOT pinned: Dependabot bumps
+    # them on its own PRs but cannot regenerate this manifest, so pinning them
+    # made every dependency PR fail manifest-check. The source-of-truth pins
+    # (pyproject.toml + requirements/*.in) stay pinned; only the compiled outputs
+    # and their derived validation report are excluded so pip updates pass
+    # natively and can auto-merge hands-off.
+    if rel.startswith(("requirements/", "constraints/")) and not rel.endswith(".in"):
+        return False
+    if rel == "artifacts/verification/DEPENDENCY_CONTRACT_VALIDATION.json":
+        return False
     if path.name in DENY_NAMES:
         return False
     if any(path.name.endswith(suffix) for suffix in DENY_SUFFIXES):

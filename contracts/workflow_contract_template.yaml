@@ -1,0 +1,30 @@
+workflow:
+  name: string
+  intent: string
+  autonomy_level: L0 | L1 | L2 | L3 | L4
+stages:
+  - name: trigger
+    input: null
+    output: event
+  - name: input_acquisition
+    input: event
+    output: raw_input
+  - name: normalization
+    input: raw_input
+    output: normalized_input
+  - name: planning
+    input: normalized_input
+    output: execution_plan
+  - name: action
+    input: execution_plan
+    output: action_result
+  - name: verification
+    input: action_result
+    output: evidence_bundle
+  - name: report
+    input: evidence_bundle
+    output: final_status
+failure_policy:
+  fail_closed: true
+  rollback_required_for_high_risk: true
+  unknown_blocks_green: true

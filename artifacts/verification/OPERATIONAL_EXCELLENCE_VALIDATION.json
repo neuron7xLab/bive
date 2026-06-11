@@ -1,0 +1,17 @@
+{
+  "status": "pass",
+  "model": "data/operations/service_slo.json",
+  "pillars": [
+    "cost_optimization",
+    "operational_excellence",
+    "performance_efficiency",
+    "reliability",
+    "security"
+  ],
+  "slos": 4,
+  "release_rings": [
+    "local",
+    "candidate",
+    "public_github"
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "source": "synthetic_demo",
+  "segments": [
+    {
+      "speaker": "speaker_1",
+      "start": 0.0,
+      "end": 4.2,
+      "text": "Trust me, nobody needs to check this today. I never received that money."
+    },
+    {
+      "speaker": "speaker_1",
+      "start": 8.0,
+      "end": 12.5,
+      "text": "I received that money later, but it was obviously not my responsibility."
+    }
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "scenario_registry_id": "bive-dynamic-scenarios-v0.4.0-stage6",
+  "purpose": "Operational probes for dynamic environments: repeated runs, malformed inputs, resource limits, production auth boundary, storage concurrency, and science registry availability.",
+  "scenarios": [
+    {"id": "valid_small_transcript", "class": "baseline", "expected": "report_created"},
+    {"id": "repeated_runs", "class": "drift", "expected": "stable_structural_fields_with_unique_report_ids"},
+    {"id": "malformed_json", "class": "failure_path", "expected": "controlled_error_no_traceback"},
+    {"id": "oversized_payload", "class": "resource_limit", "expected": "413_or_422_fast_reject"},
+    {"id": "production_auth_missing", "class": "security_boundary", "expected": "401_or_503_fail_closed"},
+    {"id": "storage_concurrent_writes", "class": "stateful_runtime", "expected": "no_database_locked_error"},
+    {"id": "science_registry_load", "class": "knowledge_contract", "expected": "bounded_reference_registry_valid"}
+  ]
+}

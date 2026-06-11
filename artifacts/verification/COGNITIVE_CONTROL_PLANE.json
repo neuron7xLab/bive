@@ -1,0 +1,8 @@
+{
+  "agent_count": 6,
+  "errors": [],
+  "fractal_level_count": 5,
+  "risky_mode": "HUMAN_GATE",
+  "sample_mode": "EXECUTE_BOUNDED",
+  "status": "pass"
+}

@@ -1,0 +1,89 @@
+{
+  "status": "pass",
+  "requirement_files": [
+    "api.in",
+    "api.txt",
+    "core.in",
+    "core.txt",
+    "dev.in",
+    "dev.txt",
+    "prod.in",
+    "prod.txt",
+    "security.in",
+    "security.txt"
+  ],
+  "constraint_pins": [
+    "bandit",
+    "build",
+    "coverage",
+    "cyclonedx-bom",
+    "fastapi",
+    "httpx",
+    "jsonschema",
+    "mypy",
+    "pip-audit",
+    "pip-licenses",
+    "pydantic",
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "starlette",
+    "uvicorn"
+  ],
+  "requirement_packages": {
+    "core.in": [
+      "pydantic"
+    ],
+    "api.in": [
+      "fastapi",
+      "uvicorn"
+    ],
+    "dev.in": [
+      "bandit",
+      "build",
+      "httpx",
+      "jsonschema",
+      "mypy",
+      "pip-licenses",
+      "pip-tools",
+      "pytest",
+      "pytest-cov",
+      "ruff"
+    ],
+    "security.in": [
+      "bandit",
+      "cyclonedx-bom",
+      "pip-audit",
+      "pip-licenses"
+    ],
+    "prod.in": [],
+    "core.txt": [
+      "pydantic"
+    ],
+    "api.txt": [
+      "fastapi",
+      "starlette",
+      "uvicorn"
+    ],
+    "dev.txt": [
+      "bandit",
+      "build",
+      "coverage",
+      "httpx",
+      "jsonschema",
+      "mypy",
+      "pip-licenses",
+      "pip-tools",
+      "pytest",
+      "pytest-cov",
+      "ruff"
+    ],
+    "security.txt": [
+      "bandit",
+      "cyclonedx-bom",
+      "pip-audit",
+      "pip-licenses"
+    ],
+    "prod.txt": []
+  }
+}

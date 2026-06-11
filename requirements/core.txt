@@ -1,0 +1,3 @@
+# Locked core runtime intent for Python 3.10 release lane.
+# Regenerate on networked release host with: make deps-compile
+pydantic==2.13.3

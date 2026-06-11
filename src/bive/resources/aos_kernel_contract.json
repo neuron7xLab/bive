@@ -1,0 +1,71 @@
+{
+  "autonomy_levels": [
+    "L0",
+    "L1",
+    "L2",
+    "L3",
+    "L4",
+    "L5_FORBIDDEN_BY_DEFAULT"
+  ],
+  "canonical_pipeline": [
+    "intent",
+    "boundary",
+    "process_model",
+    "tool_graph",
+    "execution_contract",
+    "risk_model",
+    "verification_plan",
+    "failure_modes",
+    "repair_loop",
+    "evidence_bundle",
+    "status",
+    "next_action"
+  ],
+  "default_targets": {
+    "critical_failures": 0,
+    "evidence_completeness": 0.95,
+    "pass_at_1": 0.9,
+    "regression_pass_rate": 0.99,
+    "reproducibility_score": 1.0,
+    "rollback_available": true,
+    "security_incident_count": 0,
+    "success_rate": 0.95,
+    "unverified_critical_claims": 0
+  },
+  "evidence_classes": [
+    "EXECUTED",
+    "SPECIFIED",
+    "INFERRED",
+    "ASSUMED",
+    "UNKNOWN"
+  ],
+  "name": "AOS-PROMPT-KERNEL",
+  "required_modules": [
+    "intent_compiler",
+    "process_modeler",
+    "automation_boundary_engine",
+    "tool_contract_generator",
+    "workflow_generator",
+    "sandbox_executor",
+    "verifier",
+    "repair_engine",
+    "template_registry",
+    "governance_engine"
+  ],
+  "risk_levels": [
+    "LOW",
+    "MEDIUM",
+    "HIGH",
+    "CRITICAL"
+  ],
+  "status": "SPECIFIED_WITH_EXECUTABLE_VALIDATION",
+  "statuses": [
+    "GREEN",
+    "YELLOW",
+    "RED",
+    "UNKNOWN",
+    "BLOCKED",
+    "HUMAN_REVIEW_REQUIRED"
+  ],
+  "version": "1.0"
+}

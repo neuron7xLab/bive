@@ -1,0 +1,41 @@
+component:
+  name: string
+  role: string
+  owner: string
+  autonomy_level: L0 | L1 | L2 | L3 | L4
+input:
+  schema: object
+  source: string
+  validation: string
+output:
+  schema: object
+  destination: string
+  artifact_path: string
+execution:
+  trigger: string
+  runtime: string
+  timeout_sec: 60
+  max_retries: 0
+  idempotent: true
+  side_effects: []
+invariants:
+  - condition: string
+failure_modes:
+  - class: string
+    detection: string
+    recovery: string
+    status_if_unresolved: RED | BLOCKED | UNKNOWN | HUMAN_REVIEW_REQUIRED
+security:
+  risk_level: LOW | MEDIUM | HIGH | CRITICAL
+  permissions: []
+  secrets_policy: never_print
+  human_gate: false
+observability:
+  trace_id: required
+  logs: required
+  metrics: required
+  evidence: required
+acceptance:
+  tests: []
+  pass_condition: string
+  fail_condition: string

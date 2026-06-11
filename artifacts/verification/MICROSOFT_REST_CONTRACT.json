@@ -1,0 +1,11 @@
+{
+  "status": "pass",
+  "api_version": "2026-06-11",
+  "checks": [
+    "api-version required",
+    "unsupported api-version rejected",
+    "x-ms-request-id propagated",
+    "x-ms-client-request-id echoed",
+    "Microsoft-style error envelope"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "TranscriptAnalyzeRequest",
+  "type": "object",
+  "required": [
+    "segments"
+  ],
+  "properties": {
+    "subject_scope": {
+      "type": "string",
+      "maxLength": 200
+    },
+    "segments": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "text"
+        ],
+        "properties": {
+          "speaker": {
+            "type": "string",
+            "maxLength": 200
+          },
+          "text": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 10000
+          },
+          "start": {
+            "type": [
+              "number",
+              "null"
+            ]
+          },
+          "end": {
+            "type": [
+              "number",
+              "null"
+            ]
+          }
+        },
+        "additionalProperties": false
+      },
+      "maxItems": 2000
+    }
+  },
+  "additionalProperties": false
+}

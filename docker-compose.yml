@@ -1,0 +1,22 @@
+services:
+  bive:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      BIVE_ENV: production
+      BIVE_API_TOKEN: ${BIVE_API_TOKEN:?set BIVE_API_TOKEN}
+      BIVE_STORAGE: /data/bive.sqlite3
+      BIVE_MAX_UPLOAD_BYTES: 25000000
+      BIVE_MAX_SEGMENTS: 2000
+      BIVE_MAX_TEXT_CHARS: 10000
+    volumes:
+      - bive-data:/data
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8080/readyz', timeout=3).read()"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+volumes:
+  bive-data:

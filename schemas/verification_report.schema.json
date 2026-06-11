@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BIVE VerificationReport",
+  "type": "object",
+  "required": [
+    "report_id", "created_at", "subject_scope", "input_summary", "claims", "signals",
+    "evidence_events", "hypotheses", "final_status", "final_assessment", "limitations",
+    "missing_evidence", "verification_questions", "policy_invariants"
+  ],
+  "properties": {
+    "report_id": {"type": "string"},
+    "created_at": {"type": "string"},
+    "subject_scope": {"type": "string"},
+    "input_summary": {"type": "object"},
+    "claims": {"type": "array"},
+    "signals": {"type": "array"},
+    "evidence_events": {"type": "array", "items": {"$ref": "evidence_event.schema.json"}},
+    "hypotheses": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["hypothesis_id", "label", "description", "score", "uncertainty", "status"],
+        "properties": {
+          "hypothesis_id": {"type": "string"},
+          "label": {"type": "string"},
+          "description": {"type": "string"},
+          "score": {"type": "number", "minimum": 0, "maximum": 1},
+          "uncertainty": {"type": "number", "minimum": 0, "maximum": 1},
+          "status": {"enum": ["inconclusive", "review_required", "low_risk", "elevated_risk", "invalid_input"]},
+          "alternative_explanations": {"type": "array", "items": {"type": "string"}}
+        }
+      }
+    },
+    "final_status": {"enum": ["inconclusive", "review_required", "low_risk", "elevated_risk", "invalid_input"]},
+    "final_assessment": {"type": "string"},
+    "limitations": {"type": "array", "items": {"type": "string"}},
+    "missing_evidence": {"type": "array", "items": {"type": "string"}},
+    "verification_questions": {"type": "array", "items": {"type": "string"}},
+    "policy_invariants": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

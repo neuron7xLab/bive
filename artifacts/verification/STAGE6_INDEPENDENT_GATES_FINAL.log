@@ -1,0 +1,17 @@
+STAGE6_INDEPENDENT_GATES_FINAL
+ruff check src tests scripts: PASS (All checks passed)
+mypy --no-incremental src: PASS (Success: no issues found in 33 source files)
+pytest -q: PASS (51 passed)
+pytest --cov=bive --cov-report=term-missing --cov-fail-under=80 -q: PASS (85.62% total coverage)
+python scripts/validate_schemas.py --strict --instances: PASS
+python scripts/check_ui_assets.py: PASS
+python scripts/check_frontend_quality.py: PASS
+python scripts/validate_science_registry.py: PASS
+python scripts/dynamic_environment_probe.py: PASS
+python scripts/api_smoke.py: PASS
+python scripts/export_openapi.py --output docs/openapi.json --check: PASS
+bandit -q -r src scripts -c pyproject.toml -ll: PASS (no untriaged medium/high output)
+python scripts/wheel_smoke.py: PASS
+python scripts/verify_release.py: PASS (VERIFY_RELEASE_PASS)
+DEPENDENCY_CVE_AUDIT: UNKNOWN unless pip-audit can reach advisory service
+DOCKER_RUNTIME: UNKNOWN unless run on Docker host

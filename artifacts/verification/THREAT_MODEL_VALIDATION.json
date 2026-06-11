@@ -1,0 +1,16 @@
+{
+  "status": "pass",
+  "model": "data/security/stride_threat_model.json",
+  "assets": 5,
+  "trust_boundaries": 4,
+  "data_flows": 5,
+  "threats": 8,
+  "stride_coverage": [
+    "Denial of Service",
+    "Elevation of Privilege",
+    "Information Disclosure",
+    "Repudiation",
+    "Spoofing",
+    "Tampering"
+  ]
+}

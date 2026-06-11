@@ -1,0 +1,78 @@
+{
+  "metrics": [
+    {
+      "max": 10,
+      "min": 0,
+      "name": "intent_fidelity"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "operational_specificity"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "contract_completeness"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "verification_strength"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "failure_coverage"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "context_efficiency"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "safety_boundary"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "reuse_value"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "production_fit"
+    },
+    {
+      "max": 10,
+      "min": 0,
+      "name": "falsifiability"
+    }
+  ],
+  "minimum_tasks": 20,
+  "schema_version": "1.0",
+  "status_rules": {
+    "green_requires": [
+      "executed_evidence",
+      "critical_acceptance_verified"
+    ],
+    "human_review_when": [
+      "high_risk",
+      "critical_risk",
+      "irreversible_action",
+      "public_release"
+    ],
+    "unknown_when": [
+      "missing_logs",
+      "missing_artifacts",
+      "missing_external_dependency_state"
+    ]
+  },
+  "thresholds": {
+    "principal_grade": 97,
+    "strong": 95,
+    "usable": 90
+  }
+}

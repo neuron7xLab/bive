@@ -1,0 +1,23 @@
+{
+  "status": "pass",
+  "references": 18,
+  "domains": [
+    "AI risk management",
+    "API security",
+    "Python dependency security",
+    "accessibility / HCI",
+    "affective computing / HCI",
+    "behavioral deception research",
+    "cognitive neuroscience / executive function",
+    "cognitive science / judgment",
+    "computational linguistics / deception cues",
+    "deception research review",
+    "multimodal deception dataset",
+    "multimodal machine learning",
+    "neurophysiology / predictive processing",
+    "open-source security automation",
+    "provenance / data lineage",
+    "psychophysiology",
+    "secure software engineering"
+  ]
+}

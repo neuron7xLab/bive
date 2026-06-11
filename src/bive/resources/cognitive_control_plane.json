@@ -1,0 +1,120 @@
+{
+  "agents": [
+    {
+      "excites": [
+        "intent_clarity"
+      ],
+      "inhibits": [
+        "ambiguity"
+      ],
+      "name": "intent_compiler",
+      "role": "extract executable intent"
+    },
+    {
+      "excites": [
+        "reversibility"
+      ],
+      "inhibits": [
+        "risk_pressure",
+        "irreversibility"
+      ],
+      "name": "boundary_detector",
+      "role": "separate automatable steps from human-gated risk"
+    },
+    {
+      "excites": [
+        "contract_completeness"
+      ],
+      "inhibits": [
+        "schema_unknown"
+      ],
+      "name": "contract_engineer",
+      "role": "generate execution contract and invariants"
+    },
+    {
+      "excites": [
+        "evidence_strength"
+      ],
+      "inhibits": [
+        "unverified_claims"
+      ],
+      "name": "verification_engineer",
+      "role": "derive tests and evidence gates"
+    },
+    {
+      "excites": [
+        "failure_visibility"
+      ],
+      "inhibits": [
+        "false_certainty"
+      ],
+      "name": "critical_auditor",
+      "role": "remove unsupported GREEN status"
+    },
+    {
+      "excites": [
+        "delta_closure"
+      ],
+      "inhibits": [
+        "complexity_growth"
+      ],
+      "name": "repair_optimizer",
+      "role": "choose smallest reversible next patch"
+    }
+  ],
+  "control_modes": [
+    "EXECUTE_BOUNDED",
+    "SPECIFY_ONLY",
+    "HUMAN_GATE",
+    "BLOCKED"
+  ],
+  "fractal_levels": [
+    "intent",
+    "boundary",
+    "contract",
+    "verification",
+    "release"
+  ],
+  "name": "BIVE Cognitive Control Plane",
+  "purpose": "Convert AOS intent into bounded multi-agent orchestration decisions using excitation/inhibition weights, fractal invariant checks and reverse inference gates.",
+  "recursive_invariants": [
+    "input_defined",
+    "output_defined",
+    "failure_path_defined",
+    "evidence_required",
+    "human_gate_when_high_risk"
+  ],
+  "reverse_inference_targets": {
+    "BLOCKED": [
+      "blocking_dependency",
+      "deterministic_unblock_action"
+    ],
+    "GREEN": [
+      "executed_evidence",
+      "regression_gate",
+      "artifact_hash",
+      "failure_path_test"
+    ],
+    "YELLOW": [
+      "specified_contract",
+      "missing_runtime_evidence_list"
+    ]
+  },
+  "status": "SPECIFIED_AND_TESTED",
+  "version": "0.1.0",
+  "weight_bounds": {
+    "excitation_max": 1.0,
+    "excitation_min": 0.0,
+    "inhibition_max": 1.0,
+    "inhibition_min": 0.0,
+    "max_safe_delta": 0.35,
+    "target_excitation_range": [
+      0.55,
+      0.78
+    ],
+    "target_inhibition_range": [
+      0.32,
+      0.62
+    ]
+  }
+}

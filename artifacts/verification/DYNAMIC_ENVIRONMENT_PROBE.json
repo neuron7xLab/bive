@@ -1,0 +1,13 @@
+{
+  "dynamic_probe_id": "bive-stage6-dynamic-environment-probe",
+  "normalized_structural_hash": "12b5e1b62a918ad0aefb8724b66833d27bcbfd3cee322e0d625fd03dffec755d",
+  "repeated_runs": "pass",
+  "malformed_input": "pass",
+  "oversized_payload_status": 413,
+  "storage_concurrent_writes": 24,
+  "science_references": 18,
+  "production_auth_missing": {
+    "status_code": 503,
+    "expected": "401_or_503"
+  }
+}

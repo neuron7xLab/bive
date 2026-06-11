@@ -1,0 +1,129 @@
+version: 0.4.0
+status: productized_research_registry
+core_contract:
+  package: bive
+  entrypoints:
+    - bive
+    - bive-api
+    - bive-pr-check
+    - bive-aos
+    - bive-cognitive-control
+  release_gate: make verify-release
+  safety_boundary: evidence review only; no automatic person-level lie or guilt verdicts
+sources:
+  - name: BIVE core transcript engine
+    type: local_package
+    modality: text
+    use: deterministic transcript evidence graph and report generation
+    validation_status: machine_verified_by_release_gate
+  - name: FastAPI
+    type: runtime_framework
+    modality: api
+    use: HTTP API, OpenAPI contract and packaged static UI
+    validation_status: optional_api_dependency_verified_by_api_smoke_and_wheel_smoke
+  - name: SQLite
+    type: embedded_database
+    modality: storage
+    use: local report persistence, stats and audit log
+    validation_status: runtime_healthcheck_required
+  - name: W3C WCAG 2.2
+    type: external_standard
+    modality: accessibility
+    use: semantic HTML, labels, keyboard operation, focus and status feedback target
+    validation_status: referenced_design_standard
+  - name: OWASP API Security Top 10 2023
+    type: external_standard
+    modality: api_security
+    use: authentication, object access, resource consumption and security misconfiguration risk framing
+    validation_status: referenced_security_standard
+  - name: NIST SP 800-218 SSDF
+    type: external_standard
+    modality: secure_software_development
+    use: release gate and secure development practice framing
+    validation_status: referenced_secure_development_standard
+  - name: OpenFace
+    type: open_source_tool
+    modality: vision
+    use: facial landmarks, head pose, gaze, action units
+    validation_status: optional_external_adapter_not_required_for_core
+  - name: Whisper
+    type: open_source_tool
+    modality: audio_text
+    use: ASR, multilingual transcription, translation, language identification
+    validation_status: optional_external_adapter_not_required_for_core
+  - name: pyannote.audio
+    type: open_source_tool
+    modality: audio
+    use: speaker diarization
+    validation_status: optional_external_adapter_not_required_for_core
+  - name: openSMILE
+    type: open_source_tool
+    modality: audio
+    use: acoustic feature extraction
+    validation_status: optional_external_adapter_not_required_for_core
+  - name: W3C PROV
+    type: standard
+    modality: provenance
+    use: provenance model inspiration
+    validation_status: external_standard_reference
+  - name: BIVE bounded science registry
+    type: packaged_registry
+    modality: science_governance
+    use: discipline-to-claim-boundary mapping for behavioral science, psychophysiology, cognitive science, affective computing, computational linguistics, accessibility and AI risk
+    validation_status: machine_verified_by_science_registry_gate
+  - name: BIVE dynamic environment scenario registry
+    type: packaged_registry
+    modality: operations
+    use: repeated-run, malformed-input, resource-limit, production-auth, concurrency and science-registry probes
+    validation_status: machine_verified_by_dynamic_probe_gate
+  - name: NIST AI RMF 1.0
+    type: external_standard
+    modality: ai_risk_management
+    use: AI risk governance, managed deployment posture and evidence-backed risk framing
+    validation_status: referenced_ai_risk_standard
+  - name: Ekman and Friesen 1969
+    type: external_research_reference
+    modality: behavioral_deception_research
+    use: historical nonverbal leakage reference mapped only to weak cue and limitation constraints
+    validation_status: bounded_reference_not_model_validation
+  - name: Vrij 2008
+    type: external_research_reference
+    modality: deception_research_review
+    use: deception detection pitfalls, modality separation and human-review requirement
+    validation_status: bounded_reference_not_model_validation
+  - name: Newman Pennebaker Berry Richards 2003
+    type: external_research_reference
+    modality: computational_linguistics
+    use: linguistic style signals as weak reviewable evidence candidates
+    validation_status: bounded_reference_not_model_validation
+  - name: Picard 1997 Affective Computing
+    type: external_research_reference
+    modality: affective_computing_hci
+    use: human-facing affective computing and interaction constraints
+    validation_status: bounded_reference_not_model_validation
+  - name: Kahneman and Tversky 1974
+    type: external_research_reference
+    modality: cognitive_science
+    use: judgment-under-uncertainty and bias-aware review constraints
+    validation_status: bounded_reference_not_model_validation
+  - name: AOS Prompt Kernel v1.0
+    type: packaged_prompt_os
+    modality: automation_of_automation
+    use: converts ambiguous user intent into bounded execution contracts, verification gates, evidence bundles and fail-closed statuses
+    validation_status: machine_verified_by_aos_kernel_gate
+  - name: AOS Eval Harness
+    type: packaged_eval_registry
+    modality: prompt_governance
+    use: 20-task evaluation set plus 10-metric scoring schema for automation prompt calibration
+    validation_status: machine_verified_by_aos_kernel_gate
+
+  - name: BIVE Product Operating Model
+    type: packaged_product_contract
+    modality: product_management
+    use: jobs-to-be-done, activation path, public release claims, forbidden production claims and industrial release scorecard
+    validation_status: machine_verified_by_product_readiness_gate
+  - name: BIVE Industrial Release Scorecard
+    type: packaged_release_decision_model
+    modality: product_operations
+    use: separates GitHub release candidate status from production deployment readiness and preserves external UNKNOWN gates
+    validation_status: machine_verified_by_product_readiness_gate

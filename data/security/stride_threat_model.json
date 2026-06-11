@@ -1,0 +1,42 @@
+{
+  "threat_model_id": "bive-ms-sdl-stride-v1",
+  "status": "active_release_gate",
+  "method": "Microsoft SDL-style threat modeling with DFD assets and STRIDE classification",
+  "scope": [
+    "FastAPI backend",
+    "single-page operational console",
+    "SQLite report store",
+    "science registry and evidence outputs",
+    "CLI and release automation"
+  ],
+  "assets": [
+    {"id": "A1", "name": "Transcript payload", "classification": "user_supplied_behavioral_text", "boundary": "untrusted_input"},
+    {"id": "A2", "name": "Verification report", "classification": "derived_evidence_artifact", "boundary": "review_required_output"},
+    {"id": "A3", "name": "SQLite report store", "classification": "local_persistent_state", "boundary": "host_filesystem"},
+    {"id": "A4", "name": "API token", "classification": "secret", "boundary": "operator_configuration"},
+    {"id": "A5", "name": "Science registry", "classification": "bounded_reference_contract", "boundary": "versioned_repository_data"}
+  ],
+  "trust_boundaries": [
+    {"id": "TB1", "name": "Browser to API", "risk": "untrusted network client controls payload and headers"},
+    {"id": "TB2", "name": "API to SQLite", "risk": "server writes derived artifacts to persistent state"},
+    {"id": "TB3", "name": "Repository to release artifact", "risk": "source/package divergence and supply-chain drift"},
+    {"id": "TB4", "name": "Science registry to UI", "risk": "scientific claims may be overinterpreted as diagnosis or lie detection"}
+  ],
+  "data_flows": [
+    {"id": "DF1", "from": "Browser", "to": "FastAPI", "protocol": "HTTP JSON", "boundary": "TB1", "controls": ["api-version", "x-ms-request-id", "auth in staging/production", "strict schema", "payload limits"]},
+    {"id": "DF2", "from": "FastAPI", "to": "Pipeline", "protocol": "in-process dataclasses", "boundary": "internal", "controls": ["pydantic validation", "person-level verdict prohibition", "counter-evidence invariant"]},
+    {"id": "DF3", "from": "FastAPI", "to": "SQLite", "protocol": "sqlite3", "boundary": "TB2", "controls": ["schema_version", "concurrent write regression", "readiness check"]},
+    {"id": "DF4", "from": "Release automation", "to": "Wheel", "protocol": "build backend", "boundary": "TB3", "controls": ["wheel smoke", "manifest validation", "repo clean", "dependency contract"]},
+    {"id": "DF5", "from": "Science registry", "to": "Frontend", "protocol": "versioned JSON", "boundary": "TB4", "controls": ["science registry validator", "negative claim boundaries", "safe DOM rendering"]}
+  ],
+  "threats": [
+    {"id": "T-S-001", "stride": "Spoofing", "boundary": "TB1", "scenario": "Unauthenticated client creates or reads reports in staging/production.", "mitigations": ["BIVE_API_TOKEN required in staging/production", "bearer or x-bive-api-key checked before report operations"], "verification": "pytest tests/test_api_security_runtime.py"},
+    {"id": "T-T-001", "stride": "Tampering", "boundary": "TB1", "scenario": "Client sends extra or malformed JSON fields to bypass report contract.", "mitigations": ["pydantic extra=forbid", "schema validation", "api-version contract"], "verification": "pytest tests/test_schema_contract.py tests/test_api.py"},
+    {"id": "T-R-001", "stride": "Repudiation", "boundary": "TB1", "scenario": "Operator cannot correlate a failure with a user-reported request.", "mitigations": ["x-ms-request-id response header", "x-ms-client-request-id echo", "Microsoft error innererror requestId"], "verification": "pytest tests/test_microsoft_rest_contract.py"},
+    {"id": "T-I-001", "stride": "Information Disclosure", "boundary": "TB4", "scenario": "UI renders dynamic report or science data as executable HTML.", "mitigations": ["createElement/textContent rendering", "frontend quality gate blocks innerHTML/outerHTML/insertAdjacentHTML"], "verification": "python scripts/check_frontend_quality.py"},
+    {"id": "T-D-001", "stride": "Denial of Service", "boundary": "TB1", "scenario": "Oversized payload or too many segments burns CPU or memory.", "mitigations": ["max_upload_bytes", "max_segments", "max_text_chars", "dynamic environment probe"], "verification": "pytest tests/test_behavioral_invariants.py && python scripts/dynamic_environment_probe.py"},
+    {"id": "T-E-001", "stride": "Elevation of Privilege", "boundary": "TB3", "scenario": "Release gate passes despite missing dependency locks or unvalidated security posture.", "mitigations": ["compiled requirements required", "constraints exact pins", "dependency review workflow", "pip-audit network gate"], "verification": "python scripts/validate_dependency_contracts.py"},
+    {"id": "T-I-002", "stride": "Information Disclosure", "boundary": "TB4", "scenario": "Behavioral report is misrepresented as diagnosis, guilt or automatic lie detection.", "mitigations": ["science registry hard boundaries", "policy invariants", "human review only output"], "verification": "python scripts/validate_science_registry.py && pytest tests/test_behavioral_invariants.py"},
+    {"id": "T-R-002", "stride": "Repudiation", "boundary": "TB3", "scenario": "Release artifact cannot be traced back to source evidence.", "mitigations": ["ARTIFACT_MANIFEST", "PRODUCT_SYSTEM_INDEX", "EVIDENCE_BUNDLE", "SHA256SUMS"], "verification": "python scripts/validate_release_manifest.py && python scripts/generate_evidence_bundle.py"}
+  ]
+}

@@ -1,0 +1,190 @@
+{
+  "status": "pass",
+  "test_functions": 112,
+  "files": {
+    "tests/test_adapters_contract.py": [
+      "test_adapter_command_timeout_returns_structured_failure",
+      "test_adapter_command_truncates_unbounded_stderr",
+      "test_media_adapters_fail_closed_when_executable_missing",
+      "test_media_adapter_success_path_uses_timeout"
+    ],
+    "tests/test_aos_api_contract.py": [
+      "test_aos_kernel_api_contract"
+    ],
+    "tests/test_aos_kernel.py": [
+      "test_aos_resources_are_packaged_and_complete",
+      "test_compile_intent_blocks_high_risk_actions",
+      "test_compile_intent_handles_empty_request_as_unknown",
+      "test_execution_contract_contains_fail_closed_invariants",
+      "test_score_output_uses_principal_grade_threshold",
+      "test_kernel_status_exposes_release_gate",
+      "test_aos_kernel_validator_script_passes"
+    ],
+    "tests/test_api.py": [
+      "test_health_contract",
+      "test_create_report_from_transcript",
+      "test_api_rejects_extra_fields",
+      "test_api_rejects_oversized_payload",
+      "test_readiness_contract",
+      "test_api_sets_request_id_and_metrics"
+    ],
+    "tests/test_api_operational_contract.py": [
+      "test_system_status_contract",
+      "test_design_contract_endpoint",
+      "test_error_envelope_and_security_headers",
+      "test_interface_contract_endpoint"
+    ],
+    "tests/test_api_security_runtime.py": [
+      "test_staging_api_requires_token",
+      "test_staging_readiness_fails_without_token",
+      "test_middleware_counts_early_rejected_payload"
+    ],
+    "tests/test_automation_contract.py": [
+      "test_automation_contract_script_passes",
+      "test_automation_contract_artifact_lists_release_gates",
+      "test_makefile_exposes_industrial_validation_targets",
+      "test_ci_includes_supply_chain_automation",
+      "test_verify_release_invokes_heavy_gates",
+      "test_automation_playbook_documents_local_and_networked_gates"
+    ],
+    "tests/test_behavioral_invariants.py": [
+      "test_report_never_emits_person_level_lie_label",
+      "test_science_summary_exposes_hard_boundaries",
+      "test_api_capabilities_expose_review_not_accusation_boundary",
+      "test_api_validation_error_uses_standard_error_envelope",
+      "test_api_runtime_limit_rejects_too_many_segments",
+      "test_frontend_source_keeps_safe_dom_rendering_boundary"
+    ],
+    "tests/test_bibliography_contract.py": [
+      "test_bibliography_script_passes",
+      "test_bibliography_artifact_has_required_domains",
+      "test_science_registry_has_stage7_reference_depth",
+      "test_every_science_reference_has_negative_boundary",
+      "test_bibliography_mentions_registry_identifiers",
+      "test_engineering_validation_maps_bibliography_and_dependency_gates"
+    ],
+    "tests/test_calibration.py": [
+      "test_single_modality_caps_overconfidence",
+      "test_counterevidence_increases_calm"
+    ],
+    "tests/test_cli_failure_contract.py": [
+      "test_cli_missing_input_is_controlled_error",
+      "test_cli_invalid_json_is_controlled_error"
+    ],
+    "tests/test_cli_strict_contract.py": [
+      "test_eval_missing_required_fields_returns_controlled_error",
+      "test_eval_length_mismatch_returns_controlled_error"
+    ],
+    "tests/test_cognitive_control_plane.py": [
+      "test_cognitive_control_contract_is_packaged",
+      "test_cognitive_weights_keep_bounds_and_balance",
+      "test_high_risk_request_routes_to_human_gate",
+      "test_low_risk_request_has_fractal_checks_and_reverse_plan",
+      "test_cognitive_control_status_exposes_release_gate",
+      "test_cognitive_control_api_endpoint",
+      "test_cognitive_control_validator_script_passes"
+    ],
+    "tests/test_dependency_contracts.py": [
+      "test_dependency_contract_script_passes",
+      "test_dependency_contract_artifact_records_constraint_pins",
+      "test_dependency_files_have_separate_runtime_surfaces",
+      "test_constraints_are_exact_pins",
+      "test_pyproject_has_bounded_core_and_api_ranges",
+      "test_dependency_policy_is_documented"
+    ],
+    "tests/test_dynamic_environment_probe.py": [
+      "test_dynamic_environment_probe_script_runs"
+    ],
+    "tests/test_eval.py": [
+      "test_evaluate_binary_metrics"
+    ],
+    "tests/test_evidence_graph.py": [
+      "test_evidence_graph_has_nodes_and_entropy"
+    ],
+    "tests/test_frontend_contract.py": [
+      "test_frontend_static_contract"
+    ],
+    "tests/test_linguistics.py": [
+      "test_extract_claims_marks_absolute_and_temporal",
+      "test_linguistic_analyzer_extracts_events"
+    ],
+    "tests/test_microsoft_hardening_contract.py": [
+      "test_microsoft_api_version_is_required",
+      "test_microsoft_correlation_headers_roundtrip",
+      "test_microsoft_error_envelope_shape",
+      "test_microsoft_contract_validators_pass",
+      "test_dependency_contract_requires_compiled_requirement_files"
+    ],
+    "tests/test_models.py": [
+      "test_evidence_event_bounds",
+      "test_weighted_score_supports_and_refutes"
+    ],
+    "tests/test_neurocognitive_protocol.py": [
+      "test_neurocognitive_feature_map_has_operational_boundaries",
+      "test_neurocognitive_task_protocol_tasks_are_executable",
+      "test_salience_gating_blocks_decorative_terms",
+      "test_neurocognitive_status_and_api_endpoint",
+      "test_neurocognitive_protocol_validator_script_passes"
+    ],
+    "tests/test_pr_gate.py": [
+      "test_check_docs_on_repo_root",
+      "test_compile_python_on_repo_root"
+    ],
+    "tests/test_product_operating_model.py": [
+      "test_product_model_preserves_hard_non_claims",
+      "test_industrial_scorecard_blocks_false_green",
+      "test_product_readiness_runtime_status_is_inspectable",
+      "test_product_readiness_api_endpoint",
+      "test_product_cli_subcommand_outputs_status",
+      "test_product_operating_model_validator_script_passes"
+    ],
+    "tests/test_quality_gate.py": [
+      "test_quality_gate_accepts_conservative_report",
+      "test_pseudoscience_guard_rejects_forbidden_verdict"
+    ],
+    "tests/test_red_team_and_simulation.py": [
+      "test_red_team_cases_pass",
+      "test_simulation_outputs_are_deterministic_enough"
+    ],
+    "tests/test_release_gate_contract.py": [
+      "test_test_architecture_script_passes",
+      "test_test_architecture_artifact_records_test_count",
+      "test_evidence_bundle_script_passes_after_prerequisites",
+      "test_evidence_bundle_records_hashes",
+      "test_release_log_declares_external_unknowns",
+      "test_test_strategy_sets_minimum_test_depth"
+    ],
+    "tests/test_report.py": [
+      "test_report_builds_and_validates",
+      "test_report_serialization"
+    ],
+    "tests/test_schema_contract.py": [
+      "test_transcript_schema_rejects_extra_fields"
+    ],
+    "tests/test_science_api_contract.py": [
+      "test_science_registry_endpoint_exposes_boundaries",
+      "test_system_status_contains_science_and_dynamic_gates"
+    ],
+    "tests/test_science_registry.py": [
+      "test_science_registry_is_bounded_and_connected",
+      "test_science_registry_summary_is_small_contract"
+    ],
+    "tests/test_settings_contract.py": [
+      "test_production_mode_requires_token"
+    ],
+    "tests/test_storage.py": [
+      "test_report_store_roundtrip"
+    ],
+    "tests/test_storage_operational_contract.py": [
+      "test_storage_exposes_schema_version",
+      "test_storage_handles_concurrent_report_writes"
+    ],
+    "tests/test_ui_assets.py": [
+      "test_ui_assets_exist"
+    ],
+    "tests/test_version_contract.py": [
+      "test_settings_version_matches_package_metadata",
+      "test_api_health_version_matches_package_metadata"
+    ]
+  }
+}

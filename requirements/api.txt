@@ -1,0 +1,6 @@
+# Locked API runtime intent for Python 3.10 release lane.
+# Regenerate on networked release host with: make deps-compile
+-r core.txt
+fastapi==0.128.2
+starlette==0.50.0
+uvicorn==0.46.0

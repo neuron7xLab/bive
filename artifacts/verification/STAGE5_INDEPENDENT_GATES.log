@@ -1,0 +1,16 @@
+\n$ python scripts/check_repo_clean.py
+REPO_CLEAN_PASS
+GATE_EXIT python status=0
+\n$ python scripts/validate_metadata.py
+METADATA_PASS
+GATE_EXIT python status=0
+\n$ ruff check src tests scripts
+All checks passed!
+GATE_EXIT ruff status=0
+\n$ mypy --cache-dir /tmp/bive-mypy-cache src
+Success: no issues found in 31 source files
+GATE_EXIT mypy status=0
+\n$ pytest -q
+..............................................                           [100%]
+GATE_EXIT pytest status=0
+\n$ pytest --cov=bive --cov-report=term-missing --cov-fail-under=80

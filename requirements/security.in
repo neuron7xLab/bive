@@ -1,0 +1,6 @@
+# Supply-chain, static security, SBOM and license-audit dependencies.
+-c ../constraints/py310.txt
+bandit>=1.7,<2
+pip-audit>=2.7,<3
+cyclonedx-bom>=5,<8
+pip-licenses>=5,<6

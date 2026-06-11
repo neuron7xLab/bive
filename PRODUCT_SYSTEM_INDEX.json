@@ -1,0 +1,47 @@
+{
+  "docs": [
+    "README.md",
+    "docs/OPERATIONS.md",
+    "docs/SECURITY_MODEL.md",
+    "docs/RELEASE_GATES.md",
+    "docs/DESIGN_SYSTEM.md",
+    "docs/BACKEND_FRONTEND_CONTRACT.md",
+    "docs/UI_SPEC.md",
+    "docs/SYSTEM_DESIGN_PRINCIPLES.md",
+    "docs/DEPENDENCY_POLICY.md",
+    "docs/TEST_STRATEGY.md",
+    "docs/AUTOMATION_PLAYBOOK.md",
+    "docs/ENGINEERING_VALIDATION.md",
+    "docs/AOS_PROMPT_OS.md",
+    "docs/AUTOMATION_OF_AUTOMATION_KERNEL.md",
+    "docs/PRODUCT_OPERATING_MODEL.md",
+    "docs/INDUSTRIAL_RELEASE_PACKAGE.md",
+    "docs/PRODUCT_MANAGER_READINESS.md"
+  ],
+  "entrypoints": [
+    "bive",
+    "bive-api",
+    "bive-pr-check",
+    "bive-aos"
+  ],
+  "manifest_sha256": "23dd46482e8e399102f9cde9985543c314ddc1e3121f4bd66452bd9f1449c4bc",
+  "name": "bive",
+  "primary_gates": [
+    "make verify",
+    "make verify-release",
+    "make dependency-contracts",
+    "make test-architecture",
+    "make automation-contract",
+    "make aos-kernel",
+    "make bibliography",
+    "make frontend-quality",
+    "make wheel-smoke",
+    "make product-readiness"
+  ],
+  "safety_boundary": "reviewable evidence only; no automatic person-level lie/guilt verdicts",
+  "schemas": [
+    "schemas/transcript_analyze_request.schema.json",
+    "schemas/verification_report.schema.json"
+  ],
+  "version": "0.4.0"
+}

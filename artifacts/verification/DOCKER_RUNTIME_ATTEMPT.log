@@ -1,0 +1,4 @@
+DOCKER_RUNTIME_UNKNOWN
+Command attempted: docker --version
+Failure: docker executable not available in sandbox environment.
+Release impact: Docker build/run/readiness gate requires Docker host execution.

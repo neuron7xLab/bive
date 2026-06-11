@@ -1,0 +1,4 @@
+PIP_AUDIT_UNKNOWN_DNS_FAILURE
+Command: pip-audit --format=json --output artifacts/security/pip-audit.json
+Failure: pypi.org name resolution failed in sandbox environment.
+Release impact: dependency CVE state remains UNKNOWN until executed in network-enabled CI or local environment.

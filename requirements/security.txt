@@ -1,0 +1,6 @@
+# Locked security tooling intent for Python 3.10 release lane.
+# Regenerate on networked release host with: make deps-compile
+bandit==1.9.4
+pip-audit==2.10.1
+cyclonedx-bom==7.3.0
+pip-licenses==5.5.5

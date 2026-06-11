@@ -1,0 +1,467 @@
+{
+  "registry_id": "bive-science-registry-v0.4.0-stage7",
+  "generated_at": "2026-06-11T00:00:00Z",
+  "status": "bounded_reference_registry",
+  "purpose": "Map BIVE engineering surfaces to qualified scientific and operational sources without pretending that the repository is a validated lie detector.",
+  "hard_boundaries": [
+    "BIVE must not emit person-level liar, guilt, intent, diagnosis, or legal conclusions.",
+    "BIVE may structure transcript evidence, contradictions, uncertainty, missing evidence, and review questions.",
+    "Physiology, affect, cognition, and neurobehavioral claims require modality-specific data, baselines, context, and human review.",
+    "Scientific references justify design constraints and audit questions, not automatic truth inference. Apparently this needs writing down because software keeps trying to become astrology with JSON.",
+    "BIVE forbids automatic lie detection as a machine output.",
+    "BIVE forbids automatic liar label as a machine output.",
+    "BIVE forbids guilt inference as a machine output.",
+    "BIVE forbids intent inference as a machine output.",
+    "BIVE treats neuroscience, psychophysiology and multimodal ML as bounded design/evaluation inputs, not as authority for person-level truth, intent or diagnosis."
+  ],
+  "disciplines": [
+    {
+      "id": "behavioral_deception_research",
+      "name": "Behavioral deception research",
+      "operational_use": "Keep deception-related language probabilistic, context-bound, and human-review-only.",
+      "allowed_claims": [
+        "observable cue extraction",
+        "contradiction surfacing",
+        "review question generation"
+      ],
+      "blocked_claims": [
+        "automatic lie detection",
+        "guilt inference",
+        "intent inference"
+      ],
+      "references": [
+        "ekman_friesen_1969",
+        "vrij_2008",
+        "newman_pennebaker_2003"
+      ]
+    },
+    {
+      "id": "psychophysiology",
+      "name": "Psychophysiology",
+      "operational_use": "Require baseline, sensor quality, temporal alignment, and confound controls before physiological claims.",
+      "allowed_claims": [
+        "sensor provenance requirement",
+        "missing evidence declaration"
+      ],
+      "blocked_claims": [
+        "emotion from text only",
+        "stress equals deception"
+      ],
+      "references": [
+        "vrij_2008",
+        "picard_1997"
+      ]
+    },
+    {
+      "id": "cognitive_science",
+      "name": "Cognitive science and judgment under uncertainty",
+      "operational_use": "Force alternative hypotheses, uncertainty fields, and missing-evidence lists.",
+      "allowed_claims": [
+        "uncertainty representation",
+        "bias-aware review prompts"
+      ],
+      "blocked_claims": [
+        "single-cue certainty",
+        "context-free behavioral interpretation"
+      ],
+      "references": [
+        "kahneman_tversky_1974",
+        "newman_pennebaker_2003"
+      ]
+    },
+    {
+      "id": "affective_computing",
+      "name": "Affective computing and human-computer interaction",
+      "operational_use": "Separate affect-related UI/interaction concepts from unsupported mental-state inference.",
+      "allowed_claims": [
+        "interface feedback",
+        "human-centered review workflow"
+      ],
+      "blocked_claims": [
+        "emotion certainty",
+        "mental state diagnosis"
+      ],
+      "references": [
+        "picard_1997",
+        "wcag_2_2"
+      ]
+    },
+    {
+      "id": "computational_linguistics",
+      "name": "Computational linguistics and discourse analysis",
+      "operational_use": "Use textual features as weak evidence surfaces, never as standalone verdicts.",
+      "allowed_claims": [
+        "linguistic marker extraction",
+        "claim segmentation",
+        "contradiction candidate surfacing"
+      ],
+      "blocked_claims": [
+        "text style proves deception",
+        "LLM-style judgment as truth"
+      ],
+      "references": [
+        "newman_pennebaker_2003"
+      ]
+    },
+    {
+      "id": "ai_risk_governance",
+      "name": "AI risk management and secure software engineering",
+      "operational_use": "Map model/system risk to gates, logs, provenance, release evidence, and fail-closed decisions.",
+      "allowed_claims": [
+        "risk register",
+        "release gates",
+        "security control mapping"
+      ],
+      "blocked_claims": [
+        "trustworthy because README says so"
+      ],
+      "references": [
+        "nist_ai_rmf_1_0",
+        "nist_ssdf_800_218",
+        "owasp_api_top10_2023"
+      ]
+    },
+    {
+      "id": "accessibility_design",
+      "name": "Accessible operational interface design",
+      "operational_use": "Treat UI as a safety surface: readable hierarchy, keyboard operation, semantic sections, and predictable feedback.",
+      "allowed_claims": [
+        "WCAG-oriented UI checks",
+        "manual accessibility review required"
+      ],
+      "blocked_claims": [
+        "visual polish equals usability"
+      ],
+      "references": [
+        "wcag_2_2"
+      ]
+    },
+    {
+      "id": "neurophysiology_predictive_processing",
+      "name": "Neurophysiology and predictive-processing theory",
+      "operational_use": "Represent brain-inspired ideas only as design metaphors for uncertainty, priors, prediction error and feedback, not as proof of mental-state access.",
+      "allowed_claims": [
+        "uncertainty modelling",
+        "prediction-error-inspired review questions",
+        "feedback loop design"
+      ],
+      "blocked_claims": [
+        "reading hidden intent",
+        "neural diagnosis from transcript text",
+        "brain truth inference"
+      ],
+      "references": [
+        "friston_2010",
+        "fuster_2001"
+      ]
+    },
+    {
+      "id": "psychophysiological_measurement",
+      "name": "Psychophysiological measurement and emotion regulation",
+      "operational_use": "Require sensor provenance, baseline windows, temporal alignment, confound registers and manual interpretation for any physiological extension.",
+      "allowed_claims": [
+        "sensor quality requirement",
+        "baseline requirement",
+        "confound disclosure"
+      ],
+      "blocked_claims": [
+        "stress equals deception",
+        "arousal equals guilt",
+        "emotion diagnosis"
+      ],
+      "references": [
+        "gross_1998",
+        "cacioppo_handbook_2007"
+      ]
+    },
+    {
+      "id": "multimodal_evaluation",
+      "name": "Multimodal machine learning and evaluation science",
+      "operational_use": "Keep multimodal extensions dataset-bound, benchmarked, ablated and separated from unsupported real-world verdicts.",
+      "allowed_claims": [
+        "dataset-specific evaluation",
+        "modality ablation",
+        "benchmark reporting"
+      ],
+      "blocked_claims": [
+        "general deception detector",
+        "cross-domain validity without evaluation"
+      ],
+      "references": [
+        "zadeh_mosei_2018",
+        "perez_rosas_2015"
+      ]
+    },
+    {
+      "id": "data_provenance_reproducibility",
+      "name": "Data provenance and operational reproducibility",
+      "operational_use": "Tie every artifact, dataset, dependency graph and generated report to traceable provenance and reproducible verification gates.",
+      "allowed_claims": [
+        "artifact lineage",
+        "source registry",
+        "evidence bundle"
+      ],
+      "blocked_claims": [
+        "untraceable generated evidence",
+        "manual-only release proof"
+      ],
+      "references": [
+        "w3c_prov_2013",
+        "pip_audit_2026",
+        "openssf_scorecard"
+      ]
+    }
+  ],
+  "references": [
+    {
+      "id": "ekman_friesen_1969",
+      "title": "Nonverbal Leakage and Clues to Deception",
+      "authors": [
+        "Paul Ekman",
+        "Wallace V. Friesen"
+      ],
+      "year": 1969,
+      "domain": "behavioral deception research",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/5779090/",
+      "doi": "10.1080/00332747.1969.11023575",
+      "operational_mapping": "Supports treating nonverbal leakage as context-sensitive cue evidence, not deterministic verdict output.",
+      "claim_boundary": "Historical foundation; not proof that BIVE can infer deception without validated multimodal data."
+    },
+    {
+      "id": "vrij_2008",
+      "title": "Detecting Lies and Deceit: Pitfalls and Opportunities, 2nd Edition",
+      "authors": [
+        "Aldert Vrij"
+      ],
+      "year": 2008,
+      "domain": "deception research review",
+      "source_url": "https://researchportal.port.ac.uk/en/publications/detecting-lies-and-deceit-pitfalls-and-opportunities/",
+      "doi": null,
+      "operational_mapping": "Supports explicit limitations, human review, modality separation, and skepticism toward single-method detection.",
+      "claim_boundary": "Review source; does not license automated accusations."
+    },
+    {
+      "id": "newman_pennebaker_2003",
+      "title": "Lying Words: Predicting Deception From Linguistic Styles",
+      "authors": [
+        "Matthew L. Newman",
+        "James W. Pennebaker",
+        "Diane S. Berry",
+        "Jane M. Richards"
+      ],
+      "year": 2003,
+      "domain": "computational linguistics / deception cues",
+      "source_url": "https://web.stanford.edu/class/linguist197a/Lying%20words%20predicting%20deception.pdf",
+      "doi": "10.1177/0146167203251529",
+      "operational_mapping": "Supports using language features only as weak, reviewable evidence candidates with alternatives and uncertainty.",
+      "claim_boundary": "Dataset/task-specific linguistic patterns; not universal truth inference."
+    },
+    {
+      "id": "picard_1997",
+      "title": "Affective Computing",
+      "authors": [
+        "Rosalind W. Picard"
+      ],
+      "year": 1997,
+      "domain": "affective computing / HCI",
+      "source_url": "https://mitpress.mit.edu/9780262661157/affective-computing/",
+      "doi": null,
+      "operational_mapping": "Supports treating affective systems as human-facing socio-technical systems with ethical and interaction constraints.",
+      "claim_boundary": "Framework source; not a validation of BIVE affect inference."
+    },
+    {
+      "id": "kahneman_tversky_1974",
+      "title": "Judgment under Uncertainty: Heuristics and Biases",
+      "authors": [
+        "Daniel Kahneman",
+        "Amos Tversky"
+      ],
+      "year": 1974,
+      "domain": "cognitive science / judgment",
+      "source_url": "https://www.science.org/doi/10.1126/science.185.4157.1124",
+      "doi": "10.1126/science.185.4157.1124",
+      "operational_mapping": "Supports bias-aware review prompts and the prohibition against intuitive certainty from sparse cues.",
+      "claim_boundary": "General judgment science; not a direct deception-detector method."
+    },
+    {
+      "id": "nist_ai_rmf_1_0",
+      "title": "Artificial Intelligence Risk Management Framework (AI RMF 1.0)",
+      "authors": [
+        "NIST"
+      ],
+      "year": 2023,
+      "domain": "AI risk management",
+      "source_url": "https://www.nist.gov/itl/ai-risk-management-framework",
+      "doi": "10.6028/NIST.AI.100-1",
+      "operational_mapping": "Supports risk governance, validity, reliability, transparency, accountability, and managed deployment posture.",
+      "claim_boundary": "This does not validate BIVE by itself; implementation evidence must still come from repository gates and domain review."
+    },
+    {
+      "id": "nist_ssdf_800_218",
+      "title": "Secure Software Development Framework (SSDF) Version 1.1",
+      "authors": [
+        "Murugiah Souppaya",
+        "Karen Scarfone",
+        "Donna Dodson"
+      ],
+      "year": 2022,
+      "domain": "secure software engineering",
+      "source_url": "https://csrc.nist.gov/pubs/sp/800/218/final",
+      "doi": "10.6028/NIST.SP.800-218",
+      "operational_mapping": "Supports release controls, vulnerability management, secure implementation, and evidence-backed software practices.",
+      "claim_boundary": "Security framework; does not replace dependency audit and threat modeling."
+    },
+    {
+      "id": "owasp_api_top10_2023",
+      "title": "OWASP API Security Top 10 2023",
+      "authors": [
+        "OWASP API Security Project"
+      ],
+      "year": 2023,
+      "domain": "API security",
+      "source_url": "https://owasp.org/API-Security/editions/2023/en/0x11-t10/",
+      "doi": null,
+      "operational_mapping": "Supports strict auth boundaries, object/property authorization, payload limits, and unrestricted-resource-consumption controls.",
+      "claim_boundary": "Risk list; not a full security proof."
+    },
+    {
+      "id": "wcag_2_2",
+      "title": "Web Content Accessibility Guidelines (WCAG) 2.2",
+      "authors": [
+        "W3C Web Accessibility Initiative"
+      ],
+      "year": 2023,
+      "domain": "accessibility / HCI",
+      "source_url": "https://www.w3.org/TR/WCAG22/",
+      "doi": null,
+      "operational_mapping": "Supports semantic UI, keyboard operation, predictable feedback, focus visibility, and accessible review surfaces.",
+      "claim_boundary": "This does not validate BIVE by itself; implementation evidence must still come from repository gates and domain review."
+    },
+    {
+      "id": "friston_2010",
+      "title": "The free-energy principle: a unified brain theory?",
+      "authors": [
+        "Karl Friston"
+      ],
+      "year": 2010,
+      "domain": "neurophysiology / predictive processing",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/20068583/",
+      "doi": "10.1038/nrn2787",
+      "operational_mapping": "Supports prediction-error and uncertainty language as a systems-design analogy for feedback and model correction.",
+      "claim_boundary": "This is not evidence that BIVE can infer neural state, intent, deception, or truth from text."
+    },
+    {
+      "id": "fuster_2001",
+      "title": "The prefrontal cortex - an update: time is of the essence",
+      "authors": [
+        "Joaquin M. Fuster"
+      ],
+      "year": 2001,
+      "domain": "cognitive neuroscience / executive function",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/11283309/",
+      "doi": "10.1016/S0896-6273(01)00285-9",
+      "operational_mapping": "Supports treating temporal organization, context and working memory constraints as relevant to review workflows.",
+      "claim_boundary": "This does not validate automated cognition, intention or deception inference."
+    },
+    {
+      "id": "gross_1998",
+      "title": "The emerging field of emotion regulation: an integrative review",
+      "authors": [
+        "James J. Gross"
+      ],
+      "year": 1998,
+      "domain": "psychophysiology",
+      "source_url": "https://pubmed.ncbi.nlm.nih.gov/9826954/",
+      "doi": "10.1037/1089-2680.2.3.271",
+      "operational_mapping": "Supports separating emotion-related concepts from simplistic affect labels and requiring context over time.",
+      "claim_boundary": "This is not a license for BIVE to diagnose emotion or mental state."
+    },
+    {
+      "id": "cacioppo_handbook_2007",
+      "title": "Handbook of Psychophysiology, 3rd Edition",
+      "authors": [
+        "John T. Cacioppo",
+        "Louis G. Tassinary",
+        "Gary G. Berntson"
+      ],
+      "year": 2007,
+      "domain": "psychophysiology",
+      "source_url": "https://www.cambridge.org/core/books/handbook-of-psychophysiology/68E27186608283A3615F9E13D4BECDDB",
+      "doi": null,
+      "operational_mapping": "Supports requiring measurement validity, sensor provenance, baselines and confound control for physiological data.",
+      "claim_boundary": "This is not proof that physiology can identify deception or guilt in BIVE."
+    },
+    {
+      "id": "zadeh_mosei_2018",
+      "title": "Multimodal Language Analysis in the Wild: CMU-MOSEI Dataset and Interpretable Dynamic Fusion Graph",
+      "authors": [
+        "Amir Zadeh",
+        "Paul Pu Liang",
+        "Soujanya Poria",
+        "Erik Cambria",
+        "Louis-Philippe Morency"
+      ],
+      "year": 2018,
+      "domain": "multimodal machine learning",
+      "source_url": "https://aclanthology.org/P18-1208/",
+      "doi": "10.18653/v1/P18-1208",
+      "operational_mapping": "Supports explicit multimodal dataset and fusion evaluation planning for future extensions.",
+      "claim_boundary": "This is not deception validation and does not generalize BIVE to real-world truth detection."
+    },
+    {
+      "id": "perez_rosas_2015",
+      "title": "Deception Detection using Real-life Trial Data",
+      "authors": [
+        "Veronica Perez-Rosas",
+        "Mohamed Abouelenien",
+        "Rada Mihalcea",
+        "Mihai Burzo"
+      ],
+      "year": 2015,
+      "domain": "multimodal deception dataset",
+      "source_url": "https://aclanthology.org/2015.icmi-main.15/",
+      "doi": "10.1145/2818346.2820758",
+      "operational_mapping": "Supports dataset-bound evaluation thinking for multimodal deception research.",
+      "claim_boundary": "Dataset-specific research is not production proof and not authority for automated accusations."
+    },
+    {
+      "id": "w3c_prov_2013",
+      "title": "PROV-O: The PROV Ontology",
+      "authors": [
+        "W3C Provenance Working Group"
+      ],
+      "year": 2013,
+      "domain": "provenance / data lineage",
+      "source_url": "https://www.w3.org/TR/prov-o/",
+      "doi": null,
+      "operational_mapping": "Supports artifact lineage, evidence source mapping and reproducible generated outputs.",
+      "claim_boundary": "Provenance structure does not prove evidence truth or model validity."
+    },
+    {
+      "id": "pip_audit_2026",
+      "title": "pip-audit Python dependency vulnerability scanner",
+      "authors": [
+        "PyPA / Trail of Bits contributors"
+      ],
+      "year": 2026,
+      "domain": "Python dependency security",
+      "source_url": "https://pypi.org/project/pip-audit/",
+      "doi": null,
+      "operational_mapping": "Supports dependency vulnerability audit gate and fail-closed UNKNOWN state when advisory lookup is unavailable.",
+      "claim_boundary": "A clean audit is not a full security proof and does not replace threat modeling."
+    },
+    {
+      "id": "openssf_scorecard",
+      "title": "OpenSSF Scorecard",
+      "authors": [
+        "OpenSSF Scorecard contributors"
+      ],
+      "year": 2026,
+      "domain": "open-source security automation",
+      "source_url": "https://scorecard.dev/",
+      "doi": null,
+      "operational_mapping": "Supports open-source security posture automation for GitHub repositories.",
+      "claim_boundary": "Scorecard automation is not a guarantee of secure behavior or production readiness."
+    }
+  ]
+}

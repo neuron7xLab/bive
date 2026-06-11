@@ -1,0 +1,137 @@
+{
+  "model_id": "bive-industrial-product-operating-model-v1",
+  "version": "0.4.0-stage11",
+  "status": "open_source_candidate_not_deployed_production",
+  "positioning": {
+    "category": "evidence-first behavioral intelligence and automation-of-automation research platform",
+    "primary_user": "independent AI systems architect, research engineer, security-conscious automation builder, or technical reviewer",
+    "core_problem": "high-risk behavioral or automation analysis often collapses into unverifiable claims, shallow prompts, hidden assumptions, and non-reproducible outputs",
+    "product_promise": "convert ambiguous transcript or automation intent into bounded evidence artifacts, questions, gates, contracts, and reviewable reports",
+    "explicit_non_claims": [
+      "not a lie detector",
+      "not a diagnosis engine",
+      "not a guilt or intent verdict system",
+      "not a fully deployed production SaaS",
+      "not a substitute for legal, clinical, employment, or security judgment"
+    ]
+  },
+  "product_principles": [
+    {
+      "id": "PM-PRINCIPLE-001",
+      "name": "Evidence before persuasion",
+      "decision_rule": "A feature is valuable only if it produces inspectable evidence, a falsifier, or a stronger boundary.",
+      "validator": "scripts/validate_product_operating_model.py"
+    },
+    {
+      "id": "PM-PRINCIPLE-002",
+      "name": "No unsupported verdicts",
+      "decision_rule": "The product must ask review questions instead of assigning person-level blame, deception, diagnosis, or intent.",
+      "validator": "tests/test_product_operating_model.py::test_product_model_preserves_hard_non_claims"
+    },
+    {
+      "id": "PM-PRINCIPLE-003",
+      "name": "Readable operational state",
+      "decision_rule": "A user must see readiness, gates, limits, unknowns, and release status without reading source code.",
+      "validator": "tests/test_product_operating_model.py::test_product_readiness_api_endpoint"
+    },
+    {
+      "id": "PM-PRINCIPLE-004",
+      "name": "Friction where risk increases",
+      "decision_rule": "Production, public, irreversible, security-sensitive, or person-impacting actions must require explicit gate or human review.",
+      "validator": "scripts/validate_threat_model.py"
+    }
+  ],
+  "jobs_to_be_done": [
+    {
+      "id": "JTBD-001",
+      "job": "Review a transcript without converting uncertainty into accusation.",
+      "input": "structured transcript JSON",
+      "output": "verification report with evidence events, hypotheses, uncertainty, missing evidence, and human-review questions",
+      "success_metric": "report generated and schema-valid; no forbidden person-level verdict emitted",
+      "validator": "pytest tests/test_behavioral_invariants.py tests/test_schema_contract.py"
+    },
+    {
+      "id": "JTBD-002",
+      "job": "Convert automation intent into bounded executable contracts.",
+      "input": "natural-language automation request",
+      "output": "AOS intent contract, execution contract, score schema, and validation status",
+      "success_metric": "AOS kernel validator passes and compile command returns structured contract",
+      "validator": "python scripts/validate_aos_kernel.py"
+    },
+    {
+      "id": "JTBD-003",
+      "job": "Expose product readiness before public GitHub release.",
+      "input": "repository state, gates, docs, package metadata",
+      "output": "readiness scorecard with pass, unknown, blocked, and human-review items",
+      "success_metric": "product readiness endpoint returns non-green state while external CVE and Docker gates are unknown",
+      "validator": "pytest tests/test_product_operating_model.py"
+    }
+  ],
+  "activation_path": [
+    {
+      "step": 1,
+      "name": "Install",
+      "command": "pip install -e '.[dev,api,security]'",
+      "evidence": "pip check and import smoke"
+    },
+    {
+      "step": 2,
+      "name": "Verify core",
+      "command": "make verify",
+      "evidence": "VERIFY_PASS or named failing gate"
+    },
+    {
+      "step": 3,
+      "name": "Open console",
+      "command": "make api",
+      "evidence": "GET /readyz and operational console loads"
+    },
+    {
+      "step": 4,
+      "name": "Run demo report",
+      "command": "make demo",
+      "evidence": "artifacts/local_demo_report.json and .md"
+    },
+    {
+      "step": 5,
+      "name": "Publish candidate only after explicit unknowns are documented",
+      "command": "make product-readiness",
+      "evidence": "PRODUCT_READINESS_PASS with production_status not GREEN if CVE/Docker are unknown"
+    }
+  ],
+  "success_metrics": [
+    {"id": "METRIC-001", "name": "gate_pass_rate", "target": "all local deterministic gates pass before release candidate", "measurement": "make verify"},
+    {"id": "METRIC-002", "name": "forbidden_verdict_rate", "target": "0 forbidden person-level verdicts", "measurement": "behavioral invariant tests"},
+    {"id": "METRIC-003", "name": "readiness_visibility", "target": "API and UI expose readiness, gates, unknowns, and product stage", "measurement": "product readiness API/UI tests"},
+    {"id": "METRIC-004", "name": "evidence_completeness", "target": "critical claims have source, file, test, log, or explicit UNKNOWN", "measurement": "evidence bundle and validators"}
+  ],
+  "release_policy": {
+    "current_release_stage": "public_github_candidate",
+    "allowed_claim": "engineering product candidate with local verification evidence",
+    "forbidden_claim": "deployed production system or clinically/legal valid decision engine",
+    "go_condition": "all P0/P1 local gates pass and external CVE/Docker/deployment gates are closed or explicitly waived",
+    "no_go_condition": "missing security audit, broken wheel, failing API smoke, missing human-review boundary, or unsupported person-impacting claim"
+  },
+  "external_standards_alignment": [
+    {
+      "name": "NIST AI RMF",
+      "operational_use": "AI risk governance mapped to govern/map/measure/manage style controls",
+      "repo_artifact": "docs/OPERATIONAL_EXCELLENCE_MODEL.md, data/operations/service_slo.json"
+    },
+    {
+      "name": "NIST SSDF SP 800-218",
+      "operational_use": "secure software gates, dependency governance, evidence-based release controls",
+      "repo_artifact": "docs/SECURITY_MODEL.md, docs/DEPENDENCY_POLICY.md, scripts/validate_dependency_contracts.py"
+    },
+    {
+      "name": "OWASP API Security Top 10",
+      "operational_use": "API auth, input limits, error contract, security headers, threat model coverage",
+      "repo_artifact": "docs/THREAT_MODEL.md, data/security/stride_threat_model.json"
+    },
+    {
+      "name": "CISA Secure by Design",
+      "operational_use": "secure defaults, explicit customer-facing security posture, no shifted hidden burden",
+      "repo_artifact": "SECURITY.md, docs/RELEASE_GATES.md"
+    }
+  ]
+}

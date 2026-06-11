@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "entries": [
+    {
+      "path": "ARTIFACT_MANIFEST.json",
+      "exists": true,
+      "sha256": "23dd46482e8e399102f9cde9985543c314ddc1e3121f4bd66452bd9f1449c4bc",
+      "bytes": 42587
+    },
+    {
+      "path": "PRODUCT_SYSTEM_INDEX.json",
+      "exists": true,
+      "sha256": "3572c692176cf6d85aeeb3cedaaf28918663583ca5cd8c1d4a128ec634307401",
+      "bytes": 1316
+    },
+    {
+      "path": "SOURCE_REGISTRY.yaml",
+      "exists": true,
+      "sha256": "8ddb22d4bf79e1b7e7e3296675d394cd7d344ae3485f974e191c3551fee16c07",
+      "bytes": 5801
+    },
+    {
+      "path": "docs/openapi.json",
+      "exists": true,
+      "sha256": "675d311a9b1dcf1c9cb9a4093d3c14a3414ccfb7a5e4c3116bf36ca479076f21",
+      "bytes": 33496
+    },
+    {
+      "path": "artifacts/verification/DEPENDENCY_CONTRACT_VALIDATION.json",
+      "exists": true,
+      "sha256": "41f9a8d324eebcad7d76db9ce051cb31b187ae55fb87f8875d10472e3ef96c7e",
+      "bytes": 1394
+    },
+    {
+      "path": "artifacts/verification/TEST_ARCHITECTURE.json",
+      "exists": true,
+      "sha256": "aef0cda98aebbfe7565f8d0bec1bbafe82517f141cea7156655f889e932adc2e",
+      "bytes": 7616
+    },
+    {
+      "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
+      "exists": true,
+      "sha256": "dcedd244b5e6f0fd7480fdacc7b3340da9bcdca41517bedc408ffcc74ad14cdc",
+      "bytes": 1644
+    },
+    {
+      "path": "artifacts/verification/BIBLIOGRAPHY_VALIDATION.json",
+      "exists": true,
+      "sha256": "8fbb5f1e848de6974b94895b4e0cbece5557a6dab29220fefb5efbdf9819559f",
+      "bytes": 657
+    },
+    {
+      "path": "artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json",
+      "exists": true,
+      "sha256": "45f36d26f665c03c2cf8e84f82646e5b8e6b16cd7edc7ba56d87883339391560",
+      "bytes": 408
+    }
+  ]
+}

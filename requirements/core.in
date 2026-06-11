@@ -1,0 +1,3 @@
+# Core runtime dependencies for BIVE library/CLI.
+# Compile with: pip-compile requirements/core.in -o requirements/core.txt
+pydantic>=2.6,<3

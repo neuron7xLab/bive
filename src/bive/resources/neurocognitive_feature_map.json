@@ -1,0 +1,138 @@
+{
+  "features": [
+    {
+      "cns_function_analogy": "action selection constrained by inhibitory control",
+      "failure_mode": "high-risk or unclear request executes without inhibition or human gate",
+      "id": "excitation_inhibition_balance",
+      "operational_function": "route requests by excitation/inhibition weights before execution",
+      "repository_mechanism": "src/bive/cognitive_control.py::compute_weights + orchestrate_request",
+      "signals": [
+        "intent_clarity",
+        "evidence_strength",
+        "automation_fit",
+        "reversibility",
+        "risk_pressure",
+        "uncertainty_pressure",
+        "human_gate_pressure"
+      ],
+      "test": "tests/test_cognitive_control_plane.py::test_cognitive_weights_keep_bounds_and_balance",
+      "validator": "scripts/validate_cognitive_control_plane.py"
+    },
+    {
+      "cns_function_analogy": "prioritize high-risk, high-evidence, high-uncertainty signals for control routing",
+      "failure_mode": "dramatic request language increases autonomy despite missing evidence",
+      "id": "salience_gating",
+      "operational_function": "promote risk/evidence/failure signals over decorative language or emotional intensity",
+      "repository_mechanism": "INTENT_COMPILER + EVIDENCE_BINDER + boundary detector votes",
+      "signals": [
+        "risk_class",
+        "evidence_class",
+        "failure_visibility",
+        "human_gate_pressure"
+      ],
+      "test": "tests/test_neurocognitive_protocol.py::test_salience_gating_blocks_decorative_terms",
+      "validator": "scripts/validate_neurocognitive_protocol.py"
+    },
+    {
+      "cns_function_analogy": "limited active context under executive control",
+      "failure_mode": "context expands without changing executable action",
+      "id": "working_memory_budget",
+      "operational_function": "compress every task into intent contract, execution graph, artifact and gates",
+      "repository_mechanism": "AOS response contract + eval score schema",
+      "signals": [
+        "context_efficiency",
+        "objective_count",
+        "schema_presence",
+        "unknown_count"
+      ],
+      "test": "tests/test_aos_kernel.py",
+      "validator": "scripts/validate_aos_kernel.py"
+    },
+    {
+      "cns_function_analogy": "conflict/error detection before action update",
+      "failure_mode": "repository reports PASS while a required gate is absent or stale",
+      "id": "error_monitoring",
+      "operational_function": "detect unsupported claims, fake readiness, missing validators and contract drift",
+      "repository_mechanism": "ADVERSARIAL_VERIFIER + release gates + audit validators",
+      "signals": [
+        "unverified_claims",
+        "contract_errors",
+        "regression_failures",
+        "schema_drift"
+      ],
+      "test": "tests/test_release_gate_contract.py",
+      "validator": "scripts/validate_test_architecture.py"
+    },
+    {
+      "cns_function_analogy": "backward constraint from desired state to required evidence",
+      "failure_mode": "system chooses next action by confidence instead of missing evidence",
+      "id": "predictive_reverse_inference",
+      "operational_function": "derive missing actions from target status GREEN/YELLOW/BLOCKED",
+      "repository_mechanism": "reverse_inference_plan() + release gate evidence bundle",
+      "signals": [
+        "target_status",
+        "executed_evidence",
+        "artifact_hash",
+        "failure_path_test"
+      ],
+      "test": "tests/test_cognitive_control_plane.py::test_low_risk_request_has_fractal_checks_and_reverse_plan",
+      "validator": "scripts/validate_cognitive_control_plane.py"
+    },
+    {
+      "cns_function_analogy": "maintain control variables inside safe operating range",
+      "failure_mode": "automation escalates until complexity and risk overpower verification",
+      "id": "homeostatic_stability",
+      "operational_function": "keep excitation/inhibition within target ranges and recompute after evidence changes",
+      "repository_mechanism": "data/aos/cognitive_control_plane.json::weight_bounds",
+      "signals": [
+        "target_excitation_range",
+        "target_inhibition_range",
+        "max_safe_delta",
+        "stability_index"
+      ],
+      "test": "tests/test_cognitive_control_plane.py::test_cognitive_weights_keep_bounds_and_balance",
+      "validator": "scripts/validate_cognitive_control_plane.py"
+    },
+    {
+      "cns_function_analogy": "same control constraints repeated across planning scales",
+      "failure_mode": "local component passes while release-level invariant is broken",
+      "id": "fractal_invariant_recursion",
+      "operational_function": "repeat input/output/failure/evidence/human-gate checks at intent, boundary, contract, verification and release levels",
+      "repository_mechanism": "fractal_checks_for_request()",
+      "signals": [
+        "input_defined",
+        "output_defined",
+        "failure_path_defined",
+        "evidence_required",
+        "human_gate_when_high_risk"
+      ],
+      "test": "tests/test_cognitive_control_plane.py::test_low_risk_request_has_fractal_checks_and_reverse_plan",
+      "validator": "scripts/validate_cognitive_control_plane.py"
+    },
+    {
+      "cns_function_analogy": "update policy only from error feedback",
+      "failure_mode": "prompt grows impressive words without measured decision improvement",
+      "id": "plasticity_calibration",
+      "operational_function": "allow prompt/kernel/task changes only when measured eval score improves without regression",
+      "repository_mechanism": "AOS calibration loop + eval harness",
+      "signals": [
+        "eval_score_delta",
+        "regression_pass_rate",
+        "failure_class",
+        "patch_reason"
+      ],
+      "test": "tests/test_aos_kernel.py",
+      "validator": "scripts/validate_aos_kernel.py"
+    }
+  ],
+  "forbidden_claims": [
+    "The system must not be called a brain.",
+    "The system must not detect lies, guilt, diagnosis, or intent.",
+    "No neurocognitive label is valid without an operational validator.",
+    "GREEN status must not be inferred without executed evidence."
+  ],
+  "name": "BIVE Neurocognitive Operational Feature Map",
+  "purpose": "Map CNS-inspired control functions to executable repository mechanisms without biological identity claims.",
+  "status": "SPECIFIED_AND_TESTED",
+  "version": "2026.1"
+}

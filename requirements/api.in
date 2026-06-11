@@ -1,0 +1,5 @@
+# API/UI runtime dependencies.
+-c ../constraints/py310.txt
+-r core.in
+fastapi>=0.110,<1
+uvicorn[standard]>=0.27,<1

@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="color-scheme" content="dark" />
+  <meta name="description" content="BIVE operational console for evidence-first transcript verification, release evidence, and system contracts." />
+  <title>BIVE — Behavioral Integrity Verification Engine</title>
+  <link rel="stylesheet" href="/static/styles.css" />
+</head>
+<body>
+  <a class="skip-link" href="#console">Перейти до консолі</a>
+  <main class="shell">
+    <section class="hero panel" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow">Evidence-first operational system</p>
+        <h1 id="hero-title">BIVE</h1>
+        <p class="hero-line">Behavioral Integrity Verification Engine</p>
+        <p class="lead">Елегантна production-console для транскриптів, суперечностей, evidence graph, release gates і human-review питань. Система не клеїть ярлик “брехун”; вона будує перевірювану карту сигналів, ризиків і невідомих.</p>
+        <div class="hero-actions" aria-label="Основні дії">
+          <button id="runHero" type="button">Запустити аналіз</button>
+          <button id="refreshSystem" type="button" class="ghost">Оновити статус</button>
+          <a class="button-link ghost" href="/docs" aria-label="OpenAPI docs">API docs</a>
+        </div>
+      </div>
+      <aside class="system-card" aria-label="Стан системи">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <strong id="systemReadiness">UNKNOWN</strong>
+        <small id="systemVersion">version unknown</small>
+        <div class="signal-ring" aria-hidden="true"></div>
+      </aside>
+    </section>
+
+    <section class="grid metrics-grid" aria-label="Операційні метрики">
+      <article class="panel metric"><span>Readiness</span><b id="metricReady">unknown</b></article>
+      <article class="panel metric"><span>Reports</span><b id="metricReports">0</b></article>
+      <article class="panel metric"><span>Auth</span><b id="metricAuth">local</b></article>
+      <article class="panel metric"><span>Limits</span><b id="metricLimits">loading</b></article>
+      <article class="panel metric"><span>Release gates</span><b id="metricGates">unknown</b></article>
+      <article class="panel metric"><span>Science refs</span><b id="metricScience">loading</b></article>
+      <article class="panel metric"><span>AOS kernel</span><b id="metricAos">loading</b></article>
+      <article class="panel metric"><span>Product</span><b id="metricProduct">loading</b></article>
+      <article class="panel metric"><span>Latency sum</span><b id="metricLatency">0s</b></article>
+    </section>
+
+    <section class="grid feature-grid" aria-label="Архітектурний контракт">
+      <article class="panel card"><b>1. Backend</b><span>FastAPI, strict schema, request-id, readiness, metrics, security headers, wheel smoke.</span></article>
+      <article class="panel card"><b>2. Frontend</b><span>Vanilla SPA без build-залежностей: доступність, token flow, safe DOM rendering, evidence cards, JSON/Markdown export.</span></article>
+      <article class="panel card"><b>3. Governance</b><span>Release gates, manifest, OpenAPI, safety boundary, human review by design.</span></article>
+      <article class="panel card"><b>4. Science Boundary</b><span>Поведінкова наука, психофізіологія, когнітивістика, computational linguistics, HCI і AI risk зведені в bounded registry без автоматичних вироків.</span></article>
+    </section>
+
+    <section class="panel console" id="console" aria-labelledby="console-title">
+      <div class="console-head">
+        <div>
+          <p class="eyebrow">Deterministic local workflow</p>
+          <h2 id="console-title">Запусти аналіз транскрипту</h2>
+        </div>
+        <div class="token-box">
+          <label for="apiToken">API token</label>
+          <input id="apiToken" type="password" autocomplete="off" placeholder="для production/staging" />
+          <button id="saveToken" type="button" class="tiny ghost">Зберегти локально</button>
+        </div>
+      </div>
+
+      <label class="field-label" for="payload">Transcript JSON</label>
+      <textarea id="payload" spellcheck="false" aria-describedby="payloadHelp"></textarea>
+      <p id="payloadHelp" class="hint">Формат: subject_scope + segments[].text. Extra fields навмисно блокуються backend-схемою. Це не телепатія, це контракт.</p>
+
+      <div class="actions" role="group" aria-label="Команди аналізу">
+        <button id="run" type="button">Побудувати звіт</button>
+        <button id="loadDemo" type="button" class="ghost">Демо</button>
+        <button id="health" type="button" class="ghost">Health</button>
+        <button id="copyOutput" type="button" class="ghost">Copy JSON</button>
+        <button id="downloadOutput" type="button" class="ghost">Download JSON</button>
+        <button id="copyMarkdown" type="button" class="ghost">Copy Markdown</button>
+      </div>
+      <p id="statusText" class="status-text" role="status" aria-live="polite">Готово. Система чекає дані, не міфологію.</p>
+    </section>
+
+    <section class="result-layout" aria-label="Результати аналізу">
+      <article class="panel result-card">
+        <div class="result-head">
+          <div>
+            <p class="eyebrow">Report summary</p>
+            <h2 id="resultTitle">Немає звіту</h2>
+          </div>
+          <span class="pill" id="resultStatus">idle</span>
+        </div>
+        <div id="summaryCards" class="summary-cards"></div>
+      </article>
+      <article class="panel result-card">
+        <p class="eyebrow">Evidence graph</p>
+        <div id="evidenceList" class="evidence-list">Запусти аналіз, щоб побачити evidence events.</div>
+      </article>
+      <article class="panel result-card">
+        <p class="eyebrow">Hypotheses</p>
+        <div id="hypothesisList" class="evidence-list">Немає гіпотез.</div>
+      </article>
+      <article class="panel result-card">
+        <p class="eyebrow">Human review questions</p>
+        <div id="questionsList" class="evidence-list">Немає питань.</div>
+      </article>
+    </section>
+
+    <section class="panel system-panel" aria-labelledby="system-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Operational contract</p>
+          <h2 id="system-title">Системний стан, gates і дизайн-контракт</h2>
+        </div>
+        <button id="refreshContracts" type="button" class="ghost">Оновити контракти</button>
+      </div>
+      <div class="contract-grid">
+        <article class="contract-box">
+          <h3>Release gates</h3>
+          <div id="gatesList" class="gate-list">loading</div>
+        </article>
+        <article class="contract-box">
+          <h3>Capabilities</h3>
+          <div id="capabilityList" class="tag-list">loading</div>
+        </article>
+        <article class="contract-box span-2">
+          <h3>Design contract</h3>
+          <dl id="designContract" class="definition-list"></dl>
+        </article>
+        <article class="contract-box">
+          <h3>Science registry</h3>
+          <div id="scienceList" class="tag-list">loading</div>
+        </article>
+        <article class="contract-box">
+          <h3>Hard boundaries</h3>
+          <div id="scienceBoundary" class="evidence-list compact">loading</div>
+        </article>
+        <article class="contract-box span-2">
+          <h3>AOS Prompt OS</h3>
+          <div id="aosKernel" class="evidence-list compact">loading</div>
+        </article>
+        <article class="contract-box span-2">
+          <h3>Product readiness</h3>
+          <div id="productReadiness" class="evidence-list compact">loading</div>
+        </article>
+      </div>
+    </section>
+
+    <section class="panel raw-output" aria-labelledby="raw-title">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">Machine output</p>
+          <h2 id="raw-title">Raw JSON + Markdown</h2>
+        </div>
+      </div>
+      <div class="dual-output">
+        <pre id="output">{}</pre>
+        <pre id="markdownOutput">Markdown звіт зʼявиться після аналізу.</pre>
+      </div>
+    </section>
+  </main>
+  <script src="/static/app.js"></script>
+</body>
+</html>

@@ -1,0 +1,40 @@
+{
+  "scorecard_id": "bive-industrial-release-scorecard-v1",
+  "version": "0.4.0-stage11",
+  "overall_status": "YELLOW",
+  "status_rule": "GREEN is forbidden while dependency CVE audit, Docker runtime, deployment smoke, and human-impact review are UNKNOWN.",
+  "dimensions": [
+    {"id": "DIM-001", "name": "install_and_package", "status": "PASS", "gate": "python -m build && python scripts/wheel_smoke.py", "evidence": "wheel smoke packages UI/resources"},
+    {"id": "DIM-002", "name": "local_tests", "status": "PASS", "gate": "pytest -m 'not slow' and explicit slow gate", "evidence": "test suite must pass in release evidence"},
+    {"id": "DIM-003", "name": "api_contract", "status": "PASS", "gate": "python scripts/validate_microsoft_rest_contract.py && python scripts/api_smoke.py", "evidence": "api-version, x-ms-request-id, error envelope"},
+    {"id": "DIM-004", "name": "frontend_contract", "status": "PASS", "gate": "python scripts/check_frontend_quality.py", "evidence": "no dynamic innerHTML/outerHTML/insertAdjacentHTML"},
+    {"id": "DIM-005", "name": "science_boundary", "status": "PASS", "gate": "python scripts/validate_science_registry.py", "evidence": "hard non-claims and bounded references"},
+    {"id": "DIM-006", "name": "aos_kernel", "status": "PASS", "gate": "python scripts/validate_aos_kernel.py", "evidence": "20 eval tasks and score schema"},
+    {"id": "DIM-007", "name": "neurocognitive_control", "status": "PASS", "gate": "python scripts/validate_neurocognitive_protocol.py", "evidence": "CNS analogies mapped to mechanisms and tests"},
+    {"id": "DIM-008", "name": "product_readiness", "status": "PASS", "gate": "python scripts/validate_product_operating_model.py", "evidence": "product model and scorecard block false production green"},
+    {"id": "DIM-009", "name": "dependency_cve_audit", "status": "UNKNOWN", "gate": "pip-audit --format=json", "evidence": "requires network access to advisory source"},
+    {"id": "DIM-010", "name": "docker_runtime", "status": "UNKNOWN", "gate": "docker build/run + /readyz", "evidence": "requires Docker host"},
+    {"id": "DIM-011", "name": "deployment_smoke", "status": "UNKNOWN", "gate": "deployed /readyz + /api/v1/system/status", "evidence": "no target deployment executed"},
+    {"id": "DIM-012", "name": "human_impact_review", "status": "HUMAN_REVIEW_REQUIRED", "gate": "legal/clinical/employment/security review for real-world person-impacting use", "evidence": "outside code execution scope"}
+  ],
+  "public_release_claims": {
+    "allowed": [
+      "open-source engineering product candidate",
+      "locally verifiable API/UI/CLI package",
+      "evidence-first research platform with explicit boundaries",
+      "AOS and neurocognitive-control mechanisms specified and tested"
+    ],
+    "forbidden": [
+      "production deployed service",
+      "lie detector",
+      "diagnostic tool",
+      "automated personnel, legal, clinical, or security decision system",
+      "CVE-clean without pip-audit evidence"
+    ]
+  },
+  "decision": {
+    "github_publish": "ALLOW_WITH_YELLOW_STATUS",
+    "production_deploy": "BLOCK_UNTIL_EXTERNAL_GATES_CLOSE",
+    "customer_trial": "ALLOW_ONLY_AS_RESEARCH_DEMO_WITH_HUMAN_REVIEW_BOUNDARY"
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "slo_model_id": "bive-operational-excellence-v1",
+  "status": "bounded_local_or_small_service_target",
+  "well_architected_pillars": [
+    "reliability",
+    "security",
+    "operational_excellence",
+    "performance_efficiency",
+    "cost_optimization"
+  ],
+  "service_level_objectives": [
+    {"id": "SLO-API-001", "name": "API smoke availability", "target": "api_smoke passes on every release candidate", "measurement": "python scripts/api_smoke.py"},
+    {"id": "SLO-REL-001", "name": "Release gate integrity", "target": "verify_release passes before published artifacts", "measurement": "make verify-release"},
+    {"id": "SLO-SEC-001", "name": "Security unknowns are explicit", "target": "pip-audit and docker runtime are pass or UNKNOWN with log artifact", "measurement": "artifacts/security/* and artifacts/verification/*"},
+    {"id": "SLO-PERF-001", "name": "Pipeline bounded workload", "target": "documented benchmark artifact exists for supported segment scale", "measurement": "artifacts/benchmarks/pipeline.json"}
+  ],
+  "release_rings": [
+    {"ring": "local", "audience": "developer", "required_gates": ["test", "lint", "typecheck", "api-smoke"]},
+    {"ring": "candidate", "audience": "maintainer", "required_gates": ["verify-release", "wheel-smoke", "manifest-check", "security-static"]},
+    {"ring": "public_github", "audience": "open-source users", "required_gates": ["dependency-audit", "license-audit", "docker-runtime-or-explicit-unknown"]}
+  ],
+  "rollback_policy": {
+    "trigger": ["release gate regression", "security advisory", "runtime crash in smoke path", "corrupted artifact manifest"],
+    "action": ["remove release artifact", "publish advisory in SECURITY.md", "tag patched release", "retain failed evidence logs"]
+  },
+  "observability_contract": [
+    "x-ms-request-id on HTTP responses",
+    "x-ms-client-request-id echo when supplied",
+    "structured Microsoft-style error envelope",
+    "/livez readiness split from /readyz",
+    "/metrics counters for total requests, error requests and latency sum"
+  ]
+}

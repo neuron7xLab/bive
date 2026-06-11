@@ -1,0 +1,97 @@
+{
+  "name": "BIVE CNS-Feature Inference Task Protocol",
+  "primary_objective": "Increase operational intelligence by making every CNS-inspired feature falsifiable inside the repository.",
+  "purpose": "Create non-decorative repository tasks that turn neurocognitive analogies into executable contracts, validators and regression gates.",
+  "status": "SPECIFIED_AND_TESTED",
+  "tasks": [
+    {
+      "acceptance": "High-risk or evidence-poor request cannot route to EXECUTE_BOUNDED; low-risk reversible request produces a bounded next action.",
+      "artifact": "src/bive/cognitive_control.py route object with ranked salience fields",
+      "class": "IMPLEMENT",
+      "exact_action": "Create a router that ranks risk, evidence gaps, dependency readiness and failure visibility before selecting EXECUTE_BOUNDED, SPECIFY_ONLY, HUMAN_GATE or BLOCKED.",
+      "failure_signal": "mode EXECUTE_BOUNDED appears with human_gate_pressure > 0 or evidence_strength < 0.2",
+      "feature": "salience_gating",
+      "id": "NC-01",
+      "title": "Implement salience-gated request router",
+      "validator": "pytest tests/test_cognitive_control_plane.py -q"
+    },
+    {
+      "acceptance": "Capsule has one objective, at least one validator, explicit unknowns and no decorative fields.",
+      "artifact": "AOS context capsule returned by bive-aos control --capsule or API extension",
+      "class": "IMPLEMENT",
+      "exact_action": "Generate a compact machine-readable context capsule for each request: goal, artifact, constraints, unknowns, validators and next operation.",
+      "failure_signal": "capsule contains more than one primary objective or lacks failure mode",
+      "feature": "working_memory_budget",
+      "id": "NC-02",
+      "title": "Add working-memory compression report",
+      "validator": "pytest tests/test_aos_kernel.py tests/test_neurocognitive_protocol.py -q"
+    },
+    {
+      "acceptance": "Every target status maps to required evidence and deterministic unblock/repair action.",
+      "artifact": "data/aos/reverse_inference_closure_schema.json plus planner tests",
+      "class": "DESIGN",
+      "exact_action": "Backcast from target status GREEN/YELLOW/BLOCKED to required evidence, tests, artifact hashes and missing runtime inputs.",
+      "failure_signal": "GREEN can be selected without executed evidence or artifact hash",
+      "feature": "predictive_reverse_inference",
+      "id": "NC-03",
+      "title": "Build reverse-inference closure planner",
+      "validator": "python scripts/validate_neurocognitive_protocol.py"
+    },
+    {
+      "acceptance": "Known low/medium/high/critical requests produce stable expected modes and safe weight ranges.",
+      "artifact": "tests/fixtures/cognitive_control_cases.json and weighted regression tests",
+      "class": "TEST",
+      "exact_action": "Add regression tests that fail when excitation, inhibition, stability_index or closure_score exit allowed ranges under known request fixtures.",
+      "failure_signal": "weight delta changes beyond max_safe_delta without explicit fixture update",
+      "feature": "homeostatic_stability",
+      "id": "NC-04",
+      "title": "Create homeostatic gate for system weights",
+      "validator": "pytest tests/test_cognitive_control_plane.py -q"
+    },
+    {
+      "acceptance": "All false-GREEN traps fail closed and produce missing evidence list.",
+      "artifact": "evals/false_green_tournament.json",
+      "class": "AUDIT",
+      "exact_action": "Create adversarial eval cases where user claims tests passed, deployment is safe, or science is proven without logs; verifier must downgrade to UNKNOWN/YELLOW/HUMAN_REVIEW_REQUIRED.",
+      "failure_signal": "any trap returns GREEN or MACHINE_VERIFIED without evidence reference",
+      "feature": "error_monitoring",
+      "id": "NC-05",
+      "title": "Add adversarial false-GREEN tournament",
+      "validator": "make aos-kernel && make cognitive-control"
+    },
+    {
+      "acceptance": "Validator fails if any release gate lacks owner, command, pass condition, fail condition or artifact output.",
+      "artifact": "scripts/validate_fractal_release_consistency.py",
+      "class": "TEST",
+      "exact_action": "Validate that intent, boundary, contract, verification and release levels all expose input, output, failure, evidence and human-gate invariants.",
+      "failure_signal": "local task passes while release-level gate is undocumented",
+      "feature": "fractal_invariant_recursion",
+      "id": "NC-06",
+      "title": "Implement fractal release consistency checker",
+      "validator": "python scripts/validate_fractal_release_consistency.py"
+    },
+    {
+      "acceptance": "No kernel change can be released without measured failure class and regression evidence.",
+      "artifact": "data/aos/calibration_ledger.jsonl plus validator",
+      "class": "IMPLEMENT",
+      "exact_action": "Record every AOS/kernel/control-plane change with reason, failing eval, patch, rerun score and regression result.",
+      "failure_signal": "prompt/core file changed without ledger entry",
+      "feature": "plasticity_calibration",
+      "id": "NC-07",
+      "title": "Create calibration ledger for prompt/kernel changes",
+      "validator": "python scripts/validate_calibration_ledger.py"
+    },
+    {
+      "acceptance": "Endpoint returns feature map, task protocol, forbidden claims and release gate name.",
+      "artifact": "/api/v1/system/neurocognitive-protocol?api-version=2026-06-11",
+      "class": "IMPLEMENT",
+      "exact_action": "Expose feature map and task protocol through API and frontend so system context is inspectable at runtime.",
+      "failure_signal": "runtime API cannot show how neurocognitive terms map to validators",
+      "feature": "all",
+      "id": "NC-08",
+      "title": "Add neurocognitive feature API contract",
+      "validator": "pytest tests/test_neurocognitive_protocol.py -q"
+    }
+  ],
+  "version": "2026.1"
+}

@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "BIVE EvidenceEvent",
+  "type": "object",
+  "required": ["event_id", "source_id", "modality", "feature", "value", "confidence", "direction", "magnitude"],
+  "properties": {
+    "event_id": {"type": "string", "minLength": 1},
+    "source_id": {"type": "string", "minLength": 1},
+    "modality": {"enum": ["text", "audio", "vision", "context", "system"]},
+    "feature": {"type": "string", "minLength": 1},
+    "value": {},
+    "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+    "direction": {"enum": ["supports", "refutes", "neutral"]},
+    "magnitude": {"type": "number", "minimum": 0, "maximum": 1},
+    "timestamp_start": {"type": ["number", "null"]},
+    "timestamp_end": {"type": ["number", "null"]},
+    "hypothesis_refs": {"type": "array", "items": {"type": "string"}},
+    "limitations": {"type": "array", "items": {"type": "string"}}
+  },
+  "additionalProperties": true
+}

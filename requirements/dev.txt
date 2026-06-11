@@ -1,0 +1,14 @@
+# Locked development and CI intent for Python 3.10 release lane.
+# Regenerate on networked release host with: make deps-compile
+-r api.txt
+pytest==9.0.2
+pytest-cov==7.0.0
+coverage==7.13.3
+ruff==0.15.16
+mypy==2.1.0
+jsonschema==4.26.0
+httpx==0.28.1
+bandit==1.9.4
+build==1.5.0
+pip-licenses==5.5.5
+pip-tools==7.5.2

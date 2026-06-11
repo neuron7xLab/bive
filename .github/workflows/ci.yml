@@ -1,0 +1,78 @@
+name: BIVE CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+  security-events: write
+  actions: read
+  pull-requests: read
+
+jobs:
+  verify-release:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.10', '3.11', '3.12']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - name: Install
+        run: |
+          python -m pip install --upgrade pip
+          pip install -e '.[dev,api,security]'
+      - name: Verify release gate
+        run: make verify-release
+      - name: Dependency audit
+        run: make dependency-audit
+      - name: License audit
+        run: make license-audit
+      - name: Upload verification artifacts
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: verification-${{ matrix.python-version }}
+          path: |
+            artifacts/security/*.json
+            artifacts/verification/*.json
+            artifacts/benchmarks/*.json
+            artifacts/verification/VERIFY_RELEASE.log
+            ARTIFACT_MANIFEST.json
+            PRODUCT_SYSTEM_INDEX.json
+            docs/openapi.json
+
+  dependency-review:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Dependency Review
+        uses: actions/dependency-review-action@v4
+        with:
+          fail-on-severity: high
+          deny-licenses: AGPL-1.0-only, AGPL-1.0-or-later, AGPL-3.0-only, AGPL-3.0-or-later
+
+  scorecard:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: OpenSSF Scorecard
+        uses: ossf/scorecard-action@v2.4.0
+        with:
+          results_file: scorecard-results.sarif
+          results_format: sarif
+          publish_results: false
+      - name: Upload Scorecard SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: scorecard-results.sarif

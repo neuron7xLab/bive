@@ -1,0 +1,30 @@
+tool_name: string
+purpose: string
+when_to_use:
+  - condition
+when_not_to_use:
+  - condition
+input_schema:
+  type: object
+output_schema:
+  type: object
+examples:
+  - input: {}
+    output: {}
+edge_cases:
+  - case
+permissions:
+  risk_level: LOW | MEDIUM | HIGH | CRITICAL
+  secrets_required: false
+side_effects:
+  - none
+timeout_sec: 30
+retry_policy:
+  max_retries: 0
+  backoff: none
+failure_modes:
+  - class: missing_input
+    detection: validation_error
+    recovery: request_valid_input
+verification_method: command_or_test_name
+evidence_output: artifact_path_or_log_record

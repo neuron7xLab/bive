@@ -1,0 +1,4 @@
+# Production install surface: BIVE core + API only.
+-c ../constraints/py310.txt
+-r core.in
+-r api.in

@@ -1,16 +1,6 @@
 .dockerignore
 .editorconfig
 .gitattributes
-.github/ISSUE_TEMPLATE/bug_report.yml
-.github/ISSUE_TEMPLATE/config.yml
-.github/ISSUE_TEMPLATE/feature_request.yml
-.github/dependabot.yml
-.github/pull_request_template.md
-.github/workflows/ci.yml
-.github/workflows/codeql.yml
-.github/workflows/dependabot-auto-merge.yml
-.github/workflows/manifest-sync.yml
-.github/workflows/release.yml
 .gitignore
 .pre-commit-config.yaml
 CHANGELOG.md

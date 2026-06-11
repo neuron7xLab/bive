@@ -82,6 +82,12 @@ def include(path: Path) -> bool:
     # natively and can auto-merge hands-off.
     if rel.startswith(("requirements/", "constraints/")) and not rel.endswith(".in"):
         return False
+    # .github/** is Dependabot-managed (github-actions ecosystem bumps action
+    # SHAs in the workflows) and is not part of the shipped artifact, so it is
+    # not pinned either. Workflow integrity rests on Git history + branch
+    # protection + required checks. This lets action bumps pass natively too.
+    if rel.startswith(".github/"):
+        return False
     if rel == "artifacts/verification/DEPENDENCY_CONTRACT_VALIDATION.json":
         return False
     if path.name in DENY_NAMES:

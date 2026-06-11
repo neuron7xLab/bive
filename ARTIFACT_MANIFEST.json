@@ -208,9 +208,9 @@
       "sha256": "8fbb5f1e848de6974b94895b4e0cbece5557a6dab29220fefb5efbdf9819559f"
     },
     {
-      "bytes": 1394,
+      "bytes": 2226,
       "path": "artifacts/verification/DEPENDENCY_CONTRACT_VALIDATION.json",
-      "sha256": "41f9a8d324eebcad7d76db9ce051cb31b187ae55fb87f8875d10472e3ef96c7e"
+      "sha256": "9ffc0d8b49efa0c3085879e314dd2e7238460567d180793c18199fbd9bc9c981"
     },
     {
       "bytes": 204,
@@ -315,7 +315,7 @@
     {
       "bytes": 386,
       "path": "constraints/py310.txt",
-      "sha256": "0e545805343888f595280993ba5e4b29224299374e016e51d5f69d334ecf1979"
+      "sha256": "6ed4d7759871e9a42ac67ff37a2507b190313604feb51a4deb116ba07d10461a"
     },
     {
       "bytes": 826,
@@ -708,9 +708,9 @@
       "sha256": "ee4d8f4038eb7b24e17278b99b92a40ffddb6a38957d79bff8d7da962a7d10a4"
     },
     {
-      "bytes": 311,
+      "bytes": 1084,
       "path": "requirements/dev.txt",
-      "sha256": "8672bb1f5b8891526cc236cf8aef6124bbcca372862af984d50ff455633dee93"
+      "sha256": "c87d75aaa42c7c8dea4244cbfe8e5ffbfdfc8f5fcadad42a2e33601b096714cd"
     },
     {
       "bytes": 101,
@@ -1328,7 +1328,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T11:58:12+00:00",
+  "generated_at_utc": "2026-06-11T12:04:42+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

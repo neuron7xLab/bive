@@ -2,7 +2,7 @@
 # Refresh with `make deps-compile` on a networked release host.
 pydantic==2.13.3
 pytest==9.0.2
-pytest-cov==7.0.0
+pytest-cov==7.1.0
 coverage==7.13.3
 ruff==0.15.16
 mypy==2.1.0

@@ -82,11 +82,18 @@
     "typecheck",
     "wheel-smoke"
   ],
-  "workflow_fragments": [
+  "ci_fragments": [
     "actions/dependency-review-action",
     "make dependency-audit",
     "make license-audit",
-    "make verify-release",
-    "ossf/scorecard-action"
+    "make verify-release"
+  ],
+  "scorecard_fragments": [
+    "ossf/scorecard-action",
+    "publish_results: true"
+  ],
+  "scorecard_forbidden_top_level": [
+    "defaults",
+    "env"
   ]
 }

@@ -25,7 +25,7 @@ Dependency CVE and Docker runtime gates require network/Docker host access. If u
 
 - Matrix release gate on Python 3.10/3.11/3.12.
 - Dependency Review on pull requests.
-- OpenSSF Scorecard on pushes.
+- OpenSSF Scorecard in its own trusted workflow (`scorecard.yml`) on pushes to main, a weekly schedule, and branch-protection changes; kept out of `ci.yml` because the publish endpoint forbids the top-level `env:` that CI needs.
 - Artifact upload for verification logs and JSON evidence.
 
 ## Evidence bundle

@@ -40,8 +40,25 @@ def test_makefile_exposes_industrial_validation_targets() -> None:
 def test_ci_includes_supply_chain_automation() -> None:
     text = Path(".github/workflows/ci.yml").read_text()
     assert "actions/dependency-review-action" in text
-    assert "ossf/scorecard-action" in text
     assert "make dependency-audit" in text
+    # Scorecard must NOT run inside ci.yml: its publish endpoint forbids the
+    # top-level env: this workflow legitimately carries.
+    assert "ossf/scorecard-action" not in text
+
+
+def test_scorecard_runs_in_dedicated_trusted_workflow() -> None:
+    text = Path(".github/workflows/scorecard.yml").read_text()
+    assert "ossf/scorecard-action" in text
+    assert "publish_results: true" in text
+    # Trusted-workflow shape required by api.securityscorecards.dev.
+    top_level = {
+        line.split(":", 1)[0]
+        for line in text.splitlines()
+        if line and not line[0].isspace() and ":" in line and not line.lstrip().startswith("#")
+    }
+    assert "env" not in top_level, "top-level env: breaks Scorecard publish"
+    assert "defaults" not in top_level, "top-level defaults: breaks Scorecard publish"
+    assert "permissions" in top_level
 
 
 def test_verify_release_invokes_heavy_gates() -> None:

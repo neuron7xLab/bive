@@ -1,0 +1,61 @@
+# OpenSSF Scorecard — supply-chain security posture.
+#
+# Intentionally ISOLATED from ci.yml. The Scorecard publishing endpoint
+# (api.securityscorecards.dev) only accepts results from a *trusted* workflow:
+# no top-level `env:` or `defaults:`, `read-all` top-level permissions, a single
+# analysis job. This is a deliberate trust contract — a global env var in a
+# trusted workflow could alter the action's behavior and poison the public
+# Scorecard dataset. ci.yml legitimately needs a global `env:`
+# (PYTHONDONTWRITEBYTECODE), which is fundamentally incompatible with that
+# contract; hence this dedicated file.
+# See: https://github.com/ossf/scorecard-action#workflow-restrictions
+name: OpenSSF Scorecard
+
+on:
+  # Re-evaluate when branch protection settings change (a Scorecard input).
+  branch_protection_rule:
+  # Keep the published scorecard fresh even on quiet weeks.
+  schedule:
+    - cron: '21 6 * * 1'
+  push:
+    branches: [main]
+
+# Top-level least privilege. The analysis job opts into the two writes it needs.
+permissions: read-all
+
+jobs:
+  analysis:
+    name: Scorecard analysis
+    runs-on: ubuntu-latest
+    permissions:
+      # Publish SARIF to the code-scanning dashboard.
+      security-events: write
+      # Mint the OIDC token Scorecard uses to publish signed results.
+      id-token: write
+    steps:
+      - name: Harden runner
+        uses: step-security/harden-runner@9af89fc71515a100421586dfdb3dc9c984fbf411 # v2.19.4
+        with:
+          egress-policy: audit
+      - name: Checkout code
+        uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6.0.3
+        with:
+          persist-credentials: false
+      - name: Run analysis
+        uses: ossf/scorecard-action@4eaacf0543bb3f2c246792bd56e8cdeffafb205a # v2.4.3
+        with:
+          results_file: scorecard-results.sarif
+          results_format: sarif
+          # Publishes to the OpenSSF Scorecard API. Works because this dedicated
+          # workflow satisfies the trusted-workflow restrictions above.
+          publish_results: true
+      - name: Upload SARIF artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: scorecard-sarif
+          path: scorecard-results.sarif
+          retention-days: 5
+      - name: Upload to code-scanning
+        uses: github/codeql-action/upload-sarif@8aad20d150bbac5944a9f9d289da16a4b0d87c1e # v4.36.2
+        with:
+          sarif_file: scorecard-results.sarif

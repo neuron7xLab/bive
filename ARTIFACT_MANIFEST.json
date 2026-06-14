@@ -148,9 +148,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 1808,
+      "bytes": 1930,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "56737756d51a810afcc940f66ac04142806acbbd45cd06bbc3948beb6d76ef3a"
+      "sha256": "494e2e040b4446d7e9397317ad02c001165435adcef1821f5d86979695bc8319"
     },
     {
       "bytes": 657,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 8279,
+      "bytes": 8338,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "221db439f115c8edb25a5f00ec25ecb6c4e127e8f97fa5c285df17e690af3d5c"
+      "sha256": "b07de1fd9cd237d49cba4b5e0b7fd8b22a14d342c2dea2c502b54a701877abf8"
     },
     {
       "bytes": 826,
@@ -353,9 +353,9 @@
       "sha256": "e3c9f5a5f153d2c754a9801d022ca69dfa4317619d0667aa3eb5b9d9cb6cfe94"
     },
     {
-      "bytes": 977,
+      "bytes": 1175,
       "path": "docs/AUTOMATION_PLAYBOOK.md",
-      "sha256": "870835c94d3d1dc6f2ffaea39d40ede26dfead5040688ab04f6774fcb7f5ad61"
+      "sha256": "b673b98e28e4284fe452790685d19d956514aa7717b9eaa2293df3189de08511"
     },
     {
       "bytes": 2273,
@@ -743,9 +743,9 @@
       "sha256": "e4bf8286e12ac209293bffb6811f78ed3939efb279643a314f745f8fb4e79c88"
     },
     {
-      "bytes": 3331,
+      "bytes": 5716,
       "path": "scripts/validate_automation_contract.py",
-      "sha256": "039463fea7d5cc1f903bcf5853f2d7506fb1ea05e7c671be5285e9d7ec9211e9"
+      "sha256": "2a9e0b0b4dff43ab8f67e6958f680d56b8a721086286732c56523e302fcafb2c"
     },
     {
       "bytes": 2277,
@@ -1108,9 +1108,9 @@
       "sha256": "1588fe6acfa206e7dc92d24e85d412663a1fdd8926cb972834e6e3eed9aa1494"
     },
     {
-      "bytes": 2003,
+      "bytes": 2816,
       "path": "tests/test_automation_contract.py",
-      "sha256": "33fb3c93666c52f420aa6511b021974a0c645a67cc984d1f070ff47fa0500ef7"
+      "sha256": "2f15d1e7fbda5ac6c1ba4d2bead092b1ef4d8136a729be2000ed477067b27190"
     },
     {
       "bytes": 2523,
@@ -1263,7 +1263,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-06-11T14:46:32+00:00",
+  "generated_at_utc": "2026-06-14T16:28:23+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

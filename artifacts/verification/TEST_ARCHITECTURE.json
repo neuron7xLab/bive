@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 123,
+  "test_functions": 124,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -44,6 +44,7 @@
       "test_automation_contract_artifact_lists_release_gates",
       "test_makefile_exposes_industrial_validation_targets",
       "test_ci_includes_supply_chain_automation",
+      "test_scorecard_runs_in_dedicated_trusted_workflow",
       "test_verify_release_invokes_heavy_gates",
       "test_automation_playbook_documents_local_and_networked_gates"
     ],

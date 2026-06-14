@@ -87,7 +87,16 @@ jobs:
 
   dependency-review:
     name: Dependency review
-    if: github.event_name == 'pull_request'
+    # Defence-in-depth, two activation paths:
+    #   - pull_request: the merge gate (action auto-derives base/head from the PR).
+    #   - push to main: closes the direct-push bypass — a commit that lands on main
+    #     without a PR is still diffed against its parent. Skip the synthetic
+    #     all-zero `before` SHA that GitHub sends on branch creation / first push,
+    #     where there is no parent to compare against.
+    if: >-
+      github.event_name == 'pull_request' ||
+      (github.event_name == 'push' &&
+       github.event.before != '0000000000000000000000000000000000000000')
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -101,6 +110,11 @@ jobs:
       - name: Dependency Review
         uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
         with:
+          # On push the action has no PR context, so the diff endpoints must be
+          # supplied explicitly. On pull_request these resolve to '' (falsy) and
+          # the action falls back to the PR's own base/head.
+          base-ref: ${{ github.event_name == 'push' && github.event.before || '' }}
+          head-ref: ${{ github.event_name == 'push' && github.sha || '' }}
           fail-on-severity: high
           comment-summary-in-pr: on-failure
           deny-licenses: AGPL-1.0-only, AGPL-1.0-or-later, AGPL-3.0-only, AGPL-3.0-or-later

@@ -5,7 +5,7 @@
 # non-vulnerable release; mypy/ruff are held stable to keep the lint/typecheck
 # gates deterministic. See docs/DEPENDENCY_POLICY.md.
 pip==26.1.2
-setuptools==78.1.1
+setuptools==82.0.1
 wheel==0.47.0
 pydantic==2.13.4
 fastapi==0.137.1

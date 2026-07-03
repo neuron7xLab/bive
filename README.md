@@ -14,7 +14,8 @@ BIVE is a research-to-product engineering repository for analysts, auditors, inv
 
 ## Current executable scope
 
-- deterministic transcript ingestion;
+- deterministic transcript ingestion from JSON, JSONL, SRT, WebVTT, CSV and plain text (auto-detected), plus ASR JSON (Whisper);
+- file upload from the web console (drag-and-drop) and a dependency-free upload API;
 - conservative text-feature and claim extraction;
 - local contradiction/tension detection;
 - evidence event model with provenance;
@@ -55,7 +56,11 @@ The repository builds with the standard, PyPA-maintained `setuptools.build_meta`
 ## CLI
 
 ```bash
+# analyze accepts JSON, JSONL, SRT, VTT, CSV or TXT — the format is auto-detected
 bive analyze --input samples/demo_transcript.json --output artifacts/local_demo_report.json
+bive analyze --input samples/demo_transcript.srt --output artifacts/local_demo_report.json
+bive convert --input samples/demo_transcript.vtt --output artifacts/canonical.json
+bive formats
 bive validate --input artifacts/local_demo_report.json
 bive render --input artifacts/local_demo_report.json --output artifacts/local_demo_report.md
 bive simulate
@@ -101,11 +106,30 @@ Core endpoints:
 - `GET /api/v1/system/neurocognitive-protocol`
 - `GET /api/v1/system/product-readiness`
 - `POST /api/v1/reports/from-transcript`
+- `POST /api/v1/reports/from-upload`
 - `GET /api/v1/reports`
 - `GET /api/v1/reports/{report_id}`
 - `GET /api/v1/reports/{report_id}/markdown`
 
 OpenAPI contract: `docs/openapi.json`.
+
+### Upload your data
+
+The web console at `/` accepts drag-and-drop of a transcript file in any
+supported format; parsing happens server-side (one source of truth). From the
+command line or an integration, upload the raw file bytes:
+
+```bash
+curl -sS -X POST \
+  "http://127.0.0.1:8080/api/v1/reports/from-upload?api-version=2026-06-11" \
+  -H 'x-bive-filename: interview.srt' \
+  --data-binary @interview.srt
+```
+
+The format is inferred from `x-bive-filename` and the content; pass
+`&format=srt` to force a parser. Audio and video are out of scope for the
+deterministic core: transcribe them to text first (e.g. Whisper) and upload the
+resulting JSON, SRT or VTT.
 
 ## Release gates
 

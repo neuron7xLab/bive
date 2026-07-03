@@ -25,6 +25,10 @@ def test_verifiability_endpoint_never_returns_a_verdict(client: TestClient) -> N
     assert d["ordinal_flag"] in {"markers_elevated", "markers_nominal", "insufficient_data"}
     assert d["corroboration_questions"]
     assert d["audit_trail"]
+    # Worklist: checkable claims routed to concrete record types, no verdict.
+    assert d["corroboration_worklist"]
+    item = d["corroboration_worklist"][0]
+    assert item["claim_id"] and item["quote"] and item["record_types"]
 
 
 @pytest.mark.contract

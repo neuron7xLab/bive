@@ -943,6 +943,30 @@ function renderVerifiability(data) {
   });
   qs.append(list);
 
+  if ((data.corroboration_worklist || []).length) {
+    const ws = section(details, 'Лист корроборації — що перевірити');
+    const wl = make('ul', 'worklist');
+    data.corroboration_worklist.forEach((item) => {
+      const li = make('li', 'worklist__item');
+      const q = make('p', 'worklist__claim');
+      text(q, `«${item.quote}»`);
+      li.append(q);
+      const rl = make('ul', 'worklist__records');
+      (item.record_types || []).forEach((r) => {
+        const rli = make('li', 'worklist__record');
+        const mark = make('span', 'question__mark');
+        mark.append(iconEl('check'));
+        const rt = make('span');
+        text(rt, r);
+        rli.append(mark, rt);
+        rl.append(rli);
+      });
+      li.append(rl);
+      wl.append(li);
+    });
+    ws.append(wl);
+  }
+
   if ((data.rm_criteria_flagged || []).length) {
     const ns = section(details, 'Неперевірювані твердження');
     const nl = make('ul', 'questions');

@@ -1240,7 +1240,7 @@
     {
       "bytes": 3138,
       "path": "tests/test_ekman_guards.py",
-      "sha256": "dd3b23ec070cc3f29c5578c30a44daa75eb316ae450387d7e457aa9c2bc890cc"
+      "sha256": "ebdbf5552a63d626769e15d958c6b76a846c90b8e677045473e843942f66d6d3"
     },
     {
       "bytes": 234,
@@ -1358,7 +1358,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T14:37:07+00:00",
+  "generated_at_utc": "2026-07-03T14:52:31+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

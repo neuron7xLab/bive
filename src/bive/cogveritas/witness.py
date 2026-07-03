@@ -26,7 +26,10 @@ from .verifiability_tagger import (
 
 # "Name: utterance" — a speaker label up to 40 chars, then the statement. Common
 # in transcripts and interrogation records. Avoids matching "14:30" style times.
-_SPEAKER_LINE = re.compile(r"^\s*([^:\n]{1,40}?):\s+(.+)$")
+# The label is bounded and the post-colon whitespace/non-whitespace boundary is
+# unambiguous, so there is no catastrophic backtracking; lines are pre-stripped,
+# so no leading-\s* is needed (which would overlap the label class -> ReDoS).
+_SPEAKER_LINE = re.compile(r"^([^:\n]{1,40}):\s+(\S.*)$")
 
 
 def parse_statements(text: str) -> list[tuple[str, str]]:

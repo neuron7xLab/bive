@@ -1098,9 +1098,9 @@
       "sha256": "ae9bbce4d6422946cc64d58d7d66aec2855ea3ad8a3ee1dfe4b3a223d643664f"
     },
     {
-      "bytes": 4238,
+      "bytes": 4475,
       "path": "src/bive/cogveritas/witness.py",
-      "sha256": "ceee4130fa5459aa5283ac13f8f9369b201c6bf9142ecc02cb19ad11b6a20128"
+      "sha256": "9cc808e6b0bbaafb1e01357b130fc0e5aa03598ca13ff12468d924ec13aaad3c"
     },
     {
       "bytes": 7691,
@@ -1563,7 +1563,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T21:34:46+00:00",
+  "generated_at_utc": "2026-07-03T21:39:39+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

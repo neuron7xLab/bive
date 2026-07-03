@@ -12,6 +12,10 @@ BIVE is an evidence-first transcript verification system. It builds reviewable e
 
 BIVE is a research-to-product engineering repository for analysts, auditors, investigators, journalists, OSINT teams and safety researchers who need structured evidence review. It is not an automated decision system. Any real-world decision that affects a person requires human review, domain expertise and external corroboration.
 
+> **COGVERITAS is an evidence-review system. It does not determine whether a person is truthful. It extracts externally checkable claims, reports uncertainty, asks corroboration questions, and preserves provenance.**
+
+The COGVERITAS layer ([`docs/methodology/`](docs/methodology/COGVERITAS_METHOD_ACT.md)) is fail-closed: no person-level verdict ever; probabilities only when calibration is demonstrated (ECE < 0.10); Phase 1 stays blocked until subject-independent AUC > 0.60 on both required datasets. Empirically, verbal cues do not detect real high-stakes deception ([`docs/EMPIRICAL_VALIDATION.md`](docs/EMPIRICAL_VALIDATION.md)) — so the system stays an assistant, not a detector. Verify: `make cogveritas-verify`.
+
 ## Current executable scope
 
 - deterministic transcript ingestion from JSON, JSONL, SRT, WebVTT, CSV and plain text (auto-detected), plus ASR JSON (Whisper);

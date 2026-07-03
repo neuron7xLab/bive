@@ -1,0 +1,11 @@
+{
+  "dataset": "OP_SPAM",
+  "source_url": "https://myleott.com/op-spam.html",
+  "access_date": "2026-07-03T18:03:59+00:00",
+  "license_notes": "Ott et al.; redistribute via loader + checksum, not raw text",
+  "raw_data_committed": false,
+  "n_items": 1600,
+  "label_schema": "1=deceptive(MTurk), 0=truthful(web)",
+  "grouping_strategy": "hotel_index from canonical 20x20 block order",
+  "sha256": "f1455844f5bf8670f7fc092c431a2dfb1d3501dd9b04262a9f9eac52c24512f3"
+}

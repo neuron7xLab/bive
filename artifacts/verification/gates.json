@@ -1,5 +1,5 @@
 {
-  "commit": "6125b1785dd3918ae31ab2afa58d44825cdf63c8",
+  "commit": "a9e59ca0f4252b6d9d177be0fbee717f2320e151",
   "gates": [
     {
       "command": [
@@ -16,7 +16,7 @@
         "python",
         "scripts/validate_test_architecture.py"
       ],
-      "duration_seconds": 0.044,
+      "duration_seconds": 0.038,
       "exit_code": 0,
       "failure_excerpt": "",
       "result": "pass"
@@ -26,7 +26,7 @@
         "python",
         "scripts/validate_automation_contract.py"
       ],
-      "duration_seconds": 0.023,
+      "duration_seconds": 0.019,
       "exit_code": 0,
       "failure_excerpt": "",
       "result": "pass"
@@ -36,13 +36,13 @@
         "python",
         "scripts/validate_bibliography.py"
       ],
-      "duration_seconds": 0.024,
+      "duration_seconds": 0.019,
       "exit_code": 0,
       "failure_excerpt": "",
       "result": "pass"
     }
   ],
-  "generated_at": "2026-07-03T09:59:20Z",
+  "generated_at": "2026-07-03T18:11:18Z",
   "schema_version": 1,
   "status": "pass"
 }

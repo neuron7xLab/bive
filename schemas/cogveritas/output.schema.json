@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "COGVERITASOutput",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["verifiability_gap", "corroboration_questions", "ordinal_flag", "audit_trail", "verdict"],
+  "properties": {
+    "verifiability_gap": {"enum": ["elevated", "nominal", "insufficient"]},
+    "rm_criteria_flagged": {"type": "array", "items": {"type": "string"}},
+    "corroboration_questions": {"type": "array", "minItems": 1, "items": {"type": "string"}},
+    "calibrated_probability": {"type": ["number", "null"]},
+    "calibration_ci": {"type": ["array", "null"], "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+    "ordinal_flag": {"enum": ["markers_elevated", "markers_nominal", "insufficient_data"]},
+    "audit_trail": {"type": "array", "minItems": 1, "items": {"type": "object"}},
+    "verdict": {"type": "null"}
+  }
+}

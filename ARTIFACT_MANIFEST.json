@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 260,
+  "file_count": 263,
   "files": [
     {
       "bytes": 113,
@@ -170,7 +170,7 @@
     {
       "bytes": 408,
       "path": "artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json",
-      "sha256": "9024b43a9ece79e2caf5adf0ee870d4af6e717921ecea4a2c84eebf9199fdc89"
+      "sha256": "cc99b8a686fffa96bd19aea768582448d8373bae0e3e40b768717241ea546c86"
     },
     {
       "bytes": 1723,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 10624,
+      "bytes": 11054,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "61cc0e8f876d1761d42b435e447028a36fbb9b5ce15b58e10f40b7c89b796176"
+      "sha256": "f71ab613e52fe9c40f0accbf773b343a4b8a627c5e29115643c5515deafa5cce"
     },
     {
       "bytes": 826,
@@ -648,6 +648,11 @@
       "sha256": "09c79205cf12fa36575c55e098aa763b7f6eee18a9391c584a8d4c75e77b3224"
     },
     {
+      "bytes": 4872,
+      "path": "samples/checkers_speech.txt",
+      "sha256": "71110ece166a3a512b1834eafbea731c18976f1a2f8dfbc4962c2acbf2ff1190"
+    },
+    {
       "bytes": 206,
       "path": "samples/demo_transcript.csv",
       "sha256": "4735c03ade8ee31d9f504d75726f6ba28429f95f95155c8b6654a970e7350df4"
@@ -928,9 +933,9 @@
       "sha256": "df7202162277df2c0b7aad8c56d2b71272a1802c1320f1418e7beeaac9d04876"
     },
     {
-      "bytes": 3357,
+      "bytes": 3580,
       "path": "src/bive/fusion.py",
-      "sha256": "c691b24b9f3e511394e5028a4778ea5870323fc09422ec16a8e89af96b19e99c"
+      "sha256": "4ee0cb6b9a6785b29d5bbe8b5a80f0494813a9d55e6aa39564e596dc1b68d525"
     },
     {
       "bytes": 1284,
@@ -943,9 +948,9 @@
       "sha256": "f3ccf70c32b6261ad2394719c3da9d681fe397507a3c7e8af2b1a3c25fc9f19f"
     },
     {
-      "bytes": 9104,
+      "bytes": 12300,
       "path": "src/bive/linguistics.py",
-      "sha256": "393fdd8142ebf8fd70c94c68591a6a728f94479c31c13a9a9623b415f522e3ea"
+      "sha256": "0a8c8c9203edfa69a4fb939d038b10b55b38927210348aba89a7a209a197dd0b"
     },
     {
       "bytes": 10610,
@@ -1073,6 +1078,11 @@
       "sha256": "6d34994efba8d0067936fa853145fb0ce5aaea7bb37816955486aa8f17f7e727"
     },
     {
+      "bytes": 9811,
+      "path": "src/bive/style_markers.py",
+      "sha256": "75b1ecb3ceaca506aa64264876d5a14625524b4878257ee45a5aa28cfc692347"
+    },
+    {
       "bytes": 19807,
       "path": "src/bive/transcript_formats.py",
       "sha256": "39005fde7d099a7a382ee944046db14972cd84d617b1007d210a948b4363c6ee"
@@ -1088,9 +1098,9 @@
       "sha256": "7fa5080840c6f307e22f0801c4a5bbe18ea6e72bc2833d5348ac879045d8a3a0"
     },
     {
-      "bytes": 29998,
+      "bytes": 33564,
       "path": "src/bive/web/static/app.js",
-      "sha256": "a0cd09cefe364a2d86c8b6e997a56c2a891221b1658f2d1eab8b07197a85e38a"
+      "sha256": "1fb16b000a0001c6de0198ebea9b18511e5ac683d3b87a89b5e932c870e55f37"
     },
     {
       "bytes": 19185,
@@ -1208,9 +1218,9 @@
       "sha256": "eeb5296b427faf4df6e8bd5797ff135472eba1d4e7681d14629359db8eae7eb0"
     },
     {
-      "bytes": 1987,
+      "bytes": 2118,
       "path": "tests/test_linguistics.py",
-      "sha256": "da1615626bdd5bc395944715d51480751dd015fe86f05972ea4c73d396f07fdc"
+      "sha256": "6ff635c521c6c7c0d782155a011305ea4aa88215675f6a4c3302741914f85413"
     },
     {
       "bytes": 2675,
@@ -1288,6 +1298,11 @@
       "sha256": "28a13b6096c3fec92f1593b72d26e88842d97355397883535b308d434d39ee5a"
     },
     {
+      "bytes": 3209,
+      "path": "tests/test_style_markers.py",
+      "sha256": "2ed8f5c3b8f6db25e6278faeafcff964ae9915c51c8ef05046b2f4796e1fb52a"
+    },
+    {
       "bytes": 9287,
       "path": "tests/test_transcript_formats.py",
       "sha256": "664a6f6080169f917ed76d0f8f8fc08b941df5d3a203d5a03a8710d8b52e472b"
@@ -1303,7 +1318,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T12:49:30+00:00",
+  "generated_at_utc": "2026-07-03T13:27:57+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

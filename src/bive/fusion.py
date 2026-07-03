@@ -10,6 +10,7 @@ from .weights import DEFAULT_WEIGHTS, ValueWeights
 HYPOTHESIS_DEFS = {
     "H_INCONSISTENCY_RISK": "Risk that claims contain unresolved contradictions, timeline tensions or semantic incompatibilities.",
     "H_MANIPULATION_RISK": "Risk that communication attempts to reduce verification, pressure interpretation or control the review frame.",
+    "H_LINGUISTIC_STYLE_RISK": "Risk implied by linguistic-style markers that population-level research associates with deception (Newman & Pennebaker 2003; Vrij 2008); weak individually and never a person-level verdict.",
     "H_COGNITIVE_LOAD_RISK": "Risk that observed signals suggest high cognitive load, without implying deception.",
     "H_EVIDENCE_GAP_RISK": "Risk that available evidence is too incomplete for reliable assessment.",
 }

@@ -64,6 +64,9 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     # Cross-witness comparison must render.
     assert "data.cross_witness" in js
     assert "cross_corroboration" in js and "cross_contradiction" in js
+    # Case entity index must render.
+    assert "data.entities" in js
+    assert "canonical" in js
 
 
 def test_frontend_token_is_session_bounded() -> None:

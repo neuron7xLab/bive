@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 260,
+  "test_functions": 265,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -163,6 +163,13 @@
       "test_endpoint_returns_markdown_dossier",
       "test_endpoint_rejects_unknown_format",
       "test_json_still_default_and_carries_language"
+    ],
+    "tests/test_cogveritas_entities.py": [
+      "test_inflected_mentions_cluster_to_one_entity",
+      "test_distinct_names_stay_separate",
+      "test_sentence_initial_pronouns_are_not_entities",
+      "test_entities_ranked_by_mention_count",
+      "test_service_exposes_entities_verdict_null"
     ],
     "tests/test_cogveritas_lang.py": [
       "test_language_detection",

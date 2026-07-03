@@ -638,6 +638,15 @@ textarea {
   background: var(--good-dim, rgba(123, 216, 143, 0.08));
 }
 .conflict[data-kind="cross_corroboration"] .conflict__tag { color: var(--good, #7bd88f); }
+.entities { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+.entity {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  padding: 4px 10px; border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+}
+.entity__name { color: var(--text-1, #fff); font-size: var(--fs-sm); font-weight: 600; }
+.entity__count { color: var(--accent, #ffc46f); font-size: var(--fs-2xs, 11px); font-variant-numeric: tabular-nums; }
+.entity__forms { color: var(--text-3); font-size: var(--fs-2xs, 11px); }
 .timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .timeline__item { display: flex; gap: 10px; align-items: baseline; }
 .timeline__time {

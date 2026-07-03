@@ -210,6 +210,7 @@ src/bive/cogveritas/bias_baseline.py
 src/bive/cogveritas/calibration_metrics.py
 src/bive/cogveritas/corroboration.py
 src/bive/cogveritas/dossier.py
+src/bive/cogveritas/entities.py
 src/bive/cogveritas/lang.py
 src/bive/cogveritas/methodology.py
 src/bive/cogveritas/output_contract.py
@@ -279,6 +280,7 @@ tests/test_cognitive_control_plane.py
 tests/test_cogveritas.py
 tests/test_cogveritas_api.py
 tests/test_cogveritas_dossier.py
+tests/test_cogveritas_entities.py
 tests/test_cogveritas_lang.py
 tests/test_cogveritas_timeline.py
 tests/test_cogveritas_witness.py

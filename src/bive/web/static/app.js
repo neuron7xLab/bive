@@ -958,6 +958,27 @@ function renderVerifiability(data) {
 
   const details = make('div', 'details');
 
+  if ((data.entities || []).length) {
+    const es = section(details, 'Сутності справи');
+    const el2 = make('ul', 'entities');
+    data.entities.forEach((e) => {
+      const li = make('li', 'entity');
+      const name = make('span', 'entity__name');
+      text(name, e.canonical);
+      const cnt = make('span', 'entity__count');
+      text(cnt, `×${e.count}`);
+      li.append(name, cnt);
+      const others = (e.forms || []).filter((f) => f !== e.canonical);
+      if (others.length) {
+        const forms = make('span', 'entity__forms');
+        text(forms, others.join(', '));
+        li.append(forms);
+      }
+      el2.append(li);
+    });
+    es.append(el2);
+  }
+
   if ((data.cross_witness || []).length) {
     const xs = section(details, 'Крос-звірка показів свідків');
     const xl = make('ul', 'conflicts');

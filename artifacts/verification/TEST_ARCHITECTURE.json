@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 162,
+  "test_functions": 164,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -235,7 +235,9 @@
       "test_non_numeric_timecodes_become_none",
       "test_srt_without_index_line",
       "test_json_object_without_segments_or_text_raises",
-      "test_webvtt_alias_normalised"
+      "test_webvtt_alias_normalised",
+      "test_vtt_voice_classes_parsed",
+      "test_vtt_voice_regex_is_not_redos_prone"
     ],
     "tests/test_ui_assets.py": [
       "test_ui_assets_exist"

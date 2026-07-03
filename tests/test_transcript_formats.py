@@ -3,6 +3,7 @@ from __future__ import annotations
 import pytest
 
 from bive.transcript_formats import (
+    _VTT_VOICE,
     SUPPORTED_FORMATS,
     TranscriptFormatError,
     detect_format,
@@ -198,3 +199,24 @@ def test_json_object_without_segments_or_text_raises() -> None:
 def test_webvtt_alias_normalised() -> None:
     payload = parse_transcript(VTT, fmt="webvtt")
     assert payload["segments"][0]["speaker"] == "Alice"
+
+
+def test_vtt_voice_classes_parsed() -> None:
+    cue = "WEBVTT\n\n00:00.000 --> 00:01.000\n<v.loud.first Alice>hello there\n"
+    segments = parse_transcript(cue, fmt="vtt")["segments"]
+    assert segments[0]["speaker"] == "Alice"
+    assert segments[0]["text"] == "hello there"
+
+
+def test_vtt_voice_regex_is_not_redos_prone() -> None:
+    # A crafted line that previously triggered exponential backtracking must now
+    # be handled in linear time. A wall-clock bound is a coarse but effective
+    # guard against a regression reintroducing catastrophic backtracking.
+    import time
+
+    hostile = "<v." + "-." * 3000 + " "
+    start = time.perf_counter()
+    match = _VTT_VOICE.match(hostile)
+    elapsed = time.perf_counter() - start
+    assert match is None
+    assert elapsed < 0.5

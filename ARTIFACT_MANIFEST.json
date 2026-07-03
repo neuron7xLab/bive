@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 10127,
+      "bytes": 10215,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "a1eb398f2c410e16e374668ec185c7feeea56dc070eb80f0a81328616fb8b261"
+      "sha256": "176ba2923c2c1f1e85039fce49c9163ef4cd50bcfb566c8a5fecd6ce939e40ec"
     },
     {
       "bytes": 826,
@@ -1073,9 +1073,9 @@
       "sha256": "6d34994efba8d0067936fa853145fb0ce5aaea7bb37816955486aa8f17f7e727"
     },
     {
-      "bytes": 16474,
+      "bytes": 16666,
       "path": "src/bive/transcript_formats.py",
-      "sha256": "24faf6dfe73a87f9f80458fa97d7718fac4940466e25d8408f79cafa719f5652"
+      "sha256": "523f3c8fd3876847d643b630492b2677bbc1bcc0dc157b0f655fd74f75f7dca2"
     },
     {
       "bytes": 2072,
@@ -1288,9 +1288,9 @@
       "sha256": "28a13b6096c3fec92f1593b72d26e88842d97355397883535b308d434d39ee5a"
     },
     {
-      "bytes": 6651,
+      "bytes": 7457,
       "path": "tests/test_transcript_formats.py",
-      "sha256": "be47e438a5f09992eb31e7e439f25054bd4f2370c1ba84a89a6b713fcaba04c0"
+      "sha256": "aa4357635f05bd05000ef2d6470ecaaff8cb44009a3014a949e407695805f710"
     },
     {
       "bytes": 229,
@@ -1303,7 +1303,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T09:57:37+00:00",
+  "generated_at_utc": "2026-07-03T11:27:37+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

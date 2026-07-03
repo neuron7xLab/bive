@@ -20,6 +20,7 @@ from __future__ import annotations
 import csv
 import io
 import json
+import math
 import re
 from collections.abc import Callable, Mapping
 from typing import Any
@@ -43,8 +44,11 @@ _DEFAULT_SPEAKER = "unknown"
 # that ordinary sentences containing a colon are not mistaken for speaker turns.
 _SPEAKER_PREFIX = re.compile(r"^(?P<speaker>[\w .'\-]{1,40}?)\s*:\s+(?P<text>\S.*)$")
 
-# WebVTT voice span: <v Speaker>text</v> (closing tag optional per spec).
-_VTT_VOICE = re.compile(r"^<v(?:\.[\w.\-]+)*\s+(?P<speaker>[^>]+)>(?P<text>.*?)(?:</v>)?$")
+# WebVTT voice span: <v Speaker>text</v> with optional dot-separated cue classes
+# (<v.loud.first Speaker>). The class token is `[\w-]+` (no dot) so the repeated
+# group is unambiguous — a dotted char class here would allow exponential
+# backtracking (ReDoS) on attacker-controlled cue text.
+_VTT_VOICE = re.compile(r"^<v(?:\.[\w-]+)*\s+(?P<speaker>[^>]+)>(?P<text>.*?)(?:</v>)?$")
 
 _SRT_ARROW = " --> "
 _TIMECODE = re.compile(
@@ -381,7 +385,7 @@ def _to_float(value: Any) -> float | None:
         result = float(value)
     except (TypeError, ValueError):
         return None
-    if result != result or result in (float("inf"), float("-inf")):  # NaN / inf guard
+    if math.isnan(result) or math.isinf(result):
         return None
     return result
 

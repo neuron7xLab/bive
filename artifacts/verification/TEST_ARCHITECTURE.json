@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 228,
+  "test_functions": 229,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -136,6 +136,7 @@
       "test_verifiability_feature_counts_direction",
       "test_empty_and_short_input_return_insufficient",
       "test_provenance_node_per_claim",
+      "test_service_audit_trail_carries_entities",
       "test_spacy_fallback_is_deterministic",
       "test_reliability_diagram_10_bins",
       "test_bootstrap_ci_fixed_random_state",

@@ -9,7 +9,7 @@ from __future__ import annotations
 
 from .corroboration import corroboration_questions, unverifiable_notes, verifiability_gap
 from .output_contract import COGVERITASOutput, ProvenanceNode, build_output
-from .verifiability_tagger import analyze, classify_claim_verifiability
+from .verifiability_tagger import analyze, classify_claim_verifiability, extract_named_entities
 
 
 def analyze_verifiability(text: str) -> COGVERITASOutput:
@@ -20,6 +20,10 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
             claim_id=c.claim_id,
             text=c.text,
             verifiability=classify_claim_verifiability(c),  # type: ignore[arg-type]
+            # Carry the entities that make each claim externally checkable — the
+            # audit trail must show what a reviewer would corroborate, not just
+            # that a claim exists.
+            entities=extract_named_entities(c.text)[:12],
         )
         for c in claims
     ]

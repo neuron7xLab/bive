@@ -12,6 +12,7 @@ from bive.cogveritas import (
 )
 from bive.cogveritas.calibration_metrics import bootstrap_ci, reliability_diagram
 from bive.cogveritas.output_contract import ECE_THRESHOLD, COGVERITASOutput, ProvenanceNode
+from bive.cogveritas.service import analyze_verifiability
 from bive.cogveritas.verifiability_tagger import build_provenance_nodes, normalize_text
 
 
@@ -60,6 +61,15 @@ def test_provenance_node_per_claim() -> None:
     nodes = build_provenance_nodes(claims)
     assert len(nodes) == len(claims) >= 2
     assert all("claim_id" in n and "verifiability" in n for n in nodes)
+
+
+def test_service_audit_trail_carries_entities() -> None:
+    # The audit trail is provenance: an externally-checkable claim must expose the
+    # entities a reviewer would corroborate, not just assert the claim exists.
+    out = analyze_verifiability("I met John Smith at the Hilton in Chicago on March 3.")
+    checkable = [n for n in out.audit_trail if n.verifiability == "externally_checkable"]
+    assert checkable, "a concrete claim must be externally checkable"
+    assert any(n.entities for n in checkable), "checkable nodes must carry their entities"
 
 
 def test_spacy_fallback_is_deterministic() -> None:

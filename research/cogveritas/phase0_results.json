@@ -1,0 +1,45 @@
+{
+  "corpus": "Ott Deceptive Opinion Spam (1600)",
+  "protocol": "stratified 5-fold CV, isotonic-calibrated logistic; positive=deceptive",
+  "limitation": "fold-CV not author/hotel-independent; single-domain (hotel reviews)",
+  "results": [
+    {
+      "model": "verbal-science (calibrated)",
+      "roc_auc": 0.7507,
+      "auc_ci95": [
+        0.7269,
+        0.7742
+      ],
+      "brier": 0.2029,
+      "ece": 0.0239,
+      "accuracy": 0.6875
+    },
+    {
+      "model": "baseline: length-only",
+      "roc_auc": 0.497,
+      "auc_ci95": [
+        0.4685,
+        0.5237
+      ],
+      "brier": 0.2534,
+      "ece": 0.0408,
+      "accuracy": 0.5
+    },
+    {
+      "model": "ceiling: tf-idf 1-2gram",
+      "roc_auc": 0.9548,
+      "auc_ci95": [
+        0.9455,
+        0.9634
+      ],
+      "brier": 0.1094,
+      "ece": 0.1574,
+      "accuracy": 0.89
+    }
+  ],
+  "verifiability_point_biserial_r": -0.1368,
+  "kill_gate": {
+    "threshold_auc": 0.6,
+    "verdict": "PASS"
+  }
+}

@@ -26,6 +26,7 @@ DEFAULT_LIMITATIONS = (
     "Othello error (Ekman 1985): stress, fear or emotion have many causes; arousal is never treated as deception.",
     "Brokaw hazard (Ekman 1985): no within-speaker truthful baseline is available, so idiosyncratic style is not a cue.",
     "Words are the most consciously controlled channel (Ekman); linguistic cues are weak and kept low-confidence.",
+    "Empirical ceiling (Ott corpus, docs/EMPIRICAL_VALIDATION.md): interpretable verbal cues reach only ~0.75 AUC in-domain and ~0.61-0.72 out-of-domain; calibrated probabilities are defensible in-domain only, so cross-domain output is ordinal, not a percentage.",
 )
 
 

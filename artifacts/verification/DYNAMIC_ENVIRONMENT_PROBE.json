@@ -1,6 +1,6 @@
 {
   "dynamic_probe_id": "bive-stage6-dynamic-environment-probe",
-  "normalized_structural_hash": "f2e0d57e4c56d096b5c5a3919d5036e119bfd8a2e6928a749aa7dc9f6bc25b25",
+  "normalized_structural_hash": "4b904363ca6183d82c3bd209dc06a23c9c7989f3e78526e92b9836df2b6f9502",
   "repeated_runs": "pass",
   "malformed_input": "pass",
   "oversized_payload_status": 413,

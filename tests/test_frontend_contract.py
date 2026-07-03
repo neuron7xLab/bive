@@ -42,6 +42,10 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     assert "вирок: відсутній" in js, "renderer must surface the no-verdict framing"
     for forbidden in ("verdict: true", "verdict: false", "is lying", "is truthful"):
         assert forbidden not in js.lower(), f"frontend must not render a verdict: {forbidden!r}"
+    # Verifiability must accept an attached transcript file, not only the textarea,
+    # and reuse the same media/size guards as the main analysis path.
+    assert "resolveVerifiabilityInput" in js, "verifiability must resolve file or textarea input"
+    assert "pendingFile" in js and "MEDIA_EXTENSIONS" in js, "file path must reuse upload guards"
 
 
 def test_frontend_token_is_session_bounded() -> None:

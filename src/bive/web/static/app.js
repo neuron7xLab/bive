@@ -933,27 +933,56 @@ function renderVerifiability(data) {
   scrollThread();
 }
 
-async function verifiability() {
+// Resolve the text to verify from an attached file (preferred) or the textarea,
+// applying the same media/size guards as the main analysis path. Returns the
+// content string, or null if the caller already surfaced a blocking notice.
+async function resolveVerifiabilityInput() {
+  if (pendingFile) {
+    const file = pendingFile;
+    setPendingFile(null);
+    const ext = fileExtension(file.name);
+    if (MEDIA_EXTENSIONS.includes(ext)) {
+      addNotice('Аудіо/відео потребує транскрипції', 'Транскрибуй запис (напр. Whisper → SRT/JSON) і завантаж текст.', 'muted');
+      setStatus('Потрібен транскрипт.', 'neutral');
+      return null;
+    }
+    if (file.size > MAX_UPLOAD_BYTES) {
+      addNotice('Файл завеликий', `${(file.size / 1e6).toFixed(1)}MB перевищує ліміт 100MB.`, 'bad');
+      return null;
+    }
+    addUserMessage(`📎 ${file.name}`);
+    return (await file.text()).trim();
+  }
   const raw = payload.value.trim();
   if (!raw) {
-    setStatus('Порожньо. Встав текст для перевірки.', 'error');
-    return;
+    setStatus('Порожньо. Встав текст або додай файл для перевірки.', 'error');
+    return null;
   }
   addUserMessage(raw.length > 260 ? `${raw.slice(0, 260)}…` : raw);
   payload.value = '';
   autoGrow();
-  setStatus('Перевіряю зовнішню перевірюваність…', 'busy');
+  return raw;
+}
+
+async function verifiability() {
+  if (busy) return;
+  setBusy(true);
   try {
+    const content = await resolveVerifiabilityInput();
+    if (content === null) return; // blocking notice already shown
+    setStatus('Перевіряю зовнішню перевірюваність…', 'busy');
     const {data} = await fetchJson(apiUrl('/api/v1/cogveritas/verifiability'), {
       method: 'POST',
       headers: {'content-type': 'text/plain; charset=utf-8'},
-      body: raw,
+      body: content,
     });
     renderVerifiability(data);
     setStatus('Готово · COGVERITAS (вирок відсутній).', 'ok');
   } catch (error) {
     addNotice('Не вдалося перевірити', humanError(error), 'bad');
     setStatus(error.message, 'error');
+  } finally {
+    setBusy(false);
   }
 }
 

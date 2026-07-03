@@ -13,6 +13,7 @@ from .lang import detect_language
 from .output_contract import (
     COGVERITASOutput,
     ConflictItem,
+    CrossWitnessItem,
     ProvenanceNode,
     TimelineEntry,
     WorklistItem,
@@ -20,6 +21,7 @@ from .output_contract import (
 )
 from .timeline import build_timeline, detect_conflicts
 from .verifiability_tagger import analyze, classify_claim_verifiability, extract_named_entities
+from .witness import analyze_by_speaker, cross_witness, distinct_speakers
 from .worklist import corroboration_worklist
 
 
@@ -51,6 +53,14 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
     worklist = [WorklistItem(**item) for item in corroboration_worklist(claims)]  # type: ignore[arg-type]
     timeline = [TimelineEntry(**entry) for entry in build_timeline(claims)]  # type: ignore[arg-type]
     conflicts = [ConflictItem(**c) for c in detect_conflicts(claims)]  # type: ignore[arg-type]
+    # Cross-witness: only meaningful when the input names more than one speaker.
+    speaker_claims = analyze_by_speaker(text)
+    speakers = distinct_speakers(speaker_claims)
+    cross = (
+        [CrossWitnessItem(**c) for c in cross_witness(speaker_claims)]  # type: ignore[arg-type]
+        if len(speakers) > 1
+        else []
+    )
     return build_output(
         verifiability_gap=verifiability_gap(claims),
         corroboration_questions=corroboration_questions(claims),
@@ -59,6 +69,8 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
         corroboration_worklist=worklist,
         timeline=timeline,
         conflicts=conflicts,
+        witnesses=speakers if len(speakers) > 1 else [],
+        cross_witness=cross,
         detected_language=lang,
         # ece omitted -> Phase 0 policy disables float probabilities (ordinal only).
     )

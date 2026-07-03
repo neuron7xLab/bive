@@ -132,10 +132,29 @@ def build_timeline(claims: list[Claim]) -> list[dict[str, object]]:
     return [item for _, item in dated]
 
 
+# Light suffix-stripper for Ukrainian/Russian inflection (longest suffix first),
+# then a length cap. Crude but enough to unify «Петру»/«Петро», «отримав»/
+# «отримував» for overlap comparison — not a linguistic lemmatiser.
+_SUFFIXES = (
+    "увала", "ував", "ості", "ями", "ами", "ах", "ів", "ов", "ем", "ом", "их",
+    "ій", "ти", "ть", "ся", "ло", "ла", "ли", "на", "но", "ні", "ий", "ая",
+    "ое", "ые", "в", "л", "ю", "я", "у", "и", "і", "а", "о", "е", "ь", "й",
+)
+
+
+def _stem(token: str) -> str:
+    t = token.lower()
+    for suf in _SUFFIXES:
+        if t.endswith(suf) and len(t) - len(suf) >= 3:
+            t = t[: -len(suf)]
+            break
+    return t[:5]
+
+
 def _content_stems(claim: Claim) -> set[str]:
     pack = pack_for_code(claim.lang)
     return {
-        t.lower()[:6]
+        _stem(t)
         for t in claim.tokens
         if len(t) >= 3 and t.lower() not in pack.negation and not t.isdigit()
     }

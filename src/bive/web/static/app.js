@@ -958,6 +958,29 @@ function renderVerifiability(data) {
 
   const details = make('div', 'details');
 
+  if ((data.cross_witness || []).length) {
+    const xs = section(details, 'Крос-звірка показів свідків');
+    const xl = make('ul', 'conflicts');
+    const CROSS_LABEL = {
+      cross_contradiction: 'суперечність між свідками',
+      cross_corroboration: 'взаємне підтвердження',
+    };
+    data.cross_witness.forEach((x) => {
+      const li = make('li', 'conflict');
+      li.dataset.kind = x.type;
+      const tag = make('span', 'conflict__tag');
+      text(tag, `${CROSS_LABEL[x.type] || x.type} · ${(x.speakers || []).join(' / ')}`);
+      li.append(tag);
+      (x.quotes || []).forEach((q) => {
+        const p = make('p', 'conflict__quote');
+        text(p, `«${q}»`);
+        li.append(p);
+      });
+      xl.append(li);
+    });
+    xs.append(xl);
+  }
+
   if ((data.conflicts || []).length) {
     const cs = section(details, 'Потенційні суперечності — перевірити вручну');
     const cl = make('ul', 'conflicts');

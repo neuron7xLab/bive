@@ -633,6 +633,11 @@ textarea {
   margin-bottom: 4px;
 }
 .conflict__quote { margin: 2px 0; color: var(--text-2); font-size: var(--fs-sm); }
+.conflict[data-kind="cross_corroboration"] {
+  border-left-color: var(--good, #7bd88f);
+  background: var(--good-dim, rgba(123, 216, 143, 0.08));
+}
+.conflict[data-kind="cross_corroboration"] .conflict__tag { color: var(--good, #7bd88f); }
 .timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .timeline__item { display: flex; gap: 10px; align-items: baseline; }
 .timeline__time {

@@ -61,6 +61,9 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     # The analyst dossier must be exportable.
     assert "downloadDossier" in js
     assert "format=markdown" in js
+    # Cross-witness comparison must render.
+    assert "data.cross_witness" in js
+    assert "cross_corroboration" in js and "cross_contradiction" in js
 
 
 def test_frontend_token_is_session_bounded() -> None:

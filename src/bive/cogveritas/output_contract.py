@@ -97,6 +97,20 @@ class ConflictItem(BaseModel):
     quotes: list[str]
 
 
+class CrossWitnessItem(BaseModel):
+    """A cross-speaker relation — a contradiction to resolve or a corroboration.
+
+    ``quotes`` are verbatim evidence from two *different* speakers. A corroboration
+    means two independent accounts assert the same checkable detail (stronger than
+    one source); a contradiction means they conflict. Neither is a verdict.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    type: Literal["cross_contradiction", "cross_corroboration"]
+    speakers: list[str]
+    quotes: list[str]
+
+
 class COGVERITASOutput(BaseModel):
     """The public output. ``verdict`` is always ``None`` — structurally."""
 
@@ -108,6 +122,8 @@ class COGVERITASOutput(BaseModel):
     corroboration_worklist: list[WorklistItem] = []
     timeline: list[TimelineEntry] = []
     conflicts: list[ConflictItem] = []
+    witnesses: list[str] = []
+    cross_witness: list[CrossWitnessItem] = []
     calibrated_probability: float | None = None
     calibration_ci: tuple[float, float] | None = None
     ordinal_flag: OrdinalFlag
@@ -147,6 +163,8 @@ def build_output(
     corroboration_worklist: list[WorklistItem] | None = None,
     timeline: list[TimelineEntry] | None = None,
     conflicts: list[ConflictItem] | None = None,
+    witnesses: list[str] | None = None,
+    cross_witness: list[CrossWitnessItem] | None = None,
     detected_language: str = "en",
     calibrated_probability: float | None = None,
     calibration_ci: tuple[float, float] | None = None,
@@ -171,6 +189,8 @@ def build_output(
         corroboration_worklist=corroboration_worklist or [],
         timeline=timeline or [],
         conflicts=conflicts or [],
+        witnesses=witnesses or [],
+        cross_witness=cross_witness or [],
         calibrated_probability=prob,
         calibration_ci=ci,
         ordinal_flag=ordinal,

@@ -1088,14 +1088,14 @@
       "sha256": "7fa5080840c6f307e22f0801c4a5bbe18ea6e72bc2833d5348ac879045d8a3a0"
     },
     {
-      "bytes": 25969,
+      "bytes": 29998,
       "path": "src/bive/web/static/app.js",
-      "sha256": "8ea883800dc101c6bad435b14e17b2de95dfd28f6de30b02e8907db8ce5f0a6d"
+      "sha256": "a0cd09cefe364a2d86c8b6e997a56c2a891221b1658f2d1eab8b07197a85e38a"
     },
     {
-      "bytes": 17586,
+      "bytes": 19185,
       "path": "src/bive/web/static/styles.css",
-      "sha256": "5725db3aaa6260129f6c2c9ae6746b8de8d6c0f12792684ba996d78a66ada671"
+      "sha256": "22517923e66876f8b255741c5f2570da11e4b07c1c19248e0580dda6b7484350"
     },
     {
       "bytes": 2367,
@@ -1303,7 +1303,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T12:38:43+00:00",
+  "generated_at_utc": "2026-07-03T12:49:30+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

@@ -871,6 +871,44 @@ const GAP_LABEL = {
   insufficient: {label: 'Недостатньо даних для перевірки', tone: 'muted'},
 };
 
+// Progressive disclosure: "why no verdict?" lazy-fetches the empirical contract
+// (the negative result that forces the no-verdict invariant) on first open.
+function methodologyDisclosure() {
+  const why = make('details', 'why');
+  const sum = make('summary', 'why__summary');
+  text(sum, 'Чому вирок відсутній?');
+  const body = make('div', 'why__body');
+  text(body, 'Натисни, щоб побачити емпіричну основу.');
+  why.append(sum, body);
+  let loaded = false;
+  why.addEventListener('toggle', async () => {
+    if (!why.open || loaded) return;
+    loaded = true;
+    text(body, 'Завантаження…');
+    try {
+      const {data} = await fetchJson(apiUrl('/api/v1/cogveritas/methodology'));
+      text(body, '');
+      const law = make('p', 'why__law');
+      text(law, data.empirical_law);
+      body.append(law);
+      const ul = make('ul', 'why__findings');
+      (data.findings || []).slice(0, 3).forEach((f) => {
+        const li = make('li');
+        text(li, `${f.regime} — AUC ${f.roc_auc}: ${f.reads}`);
+        ul.append(li);
+      });
+      body.append(ul);
+      const prov = make('p', 'why__prov');
+      text(prov, `Джерело: ${data.provenance}`);
+      body.append(prov);
+    } catch (error) {
+      loaded = false;
+      text(body, 'Не вдалося завантажити методологію.');
+    }
+  });
+  return why;
+}
+
 function renderVerifiability(data) {
   dismissHero();
   const msg = make('article', 'msg');
@@ -923,6 +961,7 @@ function renderVerifiability(data) {
   const disc = make('p', 'disclaimer');
   text(disc, 'COGVERITAS не визначає, чи людина бреше. Він виділяє зовнішньо перевірювані твердження, ставить питання для корроборації і зберігає provenance. Жодних ймовірностей поза доменом.');
   foot.append(disc);
+  foot.append(methodologyDisclosure());
   details.append(foot);
   card.append(details);
 

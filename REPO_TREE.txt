@@ -209,6 +209,7 @@ src/bive/cogveritas/__init__.py
 src/bive/cogveritas/bias_baseline.py
 src/bive/cogveritas/calibration_metrics.py
 src/bive/cogveritas/corroboration.py
+src/bive/cogveritas/methodology.py
 src/bive/cogveritas/output_contract.py
 src/bive/cogveritas/phase0_cv.py
 src/bive/cogveritas/service.py

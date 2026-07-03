@@ -7,6 +7,7 @@ never emits a person-level verdict. See docs/methodology/COGVERITAS_METHOD_ACT.m
 
 from __future__ import annotations
 
+from .methodology import methodology_contract
 from .output_contract import (
     ECE_THRESHOLD,
     FORBIDDEN_JUDGMENT_STRINGS,
@@ -38,6 +39,7 @@ __all__ = [
     "build_output",
     "classify_claim_verifiability",
     "contains_forbidden_judgment",
+    "methodology_contract",
     "segment_claims",
     "segment_sentences",
 ]

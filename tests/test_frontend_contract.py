@@ -46,6 +46,11 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     # and reuse the same media/size guards as the main analysis path.
     assert "resolveVerifiabilityInput" in js, "verifiability must resolve file or textarea input"
     assert "pendingFile" in js and "MEDIA_EXTENSIONS" in js, "file path must reuse upload guards"
+    # The no-verdict posture must be explainable in-product: a progressive-
+    # disclosure that fetches the empirical methodology contract.
+    assert "methodologyDisclosure" in js
+    assert "apiUrl('/api/v1/cogveritas/methodology')" in js
+    assert "empirical_law" in js
 
 
 def test_frontend_token_is_session_bounded() -> None:

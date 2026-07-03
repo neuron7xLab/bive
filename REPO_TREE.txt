@@ -220,6 +220,7 @@ src/bive/cogveritas/lang.py
 src/bive/cogveritas/methodology.py
 src/bive/cogveritas/output_contract.py
 src/bive/cogveritas/phase0_cv.py
+src/bive/cogveritas/pipeline.py
 src/bive/cogveritas/service.py
 src/bive/cogveritas/timeline.py
 src/bive/cogveritas/verifiability_tagger.py
@@ -292,6 +293,7 @@ tests/test_cogveritas_ingest.py
 tests/test_cogveritas_integrity.py
 tests/test_cogveritas_interview.py
 tests/test_cogveritas_lang.py
+tests/test_cogveritas_pipeline.py
 tests/test_cogveritas_timeline.py
 tests/test_cogveritas_witness.py
 tests/test_cogveritas_worklist.py

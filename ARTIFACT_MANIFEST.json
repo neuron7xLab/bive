@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 324,
+  "file_count": 326,
   "files": [
     {
       "bytes": 113,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 17551,
+      "bytes": 17865,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "4ec11f40486e19adb040765c3dc9f1d8f49004bf883820eb5aceccabe40fecde"
+      "sha256": "7de987de576039164c5e77163b5e8d95f3ba38c4a40b6d34bea4ff2f13391fba"
     },
     {
       "bytes": 826,
@@ -1113,9 +1113,14 @@
       "sha256": "e30abc65723ee801289eccf14c6e4131951b3e9bcf69a67d5400ea294a061a12"
     },
     {
-      "bytes": 6468,
+      "bytes": 5735,
+      "path": "src/bive/cogveritas/pipeline.py",
+      "sha256": "d960544152cdf7c0593b70d0f8be55f489063115b0bac1fe50d34bc647231900"
+    },
+    {
+      "bytes": 2967,
       "path": "src/bive/cogveritas/service.py",
-      "sha256": "01e10355afacdd301ac0e7482c20eaa633f2701a3b3c34f3cfb35f1f1fe559ed"
+      "sha256": "f8eaacb63fc113b9ee0179804a18f4749e7eaa85113de9452b3fc11384dd6b4d"
     },
     {
       "bytes": 8081,
@@ -1473,6 +1478,11 @@
       "sha256": "4db56af4070a35fa77b8c51055def83cbeb5197006457c791a3f765bfc1b0a43"
     },
     {
+      "bytes": 2259,
+      "path": "tests/test_cogveritas_pipeline.py",
+      "sha256": "597382163487d558521077c02c1dba3072ca6cd16e141543cc2c2c39393a4914"
+    },
+    {
       "bytes": 2107,
       "path": "tests/test_cogveritas_timeline.py",
       "sha256": "a7cf7875cca9800379f8f3b7a6b389b8be7184984936251d8d2d20e4305d4744"
@@ -1623,7 +1633,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T22:25:57+00:00",
+  "generated_at_utc": "2026-07-03T22:32:01+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

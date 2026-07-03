@@ -215,6 +215,7 @@ src/bive/cogveritas/dossier.py
 src/bive/cogveritas/entities.py
 src/bive/cogveritas/ingest.py
 src/bive/cogveritas/integrity.py
+src/bive/cogveritas/interview.py
 src/bive/cogveritas/lang.py
 src/bive/cogveritas/methodology.py
 src/bive/cogveritas/output_contract.py
@@ -289,6 +290,7 @@ tests/test_cogveritas_dossier.py
 tests/test_cogveritas_entities.py
 tests/test_cogveritas_ingest.py
 tests/test_cogveritas_integrity.py
+tests/test_cogveritas_interview.py
 tests/test_cogveritas_lang.py
 tests/test_cogveritas_timeline.py
 tests/test_cogveritas_witness.py

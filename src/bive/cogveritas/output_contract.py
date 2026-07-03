@@ -90,6 +90,19 @@ class VerificationProgress(BaseModel):
     pending: int = 0
 
 
+class InterviewQuestion(BaseModel):
+    """A follow-up the interviewer could ask to elicit checkable detail.
+
+    A prompt to gather more verifiable information (Verifiability Approach), never
+    an accusation or a judgment about the person.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    claim_id: str
+    question: str
+    rationale: str = ""
+
+
 class TimelineEntry(BaseModel):
     """A time-anchored claim in chronological order. ``quote`` is verbatim evidence."""
 
@@ -180,6 +193,7 @@ class COGVERITASOutput(BaseModel):
     rm_criteria_flagged: list[str] = []
     corroboration_questions: list[str]
     corroboration_worklist: list[WorklistItem] = []
+    interview_questions: list[InterviewQuestion] = []
     verification_progress: VerificationProgress = VerificationProgress()
     timeline: list[TimelineEntry] = []
     conflicts: list[ConflictItem] = []
@@ -225,6 +239,7 @@ def build_output(
     *,
     rm_criteria_flagged: list[str] | None = None,
     corroboration_worklist: list[WorklistItem] | None = None,
+    interview_questions: list[InterviewQuestion] | None = None,
     timeline: list[TimelineEntry] | None = None,
     conflicts: list[ConflictItem] | None = None,
     entities: list[EntityRef] | None = None,
@@ -260,6 +275,7 @@ def build_output(
         rm_criteria_flagged=rm_criteria_flagged or [],
         corroboration_questions=corroboration_questions,
         corroboration_worklist=worklist,
+        interview_questions=interview_questions or [],
         verification_progress=progress,
         timeline=timeline or [],
         conflicts=conflicts or [],

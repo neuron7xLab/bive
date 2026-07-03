@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 287,
+  "test_functions": 292,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -200,6 +200,13 @@
       "test_verify_endpoint_confirms_matching_fingerprint",
       "test_verify_endpoint_detects_tamper",
       "test_verify_endpoint_fails_closed_on_empty"
+    ],
+    "tests/test_cogveritas_interview.py": [
+      "test_unverifiable_claim_gets_elicit_question",
+      "test_missing_time_is_probed",
+      "test_well_anchored_claim_needs_no_question",
+      "test_service_exposes_interview_questions_verdict_null",
+      "test_interview_questions_carry_no_judgment_framing"
     ],
     "tests/test_cogveritas_lang.py": [
       "test_language_detection",

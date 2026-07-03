@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 195,
+  "test_functions": 206,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -86,6 +86,12 @@
       "test_single_modality_caps_overconfidence",
       "test_counterevidence_increases_calm"
     ],
+    "tests/test_calibration_gate.py": [
+      "test_bootstrap_interval_is_deterministic_and_bracketing",
+      "test_calibration_gate_passes_and_reports_intervals",
+      "test_cognitive_load_hypothesis_activates",
+      "test_calibration_script_writes_tamper_evident_artifact"
+    ],
     "tests/test_calibration_metrics.py": [
       "test_roc_auc_perfect_and_chance",
       "test_roc_auc_single_class_is_chance",
@@ -141,6 +147,15 @@
     ],
     "tests/test_dynamic_environment_probe.py": [
       "test_dynamic_environment_probe_script_runs"
+    ],
+    "tests/test_ekman_guards.py": [
+      "test_othello_error_affect_only_does_not_escalate",
+      "test_othello_note_recorded_on_hypothesis",
+      "test_contradiction_still_escalates",
+      "test_no_single_sign_requires_family_diversity",
+      "test_non_escalating_families_are_arousal_context_mitigation",
+      "test_othello_benchmark_specificity_is_perfect",
+      "test_report_carries_ekman_limitations"
     ],
     "tests/test_eval.py": [
       "test_evaluate_binary_metrics"

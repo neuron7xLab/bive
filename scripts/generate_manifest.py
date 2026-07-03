@@ -46,6 +46,10 @@ GENERATED_BUT_ALLOWED = {
     # `make verify-release` run and embeds non-reproducible subprocess output (random
     # pip temp paths and the per-build wheel sha256), so a byte-stable hash is
     # impossible. Pinning it made the manifest gate self-referentially flaky.
+    # NOTE: CALIBRATION.json is likewise NOT pinned. The `calibration-gate` step of
+    # verify-release regenerates it in-place before manifest-check runs, and its
+    # bootstrap/float payload is not guaranteed byte-identical across Python minor
+    # versions; pinning a file the build itself rewrites is self-referentially fragile.
     "artifacts/verification/DOCKER_RUNTIME_STAGE6_ATTEMPT.log",
     "artifacts/verification/SCIENCE_REGISTRY_VALIDATION.json",
     "artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json",
@@ -63,7 +67,6 @@ GENERATED_BUT_ALLOWED = {
     "artifacts/verification/PRODUCT_READINESS.json",
     "artifacts/verification/STAGE11_INDUSTRIAL_PRODUCT_SUMMARY.md",
     "artifacts/benchmarks/pipeline.json",
-    "artifacts/verification/CALIBRATION.json",
 }
 
 

@@ -23,6 +23,9 @@ DEFAULT_LIMITATIONS = (
     "Nonverbal and paralinguistic cues are weak without baseline, context, and corroborating evidence.",
     "Text-only analysis cannot infer physiology, identity, intent, or guilt.",
     "Real-world use requires human review, source provenance, and domain-specific validation.",
+    "Othello error (Ekman 1985): stress, fear or emotion have many causes; arousal is never treated as deception.",
+    "Brokaw hazard (Ekman 1985): no within-speaker truthful baseline is available, so idiosyncratic style is not a cue.",
+    "Words are the most consciously controlled channel (Ekman); linguistic cues are weak and kept low-confidence.",
 )
 
 

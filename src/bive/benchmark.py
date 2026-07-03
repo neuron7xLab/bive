@@ -21,12 +21,23 @@ from dataclasses import dataclass
 from .calibration_metrics import (
     IsotonicCalibrator,
     average_precision,
+    bootstrap_interval,
     evaluate_probabilities,
     expected_calibration_error,
     roc_auc,
 )
 from .ingest import TranscriptSegment
 from .report import build_report_from_segments
+
+# Published operating floors/ceilings. The calibration gate fails the build if the
+# instrument drifts below what it advertises — zero-trust: verify every build,
+# never assume a code change preserved the science.
+CALIBRATION_THRESHOLDS = {
+    "min_roc_auc": 0.70,
+    "min_average_precision": 0.70,
+    "required_othello_specificity": 1.0,
+    "calibration_must_not_worsen": True,
+}
 
 # (label, segments): label 1 == a genuine same-speaker self-contradiction is
 # present; 0 == no contradiction (several are hard negatives that share topic,
@@ -57,6 +68,40 @@ CONSTRUCT_CASES: tuple[tuple[int, tuple[tuple[str, str], ...]], ...] = (
     (0, (("s", "I did not think it should be charged."), ("s", "I am proud that taxpayers never paid."))),
     (0, (("s", "She spoke first at the meeting."), ("s", "Her presentation was clear and short."))),
 )
+
+
+# Ekman Othello-error probe: emotionally aroused but content-free statements
+# (hedging + fear, but no contradiction, pressure or impression management, and
+# they actively invite verification). A calibrated instrument must NOT escalate
+# these — arousal is not attributed to deception.
+OTHELLO_CASES: tuple[tuple[tuple[str, str], ...], ...] = (
+    (("s", "Можливо, я говорю трохи плутано, бо дуже хвилююся, але перевірте всі документи."),),
+    (("s", "I guess I might be confused and I am very nervous, please check everything carefully."),),
+    (("s", "Мені лячно і тривожно зараз, серце калатає, я розгублений, звіряйте кожну деталь."),),
+    (("s", "I think I am shaking a bit, this frightens me, but go ahead and verify all of it."),),
+    (("s", "Здається, я нервую і хвилююся, перепрошую, звірте будь ласка всі записи."),),
+    (("s", "Maybe I sound stressed because I feel afraid, still I want you to check the records."),),
+)
+
+
+def run_othello_benchmark() -> dict[str, object]:
+    """Specificity of the Othello guard: affect-only inputs must not escalate."""
+    non_escalated = 0
+    for rows in OTHELLO_CASES:
+        segments = [TranscriptSegment(sp, txt, i, i + 1) for i, (sp, txt) in enumerate(rows)]
+        status = build_report_from_segments(segments).final_status.value
+        if status not in ("review_required", "elevated_risk"):
+            non_escalated += 1
+    n = len(OTHELLO_CASES)
+    return {
+        "construct": "othello_affect_only",
+        "n": n,
+        "specificity": round(non_escalated / n, 4),
+        "note": (
+            "Ekman Othello error (1985): emotionally aroused, content-free statements that invite "
+            "verification must not escalate. Specificity = fraction correctly kept non-elevated."
+        ),
+    }
 
 
 def score_inconsistency(segments: list[TranscriptSegment]) -> float:
@@ -144,6 +189,61 @@ def run_construct_benchmark() -> BenchmarkResult:
     )
 
 
+def _as_float(value: object) -> float:
+    return float(value) if isinstance(value, (int, float)) else 0.0
+
+
+def calibration_gate() -> dict[str, object]:
+    """Automated, self-verifying calibration audit with bootstrap CIs.
+
+    Returns a pass/fail contract: the instrument must clear its published floors
+    (discrimination) and invariants (Othello specificity, calibration not
+    worsening). Metrics carry deterministic bootstrap confidence intervals so a
+    point estimate is never trusted on its own.
+    """
+    result = run_construct_benchmark()
+    labels, corpus = _cases()
+    scores = [score_inconsistency(segs) for segs in corpus]
+    othello = run_othello_benchmark()
+
+    auc_ci = bootstrap_interval(roc_auc, labels, scores)
+    ece_ci = bootstrap_interval(
+        lambda ls, sc: expected_calibration_error(ls, sc, 5), labels, scores
+    )
+
+    checks = [
+        {
+            "name": "roc_auc_floor",
+            "passed": result.roc_auc >= CALIBRATION_THRESHOLDS["min_roc_auc"],
+            "detail": f"AUC {result.roc_auc:.3f} >= {CALIBRATION_THRESHOLDS['min_roc_auc']}",
+        },
+        {
+            "name": "average_precision_floor",
+            "passed": result.average_precision >= CALIBRATION_THRESHOLDS["min_average_precision"],
+            "detail": f"AP {result.average_precision:.3f} >= {CALIBRATION_THRESHOLDS['min_average_precision']}",
+        },
+        {
+            "name": "othello_specificity",
+            "passed": _as_float(othello["specificity"])
+            >= CALIBRATION_THRESHOLDS["required_othello_specificity"],
+            "detail": f"specificity {othello['specificity']} (affect-only must not escalate)",
+        },
+        {
+            "name": "calibration_not_worsened",
+            "passed": result.calibrated_ece_cv <= result.raw_ece + 1e-9,
+            "detail": f"ECE {result.raw_ece:.3f} -> {result.calibrated_ece_cv:.3f} (CV)",
+        },
+    ]
+    passed = all(c["passed"] for c in checks)
+    return {
+        "passed": passed,
+        "thresholds": CALIBRATION_THRESHOLDS,
+        "checks": checks,
+        "roc_auc_ci": auc_ci.to_dict(),
+        "ece_ci": ece_ci.to_dict(),
+    }
+
+
 def full_report() -> dict[str, object]:
     result = run_construct_benchmark()
     labels, corpus = _cases()
@@ -151,4 +251,6 @@ def full_report() -> dict[str, object]:
     return {
         "benchmark": result.to_dict(),
         "raw_score_report": evaluate_probabilities(labels, scores, n_bins=5).to_dict(),
+        "othello_guard": run_othello_benchmark(),
+        "gate": calibration_gate(),
     }

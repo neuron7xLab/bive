@@ -29,7 +29,6 @@ artifacts/security/pip-audit.stage6.attempt.log
 artifacts/security/pip-audit.stage7.attempt.log
 artifacts/verification/AUTOMATION_CONTRACT.json
 artifacts/verification/BIBLIOGRAPHY_VALIDATION.json
-artifacts/verification/CALIBRATION.json
 artifacts/verification/DOCKER_RUNTIME_ATTEMPT.log
 artifacts/verification/DOCKER_RUNTIME_STAGE6_ATTEMPT.log
 artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json
@@ -154,6 +153,7 @@ scripts/pr_check.py
 scripts/validate_aos_kernel.py
 scripts/validate_automation_contract.py
 scripts/validate_bibliography.py
+scripts/validate_calibration.py
 scripts/validate_cognitive_control_plane.py
 scripts/validate_dependency_contracts.py
 scripts/validate_metadata.py
@@ -235,6 +235,7 @@ tests/test_behavioral_invariants.py
 tests/test_benchmark_contract.py
 tests/test_bibliography_contract.py
 tests/test_calibration.py
+tests/test_calibration_gate.py
 tests/test_calibration_metrics.py
 tests/test_cli_convert_contract.py
 tests/test_cli_failure_contract.py
@@ -243,6 +244,7 @@ tests/test_cognitive_control_plane.py
 tests/test_dependency_contracts.py
 tests/test_determinism_stress.py
 tests/test_dynamic_environment_probe.py
+tests/test_ekman_guards.py
 tests/test_eval.py
 tests/test_evidence_graph.py
 tests/test_frontend_contract.py

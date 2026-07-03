@@ -32,7 +32,7 @@ docker-smoke:
 
 docker-verify: docker-build docker-smoke
 
-verify: test schema ui-check science-registry aos-kernel dynamic-probe determinism-stress simulate red-team pr-check api-smoke dependency-contracts automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence cognitive-control neurocognitive-protocol product-readiness
+verify: test schema ui-check science-registry calibration-gate aos-kernel dynamic-probe determinism-stress simulate red-team pr-check api-smoke dependency-contracts automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence cognitive-control neurocognitive-protocol product-readiness
 	@echo "VERIFY_PASS"
 
 verify-release:
@@ -85,6 +85,9 @@ frontend-quality:
 
 science-registry:
 	PYTHONPATH=src $(PYTHON) scripts/validate_science_registry.py
+
+calibration-gate:
+	PYTHONPATH=src $(PYTHON) scripts/validate_calibration.py
 
 automation-contract:
 	PYTHONPATH=src $(PYTHON) scripts/validate_automation_contract.py

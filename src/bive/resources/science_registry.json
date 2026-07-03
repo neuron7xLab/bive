@@ -228,6 +228,18 @@
       "claim_boundary": "Historical foundation; not proof that BIVE can infer deception without validated multimodal data."
     },
     {
+      "id": "ekman_1985_telling_lies",
+      "title": "Telling Lies: Clues to Deceit in the Marketplace, Politics, and Marriage",
+      "authors": [
+        "Paul Ekman"
+      ],
+      "year": 1985,
+      "domain": "behavioral deception research",
+      "source_url": "https://www.paulekman.com/blog/errors-in-detecting-lies/",
+      "operational_mapping": "Encodes the Othello error (arousal is not attributed to deception), the Brokaw hazard (no within-speaker baseline is flagged) and the no-single-sign principle (elevation requires cue-family diversity).",
+      "claim_boundary": "Ekman states no clue to deceit in face, body, voice or words is foolproof; this is a caution layer, not a deception verdict."
+    },
+    {
       "id": "vrij_2008",
       "title": "Detecting Lies and Deceit: Pitfalls and Opportunities, 2nd Edition",
       "authors": [

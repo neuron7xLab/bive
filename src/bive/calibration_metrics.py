@@ -19,8 +19,10 @@ Everything here is total and side-effect free, so results are reproducible.
 from __future__ import annotations
 
 from bisect import bisect_right
+from collections.abc import Callable
 from dataclasses import dataclass, field
 from math import exp, log
+from random import Random
 
 
 def _validate(labels: list[int], scores: list[float]) -> None:
@@ -245,6 +247,56 @@ class CalibrationReport:
             "log_loss": round(self.log_loss, 4),
             "reliability": [b.to_dict() for b in self.reliability],
         }
+
+
+@dataclass(frozen=True)
+class Interval:
+    point: float
+    lower: float
+    upper: float
+    resamples: int
+
+    def to_dict(self) -> dict[str, float | int]:
+        return {
+            "point": round(self.point, 4),
+            "lower": round(self.lower, 4),
+            "upper": round(self.upper, 4),
+            "resamples": self.resamples,
+        }
+
+
+def bootstrap_interval(
+    metric: Callable[[list[int], list[float]], float],
+    labels: list[int],
+    scores: list[float],
+    *,
+    n_boot: int = 1000,
+    seed: int = 20260703,
+    alpha: float = 0.05,
+) -> Interval:
+    """Deterministic percentile bootstrap CI for a metric (seeded, reproducible).
+
+    Zero-trust posture: never report a point estimate as if it were certain.
+    Degenerate single-class resamples are skipped so metrics stay defined.
+    """
+    _validate(labels, scores)
+    rng = Random(seed)
+    n = len(labels)
+    stats: list[float] = []
+    for _ in range(n_boot):
+        idx = [rng.randrange(n) for _ in range(n)]
+        bl = [labels[i] for i in idx]
+        if sum(bl) in (0, n):
+            continue
+        bs = [scores[i] for i in idx]
+        stats.append(metric(bl, bs))
+    point = metric(labels, scores)
+    if not stats:
+        return Interval(point, point, point, 0)
+    stats.sort()
+    lo = stats[max(0, int(alpha / 2 * len(stats)))]
+    hi = stats[min(len(stats) - 1, int((1 - alpha / 2) * len(stats)))]
+    return Interval(point, lo, hi, len(stats))
 
 
 def _log_loss(labels: list[int], probs: list[float]) -> float:

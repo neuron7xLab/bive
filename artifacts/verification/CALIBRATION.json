@@ -70,5 +70,59 @@
         "empirical_accuracy": 0.0
       }
     ]
+  },
+  "othello_guard": {
+    "construct": "othello_affect_only",
+    "n": 6,
+    "specificity": 1.0,
+    "note": "Ekman Othello error (1985): emotionally aroused, content-free statements that invite verification must not escalate. Specificity = fraction correctly kept non-elevated."
+  },
+  "gate": {
+    "passed": true,
+    "thresholds": {
+      "min_roc_auc": 0.7,
+      "min_average_precision": 0.7,
+      "required_othello_specificity": 1.0,
+      "calibration_must_not_worsen": true
+    },
+    "checks": [
+      {
+        "name": "roc_auc_floor",
+        "passed": true,
+        "detail": "AUC 0.771 >= 0.7"
+      },
+      {
+        "name": "average_precision_floor",
+        "passed": true,
+        "detail": "AP 0.907 >= 0.7"
+      },
+      {
+        "name": "othello_specificity",
+        "passed": true,
+        "detail": "specificity 1.0 (affect-only must not escalate)"
+      },
+      {
+        "name": "calibration_not_worsened",
+        "passed": true,
+        "detail": "ECE 0.236 -> 0.118 (CV)"
+      }
+    ],
+    "roc_auc_ci": {
+      "point": 0.7708,
+      "lower": 0.5839,
+      "upper": 0.9336,
+      "resamples": 1000
+    },
+    "ece_ci": {
+      "point": 0.2356,
+      "lower": 0.1212,
+      "upper": 0.4507,
+      "resamples": 1000
+    }
+  },
+  "integrity": {
+    "algorithm": "sha256",
+    "content_digest": "743cdad355a6b464dfcf3431a55afc74db061492731cc9d1d89cb657ab7fbdc8",
+    "scope": "sha256 over the calibration payload; edits invalidate this digest"
   }
 }

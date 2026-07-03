@@ -117,6 +117,13 @@ docs/TEST_STRATEGY.md
 docs/THREAT_MODEL.md
 docs/UI_SPEC.md
 docs/VALUE_FUNCTIONS.md
+docs/methodology/BIAS_BASELINE_POLICY.md
+docs/methodology/CALIBRATION_POLICY.md
+docs/methodology/COGVERITAS_METHOD_ACT.md
+docs/methodology/DATASET_ACCESS_NOTES.md
+docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md
+docs/methodology/NO_VERDICT_INVARIANT.md
+docs/methodology/PHASE0_VERIFIABILITY.md
 docs/openapi.json
 evals/aos_eval_tasks.json
 evals/aos_score_schema.json
@@ -145,6 +152,7 @@ samples/demo_transcript.vtt
 samples/eval_binary.json
 samples/gettysburg_address.txt
 samples/third_universal_1917.txt
+schemas/cogveritas/output.schema.json
 schemas/evidence_event.schema.json
 schemas/transcript_analyze_request.schema.json
 schemas/verification_report.schema.json
@@ -154,6 +162,7 @@ scripts/check_environment.py
 scripts/check_frontend_quality.py
 scripts/check_repo_clean.py
 scripts/check_ui_assets.py
+scripts/cogveritas_gates.py
 scripts/dependency_audit.py
 scripts/determinism_stress.py
 scripts/dynamic_environment_probe.py
@@ -161,6 +170,7 @@ scripts/export_openapi.py
 scripts/generate_evidence_bundle.py
 scripts/generate_manifest.py
 scripts/pr_check.py
+scripts/run_phase0_verifiability.py
 scripts/validate_aos_kernel.py
 scripts/validate_automation_contract.py
 scripts/validate_bibliography.py
@@ -195,6 +205,12 @@ src/bive/calibration.py
 src/bive/calibration_metrics.py
 src/bive/cli.py
 src/bive/cognitive_control.py
+src/bive/cogveritas/__init__.py
+src/bive/cogveritas/bias_baseline.py
+src/bive/cogveritas/calibration_metrics.py
+src/bive/cogveritas/output_contract.py
+src/bive/cogveritas/phase0_cv.py
+src/bive/cogveritas/verifiability_tagger.py
 src/bive/eval.py
 src/bive/evidence_graph.py
 src/bive/falsifier.py
@@ -252,6 +268,7 @@ tests/test_cli_convert_contract.py
 tests/test_cli_failure_contract.py
 tests/test_cli_strict_contract.py
 tests/test_cognitive_control_plane.py
+tests/test_cogveritas.py
 tests/test_dependency_contracts.py
 tests/test_determinism_stress.py
 tests/test_dynamic_environment_probe.py

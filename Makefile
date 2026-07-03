@@ -89,6 +89,22 @@ science-registry:
 calibration-gate:
 	PYTHONPATH=src $(PYTHON) scripts/validate_calibration.py
 
+phase0-verifiability:
+	PYTHONPATH=src $(PYTHON) scripts/cogveritas_gates.py phase0-verifiability
+	PYTHONPATH=src $(PYTHON) scripts/cogveritas_gates.py phase0-metrics
+
+phase0-metrics:
+	PYTHONPATH=src $(PYTHON) scripts/cogveritas_gates.py phase0-metrics
+
+bias-baseline:
+	PYTHONPATH=src $(PYTHON) scripts/cogveritas_gates.py bias-baseline
+
+no-verdict-check:
+	PYTHONPATH=src $(PYTHON) scripts/cogveritas_gates.py no-verdict
+
+cogveritas-verify:
+	PYTHONPATH=src $(PYTHON) scripts/cogveritas_gates.py verify
+
 automation-contract:
 	PYTHONPATH=src $(PYTHON) scripts/validate_automation_contract.py
 

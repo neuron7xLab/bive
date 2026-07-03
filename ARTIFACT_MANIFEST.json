@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 281,
+  "file_count": 298,
   "files": [
     {
       "bytes": 113,
@@ -63,9 +63,9 @@
       "sha256": "07c3db3e08ce16478090cadf0d99d4f01b1d31a6d2c828da6bc3ea1666c49752"
     },
     {
-      "bytes": 6671,
+      "bytes": 7173,
       "path": "Makefile",
-      "sha256": "80470942f823ee75390272679bb658e6f6b205474d1d78285007ef188b643895"
+      "sha256": "9a9f19b9f1d534d42275202a4022e91e16462d73f7055f0d6ae16af985642603"
     },
     {
       "bytes": 123,
@@ -73,9 +73,9 @@
       "sha256": "c2bce05a62fb38a880ac893a4d52755f2537d89981d6fc31ee758722f3aaa0fd"
     },
     {
-      "bytes": 9915,
+      "bytes": 10639,
       "path": "README.md",
-      "sha256": "e675dd451a13a7de639a4de659773db00c13fc95d9223c1839e98e1bab6b9c42"
+      "sha256": "4db633343bb5f4f8b684504e459aa6aa829b22510daaa3354bd0ae4e4a75a85e"
     },
     {
       "bytes": 599,
@@ -148,9 +148,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 1954,
+      "bytes": 2074,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "2edbaf6c60feca267dcb794c0bd8221e45f90dca1a792ad0fd3b7fca5f52f102"
+      "sha256": "3c823abe3aa07a38ab087564870462b99b6538b83077a86c1c8f627f3acd0258"
     },
     {
       "bytes": 657,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 12594,
+      "bytes": 13324,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "1f6919944768c7542e6529074a3927704dd72145f800366019744294b119e4f7"
+      "sha256": "fb3dd1079b5cb3396157791a8031914364ac5fc38745963f37f9831db113d0ed"
     },
     {
       "bytes": 826,
@@ -598,6 +598,41 @@
       "sha256": "5cafdde74834485e7190664b3a16ffbf2f94f98657a2602d9595c247301bf519"
     },
     {
+      "bytes": 697,
+      "path": "docs/methodology/BIAS_BASELINE_POLICY.md",
+      "sha256": "869007fb0ca81c6bac836a850abfeb46e7409b3bc1f7a18e3964cb2a9d4b0646"
+    },
+    {
+      "bytes": 844,
+      "path": "docs/methodology/CALIBRATION_POLICY.md",
+      "sha256": "5dd8b9304a352115fcca5642a9cadb670d0848d3478cc04a116fbb05273e8142"
+    },
+    {
+      "bytes": 2204,
+      "path": "docs/methodology/COGVERITAS_METHOD_ACT.md",
+      "sha256": "5325b0fea068171c7f16dbf87aa42d43e963f57940502bcbc67973495356a660"
+    },
+    {
+      "bytes": 789,
+      "path": "docs/methodology/DATASET_ACCESS_NOTES.md",
+      "sha256": "c189cabab274a9cae1a3ed69520eeb9455d8beb387a7da87d14450835d2ec5e9"
+    },
+    {
+      "bytes": 985,
+      "path": "docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md",
+      "sha256": "913fe14177a202e81c9e440992e88a919e375d1009ca50a9c637d994cf440aeb"
+    },
+    {
+      "bytes": 824,
+      "path": "docs/methodology/NO_VERDICT_INVARIANT.md",
+      "sha256": "05787c9f0b3388161113fc56a074e0bec7b153aa9ad130b4723ab2ede6ed1ef9"
+    },
+    {
+      "bytes": 1325,
+      "path": "docs/methodology/PHASE0_VERIFIABILITY.md",
+      "sha256": "924909b68bc083550659b80cab7f09201d4bde59179983ebdf0bb60ecf9c816e"
+    },
+    {
       "bytes": 39024,
       "path": "docs/openapi.json",
       "sha256": "c9f3e0590e9d4bec2597a2cd35acbf3d37d15caefd69ea0c1541d26d08833b01"
@@ -623,9 +658,9 @@
       "sha256": "77d62cc7f017d0a0cfad8ca6aaf22ddf9a257ec165980bac0603db6acf403720"
     },
     {
-      "bytes": 3194,
+      "bytes": 3338,
       "path": "pyproject.toml",
-      "sha256": "f804d8d65862a8993b792cdec93c8ab60ca4f849f331f54d378b80347281dfe8"
+      "sha256": "d889f83749315c63492bd1e63fb3dc0dcf2298cd0b5b67d092d3f9ed3c4512ac"
     },
     {
       "bytes": 115,
@@ -738,6 +773,11 @@
       "sha256": "57952b10b6efa24efc9fb8f6fd0aa383cadecac23d2f178e4b174652c2b77add"
     },
     {
+      "bytes": 893,
+      "path": "schemas/cogveritas/output.schema.json",
+      "sha256": "3248f61fc04c770ac8dc67f4179e8ae70e5c471c68238a0292a83460f1745784"
+    },
+    {
       "bytes": 1707,
       "path": "schemas/evidence_event.schema.json",
       "sha256": "fbc96c23580eb37320988d7d598cf45cf80cc39546416ec8a1b09997f7f2d4b1"
@@ -783,6 +823,11 @@
       "sha256": "b6e64449bc9f38ee3d0a187bc3228d95abbced90039a0f0be05a35e72422e131"
     },
     {
+      "bytes": 6233,
+      "path": "scripts/cogveritas_gates.py",
+      "sha256": "b45f4cf1f60566d7c86e45db80caea6ba2f87e38849830262ed0f2a3e5820cf0"
+    },
+    {
       "bytes": 2253,
       "path": "scripts/dependency_audit.py",
       "sha256": "0932c5317c419c358bee6f570799b7e5ec3fa3a8d8bb682838908ffee01c3ded"
@@ -808,14 +853,19 @@
       "sha256": "c3dd23e471093eb5e2f914174bdc380ab176361da6452fc3dd6c9bf2d9ab28d9"
     },
     {
-      "bytes": 9122,
+      "bytes": 9352,
       "path": "scripts/generate_manifest.py",
-      "sha256": "9d99c7eecc2d8ad44682556c52c0fcd1b77a9b57553bbf1695b29541c4fe1ad2"
+      "sha256": "09c85436d43f12580a47750b2ecb74bb4391f8a8f5b0d61ff7fa6c1adaedd290"
     },
     {
       "bytes": 123,
       "path": "scripts/pr_check.py",
       "sha256": "c2e0c742471d6003a3f900cd3249d252fe08725a4c0e437a9adce49c78d82aaf"
+    },
+    {
+      "bytes": 6696,
+      "path": "scripts/run_phase0_verifiability.py",
+      "sha256": "15f346752e015333eaf31b43d1f18a2cd82050e28d591506fb8279b90ecf90f9"
     },
     {
       "bytes": 5313,
@@ -898,9 +948,9 @@
       "sha256": "323a086df4e1a288e111a0ae1d807f703560f4b147e13070b7d75353ef7c7885"
     },
     {
-      "bytes": 6474,
+      "bytes": 7043,
       "path": "scripts/verify_release.py",
-      "sha256": "da81fc4ceb01e68e86bd3bcf4b4a10fce2956d7485ef064b1cc16c55eb983d8c"
+      "sha256": "afe7389d37d1bd62f6984f4e0b44432b159e6ba163b305902967bd705a526015"
     },
     {
       "bytes": 2223,
@@ -986,6 +1036,36 @@
       "bytes": 12980,
       "path": "src/bive/cognitive_control.py",
       "sha256": "5e3838d2b2ba2cd528a5121b897db21422fc4ab41898442cfbed934ddec3f7b0"
+    },
+    {
+      "bytes": 1073,
+      "path": "src/bive/cogveritas/__init__.py",
+      "sha256": "ea0c1310c88cc8564c0112f27d2b7f8cd763e9116428749c34c8cc9287a601c5"
+    },
+    {
+      "bytes": 2884,
+      "path": "src/bive/cogveritas/bias_baseline.py",
+      "sha256": "a9092fb9db0bcb2e30e8098b76bf561d5c5eddb82e962b752449dbe43fa1dd78"
+    },
+    {
+      "bytes": 1568,
+      "path": "src/bive/cogveritas/calibration_metrics.py",
+      "sha256": "b2a7db0416e6b4b15b3eefb05afb5fe2403f4c0608870935fd2389cd3983596b"
+    },
+    {
+      "bytes": 4746,
+      "path": "src/bive/cogveritas/output_contract.py",
+      "sha256": "6c9e8a5364f04e52f3f4462dcba599d784ca3cb6044ce117141f5c83464d28a3"
+    },
+    {
+      "bytes": 3286,
+      "path": "src/bive/cogveritas/phase0_cv.py",
+      "sha256": "e30abc65723ee801289eccf14c6e4131951b3e9bcf69a67d5400ea294a061a12"
+    },
+    {
+      "bytes": 7195,
+      "path": "src/bive/cogveritas/verifiability_tagger.py",
+      "sha256": "e44b3d0de72c0b7d1d57ae5fbd35d278bf787e72ab5326fca526bc8d242eee10"
     },
     {
       "bytes": 1805,
@@ -1273,6 +1353,11 @@
       "sha256": "73a1e483a3770e05eb9dcc3ae736c96c4fa1f7505740863bd8cd5ee2046c0b80"
     },
     {
+      "bytes": 5536,
+      "path": "tests/test_cogveritas.py",
+      "sha256": "57d6565af412fca4c471f4598bcf8e3c2ee6284fb2afed3ea8b1cfc6c408ffde"
+    },
+    {
       "bytes": 2432,
       "path": "tests/test_dependency_contracts.py",
       "sha256": "3c389e40738134db1dbd97d7f36e926df014881a4301330c15d4e63bb75bd5a6"
@@ -1408,7 +1493,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T17:54:31+00:00",
+  "generated_at_utc": "2026-07-03T18:15:21+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

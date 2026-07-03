@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 207,
+  "test_functions": 222,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -128,6 +128,23 @@
       "test_cognitive_control_status_exposes_release_gate",
       "test_cognitive_control_api_endpoint",
       "test_cognitive_control_validator_script_passes"
+    ],
+    "tests/test_cogveritas.py": [
+      "test_text_normalization",
+      "test_sentence_segmentation",
+      "test_claim_segmentation_and_short_input",
+      "test_verifiability_feature_counts_direction",
+      "test_empty_and_short_input_return_insufficient",
+      "test_provenance_node_per_claim",
+      "test_spacy_fallback_is_deterministic",
+      "test_reliability_diagram_10_bins",
+      "test_bootstrap_ci_fixed_random_state",
+      "test_verdict_always_none",
+      "test_no_forbidden_person_level_strings",
+      "test_no_float_probability_when_ece_fails",
+      "test_corroboration_and_audit_mandatory",
+      "test_gates_fail_closed_on_missing_artifacts",
+      "test_bias_gate_blocks_release_when_unavailable"
     ],
     "tests/test_dependency_contracts.py": [
       "test_dependency_contract_script_passes",

@@ -94,6 +94,10 @@ def include(path: Path) -> bool:
         return False
     if rel == "artifacts/verification/DEPENDENCY_CONTRACT_VALIDATION.json":
         return False
+    # research/cogveritas/data holds fetched, gitignored corpora (never committed);
+    # pinning them would make the manifest reference files absent in CI.
+    if rel.startswith("research/cogveritas/data/"):
+        return False
     if path.name in DENY_NAMES:
         return False
     if any(path.name.endswith(suffix) for suffix in DENY_SUFFIXES):

@@ -1,0 +1,13 @@
+{
+  "dataset": "MU3D",
+  "source_url": "https://mmlab.ie.cuhk.edu.hk/projects/MU3D.html",
+  "access_date": null,
+  "license_notes": "requires registration; not obtainable non-interactively",
+  "raw_data_committed": false,
+  "n_items": null,
+  "transcript_available": null,
+  "metadata_fields": [],
+  "speaker_id_field": null,
+  "sha256": null,
+  "status": "unavailable \u2014 Real-Life Trial substituted; see DECISION doc"
+}

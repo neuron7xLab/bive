@@ -1,0 +1,151 @@
+{
+  "phase": "0",
+  "status": "blocked",
+  "datasets": [
+    {
+      "n_samples": 1600,
+      "n_groups": 20,
+      "n_folds": 5,
+      "positive_rate": 0.5,
+      "auc": 0.614829,
+      "auc_ci": [
+        0.587205,
+        0.641902
+      ],
+      "ece_before": 0.044955,
+      "ece_after": 0.014542,
+      "brier_before": 0.238054,
+      "brier_after": 0.23788,
+      "reliability_diagram": {
+        "bin_edges": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "mean_predicted": [
+          0.027582,
+          0.152867,
+          0.248457,
+          0.344432,
+          0.465396,
+          0.562953,
+          0.621267,
+          0.728272,
+          0.829169,
+          0.0
+        ],
+        "empirical_frequency": [
+          0.105263,
+          0.190476,
+          0.241071,
+          0.333333,
+          0.467577,
+          0.568276,
+          0.610487,
+          0.421053,
+          0.222222,
+          0.0
+        ],
+        "count": [
+          19.0,
+          21.0,
+          112.0,
+          135.0,
+          293.0,
+          725.0,
+          267.0,
+          19.0,
+          9.0,
+          0.0
+        ]
+      },
+      "name": "OP_SPAM",
+      "kill_criterion_passed": true,
+      "status": "computed"
+    },
+    {
+      "n_samples": 121,
+      "n_groups": 121,
+      "n_folds": 5,
+      "positive_rate": 0.504132,
+      "auc": 0.553689,
+      "auc_ci": [
+        0.447512,
+        0.656077
+      ],
+      "ece_before": 0.095497,
+      "ece_after": 0.059554,
+      "brier_before": 0.26788,
+      "brier_after": 0.255648,
+      "reliability_diagram": {
+        "bin_edges": [
+          0.0,
+          0.1,
+          0.2,
+          0.3,
+          0.4,
+          0.5,
+          0.6,
+          0.7,
+          0.8,
+          0.9,
+          1.0
+        ],
+        "mean_predicted": [
+          0.095238,
+          0.133333,
+          0.267612,
+          0.362284,
+          0.448512,
+          0.538832,
+          0.688304,
+          0.705195,
+          0.0,
+          0.0
+        ],
+        "empirical_frequency": [
+          1.0,
+          0.5,
+          0.666667,
+          0.0,
+          0.464286,
+          0.533333,
+          0.75,
+          0.25,
+          0.0,
+          0.0
+        ],
+        "count": [
+          1.0,
+          2.0,
+          3.0,
+          4.0,
+          28.0,
+          75.0,
+          4.0,
+          4.0,
+          0.0,
+          0.0
+        ]
+      },
+      "name": "RLT",
+      "kill_criterion_passed": false,
+      "status": "computed"
+    }
+  ],
+  "phase1_unlocked": false,
+  "no_verdict_invariant_passed": true,
+  "float_probability_allowed": false,
+  "created_at_utc": "2026-07-03T18:04:01+00:00",
+  "code_version": "cogveritas-phase0",
+  "feature_schema_sha256": "dfff39185eafcdbcb46cacc6d2875721861deca09f54bf5d5f4620b712897313",
+  "dataset_manifest_sha256": "b9f98497bc1dd3332d08cec41a559244e52b156746e49967c136f22a59526c6c"
+}

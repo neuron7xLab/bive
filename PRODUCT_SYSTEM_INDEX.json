@@ -24,7 +24,7 @@
     "bive-pr-check",
     "bive-aos"
   ],
-  "manifest_sha256": "87c42720bfb3d3ff115f72580121aecabcabb1293a1ca435d41d5c4d080e9fe1",
+  "manifest_sha256": "2008c4068b0cbf5c2faf65f1990b686fd9a6e699cb8e92870cd8089d1def7281",
   "name": "bive",
   "primary_gates": [
     "make verify",

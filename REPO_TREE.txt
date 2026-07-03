@@ -127,7 +127,11 @@ requirements/core.in
 requirements/dev.in
 requirements/prod.in
 requirements/security.in
+samples/demo_transcript.csv
 samples/demo_transcript.json
+samples/demo_transcript.srt
+samples/demo_transcript.txt
+samples/demo_transcript.vtt
 samples/eval_binary.json
 schemas/evidence_event.schema.json
 schemas/transcript_analyze_request.schema.json
@@ -208,6 +212,7 @@ src/bive/science.py
 src/bive/settings.py
 src/bive/simulation.py
 src/bive/storage.py
+src/bive/transcript_formats.py
 src/bive/validation.py
 src/bive/web/index.html
 src/bive/web/static/app.js
@@ -219,10 +224,12 @@ tests/test_aos_kernel.py
 tests/test_api.py
 tests/test_api_operational_contract.py
 tests/test_api_security_runtime.py
+tests/test_api_upload_contract.py
 tests/test_automation_contract.py
 tests/test_behavioral_invariants.py
 tests/test_bibliography_contract.py
 tests/test_calibration.py
+tests/test_cli_convert_contract.py
 tests/test_cli_failure_contract.py
 tests/test_cli_strict_contract.py
 tests/test_cognitive_control_plane.py
@@ -248,5 +255,6 @@ tests/test_science_registry.py
 tests/test_settings_contract.py
 tests/test_storage.py
 tests/test_storage_operational_contract.py
+tests/test_transcript_formats.py
 tests/test_ui_assets.py
 tests/test_version_contract.py

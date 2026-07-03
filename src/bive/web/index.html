@@ -6,6 +6,7 @@
   <meta name="color-scheme" content="dark" />
   <meta name="description" content="BIVE operational console for evidence-first transcript verification, release evidence, and system contracts." />
   <title>BIVE — Behavioral Integrity Verification Engine</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23030407'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='18' font-weight='700' text-anchor='middle' fill='%23ffc46f'%3EB%3C/text%3E%3C/svg%3E" />
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
@@ -63,7 +64,18 @@
         </div>
       </div>
 
-      <label class="field-label" for="payload">Transcript JSON</label>
+      <label class="field-label" for="fileInput">Завантаж транскрипт</label>
+      <div id="dropZone" class="drop-zone" tabindex="0" role="button"
+           aria-describedby="uploadHelp"
+           aria-label="Перетягни файл транскрипту сюди або натисни, щоб вибрати">
+        <strong id="dropTitle">Перетягни файл або натисни, щоб вибрати</strong>
+        <span id="dropFormats" class="drop-formats">JSON · JSONL · SRT · VTT · CSV · TXT</span>
+        <input id="fileInput" type="file" class="visually-hidden"
+               accept=".json,.jsonl,.srt,.vtt,.csv,.txt,text/plain,application/json" />
+      </div>
+      <p id="uploadHelp" class="hint">Файл парситься на бекенді (одне джерело правди). Аудіо/відео спершу транскрибуй у текст (Whisper) і завантаж отриманий JSON/SRT/VTT.</p>
+
+      <label class="field-label" for="payload">Або встав Transcript JSON</label>
       <textarea id="payload" spellcheck="false" aria-describedby="payloadHelp"></textarea>
       <p id="payloadHelp" class="hint">Формат: subject_scope + segments[].text. Extra fields навмисно блокуються backend-схемою. Це не телепатія, це контракт.</p>
 

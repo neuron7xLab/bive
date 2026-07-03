@@ -6,7 +6,7 @@ from pathlib import Path
 
 from .evidence_graph import build_evidence_graph
 from .fusion import EvidenceFusionEngine
-from .ingest import TranscriptSegment, load_transcript
+from .ingest import TranscriptSegment, load_transcript_any
 from .linguistics import LinguisticAnalyzer, extract_claims
 from .models import (
     EvidenceEvent,
@@ -73,7 +73,7 @@ def build_report_from_segments(
 
 
 def build_report_from_transcript(path: str | Path) -> VerificationReport:
-    return build_report_from_segments(load_transcript(path))
+    return build_report_from_segments(load_transcript_any(path))
 
 
 def build_missing_evidence(events: Sequence[EvidenceEvent]) -> tuple[str, ...]:

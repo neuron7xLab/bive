@@ -13,6 +13,12 @@ from .quality_gate import assess_report
 from .red_team import run_red_team
 from .report import build_report_from_transcript, load_report, render_markdown, save_report
 from .simulation import run_simulation
+from .transcript_formats import (
+    SUPPORTED_FORMATS,
+    TranscriptDecodeError,
+    TranscriptFormatError,
+    parse_transcript,
+)
 from .validation import validate_report_dict
 
 
@@ -41,6 +47,8 @@ def cmd_analyze(args: argparse.Namespace) -> int:
         save_report(report, args.output)
     except FileNotFoundError as exc:
         raise CliError("INPUT_NOT_FOUND", str(args.input)) from exc
+    except TranscriptDecodeError as exc:
+        raise CliError("INVALID_JSON", f"{args.input}: {exc}") from exc
     except JSONDecodeError as exc:
         raise CliError("INVALID_JSON", f"{args.input}:{exc.lineno}:{exc.colno}: {exc.msg}") from exc
     except ValueError as exc:
@@ -49,6 +57,41 @@ def cmd_analyze(args: argparse.Namespace) -> int:
         raise CliError("OUTPUT_WRITE_FAILED", str(exc)) from exc
     print(f"WROTE {args.output}")
     print(report.final_assessment)
+    return 0
+
+
+def cmd_convert(args: argparse.Namespace) -> int:
+    path = Path(args.input)
+    try:
+        content = path.read_text(encoding="utf-8")
+    except FileNotFoundError as exc:
+        raise CliError("INPUT_NOT_FOUND", str(path)) from exc
+    except OSError as exc:
+        raise CliError("INPUT_READ_FAILED", f"{path}: {exc}") from exc
+    try:
+        payload = parse_transcript(
+            content, fmt=args.format, filename=path.name, subject_scope=args.subject_scope
+        )
+    except TranscriptDecodeError as exc:
+        raise CliError("INVALID_JSON", f"{path}: {exc}") from exc
+    except TranscriptFormatError as exc:
+        raise CliError("INVALID_TRANSCRIPT_FORMAT", str(exc)) from exc
+    rendered = json.dumps(payload, ensure_ascii=False, indent=2) + "\n"
+    if args.output:
+        out = Path(args.output)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        try:
+            out.write_text(rendered, encoding="utf-8")
+        except OSError as exc:
+            raise CliError("OUTPUT_WRITE_FAILED", str(exc)) from exc
+        print(f"WROTE {out} ({len(payload['segments'])} segments)")
+    else:
+        print(rendered, end="")
+    return 0
+
+
+def cmd_formats(args: argparse.Namespace) -> int:
+    print(json.dumps({"supported_formats": list(SUPPORTED_FORMATS)}, indent=2))
     return 0
 
 
@@ -125,10 +168,31 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--debug", action="store_true", help="Show raw tracebacks for debugging.")
     sub = parser.add_subparsers(dest="command", required=True)
 
-    analyze = sub.add_parser("analyze", help="Build a verification report from transcript JSON.")
+    analyze = sub.add_parser(
+        "analyze",
+        help="Build a verification report from a transcript (JSON, JSONL, SRT, VTT, CSV or TXT).",
+    )
     analyze.add_argument("--input", required=True)
     analyze.add_argument("--output", required=True)
     analyze.set_defaults(func=cmd_analyze)
+
+    convert = sub.add_parser(
+        "convert",
+        help="Convert any supported transcript format into canonical analyze JSON.",
+    )
+    convert.add_argument("--input", required=True)
+    convert.add_argument("--output", help="Output JSON path; defaults to stdout.")
+    convert.add_argument(
+        "--format",
+        choices=list(SUPPORTED_FORMATS),
+        default=None,
+        help="Force an input format instead of auto-detecting.",
+    )
+    convert.add_argument("--subject-scope", default=None, help="Override subject_scope label.")
+    convert.set_defaults(func=cmd_convert)
+
+    formats = sub.add_parser("formats", help="List supported transcript input formats.")
+    formats.set_defaults(func=cmd_formats)
 
     validate = sub.add_parser("validate", help="Validate report invariants.")
     validate.add_argument("--input", required=True)

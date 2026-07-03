@@ -12,6 +12,9 @@ const text = (node, value) => {
 };
 
 const payload = el('#payload');
+const fileInput = el('#fileInput');
+const dropZone = el('#dropZone');
+const dropTitle = el('#dropTitle');
 const output = el('#output');
 const markdownOutput = el('#markdownOutput');
 const apiToken = el('#apiToken');
@@ -46,6 +49,8 @@ let lastOutput = {};
 let lastMarkdown = '';
 let lastReportId = '';
 const API_VERSION = '2026-06-11';
+const MAX_UPLOAD_BYTES = 25_000_000;
+const KNOWN_EXTENSIONS = ['json', 'jsonl', 'srt', 'vtt', 'csv', 'txt'];
 
 function apiUrl(path) {
   const joiner = path.includes('?') ? '&' : '?';
@@ -353,6 +358,74 @@ async function runAnalysis() {
   setStatus(`Звіт побудовано. request_id=${requestId}`, 'ok');
   await refreshSystem();
 }
+
+function fileExtension(name) {
+  const dot = name.lastIndexOf('.');
+  return dot >= 0 ? name.slice(dot + 1).toLowerCase() : '';
+}
+
+async function analyzeUploadedFile(file) {
+  if (!file) return;
+  if (file.size > MAX_UPLOAD_BYTES) {
+    setStatus(`Файл завеликий (${(file.size / 1e6).toFixed(1)}MB > 25MB).`, 'error');
+    return;
+  }
+  if (file.size === 0) {
+    setStatus('Файл порожній.', 'error');
+    return;
+  }
+  setStatus(`Завантаження ${file.name}…`, 'busy');
+  const content = await file.text();
+  const ext = fileExtension(file.name);
+  let url = apiUrl('/api/v1/reports/from-upload');
+  if (KNOWN_EXTENSIONS.includes(ext)) url += `&format=${encodeURIComponent(ext)}`;
+  const {data, requestId} = await fetchJson(url, {
+    method: 'POST',
+    headers: {'content-type': 'text/plain; charset=utf-8', 'x-bive-filename': encodeURIComponent(file.name)},
+    body: content
+  });
+  renderJson(data);
+  renderReport(data);
+  await refreshMarkdown();
+  text(dropTitle, `${file.name} · формат=${data.detected_format || ext} · ${data.segment_count ?? '?'} сегментів`);
+  setStatus(`Звіт побудовано з ${file.name} (${data.detected_format || ext}). request_id=${requestId}`, 'ok');
+  await refreshSystem();
+}
+
+function handleFileSelection(file) {
+  analyzeUploadedFile(file).catch((error) => setStatus(error.message, 'error'));
+}
+
+fileInput.addEventListener('change', () => {
+  const file = fileInput.files && fileInput.files[0];
+  if (file) handleFileSelection(file);
+  fileInput.value = '';
+});
+
+dropZone.addEventListener('click', () => fileInput.click());
+dropZone.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' || event.key === ' ') {
+    event.preventDefault();
+    fileInput.click();
+  }
+});
+['dragenter', 'dragover'].forEach((name) => {
+  dropZone.addEventListener(name, (event) => {
+    event.preventDefault();
+    dropZone.dataset.active = 'true';
+  });
+});
+['dragleave', 'dragend'].forEach((name) => {
+  dropZone.addEventListener(name, () => {
+    dropZone.dataset.active = 'false';
+  });
+});
+dropZone.addEventListener('drop', (event) => {
+  event.preventDefault();
+  dropZone.dataset.active = 'false';
+  const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+  if (file) handleFileSelection(file);
+});
 
 el('#loadDemo').addEventListener('click', () => {
   payload.value = JSON.stringify(demo, null, 2);

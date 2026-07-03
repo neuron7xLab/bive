@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 124,
+  "test_functions": 162,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -39,6 +39,17 @@
       "test_staging_readiness_fails_without_token",
       "test_middleware_counts_early_rejected_payload"
     ],
+    "tests/test_api_upload_contract.py": [
+      "test_upload_srt_builds_report",
+      "test_upload_format_query_forces_parser",
+      "test_upload_requires_api_version",
+      "test_upload_rejects_empty_body",
+      "test_upload_rejects_invalid_utf8",
+      "test_upload_rejects_unsupported_format",
+      "test_upload_unparseable_content_returns_422",
+      "test_capabilities_advertise_input_formats",
+      "test_upload_enforces_segment_limit"
+    ],
     "tests/test_automation_contract.py": [
       "test_automation_contract_script_passes",
       "test_automation_contract_artifact_lists_release_gates",
@@ -67,6 +78,14 @@
     "tests/test_calibration.py": [
       "test_single_modality_caps_overconfidence",
       "test_counterevidence_increases_calm"
+    ],
+    "tests/test_cli_convert_contract.py": [
+      "test_analyze_accepts_srt",
+      "test_convert_srt_to_json_stdout",
+      "test_convert_writes_file",
+      "test_convert_subject_scope_override",
+      "test_convert_missing_input",
+      "test_formats_lists_supported"
     ],
     "tests/test_cli_failure_contract.py": [
       "test_cli_missing_input_is_controlled_error",
@@ -192,6 +211,31 @@
       "test_storage_exposes_schema_version",
       "test_storage_handles_concurrent_report_writes",
       "test_storage_structured_logs_do_not_emit_report_body"
+    ],
+    "tests/test_transcript_formats.py": [
+      "test_supported_formats_is_stable",
+      "test_detect_format_by_extension",
+      "test_detect_format_by_content_without_filename",
+      "test_detect_format_empty_raises",
+      "test_parse_srt_timecodes_and_speaker",
+      "test_parse_vtt_voice_tags_and_notes",
+      "test_parse_csv_with_and_without_header",
+      "test_parse_txt_speaker_inference",
+      "test_parse_jsonl",
+      "test_parse_whisper_json",
+      "test_parse_bive_json_preserves_scope",
+      "test_subject_scope_override_wins",
+      "test_json_list_of_segments",
+      "test_determinism_same_input_same_output",
+      "test_empty_segments_after_cleaning_raises",
+      "test_invalid_json_raises_format_error",
+      "test_unsupported_format_raises",
+      "test_forced_format_overrides_detection",
+      "test_whitespace_only_speaker_defaults",
+      "test_non_numeric_timecodes_become_none",
+      "test_srt_without_index_line",
+      "test_json_object_without_segments_or_text_raises",
+      "test_webvtt_alias_normalised"
     ],
     "tests/test_ui_assets.py": [
       "test_ui_assets_exist"

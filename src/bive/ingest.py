@@ -5,6 +5,8 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from .transcript_formats import parse_transcript
+
 
 @dataclass(frozen=True)
 class TranscriptSegment:
@@ -23,9 +25,9 @@ def load_json(path: str | Path) -> dict[str, Any]:
     return data
 
 
-def load_transcript(path: str | Path) -> list[TranscriptSegment]:
-    data = load_json(path)
-    raw_segments = data.get("segments")
+def segments_from_payload(payload: dict[str, Any]) -> list[TranscriptSegment]:
+    """Build :class:`TranscriptSegment` records from a canonical analyze payload."""
+    raw_segments = payload.get("segments")
     if not isinstance(raw_segments, list):
         raise ValueError("Input must contain a list field: segments")
     segments: list[TranscriptSegment] = []
@@ -47,3 +49,21 @@ def load_transcript(path: str | Path) -> list[TranscriptSegment]:
     if not segments:
         raise ValueError("No non-empty transcript segments found")
     return segments
+
+
+def load_transcript(path: str | Path) -> list[TranscriptSegment]:
+    """Load a JSON transcript file into segments (strict ``{segments: [...]}``)."""
+    return segments_from_payload(load_json(path))
+
+
+def load_transcript_any(path: str | Path) -> list[TranscriptSegment]:
+    """Load a transcript from any supported format (JSON, JSONL, SRT, VTT, CSV, TXT).
+
+    The format is inferred from the file extension and content. This is the
+    format-aware entry point used by the CLI and file-upload flows; the analysis
+    core stays identical regardless of the source container.
+    """
+    p = Path(path)
+    content = p.read_text(encoding="utf-8")
+    payload = parse_transcript(content, fmt=None, filename=p.name)
+    return segments_from_payload(payload)

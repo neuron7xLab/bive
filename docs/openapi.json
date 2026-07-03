@@ -4,6 +4,13 @@
       "CapabilityResponse": {
         "additionalProperties": false,
         "properties": {
+          "input_formats": {
+            "items": {
+              "type": "string"
+            },
+            "title": "Input Formats",
+            "type": "array"
+          },
           "invariants": {
             "items": {
               "type": "string"
@@ -616,6 +623,135 @@
           }
         },
         "summary": "Create Report"
+      }
+    },
+    "/api/v1/reports/from-upload": {
+      "post": {
+        "description": "Analyse an uploaded transcript file in any supported container format.\n\nThe raw request body is the file's bytes. The format is taken from the\noptional ``format`` query parameter, else inferred from ``x-bive-filename``\nand the content. This keeps the endpoint dependency-free (no multipart) while\naccepting a browser ``File`` object or ``curl --data-binary`` directly.",
+        "operationId": "create_report_from_upload_api_v1_reports_from_upload_post",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Format"
+            }
+          },
+          {
+            "in": "query",
+            "name": "api-version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Api-Version"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-bive-filename",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Filename"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-bive-subject-scope",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Subject-Scope"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-bive-api-key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Create Report From Upload Api V1 Reports From Upload Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Create Report From Upload"
       }
     },
     "/api/v1/reports/{report_id}": {

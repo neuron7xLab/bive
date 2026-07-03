@@ -29,6 +29,12 @@ from .report import render_markdown
 from .science import load_science_registry, science_registry_summary
 from .settings import get_settings
 from .storage import ReportStore
+from .transcript_formats import (
+    SUPPORTED_FORMATS,
+    TranscriptFormatError,
+    detect_format,
+    parse_transcript,
+)
 
 PACKAGE_ROOT = Path(__file__).resolve().parent
 REPO_ROOT = PACKAGE_ROOT.parents[1]
@@ -386,6 +392,7 @@ def capabilities() -> CapabilityResponse:
         ],
         production_gates=[gate.name for gate in RELEASE_GATES],
         optional_adapters=["whisper", "openface", "opensmile", "pyannote", "mediapipe"],
+        input_formats=list(SUPPORTED_FORMATS),
     )
 
 
@@ -490,6 +497,54 @@ def create_report(payload: TranscriptAnalyzeRequest) -> dict[str, Any]:
     return {
         "report_id": report.report_id,
         "status": report.final_status.value,
+        "report": report.to_dict(),
+    }
+
+
+@app.post(
+    "/api/v1/reports/from-upload",
+    dependencies=[Depends(require_api_version), Depends(require_api_auth)],
+)
+async def create_report_from_upload(
+    request: Request,
+    fmt: str | None = Query(default=None, alias="format"),
+    filename: str | None = Header(default=None, alias="x-bive-filename"),
+    subject_scope: str | None = Header(default=None, alias="x-bive-subject-scope"),
+) -> dict[str, Any]:
+    """Analyse an uploaded transcript file in any supported container format.
+
+    The raw request body is the file's bytes. The format is taken from the
+    optional ``format`` query parameter, else inferred from ``x-bive-filename``
+    and the content. This keeps the endpoint dependency-free (no multipart) while
+    accepting a browser ``File`` object or ``curl --data-binary`` directly.
+    """
+    if fmt is not None and fmt.lower() not in SUPPORTED_FORMATS:
+        raise HTTPException(status_code=422, detail="unsupported_format")
+    raw = await request.body()
+    if len(raw) > settings.max_upload_bytes:
+        raise HTTPException(status_code=413, detail="payload_too_large")
+    if not raw:
+        raise HTTPException(status_code=422, detail="empty_upload")
+    try:
+        content = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise HTTPException(status_code=422, detail="invalid_utf8") from exc
+    try:
+        canonical = parse_transcript(
+            content, fmt=fmt, filename=filename, subject_scope=subject_scope
+        )
+    except TranscriptFormatError as exc:
+        raise HTTPException(status_code=422, detail=f"transcript_parse_error: {exc}") from exc
+    payload = TranscriptAnalyzeRequest(**canonical)
+    validate_runtime_payload(payload)
+    report = analyze_transcript_payload(payload.model_dump(), subject_scope=payload.subject_scope)
+    store.save(report)
+    detected = fmt or detect_format(content, filename)
+    return {
+        "report_id": report.report_id,
+        "status": report.final_status.value,
+        "detected_format": detected,
+        "segment_count": len(payload.segments),
         "report": report.to_dict(),
     }
 

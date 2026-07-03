@@ -46,6 +46,7 @@ class CapabilityResponse(StrictModel):
     outputs: list[str]
     production_gates: list[str]
     optional_adapters: list[str]
+    input_formats: list[str] = Field(default_factory=list)
 
 
 class GateStatus(StrictModel):

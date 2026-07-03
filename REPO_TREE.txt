@@ -127,6 +127,7 @@ requirements/core.in
 requirements/dev.in
 requirements/prod.in
 requirements/security.in
+samples/checkers_speech.txt
 samples/demo_transcript.csv
 samples/demo_transcript.json
 samples/demo_transcript.srt
@@ -212,6 +213,7 @@ src/bive/science.py
 src/bive/settings.py
 src/bive/simulation.py
 src/bive/storage.py
+src/bive/style_markers.py
 src/bive/transcript_formats.py
 src/bive/validation.py
 src/bive/web/index.html
@@ -255,6 +257,7 @@ tests/test_science_registry.py
 tests/test_settings_contract.py
 tests/test_storage.py
 tests/test_storage_operational_contract.py
+tests/test_style_markers.py
 tests/test_transcript_formats.py
 tests/test_ui_assets.py
 tests/test_version_contract.py

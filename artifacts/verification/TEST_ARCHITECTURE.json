@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 172,
+  "test_functions": 180,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -213,6 +213,16 @@
       "test_storage_exposes_schema_version",
       "test_storage_handles_concurrent_report_writes",
       "test_storage_structured_logs_do_not_emit_report_body"
+    ],
+    "tests/test_style_markers.py": [
+      "test_short_text_yields_no_markers",
+      "test_impression_management_marker_fires",
+      "test_high_verifiability_is_counter_evidence",
+      "test_style_events_carry_citations",
+      "test_stemmer_aligns_inflections",
+      "test_negation_scope_marks_negated_content",
+      "test_contradiction_requires_polarity_and_overlap",
+      "test_style_hypothesis_present_in_report"
     ],
     "tests/test_transcript_formats.py": [
       "test_supported_formats_is_stable",

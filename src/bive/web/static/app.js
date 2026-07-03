@@ -62,6 +62,7 @@ const STATUS = {
 const HYP = {
   inconsistency_risk: 'Непослідовність',
   manipulation_risk: 'Маніпуляція',
+  linguistic_style_risk: 'Лінгвістичний стиль',
   cognitive_load_risk: 'Когнітивне навантаження',
   evidence_gap_risk: 'Брак доказів',
 };
@@ -72,6 +73,39 @@ const FEATURE_LABEL = {
   verification_pressure: 'тиск проти перевірки',
   linguistic_hedging: 'хеджування',
   temporal_anchor: 'часовий маркер',
+  low_first_person_singular: 'мало самопосилань',
+  low_exclusive_words: 'проста наративна структура',
+  elevated_negative_emotion: 'негативні емоції',
+  elevated_motion_verbs: 'дієслова руху',
+  impression_management: 'керування враженням',
+};
+
+// Short human citations for the science registry reference ids.
+const CITE = {
+  newman_pennebaker_2003: 'Newman & Pennebaker, 2003',
+  vrij_2008: 'Vrij, 2008',
+  ekman_friesen_1969: 'Ekman & Friesen, 1969',
+  perez_rosas_2015: 'Pérez-Rosas, 2015',
+};
+
+function citation(event) {
+  const ref = event.provenance && event.provenance.parameters && event.provenance.parameters.reference;
+  return ref && CITE[ref] ? CITE[ref] : '';
+}
+
+// Display order: most informative first, repetitive stylistic cues last.
+const SIGNAL_PRIORITY = {
+  local_claim_tension: 0,
+  high_verifiability: 1,
+  impression_management: 2,
+  verification_pressure: 3,
+  low_exclusive_words: 4,
+  low_first_person_singular: 5,
+  elevated_negative_emotion: 6,
+  elevated_motion_verbs: 7,
+  absolute_framing: 8,
+  linguistic_hedging: 9,
+  temporal_anchor: 10,
 };
 
 const RECOMMENDATION = {
@@ -97,6 +131,9 @@ function buildSummary(report, events, hyps, status) {
   sentences.push(found.length ? `Знайдено: ${found.join(', ')}.` : 'Явних мовних сигналів не виявлено.');
   if (top && (top.score || 0) > 0) {
     sentences.push(`Найвищий ризик — ${HYP[top.label] || top.label} ${Math.round((top.score || 0) * 100)}% (невизначеність ${Math.round((top.uncertainty || 0) * 100)}%).`);
+  }
+  if (events.some((e) => e.feature === 'high_verifiability')) {
+    sentences.push('Пом’якшує: багато перевірюваних деталей (Verifiability Approach).');
   }
   return {text: sentences.join(' '), rec: RECOMMENDATION[status] || ''};
 }
@@ -271,6 +308,26 @@ function describeEvent(event) {
   if (f === 'temporal_anchor') {
     return {icon: 'temporal', tone: 'muted', kind: 'Часовий маркер', detail: 'згадка часу — варто звірити таймлайн', tag: 'time'};
   }
+  const cite = citation(event);
+  const withCite = (detail) => (cite ? `${detail} · ${cite}` : detail);
+  if (f === 'high_verifiability') {
+    return {icon: 'check', tone: 'good', kind: 'Багато перевірюваних деталей', detail: withCite('імена, числа, дати — асоційовано з правдивими розповідями'), tag: 'контр-доказ'};
+  }
+  if (f === 'impression_management') {
+    return {icon: 'pressure', tone: 'warn', kind: 'Керування враженням', detail: withCite('щільні запевнення («повірте», «чесно», «я пишаюся»)'), tag: 'style'};
+  }
+  if (f === 'low_exclusive_words') {
+    return {icon: 'signal', tone: 'muted', kind: 'Проста наративна структура', detail: withCite('мало виключних слів (але / крім / без)'), tag: 'style'};
+  }
+  if (f === 'low_first_person_singular') {
+    return {icon: 'signal', tone: 'muted', kind: 'Знижене самопосилання', detail: withCite('мало «я»-звертань — мовне дистанціювання'), tag: 'style'};
+  }
+  if (f === 'elevated_negative_emotion') {
+    return {icon: 'absolute', tone: 'warn', kind: 'Негативно-емоційна лексика', detail: withCite('підвищена частка негативних емоцій'), tag: 'style'};
+  }
+  if (f === 'elevated_motion_verbs') {
+    return {icon: 'hedging', tone: 'muted', kind: 'Дієслова руху', detail: withCite('підвищена динаміка розповіді'), tag: 'style'};
+  }
   return {icon: 'signal', tone: 'muted', kind: f, detail: typeof value === 'string' ? value : '', tag: 'signal'};
 }
 
@@ -406,37 +463,45 @@ function renderReport(data) {
     if (opening) scrollThread();
   });
 
-  // Signals
+  // Signals — group repetitive markers, keep contradictions individual, and
+  // surface the most informative signals first (not nine identical time cues).
   if (events.length) {
     const sec = section(details, 'Що знайдено');
     const list = make('ul', 'signals');
-    events
-      .sort((a, b) => (a.feature === 'local_claim_tension' ? 0 : 1) - (b.feature === 'local_claim_tension' ? 0 : 1))
-      .slice(0, 8)
-      .forEach((event) => {
-        const d = describeEvent(event);
-        const li = make('li', 'signal');
-        li.dataset.tone = d.tone;
-        const ic = make('span', 'signal__icon');
-        ic.append(iconEl(d.icon));
-        const body = make('div', 'signal__body');
-        const kind = make('span', 'signal__kind');
-        text(kind, d.kind);
-        body.append(kind);
-        const detail = make('span', 'signal__detail');
-        if (d.quote) {
-          const q = make('span', 'signal__quote');
-          text(q, d.quote);
-          detail.append(q);
-        } else {
-          text(detail, d.detail || '');
-        }
-        body.append(detail);
-        const tag = make('span', 'signal__tag');
-        text(tag, d.tag);
-        li.append(ic, body, tag);
-        list.append(li);
-      });
+    const byFeature = {};
+    events.forEach((e) => {
+      (byFeature[e.feature] = byFeature[e.feature] || []).push(e);
+    });
+    const display = [];
+    Object.entries(byFeature).forEach(([f, group]) => {
+      if (f === 'local_claim_tension') group.forEach((e) => display.push({event: e, count: 1}));
+      else display.push({event: group[0], count: group.length});
+    });
+    display.sort((a, b) => (SIGNAL_PRIORITY[a.event.feature] ?? 50) - (SIGNAL_PRIORITY[b.event.feature] ?? 50));
+    display.slice(0, 8).forEach(({event, count}) => {
+      const d = describeEvent(event);
+      const li = make('li', 'signal');
+      li.dataset.tone = d.tone;
+      const ic = make('span', 'signal__icon');
+      ic.append(iconEl(d.icon));
+      const body = make('div', 'signal__body');
+      const kind = make('span', 'signal__kind');
+      text(kind, count > 1 ? `${d.kind} ×${count}` : d.kind);
+      body.append(kind);
+      const detail = make('span', 'signal__detail');
+      if (d.quote) {
+        const q = make('span', 'signal__quote');
+        text(q, d.quote);
+        detail.append(q);
+      } else {
+        text(detail, d.detail || '');
+      }
+      body.append(detail);
+      const tag = make('span', 'signal__tag');
+      text(tag, d.tag);
+      li.append(ic, body, tag);
+      list.append(li);
+    });
     sec.append(list);
   }
 

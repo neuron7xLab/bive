@@ -23,7 +23,9 @@ def test_local_contradiction_between_negative_and_positive():
     _, events = LinguisticAnalyzer().analyze(extract_claims(segments))
     tensions = [e for e in events if e.feature == "local_claim_tension"]
     assert len(tensions) == 1
-    assert set(tensions[0].value["overlap"]) >= {"money", "received"}
+    # Overlap is computed over light stems, so 'received' -> 'receiv'.
+    assert set(tensions[0].value["overlap"]) >= {"money", "receiv"}
+    assert "receiv" in tensions[0].value["polarity_conflict"]
 
 
 def test_contradiction_scan_scales_to_large_input():

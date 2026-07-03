@@ -134,6 +134,8 @@ samples/demo_transcript.srt
 samples/demo_transcript.txt
 samples/demo_transcript.vtt
 samples/eval_binary.json
+samples/gettysburg_address.txt
+samples/third_universal_1917.txt
 schemas/evidence_event.schema.json
 schemas/transcript_analyze_request.schema.json
 schemas/verification_report.schema.json

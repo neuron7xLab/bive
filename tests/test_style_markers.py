@@ -36,6 +36,19 @@ def test_high_verifiability_is_counter_evidence() -> None:
     assert hits["high_verifiability"].direction == EvidenceDirection.REFUTES
 
 
+def test_verifiability_credits_cyrillic_proper_nouns() -> None:
+    # Independent-data regression: a Ukrainian text rich in place names and dates
+    # must earn the exculpatory high-verifiability signal, not zero credit.
+    text = (
+        "Віднині Україна стає Республикою. До території належать Київщина, Поділля, "
+        "Волинь, Чернигівщина, Полтавщина, Харьківщина, Херсонщина і Таврія. "
+        "Днем виборів призначаємо 27 грудня 1917 року, а скликання 9 січня 1918 року. "
+    ) * 2
+    hits = {h.feature: h for h in compute_markers(text)}
+    assert "high_verifiability" in hits
+    assert hits["high_verifiability"].direction == EvidenceDirection.REFUTES
+
+
 def test_style_events_carry_citations() -> None:
     claims = extract_claims(
         [TranscriptSegment("s", "Believe me, honestly, to tell the truth, I am proud. " * 20)]

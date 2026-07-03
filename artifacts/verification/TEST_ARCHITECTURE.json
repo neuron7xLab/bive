@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 206,
+  "test_functions": 207,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -252,6 +252,7 @@
       "test_short_text_yields_no_markers",
       "test_impression_management_marker_fires",
       "test_high_verifiability_is_counter_evidence",
+      "test_verifiability_credits_cyrillic_proper_nouns",
       "test_style_events_carry_citations",
       "test_stemmer_aligns_inflections",
       "test_negation_scope_marks_negated_content",

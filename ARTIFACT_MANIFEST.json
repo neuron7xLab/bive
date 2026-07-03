@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 270,
+  "file_count": 272,
   "files": [
     {
       "bytes": 113,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 12536,
+      "bytes": 12594,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "ae3fbf67f0e2f535bd10608682bcdb0570f7ab53924aa456a509dfc9c292ae51"
+      "sha256": "1f6919944768c7542e6529074a3927704dd72145f800366019744294b119e4f7"
     },
     {
       "bytes": 826,
@@ -683,6 +683,16 @@
       "sha256": "9fb7fb31b00601b1102c6e7a547d4d0b976630d1079b9e7a4b95f7d0ef03eb21"
     },
     {
+      "bytes": 1461,
+      "path": "samples/gettysburg_address.txt",
+      "sha256": "d3aee33a06fdb7b99ad523cb1bdbf9c11f670d5ebe85ad3520f966f122f2d42c"
+    },
+    {
+      "bytes": 3035,
+      "path": "samples/third_universal_1917.txt",
+      "sha256": "57952b10b6efa24efc9fb8f6fd0aa383cadecac23d2f178e4b174652c2b77add"
+    },
+    {
       "bytes": 1707,
       "path": "schemas/evidence_event.schema.json",
       "sha256": "fbc96c23580eb37320988d7d598cf45cf80cc39546416ec8a1b09997f7f2d4b1"
@@ -1093,9 +1103,9 @@
       "sha256": "6d34994efba8d0067936fa853145fb0ce5aaea7bb37816955486aa8f17f7e727"
     },
     {
-      "bytes": 10783,
+      "bytes": 11108,
       "path": "src/bive/style_markers.py",
-      "sha256": "1104697b16aafde8092c358c67f5ee2a7e5e190e0659224c1eec3ffde2057f8b"
+      "sha256": "9e27e87123385966fa531caddd3588870ad935218cdfd9467df9098988b06592"
     },
     {
       "bytes": 19807,
@@ -1333,9 +1343,9 @@
       "sha256": "28a13b6096c3fec92f1593b72d26e88842d97355397883535b308d434d39ee5a"
     },
     {
-      "bytes": 3209,
+      "bytes": 4053,
       "path": "tests/test_style_markers.py",
-      "sha256": "2ed8f5c3b8f6db25e6278faeafcff964ae9915c51c8ef05046b2f4796e1fb52a"
+      "sha256": "de1a31e5af00049407676d7cbf1f8cd7ac8277f2f57584aeee81889feecab502"
     },
     {
       "bytes": 9287,
@@ -1353,7 +1363,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T15:02:06+00:00",
+  "generated_at_utc": "2026-07-03T15:19:38+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

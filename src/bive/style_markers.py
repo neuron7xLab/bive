@@ -38,7 +38,11 @@ from .models import (
 )
 
 _WORD_RE = re.compile(r"[a-zа-яіїєґ'’]+", re.IGNORECASE)
-_PROPER_RE = re.compile(r"\b[A-Z][a-zA-Zа-яіїєґ]{2,}")
+# Proper-noun proxy for the Verifiability Approach: a capitalised word. The
+# leading class must include Cyrillic uppercase, otherwise Ukrainian/Russian
+# proper nouns (place names, institutions) score zero verifiable detail and the
+# exculpatory high-verifiability signal never fires for non-Latin transcripts.
+_PROPER_RE = re.compile(r"\b[A-ZА-ЯІЇЄҐ][a-zA-Zа-яіїєґ]{2,}")
 _NUMERIC_RE = re.compile(r"[$£€]?\d[\d,\.]*")
 
 FIRST_PERSON_SINGULAR = frozenset(

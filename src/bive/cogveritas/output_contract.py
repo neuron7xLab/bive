@@ -157,6 +157,20 @@ class CrossWitnessItem(BaseModel):
     quotes: list[str]
 
 
+class IntegrityBlock(BaseModel):
+    """Deterministic, reproducible fingerprint for chain-of-custody.
+
+    Anyone with the source text can regenerate the review and confirm these
+    hashes; a single altered character changes them. No timestamps enter the hash.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    engine: str = ""
+    source_sha256: str = ""
+    analysis_sha256: str = ""
+    case_id: str = ""
+
+
 class COGVERITASOutput(BaseModel):
     """The public output. ``verdict`` is always ``None`` — structurally."""
 
@@ -178,6 +192,7 @@ class COGVERITASOutput(BaseModel):
     ordinal_flag: OrdinalFlag
     audit_trail: list[ProvenanceNode]
     detected_language: str = "en"
+    integrity: IntegrityBlock = IntegrityBlock()
     verdict: None = None
 
     @model_validator(mode="after")

@@ -10,12 +10,14 @@ from __future__ import annotations
 from .corroboration import corroboration_questions, unverifiable_notes, verifiability_gap
 from .dossier import to_dossier_markdown
 from .entities import extract_entities
+from .integrity import compute_integrity
 from .lang import detect_language
 from .output_contract import (
     COGVERITASOutput,
     ConflictItem,
     CrossWitnessItem,
     EntityRef,
+    IntegrityBlock,
     ProvenanceNode,
     SpeakerProfile,
     TimelineEntry,
@@ -94,7 +96,7 @@ def analyze_verifiability(
         if len(speakers) > 1
         else []
     )
-    return build_output(
+    output = build_output(
         verifiability_gap=verifiability_gap(claims),
         corroboration_questions=corroboration_questions(claims),
         audit_trail=nodes,
@@ -109,6 +111,9 @@ def analyze_verifiability(
         detected_language=lang,
         # ece omitted -> Phase 0 policy disables float probabilities (ordinal only).
     )
+    # Stamp a deterministic chain-of-custody fingerprint over source + analysis.
+    block = compute_integrity(text, output.model_dump())
+    return output.model_copy(update={"integrity": IntegrityBlock(**block)})
 
 
 def to_public_dict(output: COGVERITASOutput) -> dict[str, object]:
@@ -120,3 +125,26 @@ def analyze_dossier_markdown(text: str, statuses: dict[str, dict[str, str]] | No
     """Full verifiability review rendered as a printable analyst dossier."""
     output = analyze_verifiability(text, statuses)
     return to_dossier_markdown(output, output.detected_language)
+
+
+def verify_integrity(
+    text: str,
+    expected: dict[str, str],
+    statuses: dict[str, dict[str, str]] | None = None,
+) -> dict[str, object]:
+    """Recompute the fingerprint from ``text`` and compare to ``expected``.
+
+    Reproducibility check for chain-of-custody: only the fields present in
+    ``expected`` are compared; ``match`` is True iff every provided field agrees
+    with the freshly computed fingerprint.
+    """
+    recomputed = analyze_verifiability(text, statuses).integrity
+    fields = ("engine", "source_sha256", "analysis_sha256", "case_id")
+    mismatches = [
+        f for f in fields if f in expected and expected[f] != getattr(recomputed, f)
+    ]
+    return {
+        "match": not mismatches,
+        "mismatched_fields": mismatches,
+        "integrity": recomputed.model_dump(),
+    }

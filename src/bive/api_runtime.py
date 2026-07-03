@@ -666,6 +666,51 @@ async def cogveritas_case(request: Request) -> Any:
     return to_public_dict(analyze_verifiability(text, statuses))
 
 
+@app.post(
+    "/api/v1/cogveritas/verify-integrity",
+    dependencies=[Depends(require_api_version), Depends(require_api_auth)],
+)
+async def cogveritas_verify_integrity(request: Request) -> Any:
+    """Reproduce a dossier's fingerprint from its source and confirm it matches.
+
+    Body: ``{"text": str, "expected": {"case_id"/"source_sha256"/"analysis_sha256"/
+    "engine": ...}, "statuses": {...}}``. Recomputes the deterministic fingerprint
+    and reports whether every provided field agrees — a chain-of-custody check.
+    """
+    try:
+        payload = await request.json()
+    except Exception as exc:  # noqa: BLE001 - malformed body is a client error
+        raise HTTPException(status_code=422, detail="invalid_json") from exc
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=422, detail="expected_json_object")
+    text = payload.get("text")
+    if not isinstance(text, str) or not text.strip():
+        raise HTTPException(status_code=422, detail="empty_input")
+    if len(text) > settings.max_text_chars * settings.max_segments:
+        raise HTTPException(status_code=413, detail="payload_too_large")
+    raw_expected = payload.get("expected") or {}
+    if not isinstance(raw_expected, dict):
+        raise HTTPException(status_code=422, detail="invalid_expected")
+    expected = {str(k): str(v) for k, v in raw_expected.items()}
+    raw_statuses = payload.get("statuses") or {}
+    statuses = (
+        {
+            str(k): {"status": str(v.get("status", "pending")), "note": str(v.get("note", ""))}
+            for k, v in raw_statuses.items()
+            if isinstance(v, dict)
+        }
+        if isinstance(raw_statuses, dict)
+        else {}
+    )
+
+    from .cogveritas.ingest import to_statement_text
+    from .cogveritas.service import verify_integrity
+
+    filename = payload.get("filename")
+    text = to_statement_text(text, filename if isinstance(filename, str) else None)
+    return verify_integrity(text, expected, statuses)
+
+
 @app.get(
     "/api/v1/cogveritas/methodology",
     dependencies=[Depends(require_api_version)],

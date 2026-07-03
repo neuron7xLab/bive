@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 277,
+  "test_functions": 283,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -186,6 +186,14 @@
       "test_unparseable_structured_falls_back_to_raw",
       "test_json_transcript_yields_speaker_profiles",
       "test_endpoint_ingests_srt_via_filename_header"
+    ],
+    "tests/test_cogveritas_integrity.py": [
+      "test_fingerprint_is_deterministic",
+      "test_single_char_change_alters_fingerprint",
+      "test_integrity_field_excluded_from_its_own_hash",
+      "test_verify_endpoint_confirms_matching_fingerprint",
+      "test_verify_endpoint_detects_tamper",
+      "test_verify_endpoint_fails_closed_on_empty"
     ],
     "tests/test_cogveritas_lang.py": [
       "test_language_detection",

@@ -1,12 +1,12 @@
 {
-  "commit": "6d9bfa47c1b8bd4c059e8ae9d22a3e75c4e0fbdc",
+  "commit": "bb7c0afea3f37fe8b215d5678c41cad890205e4e",
   "gates": [
     {
       "command": [
         "python",
         "scripts/validate_dependency_contracts.py"
       ],
-      "duration_seconds": 0.031,
+      "duration_seconds": 0.032,
       "exit_code": 0,
       "failure_excerpt": "",
       "result": "pass"
@@ -16,7 +16,7 @@
         "python",
         "scripts/validate_test_architecture.py"
       ],
-      "duration_seconds": 0.045,
+      "duration_seconds": 0.086,
       "exit_code": 0,
       "failure_excerpt": "",
       "result": "pass"
@@ -26,7 +26,7 @@
         "python",
         "scripts/validate_automation_contract.py"
       ],
-      "duration_seconds": 0.019,
+      "duration_seconds": 0.037,
       "exit_code": 0,
       "failure_excerpt": "",
       "result": "pass"
@@ -36,13 +36,13 @@
         "python",
         "scripts/validate_bibliography.py"
       ],
-      "duration_seconds": 0.018,
+      "duration_seconds": 0.025,
       "exit_code": 0,
       "failure_excerpt": "",
       "result": "pass"
     }
   ],
-  "generated_at": "2026-07-03T22:03:33Z",
+  "generated_at": "2026-07-03T22:09:12Z",
   "schema_version": 1,
   "status": "pass"
 }

@@ -54,6 +54,7 @@ validation_status:
 The following identifiers must stay synchronized with `src/bive/resources/science_registry.json` and are validated by `make bibliography`:
 
 - `ekman_friesen_1969` — nonverbal leakage as bounded cue evidence, not deterministic deception proof.
+- `ekman_1985_telling_lies` — Othello error, Brokaw hazard and the no-single-sign principle as caution layers, not a deception verdict.
 - `vrij_2008` — deception detection limitations and human-review boundary.
 - `newman_pennebaker_2003` — linguistic markers as weak task-bound evidence.
 - `picard_1997` — affective computing as HCI/socio-technical framing, not mental-state certainty.

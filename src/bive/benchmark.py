@@ -59,6 +59,40 @@ CONSTRUCT_CASES: tuple[tuple[int, tuple[tuple[str, str], ...]], ...] = (
 )
 
 
+# Ekman Othello-error probe: emotionally aroused but content-free statements
+# (hedging + fear, but no contradiction, pressure or impression management, and
+# they actively invite verification). A calibrated instrument must NOT escalate
+# these — arousal is not attributed to deception.
+OTHELLO_CASES: tuple[tuple[tuple[str, str], ...], ...] = (
+    (("s", "Можливо, я говорю трохи плутано, бо дуже хвилююся, але перевірте всі документи."),),
+    (("s", "I guess I might be confused and I am very nervous, please check everything carefully."),),
+    (("s", "Мені лячно і тривожно зараз, серце калатає, я розгублений, звіряйте кожну деталь."),),
+    (("s", "I think I am shaking a bit, this frightens me, but go ahead and verify all of it."),),
+    (("s", "Здається, я нервую і хвилююся, перепрошую, звірте будь ласка всі записи."),),
+    (("s", "Maybe I sound stressed because I feel afraid, still I want you to check the records."),),
+)
+
+
+def run_othello_benchmark() -> dict[str, object]:
+    """Specificity of the Othello guard: affect-only inputs must not escalate."""
+    non_escalated = 0
+    for rows in OTHELLO_CASES:
+        segments = [TranscriptSegment(sp, txt, i, i + 1) for i, (sp, txt) in enumerate(rows)]
+        status = build_report_from_segments(segments).final_status.value
+        if status not in ("review_required", "elevated_risk"):
+            non_escalated += 1
+    n = len(OTHELLO_CASES)
+    return {
+        "construct": "othello_affect_only",
+        "n": n,
+        "specificity": round(non_escalated / n, 4),
+        "note": (
+            "Ekman Othello error (1985): emotionally aroused, content-free statements that invite "
+            "verification must not escalate. Specificity = fraction correctly kept non-elevated."
+        ),
+    }
+
+
 def score_inconsistency(segments: list[TranscriptSegment]) -> float:
     """Map a transcript to BIVE's inconsistency-risk score in [0, 1]."""
     report = build_report_from_segments(segments)
@@ -151,4 +185,5 @@ def full_report() -> dict[str, object]:
     return {
         "benchmark": result.to_dict(),
         "raw_score_report": evaluate_probabilities(labels, scores, n_bins=5).to_dict(),
+        "othello_guard": run_othello_benchmark(),
     }

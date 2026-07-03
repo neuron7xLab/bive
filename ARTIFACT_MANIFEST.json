@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 268,
+  "file_count": 269,
   "files": [
     {
       "bytes": 113,
@@ -155,12 +155,12 @@
     {
       "bytes": 657,
       "path": "artifacts/verification/BIBLIOGRAPHY_VALIDATION.json",
-      "sha256": "8fbb5f1e848de6974b94895b4e0cbece5557a6dab29220fefb5efbdf9819559f"
+      "sha256": "b8a562e293b5531d0f47c764456931bb2cb31a6400f996d80e55eabec4f976b7"
     },
     {
-      "bytes": 1620,
+      "bytes": 1905,
       "path": "artifacts/verification/CALIBRATION.json",
-      "sha256": "b6d296087eabccce0bb137f20132574e6da5110219f38e9e62784c751416ee8c"
+      "sha256": "319fcd14a991df0347531495e7d943d9700039d8020bf1d51cbb43d17e7a9722"
     },
     {
       "bytes": 204,
@@ -175,7 +175,7 @@
     {
       "bytes": 408,
       "path": "artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json",
-      "sha256": "cc99b8a686fffa96bd19aea768582448d8373bae0e3e40b768717241ea546c86"
+      "sha256": "2b5a4f0faffb691981e7e26a93cec04f13ac82241cd650bca8dcf46bff76f04f"
     },
     {
       "bytes": 1723,
@@ -210,7 +210,7 @@
     {
       "bytes": 141,
       "path": "artifacts/verification/SCIENCE_REGISTRY_VALIDATION.json",
-      "sha256": "03624bbe52b9afe23258d1af307e23b468e249521097d93c01457fad9f45af1e"
+      "sha256": "68c5f80dddc7f62dc56e98dc4da7ca8bb04d3f94bbe4873fce6315db01e05ace"
     },
     {
       "bytes": 1374,
@@ -258,9 +258,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 11831,
+      "bytes": 12251,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "4a51a64d566963ba1d5e1a43e54071321a4c640f21ea7ce921fb13903445fab6"
+      "sha256": "8cc8f85c825846fdeaaf76fd8bc9c645a8cfc59b9058ea16ae19ced3e08d5a62"
     },
     {
       "bytes": 826,
@@ -373,9 +373,9 @@
       "sha256": "fbf780bda83039dea9845dabf133356ff684105166977e7925fb443a1e1f8e11"
     },
     {
-      "bytes": 4248,
+      "bytes": 4386,
       "path": "docs/BIBLIOGRAPHY.md",
-      "sha256": "03360abb104e0030a1a49edf3ff8493ef3eded3a40a1c233c936c48ed49052c8"
+      "sha256": "86acb3aba8bbcd16cf01c3ad17e34e2dd009d55b2052d7b51db832daef1c2321"
     },
     {
       "bytes": 3033,
@@ -908,9 +908,9 @@
       "sha256": "172fd3c14c83e8c2c7cad7a20c72d9a0c37a8f56100add262965161eee85716f"
     },
     {
-      "bytes": 7625,
+      "bytes": 9638,
       "path": "src/bive/benchmark.py",
-      "sha256": "7388c16065f2e70089e887d8d28dc4737d132b12b9bbdcacec4a9d5146f8a608"
+      "sha256": "ffde7a15187c5ba68c69b87d9a5f84c545bd68d841fb411db6cb913f9ee14923"
     },
     {
       "bytes": 3107,
@@ -948,9 +948,9 @@
       "sha256": "df7202162277df2c0b7aad8c56d2b71272a1802c1320f1418e7beeaac9d04876"
     },
     {
-      "bytes": 3580,
+      "bytes": 5521,
       "path": "src/bive/fusion.py",
-      "sha256": "4ee0cb6b9a6785b29d5bbe8b5a80f0494813a9d55e6aa39564e596dc1b68d525"
+      "sha256": "7bd270528bb9783d62de003811e631ae353d6f0195da0f04e75d0c1ec0914780"
     },
     {
       "bytes": 1284,
@@ -1023,9 +1023,9 @@
       "sha256": "e0e718c90e88182e9676d35ba3b480b5604d925e26769976da92d032ca09752c"
     },
     {
-      "bytes": 5409,
+      "bytes": 5763,
       "path": "src/bive/report.py",
-      "sha256": "ca4ffcb9fdcef2da5f1bef6400dcfd58e0d3132838b2023a59bab7b73cc593bd"
+      "sha256": "8b1e55dc0b28c8a0b957a0d83d25a0aaf99c9f713d924eb2c6f314ed86ec7410"
     },
     {
       "bytes": 46,
@@ -1068,9 +1068,9 @@
       "sha256": "6c2bb54028b70db4417ef4822a18e7d47c53e0969595ebcda7c6afb99d09a712"
     },
     {
-      "bytes": 18614,
+      "bytes": 19340,
       "path": "src/bive/resources/science_registry.json",
-      "sha256": "abdeb3597d4951269ea18c10c46236601045981dbf95fefa62bfd8d5c176a15b"
+      "sha256": "aa155f45cff246617e9a78557697187db4b01db04dea2e1e63dde9901cb3762c"
     },
     {
       "bytes": 3963,
@@ -1113,9 +1113,9 @@
       "sha256": "01e21a6ded2a99d0e7e3086b9e26fdd8ed5e81628a58bfdc377a7c09f163b22c"
     },
     {
-      "bytes": 34976,
+      "bytes": 35408,
       "path": "src/bive/web/static/app.js",
-      "sha256": "0883069389268918792c190f28bf8958abd9c5a6c86432da2b887f0f0371411c"
+      "sha256": "b9c42ffc43573b2cac8bca3f5aa23558101609c2cf9a741b45ad7ced843f7c46"
     },
     {
       "bytes": 19337,
@@ -1226,6 +1226,11 @@
       "bytes": 836,
       "path": "tests/test_dynamic_environment_probe.py",
       "sha256": "a70085bc18251c9e7ec5ccd491fe378f67a93f8472faed2cb32588021567e06c"
+    },
+    {
+      "bytes": 3138,
+      "path": "tests/test_ekman_guards.py",
+      "sha256": "dd3b23ec070cc3f29c5578c30a44daa75eb316ae450387d7e457aa9c2bc890cc"
     },
     {
       "bytes": 234,
@@ -1343,7 +1348,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T14:07:32+00:00",
+  "generated_at_utc": "2026-07-03T14:27:13+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

@@ -136,6 +136,10 @@ function buildSummary(report, events, hyps, status) {
   if (events.some((e) => e.feature === 'high_verifiability')) {
     sentences.push('Пом’якшує: багато перевірюваних деталей (Verifiability Approach).');
   }
+  const othello = hyps.some((h) => (h.alternative_explanations || []).some((a) => String(a).includes('othello_error_guard')));
+  if (othello) {
+    sentences.push('Захист Othello (Ekman): емоційне збудження не приписано обману.');
+  }
   return {text: sentences.join(' '), rec: RECOMMENDATION[status] || ''};
 }
 
@@ -808,6 +812,7 @@ function renderProductReadiness(data) {
 }
 function renderCalibration(data) {
   const b = (data && data.benchmark) || {};
+  const o = (data && data.othello_guard) || {};
   clear(calibrationBox);
   const rows = [
     ['Конструкт', b.construct || '—'],
@@ -815,6 +820,7 @@ function renderCalibration(data) {
     ['ROC-AUC', b.roc_auc ?? '—'],
     ['Average precision', b.average_precision ?? '—'],
     ['ECE (сирий → калібр., CV)', `${b.raw_ece ?? '—'} → ${b.calibrated_ece_cv ?? '—'}`],
+    ['Othello-специфічність (Ekman)', `${o.specificity ?? '—'} (${o.n ?? '?'} affect-only)`],
   ];
   rows.forEach(([k, v]) => {
     const item = make('div', 'lineitem');

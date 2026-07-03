@@ -243,6 +243,7 @@ tests/test_cognitive_control_plane.py
 tests/test_dependency_contracts.py
 tests/test_determinism_stress.py
 tests/test_dynamic_environment_probe.py
+tests/test_ekman_guards.py
 tests/test_eval.py
 tests/test_evidence_graph.py
 tests/test_frontend_contract.py

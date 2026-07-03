@@ -70,5 +70,11 @@
         "empirical_accuracy": 0.0
       }
     ]
+  },
+  "othello_guard": {
+    "construct": "othello_affect_only",
+    "n": 6,
+    "specificity": 1.0,
+    "note": "Ekman Othello error (1985): emotionally aroused, content-free statements that invite verification must not escalate. Specificity = fraction correctly kept non-elevated."
   }
 }

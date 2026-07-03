@@ -191,23 +191,25 @@ class LinguisticAnalyzer:
     ) -> list[EvidenceEvent]:
         events: list[EvidenceEvent] = []
         for speaker, claims in by_speaker.items():
-            seen_negative: list[Claim] = []
-            seen_positive: list[Claim] = []
+            # Cache each claim's token set once. The scan is O(n^2) in a speaker's
+            # claims; recomputing the negation regex and tokenisation for every
+            # (positive, earlier-negative) pair made it O(n^2) tokenisations too.
+            # Tokenising once keeps the comparison logic and output identical.
+            seen_negative: list[tuple[Claim, set[str]]] = []
             for claim in claims:
                 text = normalize_text(claim.text)
                 tokens = set(re.findall(r"[a-zа-яіїєґ0-9]+", text, re.I))
-                if NEGATION_RE.search(text):
-                    seen_negative.append(claim)
-                else:
-                    seen_positive.append(claim)
-                for neg in seen_negative:
+                is_negative = NEGATION_RE.search(text) is not None
+                if is_negative:
+                    seen_negative.append((claim, tokens))
+                    # A negative current claim can never satisfy the positive-side
+                    # guard below, so no contradiction event is emitted for it.
+                    continue
+                for neg, neg_tokens in seen_negative:
                     if neg.claim_id == claim.claim_id:
                         continue
-                    neg_tokens = set(
-                        re.findall(r"[a-zа-яіїєґ0-9]+", normalize_text(neg.text), re.I)
-                    )
                     overlap = tokens & neg_tokens
-                    if len(overlap) >= 3 and not NEGATION_RE.search(text):
+                    if len(overlap) >= 3:
                         events.append(
                             EvidenceEvent(
                                 event_id=f"event:local_contradiction:{neg.claim_id}:{claim.claim_id}",
@@ -237,5 +239,4 @@ class LinguisticAnalyzer:
                                 ),
                             )
                         )
-            _ = seen_positive
         return events

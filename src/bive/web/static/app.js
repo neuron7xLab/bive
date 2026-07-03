@@ -1026,6 +1026,25 @@ function renderVerifiability(data) {
     es.append(el2);
   }
 
+  if ((data.rm_profiles || []).length) {
+    const rs = section(details, 'Насиченість деталями (не оцінка правдивості)');
+    const rl = make('ul', 'profiles');
+    const CRIT = ['temporal', 'spatial', 'perceptual', 'quantitative'];
+    const CRIT_UK = {temporal: 'час', spatial: 'місце', perceptual: 'сенсорика', quantitative: 'числа'};
+    data.rm_profiles.forEach((rp) => {
+      const li = make('li', 'profile');
+      const nm = make('span', 'profile__name');
+      text(nm, `деталі ${rp.detail_count}/4`);
+      const present = CRIT.filter((c) => rp[c]).map((c) => CRIT_UK[c]);
+      if (rp.cognitive_operations) present.push('когніт.-операції');
+      const stat = make('span', 'profile__stat');
+      text(stat, present.join(' · ') || '—');
+      li.append(nm, stat);
+      rl.append(li);
+    });
+    rs.append(rl);
+  }
+
   if ((data.speaker_profiles || []).length) {
     const ps = section(details, 'Профілі свідків (перевірюваність)');
     const pl = make('ul', 'profiles');

@@ -27,10 +27,12 @@ from .output_contract import (
     EntityRef,
     InterviewQuestion,
     ProvenanceNode,
+    RMProfile,
     SpeakerProfile,
     TimelineEntry,
     WorklistItem,
 )
+from .reality_monitoring import rm_profiles
 from .timeline import build_timeline, detect_conflicts
 from .verifiability_tagger import Claim, classify_claim_verifiability, extract_named_entities
 from .witness import analyze_by_speaker, cross_witness, distinct_speakers, speaker_profiles
@@ -122,6 +124,10 @@ def _entities(ctx: AnalysisContext) -> dict[str, Any]:
     return {"entities": [EntityRef(**e) for e in extract_entities(ctx.claims)]}  # type: ignore[arg-type]
 
 
+def _reality_monitoring(ctx: AnalysisContext) -> dict[str, Any]:
+    return {"rm_profiles": [RMProfile(**p) for p in rm_profiles(ctx.claims)]}  # type: ignore[arg-type]
+
+
 def _witness(ctx: AnalysisContext) -> dict[str, Any]:
     # Cross-witness structure is only meaningful with more than one named speaker.
     if not ctx.multi_speaker:
@@ -144,6 +150,7 @@ ANALYZERS: list[tuple[str, Analyzer]] = [
     ("timeline", _timeline),
     ("conflicts", _conflicts),
     ("entities", _entities),
+    ("reality_monitoring", _reality_monitoring),
     ("witness", _witness),
 ]
 

@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 326,
+  "file_count": 328,
   "files": [
     {
       "bytes": 113,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 17865,
+      "bytes": 18134,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "7de987de576039164c5e77163b5e8d95f3ba38c4a40b6d34bea4ff2f13391fba"
+      "sha256": "df8e748f586393ccc2fcc5172bc942f79d1f4e9e584197ad76c128f3043c64d8"
     },
     {
       "bytes": 826,
@@ -1058,9 +1058,9 @@
       "sha256": "b2a7db0416e6b4b15b3eefb05afb5fe2403f4c0608870935fd2389cd3983596b"
     },
     {
-      "bytes": 3889,
+      "bytes": 4111,
       "path": "src/bive/cogveritas/capabilities.py",
-      "sha256": "752ee83647d73f8509df8c050c2f30b05b0f4b50a2a95b4ac1cc8f63388b5e66"
+      "sha256": "a6b1902bb8edd4ed11a41c2483a33f616788021dd5b6df3d64aae987ed687f4d"
     },
     {
       "bytes": 6676,
@@ -1068,9 +1068,9 @@
       "sha256": "4a9124bef1e2636636bf9c07a09f4dcea4c25e0c9dd7e26a6d304a67cd2a5b7a"
     },
     {
-      "bytes": 14140,
+      "bytes": 14900,
       "path": "src/bive/cogveritas/dossier.py",
-      "sha256": "b273dae3dbd1232e34e4d7a6189fc884601749c993a3b4c9a3ad96bad2176784"
+      "sha256": "7592960350cb9a733b2507bc6819ff249d8b8d28b44f203a7f15c98f8def766f"
     },
     {
       "bytes": 3498,
@@ -1103,9 +1103,9 @@
       "sha256": "be1591af1e7343f56b01aa2ad686b546205abd9ea11305d555dab848777c843f"
     },
     {
-      "bytes": 10762,
+      "bytes": 11499,
       "path": "src/bive/cogveritas/output_contract.py",
-      "sha256": "7e753072e3db9142eae13cf396d5f7f95f44e6dfd6c37dd8cf492be146fe3f83"
+      "sha256": "4310aac47d2e4dd4a4b0c66fec204f1b6bd47ea723d8d0ae74a0d3e96dab43e3"
     },
     {
       "bytes": 3286,
@@ -1113,9 +1113,14 @@
       "sha256": "e30abc65723ee801289eccf14c6e4131951b3e9bcf69a67d5400ea294a061a12"
     },
     {
-      "bytes": 5735,
+      "bytes": 6014,
       "path": "src/bive/cogveritas/pipeline.py",
-      "sha256": "d960544152cdf7c0593b70d0f8be55f489063115b0bac1fe50d34bc647231900"
+      "sha256": "1ebb0a14dc988a5ad9c5b71ae2a19a514b63ce0bbac32db177f2e7ba97494941"
+    },
+    {
+      "bytes": 3124,
+      "path": "src/bive/cogveritas/reality_monitoring.py",
+      "sha256": "6e0d0d9291beac24c92eff1d947c34429f211376fd3b51ab84712366ff762515"
     },
     {
       "bytes": 2967,
@@ -1323,9 +1328,9 @@
       "sha256": "4052f9af0760132599219eec753f9a1bd702577f42a33de8c207b5440ecbb088"
     },
     {
-      "bytes": 52140,
+      "bytes": 53052,
       "path": "src/bive/web/static/app.js",
-      "sha256": "e5138d020f1bc0c387766a470e5f5831bd12163b3279e6ff5b3240cf3167bc08"
+      "sha256": "02e755a1cd1a6ec584b32f090616f648b4ef53f7776e380fff3439b5a348b66c"
     },
     {
       "bytes": 24250,
@@ -1483,6 +1488,11 @@
       "sha256": "597382163487d558521077c02c1dba3072ca6cd16e141543cc2c2c39393a4914"
     },
     {
+      "bytes": 1498,
+      "path": "tests/test_cogveritas_reality_monitoring.py",
+      "sha256": "79d492e71ad50c3dd468bff62dba91ebd3ebab1976040da6c4e303dd82404250"
+    },
+    {
       "bytes": 2107,
       "path": "tests/test_cogveritas_timeline.py",
       "sha256": "a7cf7875cca9800379f8f3b7a6b389b8be7184984936251d8d2d20e4305d4744"
@@ -1528,9 +1538,9 @@
       "sha256": "84a22e1f3574041002d9838d5d42514c9d14b468b33d71e58b21cca421bcf283"
     },
     {
-      "bytes": 5032,
+      "bytes": 5211,
       "path": "tests/test_frontend_contract.py",
-      "sha256": "b158b5bf5377c7519dbc6395d07ae13eb78325185df17b0d341f39780307f561"
+      "sha256": "81d972dd74681c2973fabe7217935994878c35f9a04900f23c625cd21601d664"
     },
     {
       "bytes": 2118,
@@ -1633,7 +1643,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T22:32:01+00:00",
+  "generated_at_utc": "2026-07-03T22:37:42+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 297,
+  "test_functions": 301,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -221,6 +221,12 @@
       "test_analyzers_own_disjoint_output_keys",
       "test_context_built_once_matches_service_output",
       "test_multi_speaker_flag_gates_cross_witness"
+    ],
+    "tests/test_cogveritas_reality_monitoring.py": [
+      "test_rich_claim_scores_multiple_detail_criteria",
+      "test_opinion_claim_marks_cognitive_operations",
+      "test_detail_free_claim_is_omitted",
+      "test_service_exposes_rm_profiles_verdict_null"
     ],
     "tests/test_cogveritas_timeline.py": [
       "test_timeline_orders_by_clock_time",

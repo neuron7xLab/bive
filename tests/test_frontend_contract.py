@@ -69,6 +69,9 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     assert "casesummary" in js
     # Interview questions (elicit checkable detail) must render.
     assert "data.interview_questions" in js
+    # Reality Monitoring detail profile must render (framed as not a truth score).
+    assert "data.rm_profiles" in js
+    assert "не оцінка правдивості" in js
     # Transcript uploads carry a filename so the backend picks the parser.
     assert "x-bive-filename" in js
     # Cross-witness comparison must render.

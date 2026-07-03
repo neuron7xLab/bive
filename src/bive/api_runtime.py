@@ -439,6 +439,27 @@ def design_contract() -> DesignContractResponse:
     )
 
 
+_CALIBRATION_CACHE: dict[str, Any] | None = None
+
+
+@app.get("/api/v1/system/calibration", dependencies=[Depends(require_api_version)])
+def system_calibration() -> dict[str, Any]:
+    """Published operating characteristics of the risk score (honesty surface).
+
+    Reports the measured discrimination (ROC-AUC, average precision) and
+    calibration (raw vs. cross-validated ECE) of ``inconsistency_risk`` against a
+    verifiable self-contradiction construct. This is what lets the product state
+    what its numbers do and do not mean instead of implying a probability of
+    deception.
+    """
+    global _CALIBRATION_CACHE
+    if _CALIBRATION_CACHE is None:
+        from .benchmark import full_report
+
+        _CALIBRATION_CACHE = full_report()
+    return _CALIBRATION_CACHE
+
+
 @app.get("/api/v1/system/aos-kernel", dependencies=[Depends(require_api_version)])
 def aos_kernel() -> dict[str, Any]:
     return kernel_status()

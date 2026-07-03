@@ -787,12 +787,21 @@ textarea#payload::placeholder {
   background: var(--surface);
   padding: 13px 14px;
 }
+.minicard--wide {
+  grid-column: 1 / -1;
+}
 .minicard__title {
   margin: 0 0 10px;
   font-size: 11px;
   letter-spacing: 0.1em;
   text-transform: uppercase;
   color: var(--text-3);
+}
+.risk-caption {
+  margin: 12px 0 0;
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
 }
 .gatelist { display: flex; flex-direction: column; gap: 5px; }
 .gaterow {

@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 180,
+  "test_functions": 195,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -67,6 +67,13 @@
       "test_api_runtime_limit_rejects_too_many_segments",
       "test_frontend_source_keeps_safe_dom_rendering_boundary"
     ],
+    "tests/test_benchmark_contract.py": [
+      "test_benchmark_is_balanced_and_deterministic",
+      "test_score_discriminates_above_chance",
+      "test_calibration_reduces_out_of_sample_error",
+      "test_calibration_endpoint_publishes_characteristics",
+      "test_calibration_endpoint_requires_api_version"
+    ],
     "tests/test_bibliography_contract.py": [
       "test_bibliography_script_passes",
       "test_bibliography_artifact_has_required_domains",
@@ -78,6 +85,18 @@
     "tests/test_calibration.py": [
       "test_single_modality_caps_overconfidence",
       "test_counterevidence_increases_calm"
+    ],
+    "tests/test_calibration_metrics.py": [
+      "test_roc_auc_perfect_and_chance",
+      "test_roc_auc_single_class_is_chance",
+      "test_average_precision_perfect",
+      "test_brier_bounds",
+      "test_ece_zero_for_perfect_calibration",
+      "test_reliability_bins_partition_all",
+      "test_isotonic_is_monotonic_and_bounded",
+      "test_platt_moves_toward_labels",
+      "test_evaluate_probabilities_shape",
+      "test_validation_errors"
     ],
     "tests/test_cli_convert_contract.py": [
       "test_analyze_accepts_srt",

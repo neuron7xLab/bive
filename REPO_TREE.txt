@@ -29,6 +29,7 @@ artifacts/security/pip-audit.stage6.attempt.log
 artifacts/security/pip-audit.stage7.attempt.log
 artifacts/verification/AUTOMATION_CONTRACT.json
 artifacts/verification/BIBLIOGRAPHY_VALIDATION.json
+artifacts/verification/CALIBRATION.json
 artifacts/verification/DOCKER_RUNTIME_ATTEMPT.log
 artifacts/verification/DOCKER_RUNTIME_STAGE6_ATTEMPT.log
 artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json
@@ -178,7 +179,9 @@ src/bive/aos_cli.py
 src/bive/api.py
 src/bive/api_models.py
 src/bive/api_runtime.py
+src/bive/benchmark.py
 src/bive/calibration.py
+src/bive/calibration_metrics.py
 src/bive/cli.py
 src/bive/cognitive_control.py
 src/bive/eval.py
@@ -229,8 +232,10 @@ tests/test_api_security_runtime.py
 tests/test_api_upload_contract.py
 tests/test_automation_contract.py
 tests/test_behavioral_invariants.py
+tests/test_benchmark_contract.py
 tests/test_bibliography_contract.py
 tests/test_calibration.py
+tests/test_calibration_metrics.py
 tests/test_cli_convert_contract.py
 tests/test_cli_failure_contract.py
 tests/test_cli_strict_contract.py

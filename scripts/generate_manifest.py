@@ -63,6 +63,7 @@ GENERATED_BUT_ALLOWED = {
     "artifacts/verification/PRODUCT_READINESS.json",
     "artifacts/verification/STAGE11_INDUSTRIAL_PRODUCT_SUMMARY.md",
     "artifacts/benchmarks/pipeline.json",
+    "artifacts/verification/CALIBRATION.json",
 }
 
 

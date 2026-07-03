@@ -978,6 +978,55 @@
         "summary": "Aos Kernel"
       }
     },
+    "/api/v1/system/calibration": {
+      "get": {
+        "description": "Published operating characteristics of the risk score (honesty surface).\n\nReports the measured discrimination (ROC-AUC, average precision) and\ncalibration (raw vs. cross-validated ECE) of ``inconsistency_risk`` against a\nverifiable self-contradiction construct. This is what lets the product state\nwhat its numbers do and do not mean instead of implying a probability of\ndeception.",
+        "operationId": "system_calibration_api_v1_system_calibration_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "api-version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Api-Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response System Calibration Api V1 System Calibration Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "System Calibration"
+      }
+    },
     "/api/v1/system/cognitive-control-plane": {
       "get": {
         "operationId": "cognitive_control_plane_api_v1_system_cognitive_control_plane_get",

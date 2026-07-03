@@ -208,8 +208,10 @@ src/bive/cognitive_control.py
 src/bive/cogveritas/__init__.py
 src/bive/cogveritas/bias_baseline.py
 src/bive/cogveritas/calibration_metrics.py
+src/bive/cogveritas/corroboration.py
 src/bive/cogveritas/output_contract.py
 src/bive/cogveritas/phase0_cv.py
+src/bive/cogveritas/service.py
 src/bive/cogveritas/verifiability_tagger.py
 src/bive/eval.py
 src/bive/evidence_graph.py
@@ -269,6 +271,7 @@ tests/test_cli_failure_contract.py
 tests/test_cli_strict_contract.py
 tests/test_cognitive_control_plane.py
 tests/test_cogveritas.py
+tests/test_cogveritas_api.py
 tests/test_dependency_contracts.py
 tests/test_determinism_stress.py
 tests/test_dynamic_environment_probe.py

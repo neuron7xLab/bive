@@ -391,6 +391,8 @@ def capabilities() -> CapabilityResponse:
             "hypotheses",
             "verification_questions",
             "markdown_report",
+            "cogveritas_verifiability_review",
+            "corroboration_questions",
         ],
         production_gates=[gate.name for gate in RELEASE_GATES],
         optional_adapters=["whisper", "openface", "opensmile", "pyannote", "mediapipe"],
@@ -570,6 +572,35 @@ async def create_report_from_upload(
         "segment_count": len(payload.segments),
         "report": report.to_dict(),
     }
+
+
+@app.post(
+    "/api/v1/cogveritas/verifiability",
+    dependencies=[Depends(require_api_version), Depends(require_api_auth)],
+)
+async def cogveritas_verifiability(request: Request) -> dict[str, Any]:
+    """Fail-closed external-fact verifiability review of raw text.
+
+    Returns the COGVERITAS contract: a verifiability gap, concrete corroboration
+    questions, per-claim provenance and ordinal flags. ``verdict`` is always
+    ``null`` and no probability is emitted (cross-domain calibration is not
+    demonstrated) — this is an evidence-review surface, not a lie detector.
+    """
+    raw = await request.body()
+    if len(raw) > settings.max_upload_bytes:
+        raise HTTPException(status_code=413, detail="payload_too_large")
+    if not raw:
+        raise HTTPException(status_code=422, detail="empty_input")
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise HTTPException(status_code=422, detail="invalid_utf8") from exc
+    if len(text) > settings.max_text_chars * settings.max_segments:
+        raise HTTPException(status_code=413, detail="payload_too_large")
+
+    from .cogveritas.service import analyze_verifiability, to_public_dict
+
+    return to_public_dict(analyze_verifiability(text))
 
 
 @app.get("/api/v1/reports", dependencies=[Depends(require_api_version), Depends(require_api_auth)])

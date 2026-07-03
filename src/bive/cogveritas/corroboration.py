@@ -20,7 +20,13 @@ from .verifiability_tagger import (
 
 
 def _quote(text: str, n: int = 90) -> str:
-    t = text.strip()
+    # Neutralize any guillemets inside the user span so the wrapper «…» stays the
+    # only guillemet pair. Otherwise user-supplied » / « split the wrapper and the
+    # no-verdict scan (which strips «…» spans) could either miss the whole quote
+    # or falsely reject legitimate quoted evidence — e.g. a courtroom transcript
+    # containing «he found him guilty». The quote is verbatim evidence; only the
+    # delimiter is normalized.
+    t = text.strip().replace("«", '"').replace("»", '"')
     return t if len(t) <= n else f"{t[:n]}…"
 
 

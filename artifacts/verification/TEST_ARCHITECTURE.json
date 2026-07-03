@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 249,
+  "test_functions": 254,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -156,6 +156,13 @@
       "test_verifiability_requires_api_version",
       "test_verifiability_fails_closed_on_empty",
       "test_verifiability_gap_is_ordinal_not_probability"
+    ],
+    "tests/test_cogveritas_dossier.py": [
+      "test_dossier_has_all_sections_in_ukrainian",
+      "test_dossier_never_contains_a_verdict_framing",
+      "test_endpoint_returns_markdown_dossier",
+      "test_endpoint_rejects_unknown_format",
+      "test_json_still_default_and_carries_language"
     ],
     "tests/test_cogveritas_lang.py": [
       "test_language_detection",

@@ -8,6 +8,8 @@ the no-verdict invariant and the Phase 0 rule that probabilities are disabled
 from __future__ import annotations
 
 from .corroboration import corroboration_questions, unverifiable_notes, verifiability_gap
+from .dossier import to_dossier_markdown
+from .lang import detect_language
 from .output_contract import (
     COGVERITASOutput,
     ConflictItem,
@@ -23,6 +25,7 @@ from .worklist import corroboration_worklist
 
 def analyze_verifiability(text: str) -> COGVERITASOutput:
     """Run the fail-closed verifiability review. ``verdict`` is always ``None``."""
+    lang = detect_language(text)
     _, claims = analyze(text)
     nodes = [
         ProvenanceNode(
@@ -56,6 +59,7 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
         corroboration_worklist=worklist,
         timeline=timeline,
         conflicts=conflicts,
+        detected_language=lang,
         # ece omitted -> Phase 0 policy disables float probabilities (ordinal only).
     )
 
@@ -63,3 +67,9 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
 def to_public_dict(output: COGVERITASOutput) -> dict[str, object]:
     """API-facing dict. ``verdict`` is explicit ``None`` for auditability."""
     return output.model_dump()
+
+
+def analyze_dossier_markdown(text: str) -> str:
+    """Full verifiability review rendered as a printable analyst dossier."""
+    output = analyze_verifiability(text)
+    return to_dossier_markdown(output, output.detected_language)

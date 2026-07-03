@@ -579,13 +579,18 @@ async def create_report_from_upload(
     "/api/v1/cogveritas/verifiability",
     dependencies=[Depends(require_api_version), Depends(require_api_auth)],
 )
-async def cogveritas_verifiability(request: Request) -> dict[str, Any]:
+async def cogveritas_verifiability(
+    request: Request,
+    fmt: str = Query("json", alias="format", pattern="^(json|markdown)$"),
+) -> Any:
     """Fail-closed external-fact verifiability review of raw text.
 
     Returns the COGVERITAS contract: a verifiability gap, concrete corroboration
     questions, per-claim provenance and ordinal flags. ``verdict`` is always
     ``null`` and no probability is emitted (cross-domain calibration is not
     demonstrated) — this is an evidence-review surface, not a lie detector.
+
+    ``format=markdown`` returns the same review as a printable analyst dossier.
     """
     raw = await request.body()
     if len(raw) > settings.max_upload_bytes:
@@ -599,8 +604,12 @@ async def cogveritas_verifiability(request: Request) -> dict[str, Any]:
     if len(text) > settings.max_text_chars * settings.max_segments:
         raise HTTPException(status_code=413, detail="payload_too_large")
 
-    from .cogveritas.service import analyze_verifiability, to_public_dict
+    from .cogveritas.service import analyze_dossier_markdown, analyze_verifiability, to_public_dict
 
+    if fmt == "markdown":
+        return PlainTextResponse(
+            analyze_dossier_markdown(text), media_type="text/markdown; charset=utf-8"
+        )
     return to_public_dict(analyze_verifiability(text))
 
 

@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 222,
+  "test_functions": 227,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -145,6 +145,13 @@
       "test_corroboration_and_audit_mandatory",
       "test_gates_fail_closed_on_missing_artifacts",
       "test_bias_gate_blocks_release_when_unavailable"
+    ],
+    "tests/test_cogveritas_api.py": [
+      "test_verifiability_endpoint_never_returns_a_verdict",
+      "test_system_framing_has_no_forbidden_judgment_even_on_judgmental_input",
+      "test_verifiability_requires_api_version",
+      "test_verifiability_fails_closed_on_empty",
+      "test_verifiability_gap_is_ordinal_not_probability"
     ],
     "tests/test_dependency_contracts.py": [
       "test_dependency_contract_script_passes",

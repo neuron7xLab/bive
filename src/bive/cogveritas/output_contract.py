@@ -10,9 +10,15 @@ not by convention.
 
 from __future__ import annotations
 
+import re
 from typing import Literal
 
 from pydantic import BaseModel, ConfigDict, model_validator
+
+# Verbatim user quotes are wrapped in guillemets by the generators; they are
+# evidence (provenance), not the system's judgment, so they are stripped before
+# the forbidden-judgment scan. The invariant binds the system's OWN framing.
+_QUOTE_SPAN = re.compile(r"«[^»]*»")
 
 # Release blocker: any of these appearing in a COGVERITAS output surface is a
 # person-level judgment and is forbidden. The scanner in scripts/no_verdict_check
@@ -80,9 +86,11 @@ class COGVERITASOutput(BaseModel):
             raise ValueError("calibrated_probability requires a calibration_ci")
         if self.calibration_ci is not None and self.calibrated_probability is None:
             raise ValueError("calibration_ci requires a calibrated_probability")
-        # No forbidden person-level language anywhere in the free-text fields.
+        # No forbidden person-level judgment in the SYSTEM's own framing. Verbatim
+        # user quotes («…») are evidence, not judgment, and are stripped first.
         for field in (*self.rm_criteria_flagged, *self.corroboration_questions):
-            hits = contains_forbidden_judgment(field)
+            system_framing = _QUOTE_SPAN.sub("«…»", field)
+            hits = contains_forbidden_judgment(system_framing)
             if hits:
                 raise ValueError(f"forbidden person-level judgment string(s): {hits}")
         return self

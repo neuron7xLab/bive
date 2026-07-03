@@ -864,6 +864,101 @@ async function loadContracts() {
 
 // --- Wiring ---
 
+// COGVERITAS verifiability review — fail-closed, no verdict.
+const GAP_LABEL = {
+  elevated: {label: 'Розрив перевірюваності: підвищений', tone: 'warn'},
+  nominal: {label: 'Розрив перевірюваності: номінальний', tone: 'good'},
+  insufficient: {label: 'Недостатньо даних для перевірки', tone: 'muted'},
+};
+
+function renderVerifiability(data) {
+  dismissHero();
+  const msg = make('article', 'msg');
+  const card = make('div', 'report');
+  const meta = GAP_LABEL[data.verifiability_gap] || {label: data.verifiability_gap, tone: 'muted'};
+  card.dataset.tone = meta.tone;
+
+  const head = make('div', 'report__head');
+  const v = make('div', 'verdict');
+  v.append(make('span', 'verdict__badge'));
+  const box = make('div');
+  const h = make('h3', 'verdict__label');
+  text(h, meta.label);
+  const m = make('p', 'verdict__meta');
+  text(m, `COGVERITAS · вирок: відсутній (за задумом) · ${(data.audit_trail || []).length} тверджень`);
+  box.append(h, m);
+  v.append(box);
+  head.append(v);
+  card.append(head);
+
+  const details = make('div', 'details');
+  const qs = section(details, 'Питання для корроборації');
+  const list = make('ul', 'questions');
+  (data.corroboration_questions || []).forEach((q) => {
+    const li = make('li', 'question');
+    const mark = make('span', 'question__mark');
+    mark.append(iconEl('check'));
+    const t = make('span');
+    text(t, q);
+    li.append(mark, t);
+    list.append(li);
+  });
+  qs.append(list);
+
+  if ((data.rm_criteria_flagged || []).length) {
+    const ns = section(details, 'Неперевірювані твердження');
+    const nl = make('ul', 'questions');
+    data.rm_criteria_flagged.forEach((n) => {
+      const li = make('li', 'question');
+      li.append(make('span', 'question__mark'));
+      const t = make('span');
+      text(t, n);
+      li.append(t);
+      nl.append(li);
+    });
+    ns.append(nl);
+  }
+
+  const foot = make('div', 'report__foot');
+  const disc = make('p', 'disclaimer');
+  text(disc, 'COGVERITAS не визначає, чи людина бреше. Він виділяє зовнішньо перевірювані твердження, ставить питання для корроборації і зберігає provenance. Жодних ймовірностей поза доменом.');
+  foot.append(disc);
+  details.append(foot);
+  card.append(details);
+
+  // Details visible by default here (the questions ARE the product).
+  details.hidden = false;
+  msg.append(card);
+  thread.append(msg);
+  scrollThread();
+}
+
+async function verifiability() {
+  const raw = payload.value.trim();
+  if (!raw) {
+    setStatus('Порожньо. Встав текст для перевірки.', 'error');
+    return;
+  }
+  addUserMessage(raw.length > 260 ? `${raw.slice(0, 260)}…` : raw);
+  payload.value = '';
+  autoGrow();
+  setStatus('Перевіряю зовнішню перевірюваність…', 'busy');
+  try {
+    const {data} = await fetchJson(apiUrl('/api/v1/cogveritas/verifiability'), {
+      method: 'POST',
+      headers: {'content-type': 'text/plain; charset=utf-8'},
+      body: raw,
+    });
+    renderVerifiability(data);
+    setStatus('Готово · COGVERITAS (вирок відсутній).', 'ok');
+  } catch (error) {
+    addNotice('Не вдалося перевірити', humanError(error), 'bad');
+    setStatus(error.message, 'error');
+  }
+}
+
+el('#verify').addEventListener('click', () => verifiability());
+
 el('#composerForm').addEventListener('submit', (e) => {
   e.preventDefault();
   submit();

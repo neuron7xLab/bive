@@ -1,17 +1,17 @@
 {
-  "commit": "a9e59ca0f4252b6d9d177be0fbee717f2320e151",
+  "commit": "2accbb722278c099c5cd0d997ca2e1d1aacd6aec",
   "entries": [
     {
-      "bytes": 72839,
+      "bytes": 50119,
       "exists": true,
       "path": "ARTIFACT_MANIFEST.json",
-      "sha256": "6d204fcfc9e6589f900fbdc3530aa64a0d3607fcca2b3af9d62bfea5715a1d2e"
+      "sha256": "87c42720bfb3d3ff115f72580121aecabcabb1293a1ca435d41d5c4d080e9fe1"
     },
     {
       "bytes": 1316,
       "exists": true,
       "path": "PRODUCT_SYSTEM_INDEX.json",
-      "sha256": "48864fa0cde6b743f06f7c7bfae4c764508c09f2cc1257aa3c4f408c29e38363"
+      "sha256": "bd088202b33726601289d37bd8d09b4b71d3e54476ba8a660da91cbc5f0c0cba"
     },
     {
       "bytes": 5801,
@@ -20,10 +20,10 @@
       "sha256": "8ddb22d4bf79e1b7e7e3296675d394cd7d344ae3485f974e191c3551fee16c07"
     },
     {
-      "bytes": 39024,
+      "bytes": 41514,
       "exists": true,
       "path": "docs/openapi.json",
-      "sha256": "c9f3e0590e9d4bec2597a2cd35acbf3d37d15caefd69ea0c1541d26d08833b01"
+      "sha256": "9da6a32caed249b6b4dae602bbb20c97d67fe7be85f4d8f62b5f04b3348cc003"
     },
     {
       "bytes": 2226,
@@ -32,10 +32,10 @@
       "sha256": "9ffc0d8b49efa0c3085879e314dd2e7238460567d180793c18199fbd9bc9c981"
     },
     {
-      "bytes": 13324,
+      "bytes": 13667,
       "exists": true,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "fb3dd1079b5cb3396157791a8031914364ac5fc38745963f37f9831db113d0ed"
+      "sha256": "59096f80ff7749696e61cec23398197de5ca4532ec52bfafecf6511b03fe1274"
     },
     {
       "bytes": 2074,
@@ -56,20 +56,20 @@
       "sha256": "cd671fd6dbafdd9dff97f4464bda4991946fc9fb87dbba3acaea18dae44398b1"
     },
     {
-      "bytes": 8652,
+      "bytes": 7972,
       "exists": true,
       "path": "artifacts/security/pip-audit.json",
-      "sha256": "86704e582a30c8b0f1b2fe1feea2825a749c2d059d5086237268582c989348ff"
+      "sha256": "d751b52b27df45116efc2500556c956d94d76d119cebe4d0c0f122afe76f1a47"
     },
     {
-      "bytes": 1016,
+      "bytes": 1015,
       "exists": true,
       "path": "artifacts/verification/gates.json",
-      "sha256": "2abf13e910220cee1086a859a372fee0e750b5f3bae4bc528cf93250e298f42a"
+      "sha256": "1921a2cbdac68ba75360e2ba9123d5e1a99873f074d600e0398283acdd8743ad"
     }
   ],
   "gates_path": "artifacts/verification/gates.json",
-  "generated_at": "2026-07-03T18:11:18Z",
+  "generated_at": "2026-07-03T18:26:14Z",
   "schema_version": 1,
   "status": "pass"
 }

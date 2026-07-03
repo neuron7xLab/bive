@@ -445,6 +445,87 @@
         "summary": "Capabilities"
       }
     },
+    "/api/v1/cogveritas/verifiability": {
+      "post": {
+        "description": "Fail-closed external-fact verifiability review of raw text.\n\nReturns the COGVERITAS contract: a verifiability gap, concrete corroboration\nquestions, per-claim provenance and ordinal flags. ``verdict`` is always\n``null`` and no probability is emitted (cross-domain calibration is not\ndemonstrated) — this is an evidence-review surface, not a lie detector.",
+        "operationId": "cogveritas_verifiability_api_v1_cogveritas_verifiability_post",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "api-version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Api-Version"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-bive-api-key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Cogveritas Verifiability Api V1 Cogveritas Verifiability Post",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cogveritas Verifiability"
+      }
+    },
     "/api/v1/reports": {
       "get": {
         "operationId": "list_reports_api_v1_reports_get",

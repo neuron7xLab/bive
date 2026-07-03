@@ -930,6 +930,45 @@ function renderVerifiability(data) {
   card.append(head);
 
   const details = make('div', 'details');
+
+  if ((data.conflicts || []).length) {
+    const cs = section(details, 'Потенційні суперечності — перевірити вручну');
+    const cl = make('ul', 'conflicts');
+    const CONFLICT_LABEL = {
+      negation_polarity: 'протилежні твердження',
+      figure_mismatch: 'розбіжність у числах',
+    };
+    data.conflicts.forEach((c) => {
+      const li = make('li', 'conflict');
+      const tag = make('span', 'conflict__tag');
+      text(tag, CONFLICT_LABEL[c.type] || c.type);
+      li.append(tag);
+      (c.quotes || []).forEach((q) => {
+        const p = make('p', 'conflict__quote');
+        text(p, `«${q}»`);
+        li.append(p);
+      });
+      cl.append(li);
+    });
+    cs.append(cl);
+  }
+
+  if ((data.timeline || []).length) {
+    const ts = section(details, 'Хронологія');
+    const tl = make('ol', 'timeline');
+    data.timeline.forEach((entry) => {
+      const li = make('li', 'timeline__item');
+      const when = make('span', 'timeline__time');
+      text(when, entry.time_label || '—');
+      if (!entry.resolved) when.dataset.approx = 'true';
+      const q = make('span', 'timeline__claim');
+      text(q, entry.quote);
+      li.append(when, q);
+      tl.append(li);
+    });
+    ts.append(tl);
+  }
+
   const qs = section(details, 'Питання для корроборації');
   const list = make('ul', 'questions');
   (data.corroboration_questions || []).forEach((q) => {

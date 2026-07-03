@@ -54,6 +54,10 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     # The corroboration worklist (record-type routing) must render.
     assert "corroboration_worklist" in js
     assert "record_types" in js
+    # Timeline and review-worthy conflicts must render.
+    assert "data.timeline" in js
+    assert "data.conflicts" in js
+    assert "negation_polarity" in js and "figure_mismatch" in js
 
 
 def test_frontend_token_is_session_bounded() -> None:

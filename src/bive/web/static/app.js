@@ -50,6 +50,7 @@ let lastOutput = {};
 let lastMarkdown = '';
 let lastReportId = '';
 let lastVerifyInput = '';
+let lastVerifyFilename = '';
 let caseStatuses = {};
 let contractsLoaded = false;
 let busy = false;
@@ -946,7 +947,7 @@ async function downloadDossier() {
     const md = await fetchText(apiUrl('/api/v1/cogveritas/case'), {
       method: 'POST',
       headers: {'content-type': 'application/json'},
-      body: JSON.stringify({text: lastVerifyInput, statuses: caseStatuses, format: 'markdown'}),
+      body: JSON.stringify({text: lastVerifyInput, statuses: caseStatuses, format: 'markdown', filename: lastVerifyFilename}),
     });
     const blob = new Blob([md], {type: 'text/markdown;charset=utf-8'});
     const url = URL.createObjectURL(blob);
@@ -1002,6 +1003,21 @@ function renderVerifiability(data) {
       el2.append(li);
     });
     es.append(el2);
+  }
+
+  if ((data.speaker_profiles || []).length) {
+    const ps = section(details, 'Профілі свідків (перевірюваність)');
+    const pl = make('ul', 'profiles');
+    data.speaker_profiles.forEach((p) => {
+      const li = make('li', 'profile');
+      const nm = make('span', 'profile__name');
+      text(nm, p.speaker);
+      const bar = make('span', 'profile__stat');
+      text(bar, `${p.checkable}/${p.total} перевірюваних · ${p.unverifiable} голослівних`);
+      li.append(nm, bar);
+      pl.append(li);
+    });
+    ps.append(pl);
   }
 
   if ((data.cross_witness || []).length) {
@@ -1191,6 +1207,7 @@ async function resolveVerifiabilityInput() {
       return null;
     }
     addUserMessage(`📎 ${file.name}`);
+    lastVerifyFilename = file.name; // lets the backend pick the transcript parser
     return (await file.text()).trim();
   }
   const raw = payload.value.trim();
@@ -1201,6 +1218,7 @@ async function resolveVerifiabilityInput() {
   addUserMessage(raw.length > 260 ? `${raw.slice(0, 260)}…` : raw);
   payload.value = '';
   autoGrow();
+  lastVerifyFilename = '';
   return raw;
 }
 
@@ -1212,9 +1230,11 @@ async function verifiability() {
     if (content === null) return; // blocking notice already shown
     lastVerifyInput = content; // kept so the dossier can be exported
     setStatus('Перевіряю зовнішню перевірюваність…', 'busy');
+    const headers = {'content-type': 'text/plain; charset=utf-8'};
+    if (lastVerifyFilename) headers['x-bive-filename'] = encodeURIComponent(lastVerifyFilename);
     const {data} = await fetchJson(apiUrl('/api/v1/cogveritas/verifiability'), {
       method: 'POST',
-      headers: {'content-type': 'text/plain; charset=utf-8'},
+      headers,
       body: content,
     });
     renderVerifiability(data);

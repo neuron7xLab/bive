@@ -604,7 +604,11 @@ async def cogveritas_verifiability(
     if len(text) > settings.max_text_chars * settings.max_segments:
         raise HTTPException(status_code=413, detail="payload_too_large")
 
+    from .cogveritas.ingest import to_statement_text
     from .cogveritas.service import analyze_dossier_markdown, analyze_verifiability, to_public_dict
+
+    filename = request.headers.get("x-bive-filename")
+    text = to_statement_text(text, filename)
 
     if fmt == "markdown":
         return PlainTextResponse(
@@ -648,8 +652,12 @@ async def cogveritas_case(request: Request) -> Any:
         if isinstance(v, dict)
     }
     fmt = payload.get("format", "json")
+    filename = payload.get("filename")
 
+    from .cogveritas.ingest import to_statement_text
     from .cogveritas.service import analyze_dossier_markdown, analyze_verifiability, to_public_dict
+
+    text = to_statement_text(text, filename if isinstance(filename, str) else None)
 
     if fmt == "markdown":
         return PlainTextResponse(

@@ -61,6 +61,10 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     # The analyst dossier must be exportable (via the case endpoint, statuses baked in).
     assert "downloadDossier" in js
     assert "format: 'markdown'" in js
+    # Per-speaker verifiability profiles must render.
+    assert "data.speaker_profiles" in js
+    # Transcript uploads carry a filename so the backend picks the parser.
+    assert "x-bive-filename" in js
     # Cross-witness comparison must render.
     assert "data.cross_witness" in js
     assert "cross_corroboration" in js and "cross_contradiction" in js

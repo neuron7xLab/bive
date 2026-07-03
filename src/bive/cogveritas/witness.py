@@ -73,6 +73,33 @@ def distinct_speakers(claims: list[Claim]) -> list[str]:
     return seen
 
 
+def speaker_profiles(claims: list[Claim]) -> list[dict[str, object]]:
+    """Per-speaker verifiability profile: how much of each account is checkable.
+
+    A ratio of externally checkable claims to total — a review-load indicator, not
+    a credibility score."""
+    profiles: dict[str, dict[str, int]] = {}
+    for claim in claims:
+        if not claim.speaker:
+            continue
+        prof = profiles.setdefault(claim.speaker, {"total": 0, "checkable": 0, "unverifiable": 0})
+        prof["total"] += 1
+        label = classify_claim_verifiability(claim)
+        if label == "externally_checkable":
+            prof["checkable"] += 1
+        elif label == "not_externally_checkable":
+            prof["unverifiable"] += 1
+    return [
+        {
+            "speaker": speaker,
+            "total": p["total"],
+            "checkable": p["checkable"],
+            "unverifiable": p["unverifiable"],
+        }
+        for speaker, p in profiles.items()
+    ]
+
+
 def cross_witness(
     claims: list[Claim], overlap: float = 0.6, limit: int = 16
 ) -> list[dict[str, object]]:

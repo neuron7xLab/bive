@@ -129,6 +129,20 @@ class EntityRef(BaseModel):
     claim_ids: list[str] = []
 
 
+class SpeakerProfile(BaseModel):
+    """Per-speaker verifiability load: checkable vs unverifiable claims.
+
+    A review-load indicator (how much of this account can be checked externally),
+    never a credibility or truthfulness score for the speaker.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    speaker: str
+    total: int = 0
+    checkable: int = 0
+    unverifiable: int = 0
+
+
 class CrossWitnessItem(BaseModel):
     """A cross-speaker relation — a contradiction to resolve or a corroboration.
 
@@ -157,6 +171,7 @@ class COGVERITASOutput(BaseModel):
     conflicts: list[ConflictItem] = []
     entities: list[EntityRef] = []
     witnesses: list[str] = []
+    speaker_profiles: list[SpeakerProfile] = []
     cross_witness: list[CrossWitnessItem] = []
     calibrated_probability: float | None = None
     calibration_ci: tuple[float, float] | None = None
@@ -199,6 +214,7 @@ def build_output(
     conflicts: list[ConflictItem] | None = None,
     entities: list[EntityRef] | None = None,
     witnesses: list[str] | None = None,
+    speaker_profiles: list[SpeakerProfile] | None = None,
     cross_witness: list[CrossWitnessItem] | None = None,
     detected_language: str = "en",
     calibrated_probability: float | None = None,
@@ -234,6 +250,7 @@ def build_output(
         conflicts=conflicts or [],
         entities=entities or [],
         witnesses=witnesses or [],
+        speaker_profiles=speaker_profiles or [],
         cross_witness=cross_witness or [],
         calibrated_probability=prob,
         calibration_ci=ci,

@@ -17,13 +17,14 @@ from .output_contract import (
     CrossWitnessItem,
     EntityRef,
     ProvenanceNode,
+    SpeakerProfile,
     TimelineEntry,
     WorklistItem,
     build_output,
 )
 from .timeline import build_timeline, detect_conflicts
 from .verifiability_tagger import analyze, classify_claim_verifiability, extract_named_entities
-from .witness import analyze_by_speaker, cross_witness, distinct_speakers
+from .witness import analyze_by_speaker, cross_witness, distinct_speakers, speaker_profiles
 from .worklist import corroboration_worklist
 
 
@@ -83,6 +84,11 @@ def analyze_verifiability(
     # Cross-witness: only meaningful when the input names more than one speaker.
     speaker_claims = analyze_by_speaker(text)
     speakers = distinct_speakers(speaker_claims)
+    profiles = (
+        [SpeakerProfile(**p) for p in speaker_profiles(speaker_claims)]  # type: ignore[arg-type]
+        if len(speakers) > 1
+        else []
+    )
     cross = (
         [CrossWitnessItem(**c) for c in cross_witness(speaker_claims)]  # type: ignore[arg-type]
         if len(speakers) > 1
@@ -98,6 +104,7 @@ def analyze_verifiability(
         conflicts=conflicts,
         entities=entities,
         witnesses=speakers if len(speakers) > 1 else [],
+        speaker_profiles=profiles,
         cross_witness=cross,
         detected_language=lang,
         # ece omitted -> Phase 0 policy disables float probabilities (ordinal only).

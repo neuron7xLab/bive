@@ -660,6 +660,10 @@ textarea {
 .entity__name { color: var(--text-1, #fff); font-size: var(--fs-sm); font-weight: 600; }
 .entity__count { color: var(--accent, #ffc46f); font-size: var(--fs-2xs, 11px); font-variant-numeric: tabular-nums; }
 .entity__forms { color: var(--text-3); font-size: var(--fs-2xs, 11px); }
+.profiles { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.profile { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
+.profile__name { color: var(--text-1, #fff); font-size: var(--fs-sm); font-weight: 600; }
+.profile__stat { color: var(--text-3); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
 .timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .timeline__item { display: flex; gap: 10px; align-items: baseline; }
 .timeline__time {

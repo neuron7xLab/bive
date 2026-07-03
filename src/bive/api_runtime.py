@@ -9,6 +9,7 @@ from fastapi import Depends, FastAPI, Header, HTTPException, Query, Request, Res
 from fastapi.exceptions import RequestValidationError
 from fastapi.responses import HTMLResponse, JSONResponse, PlainTextResponse
 from fastapi.staticfiles import StaticFiles
+from starlette.middleware.gzip import GZipMiddleware
 
 from .aos import kernel_status
 from .api_models import (
@@ -122,6 +123,7 @@ app = FastAPI(
     version=settings.version,
     description="Behavioral Integrity Verification Engine API: evidence-first behavioral verification, not automated accusation.",
 )
+app.add_middleware(GZipMiddleware, minimum_size=600)
 app.mount("/static", StaticFiles(directory=STATIC_ROOT), name="static")
 
 

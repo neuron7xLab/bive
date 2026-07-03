@@ -4,9 +4,9 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
-  <meta name="description" content="BIVE — постав дані, отримай зрозумілий evidence-звіт. Мінімалістичний інтерфейс для перевірки транскриптів." />
+  <meta name="description" content="BIVE — постав дані, отримай зрозумілий evidence-звіт. Перевірка транскриптів без вироків: суперечності, ризик-сигнали, питання для аудиту." />
   <title>BIVE — Behavioral Integrity Verification Engine</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23000000'/%3E%3Ccircle cx='32' cy='32' r='20' fill='none' stroke='%23ffffff' stroke-width='3.5'/%3E%3Ctext x='32' y='41' text-anchor='middle' fill='%23ffffff' font-family='Georgia,serif' font-size='26' font-weight='600'%3EB%3C/text%3E%3C/svg%3E" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='16' fill='%230a0a0c'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%23ffc46f' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23ffc46f'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
@@ -14,99 +14,104 @@
   <main class="app" aria-labelledby="hero-title">
     <h1 id="hero-title" class="visually-hidden">BIVE — evidence-first перевірка свідчень</h1>
 
-    <header class="topbar">
-      <div class="ready" title="Стан системи">
-        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
-        <span id="systemReadiness" class="ready-label">…</span>
-      </div>
+    <header class="nav">
       <div class="brand">
-        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
-          <circle cx="32" cy="32" r="21" fill="none" stroke="currentColor" stroke-width="3.5" />
-          <text x="32" y="41" text-anchor="middle" fill="currentColor"
-            font-family="'Iowan Old Style', Palatino, Georgia, serif" font-size="26" font-weight="600">B</text>
+        <svg class="brand__mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <circle cx="32" cy="32" r="19" fill="none" stroke="currentColor" stroke-width="3" />
+          <circle cx="32" cy="32" r="6" fill="currentColor" />
         </svg>
-        <span class="brand-name">BIVE</span>
+        <span class="brand__name">BIVE</span>
+        <span class="brand__tag">Behavioral Integrity Verification Engine</span>
+      </div>
+      <div class="statuspill" title="Стан системи">
+        <span class="status-dot" id="statusDot" aria-hidden="true"></span>
+        <span id="systemReadiness" class="statuspill__label">…</span>
       </div>
     </header>
 
-    <section class="thread" id="thread" aria-live="polite" aria-label="Діалог і результати">
-      <article class="msg msg-intro">
-        <p class="intro-title">Постав дані — отримай зрозумілий розбір.</p>
-        <p class="intro-sub">Встав текст чи транскрипт, або перетягни файл. BIVE знайде суперечності, ризик-сигнали й побудує питання для перевірки. Це поверхня для аналізу, а не вирок «брехун».</p>
-        <div class="intro-chips">
-          <button type="button" class="chip" data-sample="contradiction">Приклад: суперечність</button>
-          <button type="button" class="chip" data-sample="pressure">Приклад: тиск</button>
+    <section class="stage" id="thread" aria-live="polite" aria-label="Результати аналізу">
+      <div class="hero" id="hero">
+        <h2 class="hero__title">Постав дані — отримай зрозумілий розбір</h2>
+        <p class="hero__sub">Встав текст, транскрипт або перетягни файл. BIVE будує карту суперечностей, ризик-сигналів і питань для перевірки. Це аналітична поверхня, а не вирок про людину.</p>
+        <div class="hero__examples" aria-label="Приклади">
+          <button type="button" class="example" data-sample="contradiction">
+            <span class="example__k">Суперечність</span>
+            <span class="example__v">«ніколи не отримував» ↔ «отримав пізніше»</span>
+          </button>
+          <button type="button" class="example" data-sample="pressure">
+            <span class="example__k">Тиск проти перевірки</span>
+            <span class="example__v">«повір мені, перевіряти не треба»</span>
+          </button>
         </div>
-      </article>
+      </div>
     </section>
 
     <section class="composer" id="composer">
-      <form id="composerForm" class="composer-box" aria-label="Ввід даних">
-        <div class="composer-top">
-          <svg class="composer-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
-            <circle cx="10.5" cy="10.5" r="7" fill="none" stroke="currentColor" stroke-width="2" />
-            <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+      <form id="composerForm" class="field" aria-label="Ввід даних">
+        <svg class="field__glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+          <circle cx="10.5" cy="10.5" r="7" fill="none" stroke="currentColor" stroke-width="1.8" />
+          <line x1="15.6" y1="15.6" x2="21" y2="21" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+        </svg>
+        <label class="visually-hidden" for="payload">Ваш текст, транскрипт або дані</label>
+        <textarea id="payload" rows="1" spellcheck="false"
+          placeholder="Встав текст або транскрипт… (SRT · VTT · CSV · TXT · JSON)"></textarea>
+        <input id="fileInput" type="file" class="visually-hidden"
+          accept=".json,.jsonl,.srt,.vtt,.csv,.txt,text/plain,application/json,audio/*,video/*" />
+        <span id="attachName" class="field__attach" aria-live="polite"></span>
+        <button type="button" id="attach" class="iconbtn" aria-label="Додати файл">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M12 5v14M5 12h14" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
           </svg>
-          <label class="visually-hidden" for="payload">Start Prompt — ваш текст, транскрипт або дані</label>
-          <textarea id="payload" rows="1" spellcheck="false" placeholder="Start Prompt"></textarea>
-          <input id="fileInput" type="file" class="visually-hidden"
-            accept=".json,.jsonl,.srt,.vtt,.csv,.txt,text/plain,application/json,audio/*,video/*" />
-          <button type="button" id="attach" class="icon-btn" aria-label="Додати файл">
-            <span aria-hidden="true">＋</span>
-          </button>
-        </div>
-        <div class="composer-bar">
-          <span id="attachName" class="attach-name" aria-live="polite"></span>
-          <button type="submit" id="send" class="send-btn">
-            <span class="send-label">Аналізувати</span>
-          </button>
-        </div>
+        </button>
+        <button type="submit" id="send" class="sendbtn" aria-label="Аналізувати">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <path d="M5 12h13M12 5l7 7-7 7" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+          </svg>
+        </button>
       </form>
-      <p id="statusText" class="composer-hint" role="status" aria-live="polite">SRT · VTT · CSV · TXT · JSON — встав або перетягни файл.</p>
+      <p id="statusText" class="composer__hint" role="status" aria-live="polite">Enter або ↵ — аналіз. Shift+Enter — новий рядок.</p>
     </section>
 
-    <details class="system-drawer">
-      <summary>
+    <details class="system">
+      <summary class="system__summary">
         <span>Система, контракти та експорт</span>
-        <span class="drawer-meta" id="drawerMeta"></span>
+        <span class="system__meta" id="drawerMeta"></span>
       </summary>
-      <div class="drawer-body">
-        <div class="drawer-row">
-          <label class="field-label" for="apiToken">API token (для staging/production)</label>
-          <div class="token-line">
+      <div class="system__body">
+        <div class="system__field">
+          <label class="tinylabel" for="apiToken">API token — staging / production</label>
+          <div class="tokenrow">
             <input id="apiToken" type="password" autocomplete="off" placeholder="лише поточна сесія браузера" />
-            <button id="saveToken" type="button" class="tiny">Зберегти</button>
+            <button id="saveToken" type="button" class="btn btn--ghost">Зберегти</button>
           </div>
         </div>
-
-        <div class="drawer-grid">
-          <section class="drawer-card">
-            <h3>Release gates</h3>
-            <div id="gatesList" class="gate-list">завантаж контракти…</div>
+        <div class="system__grid">
+          <section class="minicard">
+            <h3 class="minicard__title">Release gates</h3>
+            <div id="gatesList" class="gatelist">завантаж контракти…</div>
           </section>
-          <section class="drawer-card">
-            <h3>Science registry</h3>
-            <div id="scienceList" class="tag-list">…</div>
+          <section class="minicard">
+            <h3 class="minicard__title">Science registry</h3>
+            <div id="scienceList" class="chips">…</div>
           </section>
-          <section class="drawer-card">
-            <h3>Hard boundaries</h3>
-            <div id="scienceBoundary" class="mini-list">…</div>
+          <section class="minicard">
+            <h3 class="minicard__title">Hard boundaries</h3>
+            <div id="scienceBoundary" class="linelist">…</div>
           </section>
-          <section class="drawer-card">
-            <h3>Product readiness</h3>
-            <div id="productReadiness" class="mini-list">…</div>
+          <section class="minicard">
+            <h3 class="minicard__title">Product readiness</h3>
+            <div id="productReadiness" class="linelist">…</div>
           </section>
         </div>
-
-        <div class="drawer-row">
-          <div class="export-actions" role="group" aria-label="Експорт">
-            <button id="copyOutput" type="button" class="tiny">Copy JSON</button>
-            <button id="downloadOutput" type="button" class="tiny">Download JSON</button>
-            <button id="copyMarkdown" type="button" class="tiny">Copy Markdown</button>
-            <a class="tiny button-link" href="/docs">API docs</a>
+        <div class="system__field">
+          <div class="exportrow" role="group" aria-label="Експорт">
+            <button id="copyOutput" type="button" class="btn btn--ghost">Copy JSON</button>
+            <button id="downloadOutput" type="button" class="btn btn--ghost">Download JSON</button>
+            <button id="copyMarkdown" type="button" class="btn btn--ghost">Copy Markdown</button>
+            <a class="btn btn--ghost" href="/docs">API docs</a>
           </div>
-          <pre id="output" class="raw-pre">{}</pre>
-          <pre id="markdownOutput" class="raw-pre">Markdown зʼявиться після аналізу.</pre>
+          <pre id="output" class="raw">{}</pre>
+          <pre id="markdownOutput" class="raw">Markdown зʼявиться після аналізу.</pre>
         </div>
       </div>
     </details>

@@ -1,27 +1,33 @@
-// BIVE minimal conversational console.
-// One input -> one readable answer. Safe DOM only — no dynamic HTML injection. The operational
-// surface (gates, science registry, product readiness, raw JSON/Markdown export)
-// lives in a collapsed drawer for power users and loads lazily when opened.
+// BIVE console — one input, one report. Vanilla, dependency-free, safe DOM only:
+// nodes are built via createElement / createElementNS and textContent, never via
+// raw HTML string injection. Operational surface lives in a lazy drawer.
 
-const el = (selector) => document.querySelector(selector);
+const SVGNS = 'http://www.w3.org/2000/svg';
+const el = (s) => document.querySelector(s);
 const make = (tag, className = '') => {
-  const node = document.createElement(tag);
-  if (className) node.className = className;
-  return node;
+  const n = document.createElement(tag);
+  if (className) n.className = className;
+  return n;
 };
-const clear = (node) => {
-  while (node.firstChild) node.removeChild(node.firstChild);
+const clear = (n) => {
+  while (n.firstChild) n.removeChild(n.firstChild);
 };
-const text = (node, value) => {
-  node.textContent = String(value ?? '');
+const text = (n, v) => {
+  n.textContent = String(v ?? '');
+};
+const svg = (tag, attrs = {}) => {
+  const n = document.createElementNS(SVGNS, tag);
+  for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, String(v));
+  return n;
 };
 
 const API_VERSION = '2026-06-11';
-const MAX_UPLOAD_BYTES = 25_000_000;
+const MAX_UPLOAD_BYTES = 100_000_000;
 const KNOWN_EXTENSIONS = ['json', 'jsonl', 'srt', 'vtt', 'csv', 'txt'];
 const MEDIA_EXTENSIONS = ['mp3', 'wav', 'm4a', 'aac', 'ogg', 'flac', 'mp4', 'mov', 'mkv', 'webm', 'avi'];
 
 const thread = el('#thread');
+const hero = el('#hero');
 const payload = el('#payload');
 const fileInput = el('#fileInput');
 const attachName = el('#attachName');
@@ -36,14 +42,16 @@ const gatesList = el('#gatesList');
 const scienceList = el('#scienceList');
 const scienceBoundary = el('#scienceBoundary');
 const productReadiness = el('#productReadiness');
+const sendBtn = el('#send');
 
 let pendingFile = null;
 let lastOutput = {};
 let lastMarkdown = '';
 let lastReportId = '';
 let contractsLoaded = false;
+let busy = false;
 
-const STATUS_LABEL = {
+const STATUS = {
   review_required: {label: 'Потрібна перевірка', tone: 'warn'},
   elevated_risk: {label: 'Підвищений ризик', tone: 'bad'},
   low_risk: {label: 'Низький ризик', tone: 'good'},
@@ -51,20 +59,38 @@ const STATUS_LABEL = {
   invalid_input: {label: 'Некоректний ввід', tone: 'bad'},
 };
 
-const HYP_LABEL = {
+const HYP = {
   inconsistency_risk: 'Непослідовність',
   manipulation_risk: 'Маніпуляція',
   cognitive_load_risk: 'Когнітивне навантаження',
   evidence_gap_risk: 'Брак доказів',
 };
 
+const ICONS = {
+  contradiction: ['M3 9h12l-4-4', 'M21 15H9l4 4'],
+  absolute: ['M12 3l9 16H3z', 'M12 9v5', 'M12 17h.01'],
+  pressure: ['M12 3l7 3v5c0 4-3 7-7 9-4-2-7-5-7-9V6z'],
+  hedging: ['M3 13c2-3 4-3 6 0s4 3 6 0 4-3 6 0'],
+  temporal: ['M12 4a8 8 0 100 16 8 8 0 000-16z', 'M12 8v4l3 2'],
+  signal: ['M12 5v14', 'M5 12h14'],
+  check: ['M20 6L9 17l-5-5'],
+};
+
+function iconEl(name) {
+  const node = svg('svg', {viewBox: '0 0 24 24', 'aria-hidden': 'true', focusable: 'false'});
+  for (const d of ICONS[name] || ICONS.signal) {
+    node.append(svg('path', {d, fill: 'none', stroke: 'currentColor', 'stroke-width': 1.8, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}));
+  }
+  return node;
+}
+
 const SAMPLES = {
   contradiction:
     'subject: Я ніколи не отримував ці кошти, повірте, перевіряти немає потреби.\n' +
     'subject: Я отримав ці кошти пізніше, але це очевидно була не моя відповідальність.',
   pressure:
-    'subject: Trust me, nobody needs to check this today.\n' +
-    'subject: You must believe me, there is no need to verify anything.',
+    'subject: Повір мені, зараз нікому не треба це перевіряти.\n' +
+    'subject: Ти мусиш просто прийняти це — жодної потреби щось звіряти немає.',
 };
 
 function setStatus(message, mode = 'neutral') {
@@ -72,27 +98,21 @@ function setStatus(message, mode = 'neutral') {
   statusText.dataset.mode = mode;
 }
 
-// --- API token: session-bounded only (never persisted to disk). ---
+// --- Session-bounded API token ---
 const SESSION_TOKEN_KEY = 'bive_api_token';
-
 function persistSessionToken() {
-  const value = apiToken.value.trim();
-  if (value) sessionStorage.setItem(SESSION_TOKEN_KEY, value);
+  const v = apiToken.value.trim();
+  if (v) sessionStorage.setItem(SESSION_TOKEN_KEY, v);
   else sessionStorage.removeItem(SESSION_TOKEN_KEY);
 }
-
 function clearSessionToken() {
   sessionStorage.removeItem(SESSION_TOKEN_KEY);
   apiToken.value = '';
 }
-
 function authHeaders() {
-  const token = apiToken.value.trim();
-  return token ? {'x-bive-api-key': token} : {};
+  const t = apiToken.value.trim();
+  return t ? {'x-bive-api-key': t} : {};
 }
-
-// Accept a token passed via ?api-token= once, then scrub it from the URL so it
-// is never retained in history, bookmarks or referrer headers.
 function captureUrlToken() {
   const params = new URLSearchParams(window.location.search);
   const urlToken = params.get('api-token');
@@ -106,27 +126,27 @@ function captureUrlToken() {
 }
 
 function apiUrl(path) {
-  const joiner = path.includes('?') ? '&' : '?';
-  return `${path}${joiner}api-version=${encodeURIComponent(API_VERSION)}`;
+  const j = path.includes('?') ? '&' : '?';
+  return `${path}${j}api-version=${encodeURIComponent(API_VERSION)}`;
 }
 
 async function fetchJson(url, options = {}) {
   const headers = {accept: 'application/json', ...(options.headers || {}), ...authHeaders()};
   const response = await fetch(url, {...options, headers});
-  const requestId = response.headers.get('x-request-id') || 'missing-request-id';
+  const requestId = response.headers.get('x-request-id') || '';
   let data;
   try {
     data = await response.json();
-  } catch (error) {
-    data = {error: 'non_json_response', details: [error.message]};
+  } catch (e) {
+    data = {error: 'non_json_response'};
   }
   if (!response.ok) {
     if (response.status === 401) clearSessionToken();
     const code = (data.error && (data.error.code || data.error)) || `http_${response.status}`;
     const detail = data.error && data.error.details && data.error.details[0];
-    const error = new Error(detail ? `${code}: ${detail}` : `${code}`);
-    error.code = typeof code === 'string' ? code : '';
-    throw error;
+    const err = new Error(detail ? `${code}: ${detail}` : `${code}`);
+    err.code = typeof code === 'string' ? code : '';
+    throw err;
   }
   return {data, requestId};
 }
@@ -138,77 +158,138 @@ async function fetchText(url, options = {}) {
   return await response.text();
 }
 
-// --- Thread rendering (assistant/user messages) ---
+// --- Thread primitives ---
 
-function dismissIntro() {
-  const intro = thread.querySelector('.msg-intro');
-  if (intro) intro.remove();
+function dismissHero() {
+  if (hero && hero.parentNode) hero.remove();
 }
-
+function scrollThread() {
+  const last = thread.lastElementChild;
+  if (last && last.scrollIntoView) last.scrollIntoView({behavior: 'smooth', block: 'end'});
+}
 function addUserMessage(label) {
-  dismissIntro();
-  const msg = make('article', 'msg msg-user');
+  dismissHero();
+  const msg = make('article', 'msg msg--user');
   const bubble = make('div', 'bubble');
   text(bubble, label);
   msg.append(bubble);
   thread.append(msg);
   scrollThread();
 }
-
-function addNoticeMessage(title, body, tone = 'muted') {
-  dismissIntro();
-  const msg = make('article', 'msg msg-assistant');
-  const card = make('div', `answer answer-${tone}`);
-  const h = make('p', 'answer-verdict');
+function addSkeleton() {
+  dismissHero();
+  const sk = make('div', 'skeleton');
+  ['w40', 'w80', 'w60', 'w80'].forEach((w) => sk.append(make('div', `sk-line ${w}`)));
+  thread.append(sk);
+  scrollThread();
+  return sk;
+}
+function addNotice(title, body, tone = 'muted') {
+  dismissHero();
+  const msg = make('article', 'msg');
+  const card = make('div', 'report');
+  card.dataset.tone = tone;
+  const head = make('div', 'report__head');
+  const v = make('div', 'verdict');
+  v.append(make('span', 'verdict__badge'));
+  const box = make('div');
+  const h = make('h3', 'verdict__label');
   text(h, title);
-  card.append(h);
+  box.append(h);
   if (body) {
-    const p = make('p', 'answer-line');
+    const p = make('p', 'verdict__meta');
     text(p, body);
-    card.append(p);
+    box.append(p);
   }
+  v.append(box);
+  head.append(v);
+  card.append(head);
   msg.append(card);
   thread.append(msg);
   scrollThread();
 }
 
-function scrollThread() {
-  thread.scrollTop = thread.scrollHeight;
-  const last = thread.lastElementChild;
-  if (last && last.scrollIntoView) last.scrollIntoView({behavior: 'smooth', block: 'end'});
-}
+// --- Report rendering ---
 
-function section(parent, title) {
-  const wrap = make('div', 'answer-section');
-  const h = make('p', 'answer-section-title');
-  text(h, title);
-  wrap.append(h);
-  parent.append(wrap);
-  return wrap;
+function tone(status) {
+  return (STATUS[status] || {tone: 'muted'}).tone;
+}
+function riskTone(pct) {
+  return pct >= 60 ? 'bad' : pct >= 40 ? 'warn' : 'good';
 }
 
 function describeEvent(event) {
-  const feature = event.feature || event.event_type || 'signal';
+  const f = event.feature || event.event_type || 'signal';
   const value = event.value;
-  if (feature === 'local_claim_tension' && value && typeof value === 'object') {
-    return {kind: 'Суперечність', detail: `«${value.claim_a}» ↔ «${value.claim_b}»`, tone: 'bad'};
+  if (f === 'local_claim_tension' && value && typeof value === 'object') {
+    return {icon: 'contradiction', tone: 'bad', kind: 'Суперечність', quote: `«${value.claim_a}» ↔ «${value.claim_b}»`, tag: 'tension'};
   }
-  if (feature === 'absolute_framing') {
-    return {kind: 'Абсолютне формулювання', detail: 'категоричні слова (ніколи/завжди/очевидно)', tone: 'warn'};
+  if (f === 'absolute_framing') {
+    return {icon: 'absolute', tone: 'warn', kind: 'Категоричне формулювання', detail: 'абсолютні слова (ніколи / завжди / очевидно) звужують перевірку', tag: 'framing'};
   }
-  if (feature === 'verification_pressure') {
-    return {kind: 'Тиск проти перевірки', detail: 'мова відмовляє перевіряти («повір мені»)', tone: 'warn'};
+  if (f === 'verification_pressure') {
+    return {icon: 'pressure', tone: 'warn', kind: 'Тиск проти перевірки', detail: 'мова відмовляє від звіряння («повір мені»)', tag: 'pressure'};
   }
-  if (feature === 'linguistic_hedging') {
-    return {kind: 'Хеджування', detail: 'ознаки невпевненості («можливо», «здається»)', tone: 'muted'};
+  if (f === 'linguistic_hedging') {
+    return {icon: 'hedging', tone: 'muted', kind: 'Хеджування', detail: 'ознаки невпевненості («можливо», «здається»)', tag: 'hedge'};
   }
-  if (feature === 'temporal_anchor') {
-    return {kind: 'Часовий маркер', detail: 'згадка часу — перевір таймлайн', tone: 'muted'};
+  if (f === 'temporal_anchor') {
+    return {icon: 'temporal', tone: 'muted', kind: 'Часовий маркер', detail: 'згадка часу — варто звірити таймлайн', tag: 'time'};
   }
-  return {kind: feature, detail: typeof value === 'string' ? value : '', tone: 'muted'};
+  return {icon: 'signal', tone: 'muted', kind: f, detail: typeof value === 'string' ? value : '', tag: 'signal'};
 }
 
-// Main answer renderer (name kept for the frontend-quality contract).
+function shortQuote(s, n = 90) {
+  const t = String(s || '').trim();
+  return t.length > n ? `${t.slice(0, n)}…` : t;
+}
+
+function ukrainianQuestions(report) {
+  const claims = report.claims || [];
+  const hyps = report.hypotheses || [];
+  const out = [];
+  claims.filter((c) => (c.qualifiers || []).includes('temporal')).slice(0, 2).forEach((c) => {
+    out.push(`Чи підтверджує незалежне джерело часовий маркер у: «${shortQuote(c.text)}»?`);
+  });
+  claims.filter((c) => (c.qualifiers || []).includes('absolute')).slice(0, 2).forEach((c) => {
+    out.push(`Які докази могли б спростувати категоричне твердження: «${shortQuote(c.text)}»?`);
+  });
+  hyps.filter((h) => ['review_required', 'elevated_risk'].includes(h.status)).forEach((h) => {
+    out.push(`Які контр-докази знизили б ризик «${HYP[h.label] || h.label}» нижче порогу перегляду?`);
+  });
+  if (!out.length) {
+    out.push('Яке незалежне джерело підтвердило б ключове твердження без опори на поведінкові сигнали?');
+  }
+  return [...new Set(out)].slice(0, 6);
+}
+
+function buildGauge(pct) {
+  const wrap = make('div', 'gauge');
+  const s = svg('svg', {viewBox: '0 0 68 68'});
+  const c = 2 * Math.PI * 30;
+  s.append(svg('circle', {class: 'gauge__track', cx: 34, cy: 34, r: 30}));
+  const arc = svg('circle', {class: 'gauge__arc', cx: 34, cy: 34, r: 30});
+  arc.style.stroke = `var(--${riskTone(pct)})`;
+  arc.setAttribute('stroke-dasharray', String(c));
+  arc.setAttribute('stroke-dashoffset', String(c * (1 - pct / 100)));
+  s.append(arc);
+  wrap.append(s);
+  const val = make('div', 'gauge__val');
+  text(val, `${pct}%`);
+  wrap.append(val);
+  return wrap;
+}
+
+function section(card, title) {
+  const sec = make('section', 'report__section');
+  const h = make('h4', 'section__title');
+  text(h, title);
+  sec.append(h);
+  card.append(sec);
+  return sec;
+}
+
+// Main renderer (name kept for the frontend contract).
 function renderReport(data) {
   const report = data.report || data;
   lastReportId = report.report_id || data.report_id || '';
@@ -216,89 +297,136 @@ function renderReport(data) {
   text(output, JSON.stringify(data, null, 2));
 
   const status = report.final_status || data.status || 'inconclusive';
-  const meta = STATUS_LABEL[status] || {label: status, tone: 'muted'};
+  const meta = STATUS[status] || {label: status, tone: 'muted'};
   const events = (report.evidence_events || []).slice();
-  const hypotheses = (report.hypotheses || []).filter((h) => (h.score || 0) > 0);
-  const questions = report.verification_questions || [];
+  const hyps = (report.hypotheses || []).filter((h) => (h.score || 0) > 0);
   const summary = report.input_summary || {};
-
-  dismissIntro();
-  const msg = make('article', 'msg msg-assistant');
-  const card = make('div', `answer answer-${meta.tone}`);
-
-  const verdict = make('p', 'answer-verdict');
-  text(verdict, meta.label);
-  card.append(verdict);
-
-  const line = make('p', 'answer-line');
   const claims = summary.claims ?? (report.claims || []).length;
-  const evCount = events.length;
-  text(
-    line,
-    data.detected_format
-      ? `Формат ${data.detected_format}. Витягнуто ${claims} тверджень і ${evCount} evidence-подій.`
-      : `Витягнуто ${claims} тверджень і ${evCount} evidence-подій.`
-  );
-  card.append(line);
+  const topRisk = Math.round(Math.max(0, ...hyps.map((h) => h.score || 0)) * 100);
 
-  // Findings — contradictions first, then linguistic risk signals.
-  events.sort((a, b) => (a.feature === 'local_claim_tension' ? -1 : 0) - (b.feature === 'local_claim_tension' ? -1 : 0));
+  dismissHero();
+  const msg = make('article', 'msg');
+  const card = make('div', 'report');
+  card.dataset.tone = meta.tone;
+
+  // Header: verdict + gauge
+  const head = make('div', 'report__head');
+  const verdict = make('div', 'verdict');
+  verdict.append(make('span', 'verdict__badge'));
+  const vbox = make('div');
+  const label = make('h3', 'verdict__label');
+  text(label, meta.label);
+  const vmeta = make('p', 'verdict__meta');
+  const fmt = data.detected_format ? ` · формат ${String(data.detected_format).toUpperCase()}` : '';
+  text(vmeta, `${claims} тверджень · ${events.length} сигналів${fmt}`);
+  vbox.append(label, vmeta);
+  verdict.append(vbox);
+  head.append(verdict);
+  if (hyps.length) head.append(buildGauge(topRisk));
+  card.append(head);
+
+  // Signals
   if (events.length) {
     const sec = section(card, 'Що знайдено');
-    events.slice(0, 8).forEach((event) => {
-      const described = describeEvent(event);
-      const item = make('div', `finding finding-${described.tone}`);
-      const k = make('span', 'finding-kind');
-      text(k, described.kind);
-      const d = make('span', 'finding-detail');
-      text(d, described.detail);
-      item.append(k, d);
-      sec.append(item);
-    });
+    const list = make('ul', 'signals');
+    events
+      .sort((a, b) => (a.feature === 'local_claim_tension' ? 0 : 1) - (b.feature === 'local_claim_tension' ? 0 : 1))
+      .slice(0, 8)
+      .forEach((event) => {
+        const d = describeEvent(event);
+        const li = make('li', 'signal');
+        li.dataset.tone = d.tone;
+        const ic = make('span', 'signal__icon');
+        ic.append(iconEl(d.icon));
+        const body = make('div', 'signal__body');
+        const kind = make('span', 'signal__kind');
+        text(kind, d.kind);
+        body.append(kind);
+        const detail = make('span', 'signal__detail');
+        if (d.quote) {
+          const q = make('span', 'signal__quote');
+          text(q, d.quote);
+          detail.append(q);
+        } else {
+          text(detail, d.detail || '');
+        }
+        body.append(detail);
+        const tag = make('span', 'signal__tag');
+        text(tag, d.tag);
+        li.append(ic, body, tag);
+        list.append(li);
+      });
+    sec.append(list);
   }
 
-  // Risk hypotheses as labelled meters.
-  if (hypotheses.length) {
+  // Risk meters
+  if (hyps.length) {
     const sec = section(card, 'Оцінка ризику');
-    hypotheses
+    const risks = make('div', 'risks');
+    hyps
       .sort((a, b) => (b.score || 0) - (a.score || 0))
       .slice(0, 4)
       .forEach((h) => {
-        const row = make('div', 'hyp-row');
-        const name = make('span', 'hyp-name');
-        text(name, HYP_LABEL[h.label] || h.label);
-        const meter = make('div', 'hyp-meter');
-        const fill = make('div', 'hyp-fill');
-        fill.style.width = `${Math.round((h.score || 0) * 100)}%`;
-        fill.dataset.tone = (h.score || 0) >= 0.6 ? 'bad' : (h.score || 0) >= 0.4 ? 'warn' : 'good';
-        meter.append(fill);
-        const val = make('span', 'hyp-val');
-        text(val, `${Math.round((h.score || 0) * 100)}% · невизначеність ${Math.round((h.uncertainty || 0) * 100)}%`);
-        row.append(name, meter, val);
-        sec.append(row);
+        const pct = Math.round((h.score || 0) * 100);
+        const row = make('div', 'risk');
+        const rhead = make('div', 'risk__head');
+        const name = make('span', 'risk__name');
+        text(name, HYP[h.label] || h.label);
+        const val = make('span', 'risk__val');
+        text(val, `${pct}% · невизначеність ${Math.round((h.uncertainty || 0) * 100)}%`);
+        rhead.append(name, val);
+        const track = make('div', 'risk__track');
+        const fill = make('div', 'risk__fill');
+        fill.dataset.tone = riskTone(pct);
+        fill.style.width = `${pct}%`;
+        track.append(fill);
+        row.append(rhead, track);
+        risks.append(row);
       });
+    sec.append(risks);
   }
 
-  // Human-review questions.
+  // Questions (Ukrainian, derived from structured report)
+  const questions = ukrainianQuestions(report);
   if (questions.length) {
     const sec = section(card, 'Питання для перевірки');
-    const list = make('ul', 'q-list');
-    questions.slice(0, 6).forEach((q) => {
-      const li = make('li');
-      text(li, typeof q === 'string' ? q : q.question || '');
+    const list = make('ul', 'questions');
+    questions.forEach((q) => {
+      const li = make('li', 'question');
+      const mark = make('span', 'question__mark');
+      mark.append(iconEl('check'));
+      const t = make('span');
+      text(t, q);
+      li.append(mark, t);
       list.append(li);
     });
     sec.append(list);
   }
 
-  const note = make('p', 'answer-note');
-  text(note, 'Це поверхня для аналізу, а не вирок про людину. Рішення потребує людської перевірки й зовнішніх джерел.');
-  card.append(note);
+  // Footer
+  const foot = make('div', 'report__foot');
+  const disc = make('p', 'disclaimer');
+  text(disc, 'Це аналітична поверхня, а не вирок про людину. Рішення потребує людської перевірки, контексту й зовнішніх джерел.');
+  const actions = make('div', 'foot-actions');
+  const copyBtn = make('button', 'btn btn--ghost');
+  text(copyBtn, 'Copy JSON');
+  copyBtn.type = 'button';
+  copyBtn.addEventListener('click', () => copyJson());
+  const dlBtn = make('button', 'btn btn--ghost');
+  text(dlBtn, 'Download JSON');
+  dlBtn.type = 'button';
+  dlBtn.addEventListener('click', () => downloadJson());
+  const mdBtn = make('button', 'btn btn--ghost');
+  text(mdBtn, 'Copy Markdown');
+  mdBtn.type = 'button';
+  mdBtn.addEventListener('click', () => copyMarkdown());
+  actions.append(copyBtn, dlBtn, mdBtn);
+  foot.append(disc, actions);
+  card.append(foot);
 
   msg.append(card);
   thread.append(msg);
   scrollThread();
-
   refreshMarkdown();
 }
 
@@ -307,8 +435,8 @@ async function refreshMarkdown() {
   try {
     lastMarkdown = await fetchText(apiUrl(`/api/v1/reports/${encodeURIComponent(lastReportId)}/markdown`));
     text(markdownOutput, lastMarkdown);
-  } catch (error) {
-    text(markdownOutput, `markdown недоступний: ${error.message}`);
+  } catch (e) {
+    text(markdownOutput, `markdown недоступний: ${e.message}`);
   }
 }
 
@@ -319,101 +447,110 @@ function fileExtension(name) {
   return dot >= 0 ? name.slice(dot + 1).toLowerCase() : '';
 }
 
-// Pasted BIVE JSON ({subject_scope, segments:[...]}) goes to the strict
-// structured endpoint; everything else (SRT, VTT, CSV, plain text, ASR JSON)
-// goes through the auto-detecting upload endpoint.
 function structuredPayload(raw) {
-  const trimmed = raw.trimStart();
-  if (trimmed[0] !== '{') return null;
+  if (raw.trimStart()[0] !== '{') return null;
   try {
     const parsed = JSON.parse(raw);
     if (parsed && Array.isArray(parsed.segments)) return parsed;
-  } catch (error) {
+  } catch (e) {
     return null;
   }
   return null;
 }
 
+function setBusy(on) {
+  busy = on;
+  sendBtn.disabled = on;
+}
+
 async function analyzeText(raw) {
-  addUserMessage(raw.length > 240 ? `${raw.slice(0, 240)}…` : raw);
+  addUserMessage(raw.length > 260 ? `${raw.slice(0, 260)}…` : raw);
+  const sk = addSkeleton();
   setStatus('Аналізую…', 'busy');
-  const structured = structuredPayload(raw);
-  const request = structured
-    ? {url: '/api/v1/reports/from-transcript', body: JSON.stringify(structured), type: 'application/json'}
-    : {url: '/api/v1/reports/from-upload', body: raw, type: 'text/plain; charset=utf-8'};
-  const {data} = await fetchJson(apiUrl(request.url), {
-    method: 'POST',
-    headers: {'content-type': request.type},
-    body: request.body,
-  });
-  renderReport(data);
-  setStatus('Готово.', 'ok');
-  refreshStatus();
+  try {
+    const structured = structuredPayload(raw);
+    const req = structured
+      ? {url: '/api/v1/reports/from-transcript', body: JSON.stringify(structured), type: 'application/json'}
+      : {url: '/api/v1/reports/from-upload', body: raw, type: 'text/plain; charset=utf-8'};
+    const {data} = await fetchJson(apiUrl(req.url), {method: 'POST', headers: {'content-type': req.type}, body: req.body});
+    sk.remove();
+    renderReport(data);
+    setStatus('Готово.', 'ok');
+    refreshStatus();
+  } catch (e) {
+    sk.remove();
+    throw e;
+  }
 }
 
 async function analyzeFile(file) {
   const ext = fileExtension(file.name);
   addUserMessage(`📎 ${file.name}`);
   if (MEDIA_EXTENSIONS.includes(ext)) {
-    addNoticeMessage(
-      'Аудіо/відео потребує транскрипції',
-      'BIVE аналізує текст. Транскрибуй запис у текст (напр. Whisper: `whisper запис.mp3 --output_format srt`) і завантаж отриманий SRT / VTT / JSON — розбір буде миттєвим.',
-      'muted'
-    );
+    addNotice('Аудіо/відео потребує транскрипції', 'BIVE аналізує текст. Транскрибуй запис (напр. Whisper → SRT/JSON) і завантаж результат — розбір буде миттєвим.', 'muted');
     setStatus('Потрібен транскрипт.', 'neutral');
     return;
   }
   if (file.size > MAX_UPLOAD_BYTES) {
-    addNoticeMessage('Файл завеликий', `${(file.size / 1e6).toFixed(1)}MB перевищує ліміт 25MB.`, 'bad');
+    addNotice('Файл завеликий', `${(file.size / 1e6).toFixed(1)}MB перевищує ліміт 100MB.`, 'bad');
     return;
   }
+  const sk = addSkeleton();
   setStatus(`Аналізую ${file.name}…`, 'busy');
-  const content = await file.text();
-  let url = apiUrl('/api/v1/reports/from-upload');
-  if (KNOWN_EXTENSIONS.includes(ext)) url += `&format=${encodeURIComponent(ext)}`;
-  const {data} = await fetchJson(url, {
-    method: 'POST',
-    headers: {'content-type': 'text/plain; charset=utf-8', 'x-bive-filename': encodeURIComponent(file.name)},
-    body: content,
-  });
-  renderReport(data);
-  setStatus(`Готово · ${data.detected_format || ext}.`, 'ok');
-  refreshStatus();
-}
-
-async function submit() {
   try {
-    if (pendingFile) {
-      const file = pendingFile;
-      setPendingFile(null);
-      await analyzeFile(file);
-      return;
-    }
-    const raw = payload.value.trim();
-    if (!raw) {
-      setStatus('Порожньо. Встав текст або додай файл.', 'error');
-      return;
-    }
-    payload.value = '';
-    autoGrow();
-    await analyzeText(raw);
-  } catch (error) {
-    addNoticeMessage('Не вдалося обробити', humanError(error), 'bad');
-    setStatus(error.message, 'error');
+    const content = await file.text();
+    let url = apiUrl('/api/v1/reports/from-upload');
+    if (KNOWN_EXTENSIONS.includes(ext)) url += `&format=${encodeURIComponent(ext)}`;
+    const {data} = await fetchJson(url, {
+      method: 'POST',
+      headers: {'content-type': 'text/plain; charset=utf-8', 'x-bive-filename': encodeURIComponent(file.name)},
+      body: content,
+    });
+    sk.remove();
+    renderReport(data);
+    setStatus(`Готово · ${data.detected_format || ext}.`, 'ok');
+    refreshStatus();
+  } catch (e) {
+    sk.remove();
+    throw e;
   }
 }
 
 function humanError(error) {
   const code = error.code || '';
-  if (code.startsWith('transcript_parse_error')) return 'Не вдалося розпізнати формат даних. Спробуй SRT, VTT, CSV, TXT або JSON.';
+  if (code.startsWith('transcript_parse_error')) return 'Не вдалося розпізнати формат. Спробуй SRT, VTT, CSV, TXT або JSON.';
   if (code === 'empty_upload') return 'Порожні дані.';
-  if (code === 'invalid_utf8') return 'Файл не є текстом (схоже на бінарні дані). Для аудіо/відео спершу зроби транскрипцію.';
-  if (code === 'too_many_segments') return 'Документ завеликий навіть після розбиття. Надішли його частинами.';
-  if (code === 'authentication_required') return 'Потрібен API token (див. розділ «Система»).';
-  if (code === 'InvalidInput' || code === 'ValidationError') {
-    return 'Дані не пройшли валідацію. Спробуй менший фрагмент або інший формат.';
-  }
+  if (code === 'invalid_utf8') return 'Схоже на бінарний файл. Для аудіо/відео спершу зроби транскрипцію.';
+  if (code === 'too_many_segments') return 'Документ завеликий навіть після розбиття. Надішли частинами.';
+  if (code === 'authentication_required') return 'Потрібен API token (розділ «Система»).';
+  if (code === 'InvalidInput' || code === 'ValidationError') return 'Дані не пройшли валідацію. Спробуй менший фрагмент або інший формат.';
   return error.message;
+}
+
+async function submit() {
+  if (busy) return;
+  setBusy(true);
+  try {
+    if (pendingFile) {
+      const file = pendingFile;
+      setPendingFile(null);
+      await analyzeFile(file);
+    } else {
+      const raw = payload.value.trim();
+      if (!raw) {
+        setStatus('Порожньо. Встав текст або додай файл.', 'error');
+        return;
+      }
+      payload.value = '';
+      autoGrow();
+      await analyzeText(raw);
+    }
+  } catch (error) {
+    addNotice('Не вдалося обробити', humanError(error), 'bad');
+    setStatus(error.message, 'error');
+  } finally {
+    setBusy(false);
+  }
 }
 
 // --- Attach / drag-drop ---
@@ -423,10 +560,38 @@ function setPendingFile(file) {
   text(attachName, file ? file.name : '');
   el('#composer').dataset.hasFile = file ? 'true' : 'false';
 }
-
 function autoGrow() {
   payload.style.height = 'auto';
-  payload.style.height = `${Math.min(payload.scrollHeight, 220)}px`;
+  payload.style.height = `${Math.min(payload.scrollHeight, 200)}px`;
+}
+
+// --- Export handlers ---
+
+async function copyJson() {
+  try {
+    await navigator.clipboard.writeText(JSON.stringify(lastOutput, null, 2));
+    setStatus('JSON скопійовано.', 'ok');
+  } catch (e) {
+    setStatus(`Clipboard: ${e.message}`, 'error');
+  }
+}
+async function copyMarkdown() {
+  try {
+    await navigator.clipboard.writeText(lastMarkdown || markdownOutput.textContent);
+    setStatus('Markdown скопійовано.', 'ok');
+  } catch (e) {
+    setStatus(`Clipboard: ${e.message}`, 'error');
+  }
+}
+function downloadJson() {
+  const blob = new Blob([JSON.stringify(lastOutput, null, 2)], {type: 'application/json'});
+  const href = URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = href;
+  link.download = `${lastReportId || 'bive-report'}.json`;
+  link.click();
+  URL.revokeObjectURL(href);
+  setStatus('JSON завантажується.', 'ok');
 }
 
 // --- System surface (lazy) ---
@@ -438,54 +603,50 @@ async function refreshStatus() {
     statusDot.dataset.ready = data.readiness === 'ready' ? 'true' : 'false';
     text(drawerMeta, `${data.storage.report_count} звітів · ${data.limits.auth_required ? 'auth' : 'local'}`);
     renderGates(data.gates || []);
-  } catch (error) {
+  } catch (e) {
     text(systemReadiness, 'офлайн');
     statusDot.dataset.ready = 'false';
   }
 }
-
 function renderGates(gates) {
   clear(gatesList);
   if (!gates.length) {
     text(gatesList, 'немає даних');
     return;
   }
-  gates.forEach((gate) => {
-    const row = make('div', 'gate-row');
+  gates.forEach((g) => {
+    const row = make('div', 'gaterow');
     const name = make('span');
-    text(name, gate.name);
-    const status = make('b');
-    text(status, gate.last_observed);
-    status.dataset.status = gate.last_observed;
-    row.append(name, status);
+    text(name, g.name);
+    const st = make('b');
+    text(st, g.last_observed);
+    st.dataset.status = g.last_observed;
+    row.append(name, st);
     gatesList.append(row);
   });
 }
-
 function renderScienceRegistry(data) {
   clear(scienceList);
   (data.disciplines || []).forEach((d) => {
-    const tag = make('span', 'tag');
-    text(tag, d.name);
-    scienceList.append(tag);
+    const chip = make('span', 'chip');
+    text(chip, d.name);
+    scienceList.append(chip);
   });
   clear(scienceBoundary);
   (data.hard_boundaries || []).slice(0, 4).forEach((b) => {
-    const item = make('div', 'mini-item');
+    const item = make('div', 'lineitem');
     text(item, b);
     scienceBoundary.append(item);
   });
 }
-
 function renderProductReadiness(data) {
   clear(productReadiness);
-  const rows = [
+  [
     ['Стадія', data.stage || 'unknown'],
     ['Статус', data.overall_status || 'unknown'],
     ['Блокери', (data.blocking_unknowns || []).join(' · ') || 'немає'],
-  ];
-  rows.forEach(([k, v]) => {
-    const item = make('div', 'mini-item');
+  ].forEach(([k, v]) => {
+    const item = make('div', 'lineitem');
     const b = make('b');
     text(b, `${k}: `);
     const s = make('span');
@@ -494,7 +655,6 @@ function renderProductReadiness(data) {
     productReadiness.append(item);
   });
 }
-
 async function loadContracts() {
   if (contractsLoaded) return;
   contractsLoaded = true;
@@ -505,26 +665,24 @@ async function loadContracts() {
     ]);
     renderScienceRegistry(science.data);
     renderProductReadiness(product.data);
-  } catch (error) {
+  } catch (e) {
     contractsLoaded = false;
   }
 }
 
 // --- Wiring ---
 
-el('#composerForm').addEventListener('submit', (event) => {
-  event.preventDefault();
+el('#composerForm').addEventListener('submit', (e) => {
+  e.preventDefault();
   submit();
 });
-
 payload.addEventListener('input', autoGrow);
-payload.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
-    event.preventDefault();
+payload.addEventListener('keydown', (e) => {
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
     submit();
   }
 });
-
 el('#attach').addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', () => {
   const file = fileInput.files && fileInput.files[0];
@@ -533,71 +691,39 @@ fileInput.addEventListener('change', () => {
 });
 
 const composer = el('#composer');
-['dragenter', 'dragover'].forEach((name) => {
-  composer.addEventListener(name, (event) => {
-    event.preventDefault();
-    composer.dataset.drag = 'true';
-  });
-});
-['dragleave', 'dragend', 'drop'].forEach((name) => {
-  composer.addEventListener(name, () => {
-    composer.dataset.drag = 'false';
-  });
-});
-composer.addEventListener('drop', (event) => {
-  event.preventDefault();
-  const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+['dragenter', 'dragover'].forEach((n) => composer.addEventListener(n, (e) => {
+  e.preventDefault();
+  composer.dataset.drag = 'true';
+}));
+['dragleave', 'dragend'].forEach((n) => composer.addEventListener(n, () => {
+  composer.dataset.drag = 'false';
+}));
+composer.addEventListener('drop', (e) => {
+  e.preventDefault();
+  composer.dataset.drag = 'false';
+  const file = e.dataTransfer && e.dataTransfer.files && e.dataTransfer.files[0];
   if (file) {
     setPendingFile(file);
     submit();
   }
 });
-
-document.querySelectorAll('.chip[data-sample]').forEach((chip) => {
-  chip.addEventListener('click', () => {
-    payload.value = SAMPLES[chip.dataset.sample] || '';
+document.querySelectorAll('.example[data-sample]').forEach((ex) => {
+  ex.addEventListener('click', () => {
+    payload.value = SAMPLES[ex.dataset.sample] || '';
     autoGrow();
     payload.focus();
   });
 });
-
 el('#saveToken').addEventListener('click', () => {
   persistSessionToken();
   setStatus('Token збережено лише на цю сесію.', 'ok');
 });
-
-el('.system-drawer').addEventListener('toggle', (event) => {
-  if (event.target.open) loadContracts();
+el('.system').addEventListener('toggle', (e) => {
+  if (e.target.open) loadContracts();
 });
-
-el('#copyOutput').addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText(JSON.stringify(lastOutput, null, 2));
-    setStatus('JSON скопійовано.', 'ok');
-  } catch (error) {
-    setStatus(`Clipboard: ${error.message}`, 'error');
-  }
-});
-
-el('#copyMarkdown').addEventListener('click', async () => {
-  try {
-    await navigator.clipboard.writeText(lastMarkdown || markdownOutput.textContent);
-    setStatus('Markdown скопійовано.', 'ok');
-  } catch (error) {
-    setStatus(`Clipboard: ${error.message}`, 'error');
-  }
-});
-
-el('#downloadOutput').addEventListener('click', () => {
-  const blob = new Blob([JSON.stringify(lastOutput, null, 2)], {type: 'application/json'});
-  const href = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = href;
-  link.download = `${lastReportId || 'bive-report'}.json`;
-  link.click();
-  URL.revokeObjectURL(href);
-  setStatus('JSON завантажується.', 'ok');
-});
+el('#copyOutput').addEventListener('click', copyJson);
+el('#copyMarkdown').addEventListener('click', copyMarkdown);
+el('#downloadOutput').addEventListener('click', downloadJson);
 
 const savedToken = sessionStorage.getItem(SESSION_TOKEN_KEY);
 if (savedToken) apiToken.value = savedToken;

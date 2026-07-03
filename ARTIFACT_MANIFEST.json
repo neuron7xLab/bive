@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 272,
+  "file_count": 279,
   "files": [
     {
       "bytes": 113,
@@ -170,7 +170,7 @@
     {
       "bytes": 408,
       "path": "artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json",
-      "sha256": "2b5a4f0faffb691981e7e26a93cec04f13ac82241cd650bca8dcf46bff76f04f"
+      "sha256": "cd671fd6dbafdd9dff97f4464bda4991946fc9fb87dbba3acaea18dae44398b1"
     },
     {
       "bytes": 1723,
@@ -423,6 +423,11 @@
       "sha256": "4a7f9612e12e8f613ba3b958fcbd46abe72318c29e366e64b44036171739949c"
     },
     {
+      "bytes": 2712,
+      "path": "docs/EMPIRICAL_VALIDATION.md",
+      "sha256": "63acf568a3cfc75c59d0b4e5d9008db2c1597b0a89b3400d20ca827cc85ef2be"
+    },
+    {
       "bytes": 1088,
       "path": "docs/ENGINEERING_VALIDATION.md",
       "sha256": "01289af514039a201b3b392bc72be89bd5e8b13188a3a9c7ef03ea9379c0390c"
@@ -646,6 +651,36 @@
       "bytes": 170,
       "path": "requirements/security.in",
       "sha256": "09c79205cf12fa36575c55e098aa763b7f6eee18a9391c584a8d4c75e77b3224"
+    },
+    {
+      "bytes": 6,
+      "path": "research/cogveritas/.gitignore",
+      "sha256": "c5049c183f87267ff36ee98b52517e1f78670639f3a060baa89d4093a555f59b"
+    },
+    {
+      "bytes": 7570,
+      "path": "research/cogveritas/PHASE0_REPORT.md",
+      "sha256": "93f570e4f16ca92e9d9ec08d2a3f044b630aca248baab9ba8803b9e7f4f23c99"
+    },
+    {
+      "bytes": 6788,
+      "path": "research/cogveritas/evaluate.py",
+      "sha256": "2a3632cdec974afebfdec20472dfcbc0c781b0b903755aa2cd71d1fd00230df1"
+    },
+    {
+      "bytes": 5735,
+      "path": "research/cogveritas/features.py",
+      "sha256": "9c0f668430b0bea7be793ff41b839c8fb95fee2247ab8ae4920c196e82de5e46"
+    },
+    {
+      "bytes": 589,
+      "path": "research/cogveritas/fetch_data.sh",
+      "sha256": "aa5125f961eeb495b2020f8eb805fe89f139c59853be720a85643123a8a28817"
+    },
+    {
+      "bytes": 983,
+      "path": "research/cogveritas/phase0_results.json",
+      "sha256": "6f5330bb39d39d01491a27bab229fa0b66f0cc3a3002bbf73c121b0a3d040315"
     },
     {
       "bytes": 4872,
@@ -1033,9 +1068,9 @@
       "sha256": "e0e718c90e88182e9676d35ba3b480b5604d925e26769976da92d032ca09752c"
     },
     {
-      "bytes": 5763,
+      "bytes": 6028,
       "path": "src/bive/report.py",
-      "sha256": "8b1e55dc0b28c8a0b957a0d83d25a0aaf99c9f713d924eb2c6f314ed86ec7410"
+      "sha256": "6669a097b2c39b27f0e4eaf8befe4b166685bc669c11c88519afee43d36c22e9"
     },
     {
       "bytes": 46,
@@ -1363,7 +1398,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T15:19:38+00:00",
+  "generated_at_utc": "2026-07-03T17:39:07+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

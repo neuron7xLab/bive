@@ -58,6 +58,9 @@ def test_quoted_judgment_evidence_is_accepted_not_rejected(client: TestClient) -
         "The jury «found him guilty». He paid 500 dollars at the Hilton on March 3.",
         "quote» guilty «end John paid 200 dollars in Boston on Friday March 3.",
         "The witness said «he is lying about the receipt». John paid 200 in Boston Friday.",
+        # Forbidden word captured as a proper-noun anchor (outside the quote span).
+        "Guilty paid 500 dollars at the Hilton in Chicago on March 3.",
+        "Mr Guilty and Ms Liar signed the 500 dollar contract on Friday March 3.",
     ):
         r = client.post(f"{EP}?api-version={API}", content=content)
         assert r.status_code == 200, r.text

@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 229,
+  "test_functions": 230,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -150,6 +150,7 @@
     "tests/test_cogveritas_api.py": [
       "test_verifiability_endpoint_never_returns_a_verdict",
       "test_system_framing_has_no_forbidden_judgment_even_on_judgmental_input",
+      "test_quoted_judgment_evidence_is_accepted_not_rejected",
       "test_verifiability_requires_api_version",
       "test_verifiability_fails_closed_on_empty",
       "test_verifiability_gap_is_ordinal_not_probability"

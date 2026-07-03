@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 227,
+  "test_functions": 228,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -189,6 +189,7 @@
     ],
     "tests/test_frontend_contract.py": [
       "test_frontend_static_contract",
+      "test_cogveritas_verifiability_ui_is_wired",
       "test_frontend_token_is_session_bounded"
     ],
     "tests/test_linguistics.py": [

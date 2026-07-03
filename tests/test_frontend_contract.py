@@ -25,6 +25,25 @@ def test_frontend_static_contract() -> None:
     assert ":focus" in css
 
 
+def test_cogveritas_verifiability_ui_is_wired() -> None:
+    """The verifiability mode must stay wired end-to-end in the static frontend:
+    a trigger, a fetch to the live endpoint, and a renderer that surfaces the
+    no-verdict framing. Browser-only JS has no runtime test, so this guards the
+    wiring from silent regression."""
+    html = (ROOT / "src/bive/web/index.html").read_text(encoding="utf-8")
+    js = (ROOT / "src/bive/web/static/app.js").read_text(encoding="utf-8")
+    assert 'id="verify"' in html, "verifiability trigger button must exist"
+    assert "apiUrl('/api/v1/cogveritas/verifiability')" in js
+    assert "renderVerifiability" in js, "verifiability renderer must exist"
+    assert "corroboration_questions" in js
+    assert "verifiability_gap" in js
+    # The no-verdict invariant must be surfaced to the user, not just enforced
+    # server-side; the renderer must never present a person-level verdict.
+    assert "вирок: відсутній" in js, "renderer must surface the no-verdict framing"
+    for forbidden in ("verdict: true", "verdict: false", "is lying", "is truthful"):
+        assert forbidden not in js.lower(), f"frontend must not render a verdict: {forbidden!r}"
+
+
 def test_frontend_token_is_session_bounded() -> None:
     """The API token must never be persisted to localStorage and must be
     cleared on an unauthorized response (session-bounded lifecycle)."""

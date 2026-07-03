@@ -1,4 +1,4 @@
-.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean
+.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify
 
 PYTHON ?= python
 VENV ?= .venv
@@ -104,6 +104,16 @@ no-verdict-check:
 
 cogveritas-verify:
 	PYTHONPATH=src $(PYTHON) scripts/cogveritas_gates.py verify
+
+product-claim-audit:
+	PYTHONPATH=src $(PYTHON) scripts/product_claim_audit.py
+
+# Institutional Level-Up (see docs/methodology/COGVERITAS_OPENAI_STYLE_LEVEL_UP_SPEC.md).
+# Fail-closed: runs the institutional gates that EXIST and refuses to declare
+# INSTITUTIONAL_VERIFY_COMPLETE while roadmap gates remain unimplemented — the spec's
+# own discipline ("a higher score is earned by making unsupported claims impossible").
+institutional-verify: cogveritas-verify verify-release product-claim-audit
+	PYTHONPATH=src $(PYTHON) scripts/institutional_verify.py
 
 automation-contract:
 	PYTHONPATH=src $(PYTHON) scripts/validate_automation_contract.py

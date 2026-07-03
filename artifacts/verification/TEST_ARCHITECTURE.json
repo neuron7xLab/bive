@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 301,
+  "test_functions": 305,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -318,6 +318,12 @@
     "tests/test_pr_gate.py": [
       "test_check_docs_on_repo_root",
       "test_compile_python_on_repo_root"
+    ],
+    "tests/test_product_claim_audit.py": [
+      "test_asserted_overclaims_are_caught",
+      "test_disclaimed_or_cited_language_is_allowed",
+      "test_live_repository_has_no_overclaims",
+      "test_percent_without_year_is_flagged_but_citation_is_not"
     ],
     "tests/test_product_operating_model.py": [
       "test_product_model_preserves_hard_non_claims",

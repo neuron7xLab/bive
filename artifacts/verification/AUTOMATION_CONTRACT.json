@@ -1,6 +1,7 @@
 {
   "status": "pass",
   "make_targets": [
+    "Fail-closed",
     "PYTHONDONTWRITEBYTECODE",
     "aos-kernel",
     "api",
@@ -28,6 +29,7 @@
     "evidence-bundle",
     "export",
     "frontend-quality",
+    "institutional-verify",
     "license-audit",
     "lint",
     "manifest",
@@ -43,6 +45,7 @@
     "pip-sync-dev",
     "pr-check",
     "preflight-env",
+    "product-claim-audit",
     "product-readiness",
     "purge-cache",
     "red-team",

@@ -7,29 +7,10 @@ the no-verdict invariant and the Phase 0 rule that probabilities are disabled
 
 from __future__ import annotations
 
-from .corroboration import corroboration_questions, unverifiable_notes, verifiability_gap
 from .dossier import to_dossier_markdown
-from .entities import extract_entities
 from .integrity import compute_integrity
-from .interview import interview_questions
-from .lang import detect_language
-from .output_contract import (
-    COGVERITASOutput,
-    ConflictItem,
-    CrossWitnessItem,
-    EntityRef,
-    IntegrityBlock,
-    InterviewQuestion,
-    ProvenanceNode,
-    SpeakerProfile,
-    TimelineEntry,
-    WorklistItem,
-    build_output,
-)
-from .timeline import build_timeline, detect_conflicts
-from .verifiability_tagger import classify_claim_verifiability, extract_named_entities
-from .witness import analyze_by_speaker, cross_witness, distinct_speakers, speaker_profiles
-from .worklist import corroboration_worklist
+from .output_contract import COGVERITASOutput, IntegrityBlock, build_output
+from .pipeline import build_context, run_pipeline
 
 
 def analyze_verifiability(
@@ -37,87 +18,18 @@ def analyze_verifiability(
 ) -> COGVERITASOutput:
     """Run the fail-closed verifiability review. ``verdict`` is always ``None``.
 
+    Thin orchestrator: build the analysis context once, run the analyzer pipeline
+    (see ``pipeline.ANALYZERS``), assemble the typed output, and stamp a
+    deterministic integrity fingerprint. New capabilities are added as pipeline
+    analyzers, not by editing this function.
+
     ``statuses`` is an optional analyst overlay keyed by ``claim_id`` — each entry
     may carry a corroboration ``status`` (pending/confirmed/refuted) and a ``note``,
     recording a *human's* finding against external records. The system never sets
     these itself; it only echoes them and tallies verification progress.
     """
-    lang = detect_language(text)
-    # Single claim source: speaker-aware parsing strips any "Name:" prefix, so the
-    # claim text is the clean utterance (no speaker label leaking into entities or
-    # the worklist). For plain text with no labels, speaker is "" and behaviour is
-    # unchanged.
-    claims = analyze_by_speaker(text)
-    nodes = [
-        ProvenanceNode(
-            claim_id=c.claim_id,
-            text=c.text,
-            verifiability=classify_claim_verifiability(c),  # type: ignore[arg-type]
-            # Carry the entities that make each claim externally checkable — the
-            # audit trail must show what a reviewer would corroborate, not just
-            # that a claim exists.
-            entities=extract_named_entities(c.text)[:12],
-        )
-        for c in claims
-    ]
-    if not nodes:
-        # Nothing analysable — stay insufficient, never fabricate signal.
-        nodes = [
-            ProvenanceNode(
-                claim_id="claim:none",
-                text=text[:200],
-                verifiability="insufficient_context",
-            )
-        ]
-    worklist = [WorklistItem(**item) for item in corroboration_worklist(claims)]  # type: ignore[arg-type]
-    if statuses:
-        # Overlay the analyst's corroboration findings; only known statuses apply.
-        _valid = {"pending", "confirmed", "refuted"}
-        worklist = [
-            item.model_copy(
-                update={
-                    "status": s.get("status", item.status)
-                    if s.get("status", item.status) in _valid
-                    else item.status,
-                    "note": s.get("note", item.note),
-                }
-            )
-            if (s := statuses.get(item.claim_id))
-            else item
-            for item in worklist
-        ]
-    timeline = [TimelineEntry(**entry) for entry in build_timeline(claims)]  # type: ignore[arg-type]
-    conflicts = [ConflictItem(**c) for c in detect_conflicts(claims)]  # type: ignore[arg-type]
-    entities = [EntityRef(**e) for e in extract_entities(claims)]  # type: ignore[arg-type]
-    interview = [InterviewQuestion(**q) for q in interview_questions(claims)]  # type: ignore[arg-type]
-    # Cross-witness: only meaningful when the input names more than one speaker.
-    speakers = distinct_speakers(claims)
-    profiles = (
-        [SpeakerProfile(**p) for p in speaker_profiles(claims)]  # type: ignore[arg-type]
-        if len(speakers) > 1
-        else []
-    )
-    cross = (
-        [CrossWitnessItem(**c) for c in cross_witness(claims)]  # type: ignore[arg-type]
-        if len(speakers) > 1
-        else []
-    )
-    output = build_output(
-        verifiability_gap=verifiability_gap(claims),
-        corroboration_questions=corroboration_questions(claims),
-        audit_trail=nodes,
-        rm_criteria_flagged=unverifiable_notes(claims),
-        corroboration_worklist=worklist,
-        interview_questions=interview,
-        timeline=timeline,
-        conflicts=conflicts,
-        entities=entities,
-        witnesses=speakers if len(speakers) > 1 else [],
-        speaker_profiles=profiles,
-        cross_witness=cross,
-        detected_language=lang,
-        # ece omitted -> Phase 0 policy disables float probabilities (ordinal only).
-    )
+    ctx = build_context(text, statuses)
+    output = build_output(**run_pipeline(ctx))
     # Stamp a deterministic chain-of-custody fingerprint over source + analysis.
     block = compute_integrity(text, output.model_dump())
     return output.model_copy(update={"integrity": IntegrityBlock(**block)})

@@ -445,6 +445,55 @@
         "summary": "Capabilities"
       }
     },
+    "/api/v1/cogveritas/methodology": {
+      "get": {
+        "description": "The evidence behind the no-verdict posture — machine-discoverable honesty.\n\nReturns the structured empirical contract (the negative result that forces\nthe no-verdict invariant, the calibration policy, and provenance) so a client\ncan answer \"why is there no verdict?\" without a human reading the docs. No\nauth required: this is a public statement of the system's own limits.",
+        "operationId": "cogveritas_methodology_api_v1_cogveritas_methodology_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "api-version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Api-Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Cogveritas Methodology Api V1 Cogveritas Methodology Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cogveritas Methodology"
+      }
+    },
     "/api/v1/cogveritas/verifiability": {
       "post": {
         "description": "Fail-closed external-fact verifiability review of raw text.\n\nReturns the COGVERITAS contract: a verifiability gap, concrete corroboration\nquestions, per-claim provenance and ordinal flags. ``verdict`` is always\n``null`` and no probability is emitted (cross-domain calibration is not\ndemonstrated) — this is an evidence-review surface, not a lie detector.",

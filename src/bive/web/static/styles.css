@@ -585,6 +585,29 @@ textarea {
   flex-wrap: wrap;
   gap: 8px;
 }
+.why {
+  border-top: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+  padding-top: 10px;
+}
+.why__summary {
+  cursor: pointer;
+  color: var(--text-2);
+  font-size: var(--fs-xs);
+  font-weight: 600;
+  list-style: none;
+}
+.why__summary::-webkit-details-marker { display: none; }
+.why__summary::before { content: '＋ '; color: var(--text-3); }
+.why[open] .why__summary::before { content: '－ '; }
+.why__body {
+  margin-top: 8px;
+  color: var(--text-3);
+  font-size: var(--fs-xs);
+  line-height: 1.5;
+}
+.why__law { margin: 0 0 8px; color: var(--text-2); }
+.why__findings { margin: 0 0 8px; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
+.why__prov { margin: 0; font-style: italic; opacity: 0.8; }
 
 /* Skeleton (loading) */
 .skeleton {

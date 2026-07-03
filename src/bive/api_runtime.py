@@ -393,6 +393,7 @@ def capabilities() -> CapabilityResponse:
             "markdown_report",
             "cogveritas_verifiability_review",
             "corroboration_questions",
+            "cogveritas_methodology_contract",
         ],
         production_gates=[gate.name for gate in RELEASE_GATES],
         optional_adapters=["whisper", "openface", "opensmile", "pyannote", "mediapipe"],
@@ -601,6 +602,23 @@ async def cogveritas_verifiability(request: Request) -> dict[str, Any]:
     from .cogveritas.service import analyze_verifiability, to_public_dict
 
     return to_public_dict(analyze_verifiability(text))
+
+
+@app.get(
+    "/api/v1/cogveritas/methodology",
+    dependencies=[Depends(require_api_version)],
+)
+def cogveritas_methodology() -> dict[str, Any]:
+    """The evidence behind the no-verdict posture — machine-discoverable honesty.
+
+    Returns the structured empirical contract (the negative result that forces
+    the no-verdict invariant, the calibration policy, and provenance) so a client
+    can answer "why is there no verdict?" without a human reading the docs. No
+    auth required: this is a public statement of the system's own limits.
+    """
+    from .cogveritas.methodology import methodology_contract
+
+    return methodology_contract()
 
 
 @app.get("/api/v1/reports", dependencies=[Depends(require_api_version), Depends(require_api_auth)])

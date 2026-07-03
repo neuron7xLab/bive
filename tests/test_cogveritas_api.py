@@ -73,6 +73,29 @@ def test_quoted_judgment_evidence_is_accepted_not_rejected(client: TestClient) -
 
 
 @pytest.mark.contract
+def test_methodology_contract_is_provenanced_and_clean(client: TestClient) -> None:
+    # The "why no verdict" surface must be machine-discoverable, point to a real
+    # in-repo artifact, and — being a statement about the system's own limits —
+    # must itself contain no person-level judgment framing.
+    r = client.get(f"/api/v1/cogveritas/methodology?api-version={API}")
+    assert r.status_code == 200
+    d = r.json()
+    assert "no person-level verdict" in d["posture"].lower()
+    assert "does not work on real" in d["empirical_law"].lower()
+    assert d["findings"] and any("chance" in f["reads"] for f in d["findings"])
+    assert "EMPIRICAL_VALIDATION.md" in d["provenance"]
+    haystack = " ".join(
+        [d["posture"], d["empirical_law"], d["calibration_policy"], d["boundary"]]
+    ).lower()
+    assert all(s not in haystack for s in FORBIDDEN_JUDGMENT_STRINGS)
+
+
+@pytest.mark.contract
+def test_methodology_requires_api_version(client: TestClient) -> None:
+    assert client.get("/api/v1/cogveritas/methodology").status_code == 400
+
+
+@pytest.mark.contract
 def test_verifiability_requires_api_version(client: TestClient) -> None:
     assert client.post(EP, content="x").status_code == 400
 

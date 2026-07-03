@@ -59,18 +59,35 @@ class ProvenanceNode(BaseModel):
     agent: str = "bive.cogveritas.verifiability_tagger"
 
 
+CorroborationStatus = Literal["pending", "confirmed", "refuted"]
+
+
 class WorklistItem(BaseModel):
     """One checkable claim routed to the record types that would corroborate it.
 
     ``quote`` is verbatim user evidence (like ``ProvenanceNode.text``), not the
     system's framing; ``record_types`` are fixed system labels naming *where to
-    look*. Neither is a judgment — this item never states a claim is false.
+    look*. ``status``/``note`` record the *analyst's* corroboration finding against
+    external records — set by a human, never inferred by the system. Neither the
+    routing nor a status is a person-level verdict.
     """
 
     model_config = ConfigDict(extra="forbid")
     claim_id: str
     quote: str
     record_types: list[str] = []
+    status: CorroborationStatus = "pending"
+    note: str = ""
+
+
+class VerificationProgress(BaseModel):
+    """How much of the checkable account a human has corroborated so far."""
+
+    model_config = ConfigDict(extra="forbid")
+    total: int = 0
+    confirmed: int = 0
+    refuted: int = 0
+    pending: int = 0
 
 
 class TimelineEntry(BaseModel):
@@ -135,6 +152,7 @@ class COGVERITASOutput(BaseModel):
     rm_criteria_flagged: list[str] = []
     corroboration_questions: list[str]
     corroboration_worklist: list[WorklistItem] = []
+    verification_progress: VerificationProgress = VerificationProgress()
     timeline: list[TimelineEntry] = []
     conflicts: list[ConflictItem] = []
     entities: list[EntityRef] = []
@@ -199,11 +217,19 @@ def build_output(
         "nominal": "markers_nominal",
         "insufficient": "insufficient_data",
     }[verifiability_gap]  # type: ignore[assignment]
+    worklist = corroboration_worklist or []
+    progress = VerificationProgress(
+        total=len(worklist),
+        confirmed=sum(1 for w in worklist if w.status == "confirmed"),
+        refuted=sum(1 for w in worklist if w.status == "refuted"),
+        pending=sum(1 for w in worklist if w.status == "pending"),
+    )
     return COGVERITASOutput(
         verifiability_gap=verifiability_gap,
         rm_criteria_flagged=rm_criteria_flagged or [],
         corroboration_questions=corroboration_questions,
-        corroboration_worklist=corroboration_worklist or [],
+        corroboration_worklist=worklist,
+        verification_progress=progress,
         timeline=timeline or [],
         conflicts=conflicts or [],
         entities=entities or [],

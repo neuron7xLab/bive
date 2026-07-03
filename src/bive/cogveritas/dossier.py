@@ -23,6 +23,12 @@ _CONFLICT_LABEL: dict[str, dict[str, str]] = {
     "en": {"negation_polarity": "opposite statements", "figure_mismatch": "figure mismatch"},
 }
 
+_STATUS_LABEL: dict[str, dict[str, str]] = {
+    "uk": {"pending": "очікує", "confirmed": "підтверджено", "refuted": "спростовано"},
+    "ru": {"pending": "ожидает", "confirmed": "подтверждено", "refuted": "опровергнуто"},
+    "en": {"pending": "pending", "confirmed": "confirmed", "refuted": "refuted"},
+}
+
 _CROSS_LABEL: dict[str, dict[str, str]] = {
     "uk": {"cross_contradiction": "суперечність між свідками", "cross_corroboration": "взаємне підтвердження"},
     "ru": {"cross_contradiction": "противоречие между свидетелями", "cross_corroboration": "взаимное подтверждение"},
@@ -46,6 +52,7 @@ _T: dict[str, dict[str, str]] = {
         "h_cross": "Крос-звірка показів свідків",
         "h_conflicts": "Потенційні суперечності — перевірити вручну",
         "h_worklist": "Лист корроборації — що перевірити",
+        "progress": "Прогрес перевірки",
         "h_questions": "Питання для корроборації",
         "h_unverifiable": "Неперевірювані твердження",
         "h_provenance": "Провенанс",
@@ -76,6 +83,7 @@ _T: dict[str, dict[str, str]] = {
         "h_cross": "Кросс-сверка показаний свидетелей",
         "h_conflicts": "Потенциальные противоречия — проверить вручную",
         "h_worklist": "Лист корроборации — что проверить",
+        "progress": "Прогресс проверки",
         "h_questions": "Вопросы для корроборации",
         "h_unverifiable": "Непроверяемые утверждения",
         "h_provenance": "Провенанс",
@@ -106,6 +114,7 @@ _T: dict[str, dict[str, str]] = {
         "h_cross": "Cross-witness comparison",
         "h_conflicts": "Potential inconsistencies — verify manually",
         "h_worklist": "Corroboration worklist — what to check",
+        "progress": "Verification progress",
         "h_questions": "Corroboration questions",
         "h_unverifiable": "Unverifiable assertions",
         "h_provenance": "Provenance",
@@ -183,8 +192,17 @@ def to_dossier_markdown(output: COGVERITASOutput, lang: str = "uk") -> str:
 
     if output.corroboration_worklist:
         lines.append(f"## {t['h_worklist']}")
+        p = output.verification_progress
+        status_label = _STATUS_LABEL.get(lang, _STATUS_LABEL["en"])
+        lines.append(
+            f"_{t['progress']}: {status_label['confirmed']} {p.confirmed} · "
+            f"{status_label['refuted']} {p.refuted} · {status_label['pending']} {p.pending} "
+            f"/ {p.total}_"
+        )
         for item in output.corroboration_worklist:
-            lines.append(f"- «{item.quote}»")
+            mark = "✓" if item.status == "confirmed" else "✗" if item.status == "refuted" else "•"
+            tail = f" — {item.note}" if item.note else ""
+            lines.append(f"- [{mark}] «{item.quote}» _({status_label.get(item.status, item.status)}{tail})_")
             for r in item.record_types:
                 lines.append(f"  - → {r}")
         lines.append("")

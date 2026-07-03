@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 254,
+  "test_functions": 260,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -178,6 +178,14 @@
       "test_figure_mismatch_conflict_flagged",
       "test_unrelated_opposite_claims_are_not_conflicts",
       "test_conflict_quotes_are_verbatim_evidence"
+    ],
+    "tests/test_cogveritas_witness.py": [
+      "test_parse_statements_attributes_speakers",
+      "test_time_prefix_is_not_mistaken_for_speaker",
+      "test_distinct_speakers_preserves_order",
+      "test_cross_contradiction_between_speakers",
+      "test_service_populates_witnesses_and_verdict_stays_null",
+      "test_single_speaker_has_no_cross_witness"
     ],
     "tests/test_cogveritas_worklist.py": [
       "test_money_claim_routes_to_financial_records",

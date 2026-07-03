@@ -40,6 +40,7 @@ class Claim:
     text: str
     tokens: list[str] = field(default_factory=list)
     lang: str = "en"
+    speaker: str = ""
 
 
 @dataclass(frozen=True)

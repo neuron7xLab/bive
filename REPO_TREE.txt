@@ -217,6 +217,7 @@ src/bive/cogveritas/phase0_cv.py
 src/bive/cogveritas/service.py
 src/bive/cogveritas/timeline.py
 src/bive/cogveritas/verifiability_tagger.py
+src/bive/cogveritas/witness.py
 src/bive/cogveritas/worklist.py
 src/bive/eval.py
 src/bive/evidence_graph.py
@@ -280,6 +281,7 @@ tests/test_cogveritas_api.py
 tests/test_cogveritas_dossier.py
 tests/test_cogveritas_lang.py
 tests/test_cogveritas_timeline.py
+tests/test_cogveritas_witness.py
 tests/test_cogveritas_worklist.py
 tests/test_dependency_contracts.py
 tests/test_determinism_stress.py

@@ -23,6 +23,12 @@ _CONFLICT_LABEL: dict[str, dict[str, str]] = {
     "en": {"negation_polarity": "opposite statements", "figure_mismatch": "figure mismatch"},
 }
 
+_CROSS_LABEL: dict[str, dict[str, str]] = {
+    "uk": {"cross_contradiction": "суперечність між свідками", "cross_corroboration": "взаємне підтвердження"},
+    "ru": {"cross_contradiction": "противоречие между свидетелями", "cross_corroboration": "взаимное подтверждение"},
+    "en": {"cross_contradiction": "cross-witness contradiction", "cross_corroboration": "mutual corroboration"},
+}
+
 # All section headings and fixed prose, per language.
 _T: dict[str, dict[str, str]] = {
     "uk": {
@@ -35,6 +41,8 @@ _T: dict[str, dict[str, str]] = {
         "gap": "Розрив перевірюваності",
         "claims": "тверджень",
         "h_timeline": "Хронологія",
+        "h_witnesses": "Свідки",
+        "h_cross": "Крос-звірка показів свідків",
         "h_conflicts": "Потенційні суперечності — перевірити вручну",
         "h_worklist": "Лист корроборації — що перевірити",
         "h_questions": "Питання для корроборації",
@@ -62,6 +70,8 @@ _T: dict[str, dict[str, str]] = {
         "gap": "Разрыв проверяемости",
         "claims": "утверждений",
         "h_timeline": "Хронология",
+        "h_witnesses": "Свидетели",
+        "h_cross": "Кросс-сверка показаний свидетелей",
         "h_conflicts": "Потенциальные противоречия — проверить вручную",
         "h_worklist": "Лист корроборации — что проверить",
         "h_questions": "Вопросы для корроборации",
@@ -89,6 +99,8 @@ _T: dict[str, dict[str, str]] = {
         "gap": "Verifiability gap",
         "claims": "claims",
         "h_timeline": "Timeline",
+        "h_witnesses": "Witnesses",
+        "h_cross": "Cross-witness comparison",
         "h_conflicts": "Potential inconsistencies — verify manually",
         "h_worklist": "Corroboration worklist — what to check",
         "h_questions": "Corroboration questions",
@@ -116,6 +128,7 @@ def to_dossier_markdown(output: COGVERITASOutput, lang: str = "uk") -> str:
     t = _T.get(lang, _T["en"])
     gap = _GAP_LABEL.get(lang, _GAP_LABEL["en"])
     conflict_label = _CONFLICT_LABEL.get(lang, _CONFLICT_LABEL["en"])
+    cross_label = _CROSS_LABEL.get(lang, _CROSS_LABEL["en"])
     lines: list[str] = []
 
     lines.append(f"# {t['title']}")
@@ -125,6 +138,20 @@ def to_dossier_markdown(output: COGVERITASOutput, lang: str = "uk") -> str:
     lines.append(f"**{t['gap']}:** {gap.get(output.verifiability_gap, output.verifiability_gap)} · "
                  f"**{t['claims']}:** {len(output.audit_trail)}")
     lines.append("")
+
+    if output.witnesses:
+        lines.append(f"**{t['h_witnesses']}:** {', '.join(output.witnesses)}")
+        lines.append("")
+
+    if output.cross_witness:
+        lines.append(f"## {t['h_cross']}")
+        for x in output.cross_witness:
+            label = cross_label.get(x.type, x.type)
+            who = " / ".join(x.speakers)
+            lines.append(f"- _{label}_ — {who}")
+            for q in x.quotes:
+                lines.append(f"  - «{q}»")
+        lines.append("")
 
     if output.timeline:
         lines.append(f"## {t['h_timeline']}")

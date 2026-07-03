@@ -1083,9 +1083,9 @@
       "sha256": "6159ef3078f13023f1f040aa763e971b439d284ef0125d206c0a571e1f3945be"
     },
     {
-      "bytes": 5849,
+      "bytes": 6420,
       "path": "src/bive/web/index.html",
-      "sha256": "ff3ba849af444dec51e812f4f4c2e059d225d68cfabba44370d6b8a65bf3332d"
+      "sha256": "e6922fae34288c21b638f10f1f4d88c2ef650f207221dc4c4add78e22276fc77"
     },
     {
       "bytes": 21010,
@@ -1093,9 +1093,9 @@
       "sha256": "fc4c15381f0462b5699ac3684f60b8409b17f7662356afafa8b8055bf1de28fb"
     },
     {
-      "bytes": 12052,
+      "bytes": 12830,
       "path": "src/bive/web/static/styles.css",
-      "sha256": "7564c33093b291bdd919301dc83b0d9b886ffe3802dbad08953280b77a0c031b"
+      "sha256": "4c0915da022ec21f6b34807eea00de0a7cb5a74fd2ab4a673560a880b9761c0f"
     },
     {
       "bytes": 2367,
@@ -1303,7 +1303,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T11:54:16+00:00",
+  "generated_at_utc": "2026-07-03T12:00:07+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

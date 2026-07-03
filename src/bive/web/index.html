@@ -5,23 +5,27 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="color-scheme" content="dark" />
   <meta name="description" content="BIVE — постав дані, отримай зрозумілий evidence-звіт. Мінімалістичний інтерфейс для перевірки транскриптів." />
-  <title>BIVE — Behavioral Integrity Verification Engine</title>
-  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23030407'/%3E%3Ctext x='16' y='22' font-family='monospace' font-size='18' font-weight='700' text-anchor='middle' fill='%23ffc46f'%3EB%3C/text%3E%3C/svg%3E" />
+  <title>Neuron7x — BIVE</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ccircle cx='32' cy='32' r='21' fill='none' stroke='%23ffffff' stroke-width='4'/%3E%3Cpath d='M15 49 Q27 27 49 15 Q37 37 15 49 Z' fill='%23ffffff'/%3E%3Cpath d='M15 49 L9 55' stroke='%23ffffff' stroke-width='4' stroke-linecap='round'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="/static/styles.css" />
 </head>
 <body>
   <a class="skip-link" href="#composer">Перейти до вводу</a>
   <main class="app" aria-labelledby="hero-title">
-    <h1 id="hero-title" class="visually-hidden">BIVE — evidence-first перевірка свідчень</h1>
+    <h1 id="hero-title" class="visually-hidden">Neuron7x — BIVE evidence-first перевірка свідчень</h1>
 
     <header class="topbar">
-      <div class="brand">
-        <span class="brand-mark" aria-hidden="true">B</span>
-        <span class="brand-name">BIVE</span>
-      </div>
       <div class="ready" title="Стан системи">
         <span class="status-dot" id="statusDot" aria-hidden="true"></span>
         <span id="systemReadiness" class="ready-label">…</span>
+      </div>
+      <div class="brand">
+        <svg class="brand-mark" viewBox="0 0 64 64" aria-hidden="true" focusable="false">
+          <circle cx="32" cy="32" r="21" fill="none" stroke="currentColor" stroke-width="4" />
+          <path d="M15 49 Q27 27 49 15 Q37 37 15 49 Z" fill="currentColor" />
+          <path d="M15 49 L9 55" stroke="currentColor" stroke-width="4" stroke-linecap="round" />
+        </svg>
+        <span class="brand-name">Neuron7x</span>
       </div>
     </header>
 
@@ -38,24 +42,27 @@
 
     <section class="composer" id="composer">
       <form id="composerForm" class="composer-box" aria-label="Ввід даних">
-        <label class="visually-hidden" for="payload">Ваш текст, транскрипт або дані</label>
-        <textarea id="payload" rows="1" spellcheck="false"
-          placeholder="Встав текст або транскрипт… або перетягни сюди файл (SRT · VTT · CSV · TXT · JSON)"></textarea>
+        <div class="composer-top">
+          <svg class="composer-glyph" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+            <circle cx="10.5" cy="10.5" r="7" fill="none" stroke="currentColor" stroke-width="2" />
+            <line x1="15.5" y1="15.5" x2="21" y2="21" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
+          </svg>
+          <label class="visually-hidden" for="payload">Start Prompt — ваш текст, транскрипт або дані</label>
+          <textarea id="payload" rows="1" spellcheck="false" placeholder="Start Prompt"></textarea>
+          <input id="fileInput" type="file" class="visually-hidden"
+            accept=".json,.jsonl,.srt,.vtt,.csv,.txt,text/plain,application/json,audio/*,video/*" />
+          <button type="button" id="attach" class="icon-btn" aria-label="Додати файл">
+            <span aria-hidden="true">＋</span>
+          </button>
+        </div>
         <div class="composer-bar">
-          <div class="composer-left">
-            <button type="button" id="attach" class="icon-btn" aria-label="Додати файл">
-              <span aria-hidden="true">＋</span>
-            </button>
-            <span id="attachName" class="attach-name" aria-live="polite"></span>
-            <input id="fileInput" type="file" class="visually-hidden"
-              accept=".json,.jsonl,.srt,.vtt,.csv,.txt,text/plain,application/json,audio/*,video/*" />
-          </div>
+          <span id="attachName" class="attach-name" aria-live="polite"></span>
           <button type="submit" id="send" class="send-btn">
             <span class="send-label">Аналізувати</span>
           </button>
         </div>
       </form>
-      <p id="statusText" class="composer-hint" role="status" aria-live="polite">Готово. Постав дані, а не міфологію.</p>
+      <p id="statusText" class="composer-hint" role="status" aria-live="polite">SRT · VTT · CSV · TXT · JSON — встав або перетягни файл.</p>
     </section>
 
     <details class="system-drawer">

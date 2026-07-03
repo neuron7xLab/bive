@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 271,
+  "file_count": 270,
   "files": [
     {
       "bytes": 113,
@@ -156,11 +156,6 @@
       "bytes": 657,
       "path": "artifacts/verification/BIBLIOGRAPHY_VALIDATION.json",
       "sha256": "b8a562e293b5531d0f47c764456931bb2cb31a6400f996d80e55eabec4f976b7"
-    },
-    {
-      "bytes": 3101,
-      "path": "artifacts/verification/CALIBRATION.json",
-      "sha256": "722d2a2b551a645159ddee4a83a1c56b5d632ea480baf0e47b0e25e57a32b090"
     },
     {
       "bytes": 204,
@@ -758,9 +753,9 @@
       "sha256": "c3dd23e471093eb5e2f914174bdc380ab176361da6452fc3dd6c9bf2d9ab28d9"
     },
     {
-      "bytes": 8833,
+      "bytes": 9122,
       "path": "scripts/generate_manifest.py",
-      "sha256": "db39b216c16ce2e1c6d877f23f550cecb7a1145e3fc204c82195d23ec49fedcd"
+      "sha256": "9d99c7eecc2d8ad44682556c52c0fcd1b77a9b57553bbf1695b29541c4fe1ad2"
     },
     {
       "bytes": 123,
@@ -1358,7 +1353,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T14:52:31+00:00",
+  "generated_at_utc": "2026-07-03T15:02:06+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

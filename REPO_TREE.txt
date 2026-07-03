@@ -29,7 +29,6 @@ artifacts/security/pip-audit.stage6.attempt.log
 artifacts/security/pip-audit.stage7.attempt.log
 artifacts/verification/AUTOMATION_CONTRACT.json
 artifacts/verification/BIBLIOGRAPHY_VALIDATION.json
-artifacts/verification/CALIBRATION.json
 artifacts/verification/DOCKER_RUNTIME_ATTEMPT.log
 artifacts/verification/DOCKER_RUNTIME_STAGE6_ATTEMPT.log
 artifacts/verification/DYNAMIC_ENVIRONMENT_PROBE.json

@@ -8,7 +8,15 @@ the no-verdict invariant and the Phase 0 rule that probabilities are disabled
 from __future__ import annotations
 
 from .corroboration import corroboration_questions, unverifiable_notes, verifiability_gap
-from .output_contract import COGVERITASOutput, ProvenanceNode, WorklistItem, build_output
+from .output_contract import (
+    COGVERITASOutput,
+    ConflictItem,
+    ProvenanceNode,
+    TimelineEntry,
+    WorklistItem,
+    build_output,
+)
+from .timeline import build_timeline, detect_conflicts
 from .verifiability_tagger import analyze, classify_claim_verifiability, extract_named_entities
 from .worklist import corroboration_worklist
 
@@ -38,12 +46,16 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
             )
         ]
     worklist = [WorklistItem(**item) for item in corroboration_worklist(claims)]  # type: ignore[arg-type]
+    timeline = [TimelineEntry(**entry) for entry in build_timeline(claims)]  # type: ignore[arg-type]
+    conflicts = [ConflictItem(**c) for c in detect_conflicts(claims)]  # type: ignore[arg-type]
     return build_output(
         verifiability_gap=verifiability_gap(claims),
         corroboration_questions=corroboration_questions(claims),
         audit_trail=nodes,
         rm_criteria_flagged=unverifiable_notes(claims),
         corroboration_worklist=worklist,
+        timeline=timeline,
+        conflicts=conflicts,
         # ece omitted -> Phase 0 policy disables float probabilities (ordinal only).
     )
 

@@ -33,6 +33,9 @@ class LanguagePack:
     # names such an action is externally checkable even without a named-entity
     # anchor — the action itself leaves a verifiable record.
     actions: frozenset[str] = frozenset()
+    # Negation words — for polarity-based contradiction detection (two claims that
+    # overlap heavily but disagree in negation are a review-worthy inconsistency).
+    negation: frozenset[str] = frozenset()
 
 
 # --- English -----------------------------------------------------------------
@@ -72,6 +75,7 @@ _EN = LanguagePack(
             "departed", "handed", "deposited", "withdrew",
         }
     ),
+    negation=frozenset({"not", "no", "never", "none", "nobody", "nothing", "neither", "nor"}),
 )
 
 # Cyrillic word/proper patterns are shared by uk and ru. A "word" is any run of
@@ -124,6 +128,12 @@ _UK = LanguagePack(
             "зняв", "перерахув",
         }
     ),
+    negation=frozenset(
+        {
+            "не", "ні", "ніколи", "немає", "нема", "жодного", "жодної", "жодних",
+            "жодним", "жоден", "ніхто", "нічого", "ніде", "ніяк", "аніяк",
+        }
+    ),
 )
 
 # --- Russian -----------------------------------------------------------------
@@ -168,6 +178,9 @@ _RU = LanguagePack(
             "позвон", "встрет", "купил", "продал", "получил", "отправ", "поеха",
             "приеха", "выеха", "написа", "вручил", "внёс", "внес", "снял", "перечисл",
         }
+    ),
+    negation=frozenset(
+        {"не", "нет", "никогда", "нету", "ни", "никто", "ничего", "нигде", "нисколько"}
     ),
 )
 

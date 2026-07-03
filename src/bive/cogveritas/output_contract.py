@@ -73,6 +73,30 @@ class WorklistItem(BaseModel):
     record_types: list[str] = []
 
 
+class TimelineEntry(BaseModel):
+    """A time-anchored claim in chronological order. ``quote`` is verbatim evidence."""
+
+    model_config = ConfigDict(extra="forbid")
+    claim_id: str
+    quote: str
+    time_label: str = ""
+    resolved: bool = False
+
+
+class ConflictItem(BaseModel):
+    """A review-worthy inconsistency between two claims — a pointer, not a verdict.
+
+    ``quotes`` are verbatim user evidence. The item flags that two claims disagree
+    (negation polarity or a figure mismatch) for a human to check; it never states
+    which is true or that anyone lied.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    type: Literal["negation_polarity", "figure_mismatch"]
+    claim_ids: list[str]
+    quotes: list[str]
+
+
 class COGVERITASOutput(BaseModel):
     """The public output. ``verdict`` is always ``None`` — structurally."""
 
@@ -82,6 +106,8 @@ class COGVERITASOutput(BaseModel):
     rm_criteria_flagged: list[str] = []
     corroboration_questions: list[str]
     corroboration_worklist: list[WorklistItem] = []
+    timeline: list[TimelineEntry] = []
+    conflicts: list[ConflictItem] = []
     calibrated_probability: float | None = None
     calibration_ci: tuple[float, float] | None = None
     ordinal_flag: OrdinalFlag
@@ -118,6 +144,8 @@ def build_output(
     *,
     rm_criteria_flagged: list[str] | None = None,
     corroboration_worklist: list[WorklistItem] | None = None,
+    timeline: list[TimelineEntry] | None = None,
+    conflicts: list[ConflictItem] | None = None,
     calibrated_probability: float | None = None,
     calibration_ci: tuple[float, float] | None = None,
     ece: float | None = None,
@@ -139,6 +167,8 @@ def build_output(
         rm_criteria_flagged=rm_criteria_flagged or [],
         corroboration_questions=corroboration_questions,
         corroboration_worklist=corroboration_worklist or [],
+        timeline=timeline or [],
+        conflicts=conflicts or [],
         calibrated_probability=prob,
         calibration_ci=ci,
         ordinal_flag=ordinal,

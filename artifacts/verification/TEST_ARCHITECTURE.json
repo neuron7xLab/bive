@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 243,
+  "test_functions": 249,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -163,6 +163,14 @@
       "test_russian_produces_russian_phrasing",
       "test_opinion_markers_are_language_specific",
       "test_english_regression_still_english"
+    ],
+    "tests/test_cogveritas_timeline.py": [
+      "test_timeline_orders_by_clock_time",
+      "test_timeline_omits_claims_without_time",
+      "test_negation_polarity_conflict_flagged",
+      "test_figure_mismatch_conflict_flagged",
+      "test_unrelated_opposite_claims_are_not_conflicts",
+      "test_conflict_quotes_are_verbatim_evidence"
     ],
     "tests/test_cogveritas_worklist.py": [
       "test_money_claim_routes_to_financial_records",

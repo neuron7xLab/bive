@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 164,
+  "test_functions": 166,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -135,7 +135,9 @@
     ],
     "tests/test_linguistics.py": [
       "test_extract_claims_marks_absolute_and_temporal",
-      "test_linguistic_analyzer_extracts_events"
+      "test_linguistic_analyzer_extracts_events",
+      "test_local_contradiction_between_negative_and_positive",
+      "test_contradiction_scan_scales_to_large_input"
     ],
     "tests/test_microsoft_hardening_contract.py": [
       "test_microsoft_api_version_is_required",

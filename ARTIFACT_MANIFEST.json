@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 10215,
+      "bytes": 10334,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "176ba2923c2c1f1e85039fce49c9163ef4cd50bcfb566c8a5fecd6ce939e40ec"
+      "sha256": "c760ef571eca01525ad5e348da1c2be07b2bb4229256b318949cd9c7a1a08ee2"
     },
     {
       "bytes": 826,
@@ -943,9 +943,9 @@
       "sha256": "f3ccf70c32b6261ad2394719c3da9d681fe397507a3c7e8af2b1a3c25fc9f19f"
     },
     {
-      "bytes": 8826,
+      "bytes": 9104,
       "path": "src/bive/linguistics.py",
-      "sha256": "50bc2996c8a58747fc6a3990fff20aabbc95cfab67bdcef25108b083a3d30aad"
+      "sha256": "393fdd8142ebf8fd70c94c68591a6a728f94479c31c13a9a9623b415f522e3ea"
     },
     {
       "bytes": 10610,
@@ -1208,9 +1208,9 @@
       "sha256": "eeb5296b427faf4df6e8bd5797ff135472eba1d4e7681d14629359db8eae7eb0"
     },
     {
-      "bytes": 634,
+      "bytes": 1987,
       "path": "tests/test_linguistics.py",
-      "sha256": "f9eeb60c8cdd1eded529dac0348af56c04888f11173944c150ee8740c1b2e69f"
+      "sha256": "da1615626bdd5bc395944715d51480751dd015fe86f05972ea4c73d396f07fdc"
     },
     {
       "bytes": 2675,
@@ -1303,7 +1303,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T11:27:37+00:00",
+  "generated_at_utc": "2026-07-03T11:41:16+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

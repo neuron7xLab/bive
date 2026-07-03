@@ -125,6 +125,7 @@ docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md
 docs/methodology/NO_VERDICT_INVARIANT.md
 docs/methodology/OPERATOR_GUIDE.md
 docs/methodology/PHASE0_VERIFIABILITY.md
+docs/methodology/PRODUCT_CLAIM_POLICY.md
 docs/openapi.json
 evals/aos_eval_tasks.json
 evals/aos_score_schema.json
@@ -170,7 +171,9 @@ scripts/dynamic_environment_probe.py
 scripts/export_openapi.py
 scripts/generate_evidence_bundle.py
 scripts/generate_manifest.py
+scripts/institutional_verify.py
 scripts/pr_check.py
+scripts/product_claim_audit.py
 scripts/run_phase0_verifiability.py
 scripts/validate_aos_kernel.py
 scripts/validate_automation_contract.py
@@ -311,6 +314,7 @@ tests/test_microsoft_hardening_contract.py
 tests/test_models.py
 tests/test_neurocognitive_protocol.py
 tests/test_pr_gate.py
+tests/test_product_claim_audit.py
 tests/test_product_operating_model.py
 tests/test_quality_gate.py
 tests/test_red_team_and_simulation.py

@@ -137,8 +137,26 @@ def compute_markers(text: str) -> list[_MarkerHit]:
     verif_r = _ratio(verifiable, total)
     impression = sum(text.lower().count(marker) for marker in IMPRESSION_MARKERS)
     impression_r = _ratio(impression, total)
+    type_token_ratio = len(set(tokens)) / total  # lexical diversity
 
     hits: list[_MarkerHit] = []
+
+    # Vrij (2008) cognitive approach: lying is cognitively demanding, so fabricated
+    # accounts tend to be less lexically rich (more repetition, fewer distinct
+    # words). Low type-token ratio on a long-enough passage is a weak load cue.
+    if total >= 60 and type_token_ratio < 0.42:
+        hits.append(
+            _MarkerHit(
+                "cognitive_load_markers",
+                f"{type_token_ratio:.3f} lexical diversity (type-token ratio)",
+                type_token_ratio,
+                EvidenceDirection.SUPPORTS,
+                0.40,
+                min(0.5, (0.42 - type_token_ratio) * 6 + 0.15),
+                "vrij_2008",
+                "Low lexical diversity is a weak cognitive-load proxy, not deception itself.",
+            )
+        )
 
     # Newman & Pennebaker (2003): fewer first-person singular in deception.
     if fps_r < 0.030:
@@ -232,11 +250,12 @@ def build_style_events(claims: Sequence[Claim]) -> list[EvidenceEvent]:
     text = "\n".join(c.text for c in claims)
     events: list[EvidenceEvent] = []
     for hit in compute_markers(text):
-        hypothesis_refs = (
-            ("H_LINGUISTIC_STYLE_RISK",)
-            if hit.direction != EvidenceDirection.REFUTES
-            else ("H_LINGUISTIC_STYLE_RISK", "H_INCONSISTENCY_RISK")
-        )
+        if hit.feature == "cognitive_load_markers":
+            hypothesis_refs: tuple[str, ...] = ("H_COGNITIVE_LOAD_RISK",)
+        elif hit.direction == EvidenceDirection.REFUTES:
+            hypothesis_refs = ("H_LINGUISTIC_STYLE_RISK", "H_INCONSISTENCY_RISK")
+        else:
+            hypothesis_refs = ("H_LINGUISTIC_STYLE_RISK",)
         events.append(
             EvidenceEvent(
                 event_id=f"event:{hit.feature}",

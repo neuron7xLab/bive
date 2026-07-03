@@ -79,6 +79,7 @@ const FEATURE_LABEL = {
   elevated_negative_emotion: 'негативні емоції',
   elevated_motion_verbs: 'дієслова руху',
   impression_management: 'керування враженням',
+  cognitive_load_markers: 'когнітивне навантаження',
 };
 
 // Short human citations for the science registry reference ids.
@@ -100,13 +101,14 @@ const SIGNAL_PRIORITY = {
   high_verifiability: 1,
   impression_management: 2,
   verification_pressure: 3,
-  low_exclusive_words: 4,
-  low_first_person_singular: 5,
-  elevated_negative_emotion: 6,
-  elevated_motion_verbs: 7,
-  absolute_framing: 8,
-  linguistic_hedging: 9,
-  temporal_anchor: 10,
+  cognitive_load_markers: 4,
+  low_exclusive_words: 5,
+  low_first_person_singular: 6,
+  elevated_negative_emotion: 7,
+  elevated_motion_verbs: 8,
+  absolute_framing: 9,
+  linguistic_hedging: 10,
+  temporal_anchor: 11,
 };
 
 const RECOMMENDATION = {
@@ -332,6 +334,9 @@ function describeEvent(event) {
   }
   if (f === 'elevated_motion_verbs') {
     return {icon: 'hedging', tone: 'muted', kind: 'Дієслова руху', detail: withCite('підвищена динаміка розповіді'), tag: 'style'};
+  }
+  if (f === 'cognitive_load_markers') {
+    return {icon: 'signal', tone: 'warn', kind: 'Когнітивне навантаження', detail: withCite('низька лексична різноманітність (повтори) — когнітивний підхід'), tag: 'load'};
   }
   return {icon: 'signal', tone: 'muted', kind: f, detail: typeof value === 'string' ? value : '', tag: 'signal'};
 }
@@ -813,13 +818,17 @@ function renderProductReadiness(data) {
 function renderCalibration(data) {
   const b = (data && data.benchmark) || {};
   const o = (data && data.othello_guard) || {};
+  const g = (data && data.gate) || {};
+  const auc = g.roc_auc_ci || {};
+  const ece = g.ece_ci || {};
   clear(calibrationBox);
   const rows = [
+    ['Zero-trust gate', g.passed === undefined ? '—' : g.passed ? 'PASS' : 'FAIL'],
     ['Конструкт', b.construct || '—'],
     ['Вибірка', `${b.n ?? '?'} (позитивів ${b.positives ?? '?'})`],
-    ['ROC-AUC', b.roc_auc ?? '—'],
+    ['ROC-AUC [95% CI]', auc.point !== undefined ? `${auc.point} [${auc.lower}–${auc.upper}]` : (b.roc_auc ?? '—')],
     ['Average precision', b.average_precision ?? '—'],
-    ['ECE (сирий → калібр., CV)', `${b.raw_ece ?? '—'} → ${b.calibrated_ece_cv ?? '—'}`],
+    ['ECE сир.→калібр. [95% CI]', `${b.raw_ece ?? '—'} → ${b.calibrated_ece_cv ?? '—'}${ece.point !== undefined ? ` [${ece.lower}–${ece.upper}]` : ''}`],
     ['Othello-специфічність (Ekman)', `${o.specificity ?? '—'} (${o.n ?? '?'} affect-only)`],
   ];
   rows.forEach(([k, v]) => {

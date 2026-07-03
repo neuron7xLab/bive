@@ -30,6 +30,7 @@ CUE_FAMILY = {
     "elevated_motion_verbs": "style",
     "elevated_negative_emotion": "affect",
     "linguistic_hedging": "affect",
+    "cognitive_load_markers": "load",
     "temporal_anchor": "context",
     "high_verifiability": "mitigation",
 }

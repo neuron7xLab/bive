@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 202,
+  "test_functions": 206,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -85,6 +85,12 @@
     "tests/test_calibration.py": [
       "test_single_modality_caps_overconfidence",
       "test_counterevidence_increases_calm"
+    ],
+    "tests/test_calibration_gate.py": [
+      "test_bootstrap_interval_is_deterministic_and_bracketing",
+      "test_calibration_gate_passes_and_reports_intervals",
+      "test_cognitive_load_hypothesis_activates",
+      "test_calibration_script_writes_tamper_evident_artifact"
     ],
     "tests/test_calibration_metrics.py": [
       "test_roc_auc_perfect_and_chance",

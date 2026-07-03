@@ -66,6 +66,41 @@ const HYP = {
   evidence_gap_risk: 'Брак доказів',
 };
 
+const FEATURE_LABEL = {
+  local_claim_tension: 'суперечність',
+  absolute_framing: 'категоричність',
+  verification_pressure: 'тиск проти перевірки',
+  linguistic_hedging: 'хеджування',
+  temporal_anchor: 'часовий маркер',
+};
+
+const RECOMMENDATION = {
+  review_required: 'Рекомендація: ручна перевірка із залученням незалежних джерел.',
+  elevated_risk: 'Рекомендація: пріоритетна перевірка й активний пошук контр-доказів.',
+  low_risk: 'Рекомендація: базовий контроль — критичних сигналів немає.',
+  inconclusive: 'Рекомендація: додай контекст або більше матеріалу — даних замало для висновку.',
+  invalid_input: 'Рекомендація: перевір формат вхідних даних.',
+};
+
+// Auto-generated plain-language summary: what was found + a recommendation.
+function buildSummary(report, events, hyps, status) {
+  const counts = {};
+  events.forEach((e) => {
+    counts[e.feature] = (counts[e.feature] || 0) + 1;
+  });
+  const found = Object.entries(counts)
+    .filter(([f]) => FEATURE_LABEL[f])
+    .sort((a, b) => b[1] - a[1])
+    .map(([f, n]) => (n > 1 ? `${FEATURE_LABEL[f]} ×${n}` : FEATURE_LABEL[f]));
+  const top = hyps.slice().sort((a, b) => (b.score || 0) - (a.score || 0))[0];
+  const sentences = [];
+  sentences.push(found.length ? `Знайдено: ${found.join(', ')}.` : 'Явних мовних сигналів не виявлено.');
+  if (top && (top.score || 0) > 0) {
+    sentences.push(`Найвищий ризик — ${HYP[top.label] || top.label} ${Math.round((top.score || 0) * 100)}% (невизначеність ${Math.round((top.uncertainty || 0) * 100)}%).`);
+  }
+  return {text: sentences.join(' '), rec: RECOMMENDATION[status] || ''};
+}
+
 const ICONS = {
   contradiction: ['M3 9h12l-4-4', 'M21 15H9l4 4'],
   absolute: ['M12 3l9 16H3z', 'M12 9v5', 'M12 17h.01'],
@@ -325,9 +360,55 @@ function renderReport(data) {
   if (hyps.length) head.append(buildGauge(topRisk));
   card.append(head);
 
+  // Auto summary (always visible) + disclosure control
+  const autoSummary = buildSummary(report, events, hyps, status);
+  const sumSec = make('section', 'report__section summary');
+  const sumText = make('p', 'summary__text');
+  text(sumText, autoSummary.text);
+  sumSec.append(sumText);
+  if (autoSummary.rec) {
+    const rec = make('div', 'summary__rec');
+    rec.dataset.tone = meta.tone;
+    const rtext = make('span');
+    text(rtext, autoSummary.rec);
+    rec.append(rtext);
+    sumSec.append(rec);
+  }
+  const controls = make('div', 'summary__controls');
+  const toggle = make('button', 'disclose');
+  toggle.type = 'button';
+  toggle.setAttribute('aria-expanded', 'false');
+  const tlabel = make('span');
+  text(tlabel, 'Показати деталі');
+  const chev = svg('svg', {viewBox: '0 0 24 24', class: 'disclose__chev', 'aria-hidden': 'true'});
+  chev.append(svg('path', {d: 'M6 9l6 6 6-6', fill: 'none', stroke: 'currentColor', 'stroke-width': 2, 'stroke-linecap': 'round', 'stroke-linejoin': 'round'}));
+  toggle.append(tlabel, chev);
+  const quickCopy = make('button', 'btn btn--ghost');
+  quickCopy.type = 'button';
+  text(quickCopy, 'Copy JSON');
+  quickCopy.addEventListener('click', copyJson);
+  controls.append(toggle, quickCopy);
+  sumSec.append(controls);
+  const note = make('p', 'summary__note');
+  text(note, 'Аналітична поверхня, не вирок про людину — потрібна людська перевірка.');
+  sumSec.append(note);
+  card.append(sumSec);
+
+  // Everything below is hidden until the user asks for details.
+  const details = make('div', 'details');
+  details.hidden = true;
+  toggle.addEventListener('click', () => {
+    const opening = details.hidden;
+    details.hidden = !opening;
+    toggle.setAttribute('aria-expanded', String(opening));
+    toggle.dataset.open = opening ? 'true' : 'false';
+    text(tlabel, opening ? 'Згорнути' : 'Показати деталі');
+    if (opening) scrollThread();
+  });
+
   // Signals
   if (events.length) {
-    const sec = section(card, 'Що знайдено');
+    const sec = section(details, 'Що знайдено');
     const list = make('ul', 'signals');
     events
       .sort((a, b) => (a.feature === 'local_claim_tension' ? 0 : 1) - (b.feature === 'local_claim_tension' ? 0 : 1))
@@ -361,7 +442,7 @@ function renderReport(data) {
 
   // Risk meters
   if (hyps.length) {
-    const sec = section(card, 'Оцінка ризику');
+    const sec = section(details, 'Оцінка ризику');
     const risks = make('div', 'risks');
     hyps
       .sort((a, b) => (b.score || 0) - (a.score || 0))
@@ -389,7 +470,7 @@ function renderReport(data) {
   // Questions (Ukrainian, derived from structured report)
   const questions = ukrainianQuestions(report);
   if (questions.length) {
-    const sec = section(card, 'Питання для перевірки');
+    const sec = section(details, 'Питання для перевірки');
     const list = make('ul', 'questions');
     questions.forEach((q) => {
       const li = make('li', 'question');
@@ -422,7 +503,8 @@ function renderReport(data) {
   mdBtn.addEventListener('click', () => copyMarkdown());
   actions.append(copyBtn, dlBtn, mdBtn);
   foot.append(disc, actions);
-  card.append(foot);
+  details.append(foot);
+  card.append(details);
 
   msg.append(card);
   thread.append(msg);

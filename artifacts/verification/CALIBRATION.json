@@ -1,0 +1,74 @@
+{
+  "benchmark": {
+    "construct": "self_contradiction_present",
+    "n": 24,
+    "positives": 12,
+    "roc_auc": 0.7708,
+    "average_precision": 0.9075,
+    "raw_ece": 0.2356,
+    "calibrated_ece_cv": 0.1181,
+    "calibrator": {
+      "x": [
+        0.0,
+        0.4551,
+        0.4981,
+        0.5853,
+        0.6264
+      ],
+      "y": [
+        0.2857,
+        0.2857,
+        0.3333,
+        1.0,
+        1.0
+      ]
+    },
+    "note": "Construct-validity benchmark: measures whether inconsistency_risk tracks a verifiable self-contradiction construct, not real-world deception. Discrimination is rank-based; calibration ECE is 2-fold cross-validated."
+  },
+  "raw_score_report": {
+    "n": 24,
+    "positives": 12,
+    "roc_auc": 0.7708,
+    "average_precision": 0.9075,
+    "brier": 0.2599,
+    "ece": 0.2356,
+    "log_loss": 4.8872,
+    "reliability": [
+      {
+        "lower": 0.0,
+        "upper": 0.2,
+        "count": 12,
+        "mean_confidence": 0.0,
+        "empirical_accuracy": 0.3333
+      },
+      {
+        "lower": 0.2,
+        "upper": 0.4,
+        "count": 0,
+        "mean_confidence": 0.0,
+        "empirical_accuracy": 0.0
+      },
+      {
+        "lower": 0.4,
+        "upper": 0.6,
+        "count": 8,
+        "mean_confidence": 0.5201,
+        "empirical_accuracy": 0.5
+      },
+      {
+        "lower": 0.6,
+        "upper": 0.8,
+        "count": 4,
+        "mean_confidence": 0.6264,
+        "empirical_accuracy": 1.0
+      },
+      {
+        "lower": 0.8,
+        "upper": 1.0,
+        "count": 0,
+        "mean_confidence": 0.0,
+        "empirical_accuracy": 0.0
+      }
+    ]
+  }
+}

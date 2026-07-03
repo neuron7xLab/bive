@@ -8,6 +8,7 @@ from json import JSONDecodeError
 from pathlib import Path
 from typing import Any
 
+from .benchmark import full_report as benchmark_full_report
 from .eval import evaluate_binary
 from .quality_gate import assess_report
 from .red_team import run_red_team
@@ -92,6 +93,19 @@ def cmd_convert(args: argparse.Namespace) -> int:
 
 def cmd_formats(args: argparse.Namespace) -> int:
     print(json.dumps({"supported_formats": list(SUPPORTED_FORMATS)}, indent=2))
+    return 0
+
+
+def cmd_benchmark(args: argparse.Namespace) -> int:
+    report = benchmark_full_report()
+    rendered = json.dumps(report, indent=2, ensure_ascii=False)
+    if args.output:
+        out = Path(args.output)
+        out.parent.mkdir(parents=True, exist_ok=True)
+        out.write_text(rendered + "\n", encoding="utf-8")
+        print(f"WROTE {out}")
+    else:
+        print(rendered)
     return 0
 
 
@@ -193,6 +207,13 @@ def build_parser() -> argparse.ArgumentParser:
 
     formats = sub.add_parser("formats", help="List supported transcript input formats.")
     formats.set_defaults(func=cmd_formats)
+
+    benchmark = sub.add_parser(
+        "benchmark",
+        help="Run the construct-validity benchmark and report calibration metrics.",
+    )
+    benchmark.add_argument("--output", help="Write the calibration report JSON to this path.")
+    benchmark.set_defaults(func=cmd_benchmark)
 
     validate = sub.add_parser("validate", help="Validate report invariants.")
     validate.add_argument("--input", required=True)

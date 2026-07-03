@@ -42,6 +42,7 @@ const gatesList = el('#gatesList');
 const scienceList = el('#scienceList');
 const scienceBoundary = el('#scienceBoundary');
 const productReadiness = el('#productReadiness');
+const calibrationBox = el('#calibrationBox');
 const sendBtn = el('#send');
 
 let pendingFile = null;
@@ -530,6 +531,9 @@ function renderReport(data) {
         risks.append(row);
       });
     sec.append(risks);
+    const cap = make('p', 'risk-caption');
+    text(cap, 'Показники — індекс пріоритету перевірки, не калібрована ймовірність обману. Виміряні характеристики: розділ «Система».');
+    sec.append(cap);
   }
 
   // Questions (Ukrainian, derived from structured report)
@@ -802,16 +806,42 @@ function renderProductReadiness(data) {
     productReadiness.append(item);
   });
 }
+function renderCalibration(data) {
+  const b = (data && data.benchmark) || {};
+  clear(calibrationBox);
+  const rows = [
+    ['Конструкт', b.construct || '—'],
+    ['Вибірка', `${b.n ?? '?'} (позитивів ${b.positives ?? '?'})`],
+    ['ROC-AUC', b.roc_auc ?? '—'],
+    ['Average precision', b.average_precision ?? '—'],
+    ['ECE (сирий → калібр., CV)', `${b.raw_ece ?? '—'} → ${b.calibrated_ece_cv ?? '—'}`],
+  ];
+  rows.forEach(([k, v]) => {
+    const item = make('div', 'lineitem');
+    const bold = make('b');
+    text(bold, `${k}: `);
+    const s = make('span');
+    text(s, v);
+    item.append(bold, s);
+    calibrationBox.append(item);
+  });
+  const note = make('div', 'lineitem');
+  text(note, b.note || 'Показники ризику — індекс пріоритету перевірки, не калібрована ймовірність обману.');
+  calibrationBox.append(note);
+}
+
 async function loadContracts() {
   if (contractsLoaded) return;
   contractsLoaded = true;
   try {
-    const [science, product] = await Promise.all([
+    const [science, product, calibration] = await Promise.all([
       fetchJson(apiUrl('/api/v1/system/science-registry')),
       fetchJson(apiUrl('/api/v1/system/product-readiness')),
+      fetchJson(apiUrl('/api/v1/system/calibration')),
     ]);
     renderScienceRegistry(science.data);
     renderProductReadiness(product.data);
+    renderCalibration(calibration.data);
   } catch (e) {
     contractsLoaded = false;
   }

@@ -147,6 +147,27 @@ sex-only classifier matching multimodal "SOTA" on the Real-Life Trial data.
 only signal that survives off-domain is the modest (~0.60) interpretable-construct
 transfer. Any headline ≥ 0.85 must be assumed leakage until cross-corpus proven.
 
+## Phase 4 — the decisive test: REAL high-stakes deception (`rlt_transfer.py`)
+Op-Spam is low-stakes *instructed* lying. The **Real-Life Trial** corpus
+(Perez-Rosas 2015 — 61 deceptive / 60 truthful courtroom transcripts, labelled by
+verdict) is **real high-stakes** deception, the field gold standard.
+
+| Test | verbal-science | TF-IDF "SOTA" |
+|---|---|---|
+| RLT in-domain (5-fold) | **0.562 [0.46–0.67]** | 0.776 |
+| Op-Spam → RLT (low→high stakes) | **0.548 [0.44–0.65]** | **0.541** |
+
+**The decisive finding:** on real high-stakes deception, the interpretable model's
+95% CI **straddles chance (0.5)** — it is statistically indistinguishable from a
+coin flip (n=121). Worse, the TF-IDF model that scored **0.955 on reviews collapses
+to 0.541 (chance) on real deception**. Nothing learned on low-stakes reviews
+transfers to real courtroom lying. The verifiability construct is near-zero on RLT
+(r = −0.06).
+
+This is exactly DePaulo et al. 2003 (median cue d = 0.10) and Bond & DePaulo 2006
+(human accuracy 54%) reproduced on the gold-standard corpus: **passive verbal
+deception detection does not work on real high-stakes deception.**
+
 ## Final verdict (empirical ground truth)
 1. Interpretable, causally-grounded verbal features are a **real, mechanistically
    coherent** deception-screening signal — but a **modest** one (~0.75 in-domain,

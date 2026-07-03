@@ -46,6 +46,22 @@ Construct validity: every coefficient matches the literature —
   separability is a source-style artifact, not deception. **Any headline ≥ 0.85
   is assumed leakage until cross-corpus proven.**
 
+## The decisive test — real high-stakes deception (Real-Life Trial)
+Op-Spam is low-stakes instructed lying. On the **Real-Life Trial** corpus (121
+courtroom transcripts, labelled by verdict — *real* high-stakes deception):
+
+| Test | verbal-science | TF-IDF "SOTA" |
+|---|---|---|
+| RLT in-domain | **0.562 [CI 0.46–0.67]** | 0.776 |
+| Op-Spam → RLT | **0.548 (chance)** | **0.541 (chance)** |
+
+The interpretable model's CI **straddles chance**; the 0.955 black box **collapses
+to 0.54** on real deception. Nothing transfers from low-stakes reviews to real
+courtroom lying. This reproduces DePaulo 2003 (cue d = 0.10) and Bond & DePaulo
+2006 (54% accuracy) on the gold-standard corpus: **passive verbal deception
+detection does not work on real high-stakes deception.** BIVE's no-verdict
+invariant is therefore not caution — it is the only defensible position.
+
 ## What this means for the product
 1. **Discrimination is real but modest** (~0.75 in-domain, ~0.61–0.72 out) and
    **degrades gracefully with domain distance**.

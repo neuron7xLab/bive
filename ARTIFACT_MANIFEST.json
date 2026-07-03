@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 280,
+  "file_count": 281,
   "files": [
     {
       "bytes": 113,
@@ -423,9 +423,9 @@
       "sha256": "4a7f9612e12e8f613ba3b958fcbd46abe72318c29e366e64b44036171739949c"
     },
     {
-      "bytes": 3301,
+      "bytes": 4172,
       "path": "docs/EMPIRICAL_VALIDATION.md",
-      "sha256": "108a049d03217f96bd213f5567e93faf1ba5fb337c131f6c895e28f1ebb889a1"
+      "sha256": "e1d8282e5d455970dc2be7dcaaae36e90106e8dc4af97b1e9c8ef1dc8e3b9142"
     },
     {
       "bytes": 1088,
@@ -658,9 +658,9 @@
       "sha256": "c5049c183f87267ff36ee98b52517e1f78670639f3a060baa89d4093a555f59b"
     },
     {
-      "bytes": 8945,
+      "bytes": 10103,
       "path": "research/cogveritas/PHASE0_REPORT.md",
-      "sha256": "891a70664eafa44c5a71f6f6c19634cb6558ffdc89039129e486b54a424ae1b0"
+      "sha256": "d8d12dea05115f6622bbed8776d85ca9a9cade5e513c098ae7139d211ed906af"
     },
     {
       "bytes": 6788,
@@ -673,9 +673,9 @@
       "sha256": "9c0f668430b0bea7be793ff41b839c8fb95fee2247ab8ae4920c196e82de5e46"
     },
     {
-      "bytes": 589,
+      "bytes": 1219,
       "path": "research/cogveritas/fetch_data.sh",
-      "sha256": "aa5125f961eeb495b2020f8eb805fe89f139c59853be720a85643123a8a28817"
+      "sha256": "48db50f03e70ca73fd5742878f6ad55727563ff66be8aff1d8d1a6711a09dcdc"
     },
     {
       "bytes": 3943,
@@ -686,6 +686,11 @@
       "bytes": 983,
       "path": "research/cogveritas/phase0_results.json",
       "sha256": "6f5330bb39d39d01491a27bab229fa0b66f0cc3a3002bbf73c121b0a3d040315"
+    },
+    {
+      "bytes": 3578,
+      "path": "research/cogveritas/rlt_transfer.py",
+      "sha256": "b5fe8a82fa80bcb4770f7db8e40a618f0ed50aa8dc9e57e930ff8366ecb93675"
     },
     {
       "bytes": 4872,
@@ -1403,7 +1408,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-03T17:46:54+00:00",
+  "generated_at_utc": "2026-07-03T17:54:31+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

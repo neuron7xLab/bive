@@ -218,6 +218,27 @@ def test_json_object_without_segments_or_text_raises() -> None:
         parse_transcript('{"foo":"bar"}', fmt="json")
 
 
+def test_long_single_blob_is_split_into_segments() -> None:
+    # A large pasted blob (one line, well over the per-segment cap) must not be
+    # rejected: it is split on sentence boundaries into multiple segments.
+    blob = ("Це речення номер один. " * 1000).strip()
+    assert len(blob) > 10_000
+    payload = parse_transcript(blob, fmt="txt")
+    segments = payload["segments"]
+    assert len(segments) > 1
+    assert all(len(s["text"]) <= 6_000 for s in segments)
+
+
+def test_oversized_unsplittable_token_is_hard_split() -> None:
+    payload = parse_transcript("x" * 15_000, fmt="txt")
+    assert all(len(s["text"]) <= 6_000 for s in payload["segments"])
+
+
+def test_short_text_is_not_chunked() -> None:
+    payload = parse_transcript("Alice: hello there.\nBob: hi back.", fmt="txt")
+    assert len(payload["segments"]) == 2
+
+
 def test_webvtt_alias_normalised() -> None:
     payload = parse_transcript(VTT, fmt="webvtt")
     assert payload["segments"][0]["speaker"] == "Alice"

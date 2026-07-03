@@ -53,10 +53,15 @@ def test_api_validation_error_uses_standard_error_envelope() -> None:
     assert response.headers["X-Content-Type-Options"] == "nosniff"
 
 
-def test_api_runtime_limit_rejects_too_many_segments() -> None:
+def test_api_runtime_limit_rejects_too_many_segments(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    import dataclasses
+
+    from bive import api_runtime
+
+    monkeypatch.setattr(api_runtime, "settings", dataclasses.replace(api_runtime.settings, max_segments=2))
     response = TestClient(app).post(
         "/api/v1/reports/from-transcript?api-version=2026-06-11",
-        json={"segments": [{"text": "x"} for _ in range(2001)]},
+        json={"segments": [{"text": "x"} for _ in range(3)]},
     )
     assert response.status_code == 422
     assert response.json()["error"]["code"] in {"ValidationError", "too_many_segments"}

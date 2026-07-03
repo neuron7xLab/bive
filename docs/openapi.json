@@ -270,7 +270,7 @@
             "items": {
               "$ref": "#/components/schemas/TranscriptSegmentIn"
             },
-            "maxItems": 2000,
+            "maxItems": 50000,
             "minItems": 1,
             "title": "Segments",
             "type": "array"
@@ -320,7 +320,7 @@
             "title": "Start"
           },
           "text": {
-            "maxLength": 10000,
+            "maxLength": 100000,
             "minLength": 1,
             "title": "Text",
             "type": "string"

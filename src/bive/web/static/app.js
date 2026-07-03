@@ -408,8 +408,11 @@ function humanError(error) {
   if (code.startsWith('transcript_parse_error')) return 'Не вдалося розпізнати формат даних. Спробуй SRT, VTT, CSV, TXT або JSON.';
   if (code === 'empty_upload') return 'Порожні дані.';
   if (code === 'invalid_utf8') return 'Файл не є текстом (схоже на бінарні дані). Для аудіо/відео спершу зроби транскрипцію.';
-  if (code === 'too_many_segments') return 'Забагато сегментів для одного запуску.';
+  if (code === 'too_many_segments') return 'Документ завеликий навіть після розбиття. Надішли його частинами.';
   if (code === 'authentication_required') return 'Потрібен API token (див. розділ «Система»).';
+  if (code === 'InvalidInput' || code === 'ValidationError') {
+    return 'Дані не пройшли валідацію. Спробуй менший фрагмент або інший формат.';
+  }
   return error.message;
 }
 

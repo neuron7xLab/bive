@@ -45,7 +45,7 @@ def test_api_rejects_oversized_payload() -> None:
     response = client.post(
         "/api/v1/reports/from-transcript?api-version=2026-06-11",
         content=b"{}",
-        headers={"content-type": "application/json", "content-length": "25000001"},
+        headers={"content-type": "application/json", "content-length": "100000001"},
     )
     assert response.status_code == 413
 

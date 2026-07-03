@@ -431,11 +431,19 @@ def _looks_like_srt(content: str) -> bool:
     return _SRT_ARROW in content and bool(re.search(r"\d{1,2}:\d{2}:\d{2}", content))
 
 
+_CSV_HEADER_TOKENS = {"speaker", "text", "start", "end", "utterance", "content", "message"}
+
+
 def _looks_like_csv(content: str) -> bool:
+    # Content-sniffing only: require a recognisable header row. Prose typed into a
+    # chat box routinely contains commas, so a bare "has a delimiter" test would
+    # misclassify plain text as CSV. An explicit `.csv` filename still forces the
+    # CSV parser via the extension path, headerless files included.
     lines = [ln for ln in content.splitlines() if ln.strip()]
-    if len(lines) < 1:
+    if not lines:
         return False
     delimiter = "," if "," in lines[0] else ("\t" if "\t" in lines[0] else "")
     if not delimiter:
         return False
-    return all(delimiter in ln for ln in lines[: min(len(lines), 3)])
+    header_cells = {cell.strip().lower() for cell in lines[0].split(delimiter)}
+    return bool(header_cells & _CSV_HEADER_TOKENS)

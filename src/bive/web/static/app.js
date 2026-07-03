@@ -1,3 +1,8 @@
+// BIVE minimal conversational console.
+// One input -> one readable answer. Safe DOM only — no dynamic HTML injection. The operational
+// surface (gates, science registry, product readiness, raw JSON/Markdown export)
+// lives in a collapsed drawer for power users and loads lazily when opened.
+
 const el = (selector) => document.querySelector(selector);
 const make = (tag, className = '') => {
   const node = document.createElement(tag);
@@ -11,59 +16,55 @@ const text = (node, value) => {
   node.textContent = String(value ?? '');
 };
 
-const payload = el('#payload');
-const fileInput = el('#fileInput');
-const dropZone = el('#dropZone');
-const dropTitle = el('#dropTitle');
-const output = el('#output');
-const markdownOutput = el('#markdownOutput');
-const apiToken = el('#apiToken');
-const statusText = el('#statusText');
-const systemReadiness = el('#systemReadiness');
-const systemVersion = el('#systemVersion');
-const statusDot = el('#statusDot');
-const metricReady = el('#metricReady');
-const metricReports = el('#metricReports');
-const metricAuth = el('#metricAuth');
-const metricLimits = el('#metricLimits');
-const metricGates = el('#metricGates');
-const metricScience = el('#metricScience');
-const metricAos = el('#metricAos');
-const metricProduct = el('#metricProduct');
-const metricLatency = el('#metricLatency');
-const resultTitle = el('#resultTitle');
-const resultStatus = el('#resultStatus');
-const summaryCards = el('#summaryCards');
-const evidenceList = el('#evidenceList');
-const hypothesisList = el('#hypothesisList');
-const questionsList = el('#questionsList');
-const gatesList = el('#gatesList');
-const capabilityList = el('#capabilityList');
-const designContract = el('#designContract');
-const scienceList = el('#scienceList');
-const scienceBoundary = el('#scienceBoundary');
-const aosKernel = el('#aosKernel');
-const productReadiness = el('#productReadiness');
-
-let lastOutput = {};
-let lastMarkdown = '';
-let lastReportId = '';
 const API_VERSION = '2026-06-11';
 const MAX_UPLOAD_BYTES = 25_000_000;
 const KNOWN_EXTENSIONS = ['json', 'jsonl', 'srt', 'vtt', 'csv', 'txt'];
+const MEDIA_EXTENSIONS = ['mp3', 'wav', 'm4a', 'aac', 'ogg', 'flac', 'mp4', 'mov', 'mkv', 'webm', 'avi'];
 
-function apiUrl(path) {
-  const joiner = path.includes('?') ? '&' : '?';
-  return `${path}${joiner}api-version=${encodeURIComponent(API_VERSION)}`;
-}
+const thread = el('#thread');
+const payload = el('#payload');
+const fileInput = el('#fileInput');
+const attachName = el('#attachName');
+const statusText = el('#statusText');
+const statusDot = el('#statusDot');
+const systemReadiness = el('#systemReadiness');
+const drawerMeta = el('#drawerMeta');
+const apiToken = el('#apiToken');
+const output = el('#output');
+const markdownOutput = el('#markdownOutput');
+const gatesList = el('#gatesList');
+const scienceList = el('#scienceList');
+const scienceBoundary = el('#scienceBoundary');
+const productReadiness = el('#productReadiness');
 
-const demo = {
-  subject_scope: 'public_statement_review',
-  segments: [
-    {speaker: 'subject', start: 0, end: 4.1, text: 'Я точно ніколи не мав доступу до цих документів.'},
-    {speaker: 'subject', start: 5.0, end: 8.0, text: 'Можливо, я бачив їх раніше, але не пам’ятаю коли.'},
-    {speaker: 'subject', start: 9.2, end: 14.0, text: 'Усі рішення були прозорі, просто не треба зараз дивитися на деталі.'}
-  ]
+let pendingFile = null;
+let lastOutput = {};
+let lastMarkdown = '';
+let lastReportId = '';
+let contractsLoaded = false;
+
+const STATUS_LABEL = {
+  review_required: {label: 'Потрібна перевірка', tone: 'warn'},
+  elevated_risk: {label: 'Підвищений ризик', tone: 'bad'},
+  low_risk: {label: 'Низький ризик', tone: 'good'},
+  inconclusive: {label: 'Недостатньо даних', tone: 'muted'},
+  invalid_input: {label: 'Некоректний ввід', tone: 'bad'},
+};
+
+const HYP_LABEL = {
+  inconsistency_risk: 'Непослідовність',
+  manipulation_risk: 'Маніпуляція',
+  cognitive_load_risk: 'Когнітивне навантаження',
+  evidence_gap_risk: 'Брак доказів',
+};
+
+const SAMPLES = {
+  contradiction:
+    'subject: Я ніколи не отримував ці кошти, повірте, перевіряти немає потреби.\n' +
+    'subject: Я отримав ці кошти пізніше, але це очевидно була не моя відповідальність.',
+  pressure:
+    'subject: Trust me, nobody needs to check this today.\n' +
+    'subject: You must believe me, there is no need to verify anything.',
 };
 
 function setStatus(message, mode = 'neutral') {
@@ -71,25 +72,23 @@ function setStatus(message, mode = 'neutral') {
   statusText.dataset.mode = mode;
 }
 
-// Session-bounded API token lifecycle. The token lives only in this browsing
-// session (sessionStorage) or in memory; it is never written to persistent
-// device storage, so it does not survive the tab being closed. Threat model: a
-// shared-machine or XSS-persisted credential must not outlive the session. See
-// docs/BACKEND_FRONTEND_CONTRACT.md.
+// --- API token: session-bounded only (never persisted to disk). ---
 const SESSION_TOKEN_KEY = 'bive_api_token';
+
+function persistSessionToken() {
+  const value = apiToken.value.trim();
+  if (value) sessionStorage.setItem(SESSION_TOKEN_KEY, value);
+  else sessionStorage.removeItem(SESSION_TOKEN_KEY);
+}
 
 function clearSessionToken() {
   sessionStorage.removeItem(SESSION_TOKEN_KEY);
   apiToken.value = '';
 }
 
-function persistSessionToken() {
-  const value = apiToken.value.trim();
-  if (value) {
-    sessionStorage.setItem(SESSION_TOKEN_KEY, value);
-  } else {
-    sessionStorage.removeItem(SESSION_TOKEN_KEY);
-  }
+function authHeaders() {
+  const token = apiToken.value.trim();
+  return token ? {'x-bive-api-key': token} : {};
 }
 
 // Accept a token passed via ?api-token= once, then scrub it from the URL so it
@@ -106,350 +105,466 @@ function captureUrlToken() {
   window.history.replaceState({}, document.title, next);
 }
 
-function authHeaders() {
-  const token = apiToken.value.trim();
-  return token ? {'x-bive-api-key': token} : {};
+function apiUrl(path) {
+  const joiner = path.includes('?') ? '&' : '?';
+  return `${path}${joiner}api-version=${encodeURIComponent(API_VERSION)}`;
 }
 
 async function fetchJson(url, options = {}) {
-  const headers = {'accept': 'application/json', ...(options.headers || {}), ...authHeaders()};
+  const headers = {accept: 'application/json', ...(options.headers || {}), ...authHeaders()};
   const response = await fetch(url, {...options, headers});
   const requestId = response.headers.get('x-request-id') || 'missing-request-id';
   let data;
   try {
     data = await response.json();
   } catch (error) {
-    data = {error: 'non_json_response', details: [error.message], request_id: requestId};
+    data = {error: 'non_json_response', details: [error.message]};
   }
   if (!response.ok) {
     if (response.status === 401) clearSessionToken();
-    const message = (data.error && data.error.code) || data.error || `http_${response.status}`;
-    throw new Error(`${message} [${requestId}]`);
+    const code = (data.error && (data.error.code || data.error)) || `http_${response.status}`;
+    const detail = data.error && data.error.details && data.error.details[0];
+    const error = new Error(detail ? `${code}: ${detail}` : `${code}`);
+    error.code = typeof code === 'string' ? code : '';
+    throw error;
   }
   return {data, requestId};
 }
 
 async function fetchText(url, options = {}) {
-  const headers = {'accept': 'text/plain', ...(options.headers || {}), ...authHeaders()};
+  const headers = {accept: 'text/plain', ...(options.headers || {}), ...authHeaders()};
   const response = await fetch(url, {...options, headers});
-  const requestId = response.headers.get('x-request-id') || 'missing-request-id';
-  const data = await response.text();
-  if (!response.ok) throw new Error(`http_${response.status} [${requestId}]`);
-  return {data, requestId};
+  if (!response.ok) throw new Error(`http_${response.status}`);
+  return await response.text();
 }
 
-function renderJson(data) {
-  lastOutput = data;
-  output.textContent = JSON.stringify(data, null, 2);
+// --- Thread rendering (assistant/user messages) ---
+
+function dismissIntro() {
+  const intro = thread.querySelector('.msg-intro');
+  if (intro) intro.remove();
 }
 
-function renderSystem(data) {
-  text(systemReadiness, data.readiness.toUpperCase());
-  text(systemVersion, `${data.service} v${data.version} · ${data.environment}`);
-  statusDot.dataset.ready = data.readiness === 'ready' ? 'true' : 'false';
-  text(metricReady, data.readiness);
-  text(metricReports, data.storage.report_count);
-  text(metricAuth, data.limits.auth_required ? 'required' : 'local-open');
-  text(metricLimits, `${data.limits.max_segments} segments`);
-  const passed = data.gates.filter((gate) => gate.last_observed === 'pass').length;
-  text(metricGates, `${passed}/${data.gates.length}`);
-  renderGates(data.gates);
+function addUserMessage(label) {
+  dismissIntro();
+  const msg = make('article', 'msg msg-user');
+  const bubble = make('div', 'bubble');
+  text(bubble, label);
+  msg.append(bubble);
+  thread.append(msg);
+  scrollThread();
 }
 
-function renderMetricsText(metricsText) {
-  const match = metricsText.match(/bive_request_latency_seconds_sum\s+([0-9.]+)/);
-  if (match) text(metricLatency, `${Number(match[1]).toFixed(3)}s`);
+function addNoticeMessage(title, body, tone = 'muted') {
+  dismissIntro();
+  const msg = make('article', 'msg msg-assistant');
+  const card = make('div', `answer answer-${tone}`);
+  const h = make('p', 'answer-verdict');
+  text(h, title);
+  card.append(h);
+  if (body) {
+    const p = make('p', 'answer-line');
+    text(p, body);
+    card.append(p);
+  }
+  msg.append(card);
+  thread.append(msg);
+  scrollThread();
 }
 
-function appendMiniCard(parent, label, value) {
-  const card = make('article', 'mini-card');
-  const small = make('span');
-  const strong = make('b');
-  text(small, label);
-  text(strong, value);
-  card.append(small, strong);
-  parent.append(card);
+function scrollThread() {
+  thread.scrollTop = thread.scrollHeight;
+  const last = thread.lastElementChild;
+  if (last && last.scrollIntoView) last.scrollIntoView({behavior: 'smooth', block: 'end'});
 }
 
-function appendEvidence(parent, title, description, meta) {
-  const item = make('article', 'evidence-item');
-  const heading = make('strong');
-  const body = make('p');
-  const small = make('small');
-  text(heading, title);
-  text(body, description);
-  text(small, meta);
-  item.append(heading, body, small);
-  parent.append(item);
+function section(parent, title) {
+  const wrap = make('div', 'answer-section');
+  const h = make('p', 'answer-section-title');
+  text(h, title);
+  wrap.append(h);
+  parent.append(wrap);
+  return wrap;
 }
 
+function describeEvent(event) {
+  const feature = event.feature || event.event_type || 'signal';
+  const value = event.value;
+  if (feature === 'local_claim_tension' && value && typeof value === 'object') {
+    return {kind: 'Суперечність', detail: `«${value.claim_a}» ↔ «${value.claim_b}»`, tone: 'bad'};
+  }
+  if (feature === 'absolute_framing') {
+    return {kind: 'Абсолютне формулювання', detail: 'категоричні слова (ніколи/завжди/очевидно)', tone: 'warn'};
+  }
+  if (feature === 'verification_pressure') {
+    return {kind: 'Тиск проти перевірки', detail: 'мова відмовляє перевіряти («повір мені»)', tone: 'warn'};
+  }
+  if (feature === 'linguistic_hedging') {
+    return {kind: 'Хеджування', detail: 'ознаки невпевненості («можливо», «здається»)', tone: 'muted'};
+  }
+  if (feature === 'temporal_anchor') {
+    return {kind: 'Часовий маркер', detail: 'згадка часу — перевір таймлайн', tone: 'muted'};
+  }
+  return {kind: feature, detail: typeof value === 'string' ? value : '', tone: 'muted'};
+}
+
+// Main answer renderer (name kept for the frontend-quality contract).
 function renderReport(data) {
-  const report = data.report;
+  const report = data.report || data;
   lastReportId = report.report_id || data.report_id || '';
-  text(resultTitle, lastReportId || 'report');
-  text(resultStatus, data.status || report.final_status || 'unknown');
+  lastOutput = data;
+  text(output, JSON.stringify(data, null, 2));
 
-  const events = report.evidence_events || [];
-  const hypotheses = report.hypotheses || [];
+  const status = report.final_status || data.status || 'inconclusive';
+  const meta = STATUS_LABEL[status] || {label: status, tone: 'muted'};
+  const events = (report.evidence_events || []).slice();
+  const hypotheses = (report.hypotheses || []).filter((h) => (h.score || 0) > 0);
   const questions = report.verification_questions || [];
+  const summary = report.input_summary || {};
 
-  clear(summaryCards);
-  appendMiniCard(summaryCards, 'Evidence events', events.length);
-  appendMiniCard(summaryCards, 'Hypotheses', hypotheses.length);
-  appendMiniCard(summaryCards, 'Questions', questions.length);
-  appendMiniCard(summaryCards, 'Scope', report.subject_scope || 'unknown');
+  dismissIntro();
+  const msg = make('article', 'msg msg-assistant');
+  const card = make('div', `answer answer-${meta.tone}`);
 
-  clear(evidenceList);
-  if (!events.length) {
-    text(evidenceList, 'Evidence events відсутні.');
-  } else {
-    events.slice(0, 10).forEach((event) => {
-      appendEvidence(
-        evidenceList,
-        event.event_type || 'event',
-        event.description || event.text || 'no description',
-        `source=${event.source || 'unknown'} · confidence=${event.confidence ?? 'n/a'}`
-      );
+  const verdict = make('p', 'answer-verdict');
+  text(verdict, meta.label);
+  card.append(verdict);
+
+  const line = make('p', 'answer-line');
+  const claims = summary.claims ?? (report.claims || []).length;
+  const evCount = events.length;
+  text(
+    line,
+    data.detected_format
+      ? `Формат ${data.detected_format}. Витягнуто ${claims} тверджень і ${evCount} evidence-подій.`
+      : `Витягнуто ${claims} тверджень і ${evCount} evidence-подій.`
+  );
+  card.append(line);
+
+  // Findings — contradictions first, then linguistic risk signals.
+  events.sort((a, b) => (a.feature === 'local_claim_tension' ? -1 : 0) - (b.feature === 'local_claim_tension' ? -1 : 0));
+  if (events.length) {
+    const sec = section(card, 'Що знайдено');
+    events.slice(0, 8).forEach((event) => {
+      const described = describeEvent(event);
+      const item = make('div', `finding finding-${described.tone}`);
+      const k = make('span', 'finding-kind');
+      text(k, described.kind);
+      const d = make('span', 'finding-detail');
+      text(d, described.detail);
+      item.append(k, d);
+      sec.append(item);
     });
   }
 
-  clear(hypothesisList);
-  if (!hypotheses.length) {
-    text(hypothesisList, 'Гіпотези відсутні.');
-  } else {
-    hypotheses.slice(0, 8).forEach((hypothesis) => {
-      appendEvidence(
-        hypothesisList,
-        hypothesis.label || 'hypothesis',
-        hypothesis.rationale || hypothesis.description || 'no rationale',
-        `score=${hypothesis.score ?? 'n/a'} · uncertainty=${hypothesis.uncertainty ?? 'n/a'}`
-      );
+  // Risk hypotheses as labelled meters.
+  if (hypotheses.length) {
+    const sec = section(card, 'Оцінка ризику');
+    hypotheses
+      .sort((a, b) => (b.score || 0) - (a.score || 0))
+      .slice(0, 4)
+      .forEach((h) => {
+        const row = make('div', 'hyp-row');
+        const name = make('span', 'hyp-name');
+        text(name, HYP_LABEL[h.label] || h.label);
+        const meter = make('div', 'hyp-meter');
+        const fill = make('div', 'hyp-fill');
+        fill.style.width = `${Math.round((h.score || 0) * 100)}%`;
+        fill.dataset.tone = (h.score || 0) >= 0.6 ? 'bad' : (h.score || 0) >= 0.4 ? 'warn' : 'good';
+        meter.append(fill);
+        const val = make('span', 'hyp-val');
+        text(val, `${Math.round((h.score || 0) * 100)}% · невизначеність ${Math.round((h.uncertainty || 0) * 100)}%`);
+        row.append(name, meter, val);
+        sec.append(row);
+      });
+  }
+
+  // Human-review questions.
+  if (questions.length) {
+    const sec = section(card, 'Питання для перевірки');
+    const list = make('ul', 'q-list');
+    questions.slice(0, 6).forEach((q) => {
+      const li = make('li');
+      text(li, typeof q === 'string' ? q : q.question || '');
+      list.append(li);
     });
+    sec.append(list);
   }
 
-  clear(questionsList);
-  if (!questions.length) {
-    text(questionsList, 'Питання для review відсутні.');
-  } else {
-    questions.slice(0, 8).forEach((question, index) => {
-      appendEvidence(questionsList, `Q${index + 1}`, question.question || question, question.reason || 'human_review');
-    });
-  }
-}
+  const note = make('p', 'answer-note');
+  text(note, 'Це поверхня для аналізу, а не вирок про людину. Рішення потребує людської перевірки й зовнішніх джерел.');
+  card.append(note);
 
-function renderGates(gates) {
-  clear(gatesList);
-  gates.forEach((gate) => {
-    const item = make('div', 'gate-row');
-    const name = make('span');
-    const status = make('b');
-    text(name, gate.name);
-    text(status, gate.last_observed);
-    status.dataset.status = gate.last_observed;
-    item.append(name, status);
-    gatesList.append(item);
-  });
-}
+  msg.append(card);
+  thread.append(msg);
+  scrollThread();
 
-function renderCapabilities(data) {
-  clear(capabilityList);
-  [...data.modalities, ...data.outputs, ...data.production_gates].forEach((item) => {
-    const tag = make('span', 'tag');
-    text(tag, item);
-    capabilityList.append(tag);
-  });
-}
-
-function renderDesignContract(data) {
-  clear(designContract);
-  Object.entries(data).forEach(([key, value]) => {
-    const dt = make('dt');
-    const dd = make('dd');
-    text(dt, key.replaceAll('_', ' '));
-    text(dd, Array.isArray(value) ? value.join(' · ') : value);
-    designContract.append(dt, dd);
-  });
-}
-
-function renderScienceRegistry(data) {
-  text(metricScience, `${data.reference_count} refs`);
-  clear(scienceList);
-  data.disciplines.forEach((discipline) => {
-    const tag = make('span', 'tag');
-    text(tag, discipline.name);
-    scienceList.append(tag);
-  });
-  clear(scienceBoundary);
-  data.hard_boundaries.slice(0, 4).forEach((boundary, index) => {
-    appendEvidence(scienceBoundary, `B${index + 1}`, boundary, 'claim_boundary');
-  });
-}
-
-function renderAosKernel(data) {
-  text(metricAos, `${data.eval_tasks} evals`);
-  clear(aosKernel);
-  appendEvidence(aosKernel, data.name || 'AOS', `version=${data.version} · status=${data.status}`, data.release_gate || 'make aos-kernel');
-  appendEvidence(aosKernel, 'Pipeline', `${data.pipeline_steps} canonical steps`, 'intent → boundary → contract → evidence → status');
-  appendEvidence(aosKernel, 'Evidence classes', (data.evidence_classes || []).join(' · '), 'fail-closed epistemics');
-}
-
-function renderProductReadiness(data) {
-  text(metricProduct, data.overall_status || 'unknown');
-  clear(productReadiness);
-  appendEvidence(productReadiness, 'Stage', data.stage || 'unknown', data.release_gate || 'make product-readiness');
-  appendEvidence(productReadiness, 'Status', data.overall_status || 'unknown', data.boundary || 'product boundary missing');
-  appendEvidence(productReadiness, 'Blocking unknowns', (data.blocking_unknowns || []).join(' · ') || 'none', 'fail-closed release state');
-}
-
-async function refreshSystem() {
-  const {data} = await fetchJson(apiUrl('/api/v1/system/status'));
-  renderSystem(data);
-  try {
-    const metrics = await fetchText('/metrics');
-    renderMetricsText(metrics.data);
-  } catch (error) {
-    text(metricLatency, 'unknown');
-  }
-  setStatus('Системний статус оновлено.', 'ok');
-}
-
-async function refreshContracts() {
-  const [capabilities, design, science, aos, product] = await Promise.all([
-    fetchJson(apiUrl('/api/v1/capabilities')),
-    fetchJson(apiUrl('/api/v1/system/design-contract')),
-    fetchJson(apiUrl('/api/v1/system/science-registry')),
-    fetchJson(apiUrl('/api/v1/system/aos-kernel')),
-    fetchJson(apiUrl('/api/v1/system/product-readiness'))
-  ]);
-  renderCapabilities(capabilities.data);
-  renderDesignContract(design.data);
-  renderScienceRegistry(science.data);
-  renderAosKernel(aos.data);
-  renderProductReadiness(product.data);
+  refreshMarkdown();
 }
 
 async function refreshMarkdown() {
-  if (!lastReportId) {
-    text(markdownOutput, 'Спочатку побудуй звіт. Машина не читає наміри через ауру, поки що.');
-    return;
+  if (!lastReportId) return;
+  try {
+    lastMarkdown = await fetchText(apiUrl(`/api/v1/reports/${encodeURIComponent(lastReportId)}/markdown`));
+    text(markdownOutput, lastMarkdown);
+  } catch (error) {
+    text(markdownOutput, `markdown недоступний: ${error.message}`);
   }
-  const {data} = await fetchText(apiUrl(`/api/v1/reports/${encodeURIComponent(lastReportId)}/markdown`));
-  lastMarkdown = data;
-  text(markdownOutput, data);
 }
 
-async function runAnalysis() {
-  setStatus('Аналіз запущено.', 'busy');
-  let parsed;
-  try {
-    parsed = JSON.parse(payload.value);
-  } catch (error) {
-    setStatus(`JSON помилка: ${error.message}`, 'error');
-    return;
-  }
-  const {data, requestId} = await fetchJson(apiUrl('/api/v1/reports/from-transcript'), {
-    method: 'POST',
-    headers: {'content-type': 'application/json'},
-    body: JSON.stringify(parsed)
-  });
-  renderJson(data);
-  renderReport(data);
-  await refreshMarkdown();
-  setStatus(`Звіт побудовано. request_id=${requestId}`, 'ok');
-  await refreshSystem();
-}
+// --- Submission ---
 
 function fileExtension(name) {
   const dot = name.lastIndexOf('.');
   return dot >= 0 ? name.slice(dot + 1).toLowerCase() : '';
 }
 
-async function analyzeUploadedFile(file) {
-  if (!file) return;
-  if (file.size > MAX_UPLOAD_BYTES) {
-    setStatus(`Файл завеликий (${(file.size / 1e6).toFixed(1)}MB > 25MB).`, 'error');
-    return;
+// Pasted BIVE JSON ({subject_scope, segments:[...]}) goes to the strict
+// structured endpoint; everything else (SRT, VTT, CSV, plain text, ASR JSON)
+// goes through the auto-detecting upload endpoint.
+function structuredPayload(raw) {
+  const trimmed = raw.trimStart();
+  if (trimmed[0] !== '{') return null;
+  try {
+    const parsed = JSON.parse(raw);
+    if (parsed && Array.isArray(parsed.segments)) return parsed;
+  } catch (error) {
+    return null;
   }
-  if (file.size === 0) {
-    setStatus('Файл порожній.', 'error');
-    return;
-  }
-  setStatus(`Завантаження ${file.name}…`, 'busy');
-  const content = await file.text();
+  return null;
+}
+
+async function analyzeText(raw) {
+  addUserMessage(raw.length > 240 ? `${raw.slice(0, 240)}…` : raw);
+  setStatus('Аналізую…', 'busy');
+  const structured = structuredPayload(raw);
+  const request = structured
+    ? {url: '/api/v1/reports/from-transcript', body: JSON.stringify(structured), type: 'application/json'}
+    : {url: '/api/v1/reports/from-upload', body: raw, type: 'text/plain; charset=utf-8'};
+  const {data} = await fetchJson(apiUrl(request.url), {
+    method: 'POST',
+    headers: {'content-type': request.type},
+    body: request.body,
+  });
+  renderReport(data);
+  setStatus('Готово.', 'ok');
+  refreshStatus();
+}
+
+async function analyzeFile(file) {
   const ext = fileExtension(file.name);
+  addUserMessage(`📎 ${file.name}`);
+  if (MEDIA_EXTENSIONS.includes(ext)) {
+    addNoticeMessage(
+      'Аудіо/відео потребує транскрипції',
+      'BIVE аналізує текст. Транскрибуй запис у текст (напр. Whisper: `whisper запис.mp3 --output_format srt`) і завантаж отриманий SRT / VTT / JSON — розбір буде миттєвим.',
+      'muted'
+    );
+    setStatus('Потрібен транскрипт.', 'neutral');
+    return;
+  }
+  if (file.size > MAX_UPLOAD_BYTES) {
+    addNoticeMessage('Файл завеликий', `${(file.size / 1e6).toFixed(1)}MB перевищує ліміт 25MB.`, 'bad');
+    return;
+  }
+  setStatus(`Аналізую ${file.name}…`, 'busy');
+  const content = await file.text();
   let url = apiUrl('/api/v1/reports/from-upload');
   if (KNOWN_EXTENSIONS.includes(ext)) url += `&format=${encodeURIComponent(ext)}`;
-  const {data, requestId} = await fetchJson(url, {
+  const {data} = await fetchJson(url, {
     method: 'POST',
     headers: {'content-type': 'text/plain; charset=utf-8', 'x-bive-filename': encodeURIComponent(file.name)},
-    body: content
+    body: content,
   });
-  renderJson(data);
   renderReport(data);
-  await refreshMarkdown();
-  text(dropTitle, `${file.name} · формат=${data.detected_format || ext} · ${data.segment_count ?? '?'} сегментів`);
-  setStatus(`Звіт побудовано з ${file.name} (${data.detected_format || ext}). request_id=${requestId}`, 'ok');
-  await refreshSystem();
+  setStatus(`Готово · ${data.detected_format || ext}.`, 'ok');
+  refreshStatus();
 }
 
-function handleFileSelection(file) {
-  analyzeUploadedFile(file).catch((error) => setStatus(error.message, 'error'));
+async function submit() {
+  try {
+    if (pendingFile) {
+      const file = pendingFile;
+      setPendingFile(null);
+      await analyzeFile(file);
+      return;
+    }
+    const raw = payload.value.trim();
+    if (!raw) {
+      setStatus('Порожньо. Встав текст або додай файл.', 'error');
+      return;
+    }
+    payload.value = '';
+    autoGrow();
+    await analyzeText(raw);
+  } catch (error) {
+    addNoticeMessage('Не вдалося обробити', humanError(error), 'bad');
+    setStatus(error.message, 'error');
+  }
 }
 
+function humanError(error) {
+  const code = error.code || '';
+  if (code.startsWith('transcript_parse_error')) return 'Не вдалося розпізнати формат даних. Спробуй SRT, VTT, CSV, TXT або JSON.';
+  if (code === 'empty_upload') return 'Порожні дані.';
+  if (code === 'invalid_utf8') return 'Файл не є текстом (схоже на бінарні дані). Для аудіо/відео спершу зроби транскрипцію.';
+  if (code === 'too_many_segments') return 'Забагато сегментів для одного запуску.';
+  if (code === 'authentication_required') return 'Потрібен API token (див. розділ «Система»).';
+  return error.message;
+}
+
+// --- Attach / drag-drop ---
+
+function setPendingFile(file) {
+  pendingFile = file;
+  text(attachName, file ? file.name : '');
+  el('#composer').dataset.hasFile = file ? 'true' : 'false';
+}
+
+function autoGrow() {
+  payload.style.height = 'auto';
+  payload.style.height = `${Math.min(payload.scrollHeight, 220)}px`;
+}
+
+// --- System surface (lazy) ---
+
+async function refreshStatus() {
+  try {
+    const {data} = await fetchJson(apiUrl('/api/v1/system/status'));
+    text(systemReadiness, data.readiness === 'ready' ? 'готово' : 'не готово');
+    statusDot.dataset.ready = data.readiness === 'ready' ? 'true' : 'false';
+    text(drawerMeta, `${data.storage.report_count} звітів · ${data.limits.auth_required ? 'auth' : 'local'}`);
+    renderGates(data.gates || []);
+  } catch (error) {
+    text(systemReadiness, 'офлайн');
+    statusDot.dataset.ready = 'false';
+  }
+}
+
+function renderGates(gates) {
+  clear(gatesList);
+  if (!gates.length) {
+    text(gatesList, 'немає даних');
+    return;
+  }
+  gates.forEach((gate) => {
+    const row = make('div', 'gate-row');
+    const name = make('span');
+    text(name, gate.name);
+    const status = make('b');
+    text(status, gate.last_observed);
+    status.dataset.status = gate.last_observed;
+    row.append(name, status);
+    gatesList.append(row);
+  });
+}
+
+function renderScienceRegistry(data) {
+  clear(scienceList);
+  (data.disciplines || []).forEach((d) => {
+    const tag = make('span', 'tag');
+    text(tag, d.name);
+    scienceList.append(tag);
+  });
+  clear(scienceBoundary);
+  (data.hard_boundaries || []).slice(0, 4).forEach((b) => {
+    const item = make('div', 'mini-item');
+    text(item, b);
+    scienceBoundary.append(item);
+  });
+}
+
+function renderProductReadiness(data) {
+  clear(productReadiness);
+  const rows = [
+    ['Стадія', data.stage || 'unknown'],
+    ['Статус', data.overall_status || 'unknown'],
+    ['Блокери', (data.blocking_unknowns || []).join(' · ') || 'немає'],
+  ];
+  rows.forEach(([k, v]) => {
+    const item = make('div', 'mini-item');
+    const b = make('b');
+    text(b, `${k}: `);
+    const s = make('span');
+    text(s, v);
+    item.append(b, s);
+    productReadiness.append(item);
+  });
+}
+
+async function loadContracts() {
+  if (contractsLoaded) return;
+  contractsLoaded = true;
+  try {
+    const [science, product] = await Promise.all([
+      fetchJson(apiUrl('/api/v1/system/science-registry')),
+      fetchJson(apiUrl('/api/v1/system/product-readiness')),
+    ]);
+    renderScienceRegistry(science.data);
+    renderProductReadiness(product.data);
+  } catch (error) {
+    contractsLoaded = false;
+  }
+}
+
+// --- Wiring ---
+
+el('#composerForm').addEventListener('submit', (event) => {
+  event.preventDefault();
+  submit();
+});
+
+payload.addEventListener('input', autoGrow);
+payload.addEventListener('keydown', (event) => {
+  if (event.key === 'Enter' && (event.metaKey || event.ctrlKey)) {
+    event.preventDefault();
+    submit();
+  }
+});
+
+el('#attach').addEventListener('click', () => fileInput.click());
 fileInput.addEventListener('change', () => {
   const file = fileInput.files && fileInput.files[0];
-  if (file) handleFileSelection(file);
+  if (file) setPendingFile(file);
   fileInput.value = '';
 });
 
-dropZone.addEventListener('click', () => fileInput.click());
-dropZone.addEventListener('keydown', (event) => {
-  if (event.key === 'Enter' || event.key === ' ') {
-    event.preventDefault();
-    fileInput.click();
-  }
-});
+const composer = el('#composer');
 ['dragenter', 'dragover'].forEach((name) => {
-  dropZone.addEventListener(name, (event) => {
+  composer.addEventListener(name, (event) => {
     event.preventDefault();
-    dropZone.dataset.active = 'true';
+    composer.dataset.drag = 'true';
   });
 });
-['dragleave', 'dragend'].forEach((name) => {
-  dropZone.addEventListener(name, () => {
-    dropZone.dataset.active = 'false';
+['dragleave', 'dragend', 'drop'].forEach((name) => {
+  composer.addEventListener(name, () => {
+    composer.dataset.drag = 'false';
   });
 });
-dropZone.addEventListener('drop', (event) => {
+composer.addEventListener('drop', (event) => {
   event.preventDefault();
-  dropZone.dataset.active = 'false';
   const file = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
-  if (file) handleFileSelection(file);
-});
-
-el('#loadDemo').addEventListener('click', () => {
-  payload.value = JSON.stringify(demo, null, 2);
-  setStatus('Демо завантажено.', 'ok');
-});
-
-el('#health').addEventListener('click', async () => {
-  try {
-    const {data} = await fetchJson('/health');
-    renderJson(data);
-    setStatus('Health отримано.', 'ok');
-  } catch (error) {
-    setStatus(error.message, 'error');
+  if (file) {
+    setPendingFile(file);
+    submit();
   }
 });
 
-el('#run').addEventListener('click', () => runAnalysis().catch((error) => setStatus(error.message, 'error')));
-el('#runHero').addEventListener('click', () => el('#console').scrollIntoView({behavior: 'smooth'}));
-el('#refreshSystem').addEventListener('click', () => refreshSystem().catch((error) => setStatus(error.message, 'error')));
-el('#refreshContracts').addEventListener('click', () => refreshContracts().catch((error) => setStatus(error.message, 'error')));
+document.querySelectorAll('.chip[data-sample]').forEach((chip) => {
+  chip.addEventListener('click', () => {
+    payload.value = SAMPLES[chip.dataset.sample] || '';
+    autoGrow();
+    payload.focus();
+  });
+});
 
 el('#saveToken').addEventListener('click', () => {
   persistSessionToken();
-  setStatus('Token збережено лише на цю сесію браузера.', 'ok');
+  setStatus('Token збережено лише на цю сесію.', 'ok');
+});
+
+el('.system-drawer').addEventListener('toggle', (event) => {
+  if (event.target.open) loadContracts();
 });
 
 el('#copyOutput').addEventListener('click', async () => {
@@ -457,7 +572,7 @@ el('#copyOutput').addEventListener('click', async () => {
     await navigator.clipboard.writeText(JSON.stringify(lastOutput, null, 2));
     setStatus('JSON скопійовано.', 'ok');
   } catch (error) {
-    setStatus(`Clipboard error: ${error.message}`, 'error');
+    setStatus(`Clipboard: ${error.message}`, 'error');
   }
 });
 
@@ -466,7 +581,7 @@ el('#copyMarkdown').addEventListener('click', async () => {
     await navigator.clipboard.writeText(lastMarkdown || markdownOutput.textContent);
     setStatus('Markdown скопійовано.', 'ok');
   } catch (error) {
-    setStatus(`Clipboard error: ${error.message}`, 'error');
+    setStatus(`Clipboard: ${error.message}`, 'error');
   }
 });
 
@@ -475,14 +590,14 @@ el('#downloadOutput').addEventListener('click', () => {
   const href = URL.createObjectURL(blob);
   const link = document.createElement('a');
   link.href = href;
-  link.download = 'bive-report.json';
+  link.download = `${lastReportId || 'bive-report'}.json`;
   link.click();
   URL.revokeObjectURL(href);
-  setStatus('JSON підготовлено до завантаження.', 'ok');
+  setStatus('JSON завантажується.', 'ok');
 });
 
 const savedToken = sessionStorage.getItem(SESSION_TOKEN_KEY);
 if (savedToken) apiToken.value = savedToken;
 captureUrlToken();
-payload.value = JSON.stringify(demo, null, 2);
-Promise.all([refreshSystem(), refreshContracts()]).catch((error) => setStatus(error.message, 'error'));
+autoGrow();
+refreshStatus();

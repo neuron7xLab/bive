@@ -50,7 +50,7 @@ def test_no_single_sign_requires_family_diversity() -> None:
 
 
 def test_non_escalating_families_are_arousal_context_mitigation() -> None:
-    assert NON_ESCALATING_FAMILIES == frozenset({"affect", "context", "mitigation"})
+    assert frozenset({"affect", "context", "mitigation"}) == NON_ESCALATING_FAMILIES
 
 
 def test_othello_benchmark_specificity_is_perfect() -> None:

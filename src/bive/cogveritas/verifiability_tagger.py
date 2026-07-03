@@ -21,16 +21,6 @@ from .lang import LanguagePack, detect_language, pack_for_code, pack_for_text
 
 _SENT_SPLIT = re.compile(r"(?<=[.!?])\s+|\n+")
 
-# Backward-compatible English aliases (the tagger is now language-parametrized;
-# these remain the default-English anchors for callers that reference them).
-_EN = pack_for_code("en")
-_WORD = _EN.word
-_PROPER = _EN.proper
-_NUMERIC = _EN.numeric
-_TEMPORAL = _EN.temporal
-_SPATIAL = _EN.spatial
-_UNVERIFIABLE = _EN.unverifiable
-
 _MIN_TOKENS = 3
 
 

@@ -189,7 +189,7 @@ _PACKS: dict[str, LanguagePack] = {"en": _EN, "uk": _UK, "ru": _RU}
 # Letters unique to each Cyrillic orthography, used to break the uk/ru tie.
 _UK_ONLY = frozenset("іїєґІЇЄҐ")
 _RU_ONLY = frozenset("ыэъёЫЭЪЁ")
-_CYRILLIC = re.compile(r"[А-Яа-яЀ-ӿ]")
+_CYRILLIC = re.compile(r"[Ѐ-ӿ]")  # full Cyrillic block U+0400–U+04FF
 _LATIN = re.compile(r"[A-Za-z]")
 
 # Function-word tie-break for Cyrillic text that carries no language-unique

@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 272,
+  "test_functions": 277,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -179,6 +179,13 @@
       "test_sentence_initial_pronouns_are_not_entities",
       "test_entities_ranked_by_mention_count",
       "test_service_exposes_entities_verdict_null"
+    ],
+    "tests/test_cogveritas_ingest.py": [
+      "test_srt_flattens_to_speaker_lines",
+      "test_plain_prose_without_filename_is_untouched",
+      "test_unparseable_structured_falls_back_to_raw",
+      "test_json_transcript_yields_speaker_profiles",
+      "test_endpoint_ingests_srt_via_filename_header"
     ],
     "tests/test_cogveritas_lang.py": [
       "test_language_detection",

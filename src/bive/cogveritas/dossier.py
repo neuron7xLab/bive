@@ -48,6 +48,7 @@ _T: dict[str, dict[str, str]] = {
         "claims": "тверджень",
         "h_timeline": "Хронологія",
         "h_entities": "Сутності справи",
+        "h_profiles": "Профілі свідків (перевірюваність)",
         "h_witnesses": "Свідки",
         "h_cross": "Крос-звірка показів свідків",
         "h_conflicts": "Потенційні суперечності — перевірити вручну",
@@ -79,6 +80,7 @@ _T: dict[str, dict[str, str]] = {
         "claims": "утверждений",
         "h_timeline": "Хронология",
         "h_entities": "Сущности дела",
+        "h_profiles": "Профили свидетелей (проверяемость)",
         "h_witnesses": "Свидетели",
         "h_cross": "Кросс-сверка показаний свидетелей",
         "h_conflicts": "Потенциальные противоречия — проверить вручную",
@@ -110,6 +112,7 @@ _T: dict[str, dict[str, str]] = {
         "claims": "claims",
         "h_timeline": "Timeline",
         "h_entities": "Case entities",
+        "h_profiles": "Witness profiles (verifiability)",
         "h_witnesses": "Witnesses",
         "h_cross": "Cross-witness comparison",
         "h_conflicts": "Potential inconsistencies — verify manually",
@@ -161,6 +164,14 @@ def to_dossier_markdown(output: COGVERITASOutput, lang: str = "uk") -> str:
 
     if output.witnesses:
         lines.append(f"**{t['h_witnesses']}:** {', '.join(output.witnesses)}")
+        lines.append("")
+
+    if output.speaker_profiles:
+        lines.append(f"## {t['h_profiles']}")
+        for sp in output.speaker_profiles:
+            lines.append(
+                f"- **{sp.speaker}** — {sp.checkable}/{sp.total} checkable, {sp.unverifiable} unverifiable"
+            )
         lines.append("")
 
     if output.cross_witness:

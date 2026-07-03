@@ -4,8 +4,8 @@ from typing import Any, Literal
 
 from pydantic import BaseModel, ConfigDict, Field
 
-DEFAULT_MAX_SEGMENTS = 2_000
-DEFAULT_MAX_TEXT_CHARS = 10_000
+DEFAULT_MAX_SEGMENTS = 50_000
+DEFAULT_MAX_TEXT_CHARS = 100_000
 
 
 class StrictModel(BaseModel):

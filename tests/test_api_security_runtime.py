@@ -56,7 +56,7 @@ def test_middleware_counts_early_rejected_payload(monkeypatch, tmp_path) -> None
     response = client.post(
         "/api/v1/reports/from-transcript?api-version=2026-06-11",
         content=b"{}",
-        headers={"content-type": "application/json", "content-length": "25000001"},
+        headers={"content-type": "application/json", "content-length": "100000001"},
     )
     after = client.get("/metrics").text
     assert response.status_code == 413

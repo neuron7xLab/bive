@@ -49,10 +49,10 @@ class Settings:
         default_factory=lambda: Path(os.getenv("BIVE_ARTIFACT_DIR", "artifacts"))
     )
     max_upload_bytes: int = field(
-        default_factory=lambda: _int_env("BIVE_MAX_UPLOAD_BYTES", 25_000_000)
+        default_factory=lambda: _int_env("BIVE_MAX_UPLOAD_BYTES", 100_000_000)
     )
-    max_segments: int = field(default_factory=lambda: _int_env("BIVE_MAX_SEGMENTS", 2_000))
-    max_text_chars: int = field(default_factory=lambda: _int_env("BIVE_MAX_TEXT_CHARS", 10_000))
+    max_segments: int = field(default_factory=lambda: _int_env("BIVE_MAX_SEGMENTS", 50_000))
+    max_text_chars: int = field(default_factory=lambda: _int_env("BIVE_MAX_TEXT_CHARS", 100_000))
     api_token: str | None = field(default_factory=lambda: os.getenv("BIVE_API_TOKEN") or None)
     allow_person_level_verdicts: bool = field(
         default_factory=lambda: _bool_env("BIVE_ALLOW_PERSON_LEVEL_VERDICTS", False)

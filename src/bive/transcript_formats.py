@@ -40,6 +40,12 @@ SUPPORTED_FORMATS: tuple[str, ...] = ("json", "jsonl", "srt", "vtt", "csv", "txt
 _DEFAULT_SUBJECT_SCOPE = "single_session"
 _DEFAULT_SPEAKER = "unknown"
 
+# Segments longer than this are split on sentence boundaries so that a large
+# pasted document (one giant line/paragraph) never exceeds the API's per-segment
+# text limit. Kept well under the default 10_000-char cap.
+_MAX_SEGMENT_CHARS = 4_000
+_SENTENCE_SPLIT = re.compile(r"(?<=[.!?…。])\s+|\n+")
+
 # "Name: spoken text" with a short, human-plausible speaker label. Kept narrow so
 # that ordinary sentences containing a colon are not mistaken for speaker turns.
 _SPEAKER_PREFIX = re.compile(r"^(?P<speaker>[\w .'\-]{1,40}?)\s*:\s+(?P<text>\S.*)$")
@@ -138,11 +144,12 @@ def parse_transcript(
         )
     parser = _PARSERS[resolved]
     scope, segments = parser(content)
-    segments = [seg for seg in (_clean_segment(s) for s in segments) if seg is not None]
-    if not segments:
+    cleaned = [seg for seg in (_clean_segment(s) for s in segments) if seg is not None]
+    if not cleaned:
         raise TranscriptFormatError(f"no non-empty transcript segments found in {resolved} input")
+    cleaned = _split_long_segments(cleaned)
     final_scope = (subject_scope or scope or _DEFAULT_SUBJECT_SCOPE).strip() or _DEFAULT_SUBJECT_SCOPE
-    return {"subject_scope": final_scope, "segments": segments}
+    return {"subject_scope": final_scope, "segments": cleaned}
 
 
 # --------------------------------------------------------------------------- #
@@ -347,6 +354,73 @@ def _clean_segment(raw: Mapping[str, Any]) -> dict[str, Any] | None:
     if end is not None:
         segment["end"] = end
     return segment
+
+
+def _split_long_segments(segments: list[dict[str, Any]]) -> list[dict[str, Any]]:
+    """Split any segment whose text exceeds the per-segment cap.
+
+    A pasted document often arrives as one enormous line or paragraph. Rather
+    than reject it, break the text on sentence boundaries (falling back to a
+    hard word/character split for a single oversized sentence) so every emitted
+    segment stays within the API's text-length limit. Speaker and timing are
+    preserved on each produced chunk. Segments already within the cap pass
+    through untouched, so ordinary transcripts are unaffected.
+    """
+    result: list[dict[str, Any]] = []
+    for segment in segments:
+        text = str(segment["text"])
+        if len(text) <= _MAX_SEGMENT_CHARS:
+            result.append(segment)
+            continue
+        for chunk in _chunk_text(text):
+            piece = dict(segment)
+            piece["text"] = chunk
+            result.append(piece)
+    return result
+
+
+def _chunk_text(text: str) -> list[str]:
+    chunks: list[str] = []
+    buffer = ""
+    for sentence in _SENTENCE_SPLIT.split(text):
+        sentence = sentence.strip()
+        if not sentence:
+            continue
+        if len(sentence) > _MAX_SEGMENT_CHARS:
+            if buffer:
+                chunks.append(buffer)
+                buffer = ""
+            chunks.extend(_hard_split(sentence))
+            continue
+        if buffer and len(buffer) + 1 + len(sentence) > _MAX_SEGMENT_CHARS:
+            chunks.append(buffer)
+            buffer = sentence
+        else:
+            buffer = f"{buffer} {sentence}".strip()
+    if buffer:
+        chunks.append(buffer)
+    return chunks
+
+
+def _hard_split(sentence: str) -> list[str]:
+    chunks: list[str] = []
+    buffer = ""
+    for word in sentence.split():
+        if len(word) > _MAX_SEGMENT_CHARS:
+            if buffer:
+                chunks.append(buffer)
+                buffer = ""
+            for start in range(0, len(word), _MAX_SEGMENT_CHARS):
+                chunks.append(word[start : start + _MAX_SEGMENT_CHARS])
+            continue
+        if buffer and len(buffer) + 1 + len(word) > _MAX_SEGMENT_CHARS:
+            chunks.append(buffer)
+            buffer = word
+        else:
+            buffer = f"{buffer} {word}".strip()
+    if buffer:
+        chunks.append(buffer)
+    return chunks
 
 
 def _split_speaker(line: str) -> tuple[str, str]:

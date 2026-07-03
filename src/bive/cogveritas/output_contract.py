@@ -112,6 +112,7 @@ class COGVERITASOutput(BaseModel):
     calibration_ci: tuple[float, float] | None = None
     ordinal_flag: OrdinalFlag
     audit_trail: list[ProvenanceNode]
+    detected_language: str = "en"
     verdict: None = None
 
     @model_validator(mode="after")
@@ -146,6 +147,7 @@ def build_output(
     corroboration_worklist: list[WorklistItem] | None = None,
     timeline: list[TimelineEntry] | None = None,
     conflicts: list[ConflictItem] | None = None,
+    detected_language: str = "en",
     calibrated_probability: float | None = None,
     calibration_ci: tuple[float, float] | None = None,
     ece: float | None = None,
@@ -173,5 +175,6 @@ def build_output(
         calibration_ci=ci,
         ordinal_flag=ordinal,
         audit_trail=audit_trail,
+        detected_language=detected_language,
         verdict=None,
     )

@@ -49,6 +49,7 @@ let pendingFile = null;
 let lastOutput = {};
 let lastMarkdown = '';
 let lastReportId = '';
+let lastVerifyInput = '';
 let contractsLoaded = false;
 let busy = false;
 
@@ -909,6 +910,32 @@ function methodologyDisclosure() {
   return why;
 }
 
+// Export the current verifiability review as a printable Markdown dossier.
+async function downloadDossier() {
+  if (!lastVerifyInput) {
+    setStatus('Немає даних для досьє — спершу зроби перевірку.', 'error');
+    return;
+  }
+  setStatus('Готую досьє…', 'busy');
+  try {
+    const md = await fetchText(apiUrl('/api/v1/cogveritas/verifiability') + '&format=markdown', {
+      method: 'POST',
+      headers: {'content-type': 'text/plain; charset=utf-8'},
+      body: lastVerifyInput,
+    });
+    const blob = new Blob([md], {type: 'text/markdown;charset=utf-8'});
+    const url = URL.createObjectURL(blob);
+    const a = make('a');
+    a.href = url;
+    a.download = 'cogveritas-dossier.md';
+    a.click();
+    URL.revokeObjectURL(url);
+    setStatus('Досьє завантажено.', 'ok');
+  } catch (error) {
+    setStatus(`Не вдалося: ${error.message}`, 'error');
+  }
+}
+
 function renderVerifiability(data) {
   dismissHero();
   const msg = make('article', 'msg');
@@ -1021,6 +1048,13 @@ function renderVerifiability(data) {
   }
 
   const foot = make('div', 'report__foot');
+  const actions = make('div', 'foot-actions');
+  const dl = make('button', 'btn btn--ghost');
+  dl.type = 'button';
+  text(dl, 'Завантажити досьє (.md)');
+  dl.addEventListener('click', () => downloadDossier());
+  actions.append(dl);
+  foot.append(actions);
   const disc = make('p', 'disclaimer');
   text(disc, 'COGVERITAS не визначає, чи людина бреше. Він виділяє зовнішньо перевірювані твердження, ставить питання для корроборації і зберігає provenance. Жодних ймовірностей поза доменом.');
   foot.append(disc);
@@ -1072,6 +1106,7 @@ async function verifiability() {
   try {
     const content = await resolveVerifiabilityInput();
     if (content === null) return; // blocking notice already shown
+    lastVerifyInput = content; // kept so the dossier can be exported
     setStatus('Перевіряю зовнішню перевірюваність…', 'busy');
     const {data} = await fetchJson(apiUrl('/api/v1/cogveritas/verifiability'), {
       method: 'POST',

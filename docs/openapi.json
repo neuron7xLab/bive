@@ -496,9 +496,20 @@
     },
     "/api/v1/cogveritas/verifiability": {
       "post": {
-        "description": "Fail-closed external-fact verifiability review of raw text.\n\nReturns the COGVERITAS contract: a verifiability gap, concrete corroboration\nquestions, per-claim provenance and ordinal flags. ``verdict`` is always\n``null`` and no probability is emitted (cross-domain calibration is not\ndemonstrated) — this is an evidence-review surface, not a lie detector.",
+        "description": "Fail-closed external-fact verifiability review of raw text.\n\nReturns the COGVERITAS contract: a verifiability gap, concrete corroboration\nquestions, per-claim provenance and ordinal flags. ``verdict`` is always\n``null`` and no probability is emitted (cross-domain calibration is not\ndemonstrated) — this is an evidence-review surface, not a lie detector.\n\n``format=markdown`` returns the same review as a printable analyst dossier.",
         "operationId": "cogveritas_verifiability_api_v1_cogveritas_verifiability_post",
         "parameters": [
+          {
+            "in": "query",
+            "name": "format",
+            "required": false,
+            "schema": {
+              "default": "json",
+              "pattern": "^(json|markdown)$",
+              "title": "Format",
+              "type": "string"
+            }
+          },
           {
             "in": "query",
             "name": "api-version",
@@ -553,9 +564,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "additionalProperties": true,
-                  "title": "Response Cogveritas Verifiability Api V1 Cogveritas Verifiability Post",
-                  "type": "object"
+                  "title": "Response Cogveritas Verifiability Api V1 Cogveritas Verifiability Post"
                 }
               }
             },

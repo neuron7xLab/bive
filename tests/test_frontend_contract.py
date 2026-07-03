@@ -58,6 +58,9 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     assert "data.timeline" in js
     assert "data.conflicts" in js
     assert "negation_polarity" in js and "figure_mismatch" in js
+    # The analyst dossier must be exportable.
+    assert "downloadDossier" in js
+    assert "format=markdown" in js
 
 
 def test_frontend_token_is_session_bounded() -> None:

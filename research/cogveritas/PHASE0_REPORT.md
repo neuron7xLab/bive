@@ -123,6 +123,30 @@ constructs carry *some* cross-domain signal, which pure lexical leakage would no
 calibration collapses immediately off-distribution.** This is the honest ceiling
 of passive verbal deception screening.
 
+## Phase 3 — leakage & bias audit (`leakage_audit.py`)
+The audit's #1 discipline: *treat any AUC ≥ 0.85 as a bug until proven otherwise.*
+
+**Test 1 — does the TF-IDF "SOTA" transfer cross-corpus?**
+| Model | in-domain | cross-corpus (→ Diplomacy) |
+|---|---|---|
+| TF-IDF 1–2gram | 0.955 | **0.510 (chance)** |
+| verbal-science | 0.75 | **0.601** |
+The 0.955 "SOTA" **collapses to pure chance** off-domain — it learned Op-Spam's
+lexical/topical surface (hotel vocabulary, MTurk register), not deception. The
+interpretable model **retains above-chance signal** (0.601). High accuracy that
+does not transfer is leakage, not a deception detector.
+
+**Test 2 — Mambreyan-analog shortcut.** Content-free style features (punctuation,
+word length, uppercase and stopword ratios — *zero* deception meaning) alone
+reach **AUC 0.653** in-domain. So a large share of any Op-Spam classifier's
+in-domain score is a **source-style shortcut** (MTurk vs web authors write
+differently), not deception. This is the text analogue of Mambreyan et al.'s
+sex-only classifier matching multimodal "SOTA" on the Real-Life Trial data.
+
+**Consequence:** in-domain deception numbers are inflated by source artifacts; the
+only signal that survives off-domain is the modest (~0.60) interpretable-construct
+transfer. Any headline ≥ 0.85 must be assumed leakage until cross-corpus proven.
+
 ## Final verdict (empirical ground truth)
 1. Interpretable, causally-grounded verbal features are a **real, mechanistically
    coherent** deception-screening signal — but a **modest** one (~0.75 in-domain,

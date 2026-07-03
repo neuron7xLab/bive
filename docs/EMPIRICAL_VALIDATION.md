@@ -37,6 +37,15 @@ Construct validity: every coefficient matches the literature —
 `first-person-singular → deceptive`, `spatial/temporal detail → truthful`
 (Reality Monitoring), `exclusive words → truthful`.
 
+## Leakage & bias audit (`research/cogveritas/leakage_audit.py`)
+- **The TF-IDF "SOTA" is leakage.** Cross-corpus (Ott → Diplomacy) it collapses
+  from 0.955 to **0.510 (chance)**; the interpretable model holds **0.601**. High
+  accuracy that does not transfer is not a deception signal.
+- **Shortcut probe (Mambreyan analogue).** Content-free style alone (punctuation,
+  word length, stopword ratios) reaches **AUC 0.653** in-domain — much of Op-Spam
+  separability is a source-style artifact, not deception. **Any headline ≥ 0.85
+  is assumed leakage until cross-corpus proven.**
+
 ## What this means for the product
 1. **Discrimination is real but modest** (~0.75 in-domain, ~0.61–0.72 out) and
    **degrades gracefully with domain distance**.

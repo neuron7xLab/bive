@@ -445,6 +445,85 @@
         "summary": "Capabilities"
       }
     },
+    "/api/v1/cogveritas/case": {
+      "post": {
+        "description": "Verifiability review with an analyst corroboration-status overlay.\n\nBody: ``{\"text\": str, \"statuses\": {claim_id: {\"status\": \"pending|confirmed|\nrefuted\", \"note\": str}}, \"format\": \"json\"|\"markdown\"}``. Statuses record a\n*human's* findings against external records and drive the verification-progress\ntally. ``verdict`` is still always ``null``.",
+        "operationId": "cogveritas_case_api_v1_cogveritas_case_post",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "api-version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Api-Version"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-bive-api-key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cogveritas Case Api V1 Cogveritas Case Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cogveritas Case"
+      }
+    },
     "/api/v1/cogveritas/methodology": {
       "get": {
         "description": "The evidence behind the no-verdict posture — machine-discoverable honesty.\n\nReturns the structured empirical contract (the negative result that forces\nthe no-verdict invariant, the calibration policy, and provenance) so a client\ncan answer \"why is there no verdict?\" without a human reading the docs. No\nauth required: this is a public statement of the system's own limits.",

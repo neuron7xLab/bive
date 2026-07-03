@@ -613,6 +613,51 @@ async def cogveritas_verifiability(
     return to_public_dict(analyze_verifiability(text))
 
 
+@app.post(
+    "/api/v1/cogveritas/case",
+    dependencies=[Depends(require_api_version), Depends(require_api_auth)],
+)
+async def cogveritas_case(request: Request) -> Any:
+    """Verifiability review with an analyst corroboration-status overlay.
+
+    Body: ``{"text": str, "statuses": {claim_id: {"status": "pending|confirmed|
+    refuted", "note": str}}, "format": "json"|"markdown"}``. Statuses record a
+    *human's* findings against external records and drive the verification-progress
+    tally. ``verdict`` is still always ``null``.
+    """
+    try:
+        payload = await request.json()
+    except Exception as exc:  # noqa: BLE001 - any malformed body is a client error
+        raise HTTPException(status_code=422, detail="invalid_json") from exc
+    if not isinstance(payload, dict):
+        raise HTTPException(status_code=422, detail="expected_json_object")
+    text = payload.get("text")
+    if not isinstance(text, str) or not text.strip():
+        raise HTTPException(status_code=422, detail="empty_input")
+    if len(text) > settings.max_text_chars * settings.max_segments:
+        raise HTTPException(status_code=413, detail="payload_too_large")
+    raw_statuses = payload.get("statuses") or {}
+    if not isinstance(raw_statuses, dict):
+        raise HTTPException(status_code=422, detail="invalid_statuses")
+    statuses: dict[str, dict[str, str]] = {
+        str(k): {
+            "status": str(v.get("status", "pending")),
+            "note": str(v.get("note", "")),
+        }
+        for k, v in raw_statuses.items()
+        if isinstance(v, dict)
+    }
+    fmt = payload.get("format", "json")
+
+    from .cogveritas.service import analyze_dossier_markdown, analyze_verifiability, to_public_dict
+
+    if fmt == "markdown":
+        return PlainTextResponse(
+            analyze_dossier_markdown(text, statuses), media_type="text/markdown; charset=utf-8"
+        )
+    return to_public_dict(analyze_verifiability(text, statuses))
+
+
 @app.get(
     "/api/v1/cogveritas/methodology",
     dependencies=[Depends(require_api_version)],

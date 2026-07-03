@@ -27,8 +27,16 @@ from .witness import analyze_by_speaker, cross_witness, distinct_speakers
 from .worklist import corroboration_worklist
 
 
-def analyze_verifiability(text: str) -> COGVERITASOutput:
-    """Run the fail-closed verifiability review. ``verdict`` is always ``None``."""
+def analyze_verifiability(
+    text: str, statuses: dict[str, dict[str, str]] | None = None
+) -> COGVERITASOutput:
+    """Run the fail-closed verifiability review. ``verdict`` is always ``None``.
+
+    ``statuses`` is an optional analyst overlay keyed by ``claim_id`` — each entry
+    may carry a corroboration ``status`` (pending/confirmed/refuted) and a ``note``,
+    recording a *human's* finding against external records. The system never sets
+    these itself; it only echoes them and tallies verification progress.
+    """
     lang = detect_language(text)
     _, claims = analyze(text)
     nodes = [
@@ -53,6 +61,22 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
             )
         ]
     worklist = [WorklistItem(**item) for item in corroboration_worklist(claims)]  # type: ignore[arg-type]
+    if statuses:
+        # Overlay the analyst's corroboration findings; only known statuses apply.
+        _valid = {"pending", "confirmed", "refuted"}
+        worklist = [
+            item.model_copy(
+                update={
+                    "status": s.get("status", item.status)
+                    if s.get("status", item.status) in _valid
+                    else item.status,
+                    "note": s.get("note", item.note),
+                }
+            )
+            if (s := statuses.get(item.claim_id))
+            else item
+            for item in worklist
+        ]
     timeline = [TimelineEntry(**entry) for entry in build_timeline(claims)]  # type: ignore[arg-type]
     conflicts = [ConflictItem(**c) for c in detect_conflicts(claims)]  # type: ignore[arg-type]
     entities = [EntityRef(**e) for e in extract_entities(claims)]  # type: ignore[arg-type]
@@ -85,7 +109,7 @@ def to_public_dict(output: COGVERITASOutput) -> dict[str, object]:
     return output.model_dump()
 
 
-def analyze_dossier_markdown(text: str) -> str:
+def analyze_dossier_markdown(text: str, statuses: dict[str, dict[str, str]] | None = None) -> str:
     """Full verifiability review rendered as a printable analyst dossier."""
-    output = analyze_verifiability(text)
+    output = analyze_verifiability(text, statuses)
     return to_dossier_markdown(output, output.detected_language)

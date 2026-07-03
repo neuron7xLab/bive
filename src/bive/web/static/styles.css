@@ -613,7 +613,20 @@ textarea {
   border-left: 2px solid var(--accent, #ffc46f);
   padding: 6px 0 6px 12px;
 }
+.worklist__progress { margin: 0 0 10px; color: var(--text-3); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+.worklist__head { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .worklist__claim { margin: 0 0 6px; color: var(--text-2); font-size: var(--fs-sm); }
+.statusbtn {
+  flex: 0 0 auto; cursor: pointer;
+  padding: 2px 10px; border-radius: 999px;
+  font-size: var(--fs-2xs, 11px); font-weight: 600;
+  border: 1px solid var(--line, rgba(255, 255, 255, 0.14));
+  background: transparent; color: var(--text-3);
+}
+.statusbtn[data-status="confirmed"] { color: var(--good, #7bd88f); border-color: var(--good, #7bd88f); }
+.statusbtn[data-status="refuted"] { color: var(--bad, #ff6b6b); border-color: var(--bad, #ff6b6b); }
+.worklist__item[data-status="confirmed"] { border-left-color: var(--good, #7bd88f); }
+.worklist__item[data-status="refuted"] { border-left-color: var(--bad, #ff6b6b); }
 .worklist__records { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
 .worklist__record { display: flex; align-items: center; gap: 8px; color: var(--text-3); font-size: var(--fs-xs); }
 .worklist__record .question__mark { flex: 0 0 auto; }

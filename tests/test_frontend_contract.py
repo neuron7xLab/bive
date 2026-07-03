@@ -58,15 +58,19 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     assert "data.timeline" in js
     assert "data.conflicts" in js
     assert "negation_polarity" in js and "figure_mismatch" in js
-    # The analyst dossier must be exportable.
+    # The analyst dossier must be exportable (via the case endpoint, statuses baked in).
     assert "downloadDossier" in js
-    assert "format=markdown" in js
+    assert "format: 'markdown'" in js
     # Cross-witness comparison must render.
     assert "data.cross_witness" in js
     assert "cross_corroboration" in js and "cross_contradiction" in js
     # Case entity index must render.
     assert "data.entities" in js
     assert "canonical" in js
+    # Corroboration status tracking (analyst overlay) must be wired, session-bounded.
+    assert "caseStatuses" in js
+    assert "apiUrl('/api/v1/cogveritas/case')" in js
+    assert "verification_progress" not in js or "Прогрес" in js  # progress surfaced
 
 
 def test_frontend_token_is_session_bounded() -> None:

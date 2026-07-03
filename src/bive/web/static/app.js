@@ -50,6 +50,7 @@ let lastOutput = {};
 let lastMarkdown = '';
 let lastReportId = '';
 let lastVerifyInput = '';
+let caseStatuses = {};
 let contractsLoaded = false;
 let busy = false;
 
@@ -911,6 +912,30 @@ function methodologyDisclosure() {
 }
 
 // Export the current verifiability review as a printable Markdown dossier.
+// Corroboration status is analyst state, kept per-input in this browser session.
+const STATUS_CYCLE = ['pending', 'confirmed', 'refuted'];
+const STATUS_LABEL = {pending: 'очікує', confirmed: 'підтверджено', refuted: 'спростовано'};
+
+function caseKey(t) {
+  let h = 5381;
+  for (let i = 0; i < t.length; i += 1) h = ((h << 5) + h + t.charCodeAt(i)) | 0;
+  return `cogv:${h >>> 0}`;
+}
+function loadCaseStatuses(key) {
+  try {
+    return JSON.parse(sessionStorage.getItem(key) || '{}') || {};
+  } catch (e) {
+    return {};
+  }
+}
+function saveCaseStatuses(key) {
+  try {
+    sessionStorage.setItem(key, JSON.stringify(caseStatuses));
+  } catch (e) {
+    /* session storage unavailable — statuses stay in-memory only */
+  }
+}
+
 async function downloadDossier() {
   if (!lastVerifyInput) {
     setStatus('Немає даних для досьє — спершу зроби перевірку.', 'error');
@@ -918,10 +943,10 @@ async function downloadDossier() {
   }
   setStatus('Готую досьє…', 'busy');
   try {
-    const md = await fetchText(apiUrl('/api/v1/cogveritas/verifiability') + '&format=markdown', {
+    const md = await fetchText(apiUrl('/api/v1/cogveritas/case'), {
       method: 'POST',
-      headers: {'content-type': 'text/plain; charset=utf-8'},
-      body: lastVerifyInput,
+      headers: {'content-type': 'application/json'},
+      body: JSON.stringify({text: lastVerifyInput, statuses: caseStatuses, format: 'markdown'}),
     });
     const blob = new Blob([md], {type: 'text/markdown;charset=utf-8'});
     const url = URL.createObjectURL(blob);
@@ -1055,12 +1080,47 @@ function renderVerifiability(data) {
 
   if ((data.corroboration_worklist || []).length) {
     const ws = section(details, 'Лист корроборації — що перевірити');
+    const key = caseKey(lastVerifyInput);
+    caseStatuses = loadCaseStatuses(key);
+    const items = data.corroboration_worklist;
+    const progress = make('p', 'worklist__progress');
+    const renderProgress = () => {
+      let c = 0;
+      let r = 0;
+      items.forEach((it) => {
+        const st = (caseStatuses[it.claim_id] || {}).status || 'pending';
+        if (st === 'confirmed') c += 1;
+        else if (st === 'refuted') r += 1;
+      });
+      text(progress, `Прогрес: підтверджено ${c} · спростовано ${r} · очікує ${items.length - c - r} / ${items.length}`);
+    };
+    renderProgress();
+    ws.append(progress);
     const wl = make('ul', 'worklist');
-    data.corroboration_worklist.forEach((item) => {
+    items.forEach((item) => {
       const li = make('li', 'worklist__item');
+      const head = make('div', 'worklist__head');
       const q = make('p', 'worklist__claim');
       text(q, `«${item.quote}»`);
-      li.append(q);
+      const btn = make('button', 'statusbtn');
+      btn.type = 'button';
+      const paint = () => {
+        const st = (caseStatuses[item.claim_id] || {}).status || 'pending';
+        btn.dataset.status = st;
+        li.dataset.status = st;
+        text(btn, STATUS_LABEL[st]);
+      };
+      btn.addEventListener('click', () => {
+        const cur = (caseStatuses[item.claim_id] || {}).status || 'pending';
+        const next = STATUS_CYCLE[(STATUS_CYCLE.indexOf(cur) + 1) % STATUS_CYCLE.length];
+        caseStatuses[item.claim_id] = {status: next, note: (caseStatuses[item.claim_id] || {}).note || ''};
+        saveCaseStatuses(key);
+        paint();
+        renderProgress();
+      });
+      paint();
+      head.append(q, btn);
+      li.append(head);
       const rl = make('ul', 'worklist__records');
       (item.record_types || []).forEach((r) => {
         const rli = make('li', 'worklist__record');

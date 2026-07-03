@@ -279,6 +279,7 @@ tests/test_cli_strict_contract.py
 tests/test_cognitive_control_plane.py
 tests/test_cogveritas.py
 tests/test_cogveritas_api.py
+tests/test_cogveritas_case.py
 tests/test_cogveritas_dossier.py
 tests/test_cogveritas_entities.py
 tests/test_cogveritas_lang.py

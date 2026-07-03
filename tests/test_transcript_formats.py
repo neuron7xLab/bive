@@ -80,6 +80,28 @@ def test_detect_format_empty_raises() -> None:
         detect_format("   \n  ")
 
 
+def test_prose_with_commas_is_txt_not_csv() -> None:
+    # The primary "type into the chat box" case: comma-laden prose must not be
+    # mistaken for CSV. It parses as speaker-labelled plain text.
+    prose = (
+        "subject: Я ніколи не отримував ці кошти, повірте, немає потреби перевіряти.\n"
+        "subject: Я отримав ці кошти пізніше, але це не моя відповідальність."
+    )
+    assert detect_format(prose) == "txt"
+    payload = parse_transcript(prose)
+    assert payload["segments"][0]["speaker"] == "subject"
+    assert "ніколи" in payload["segments"][0]["text"]
+
+
+def test_csv_still_detected_by_header() -> None:
+    assert detect_format(CSV_WITH_HEADER) == "csv"
+
+
+def test_headerless_csv_forced_by_extension() -> None:
+    # No header, but an explicit .csv name still routes to the CSV parser.
+    assert detect_format(CSV_HEADERLESS, "case.csv") == "csv"
+
+
 def test_parse_srt_timecodes_and_speaker() -> None:
     payload = parse_transcript(SRT, filename="case.srt")
     assert payload["subject_scope"] == "single_session"

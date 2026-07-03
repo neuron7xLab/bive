@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 166,
+  "test_functions": 169,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -219,6 +219,9 @@
       "test_detect_format_by_extension",
       "test_detect_format_by_content_without_filename",
       "test_detect_format_empty_raises",
+      "test_prose_with_commas_is_txt_not_csv",
+      "test_csv_still_detected_by_header",
+      "test_headerless_csv_forced_by_extension",
       "test_parse_srt_timecodes_and_speaker",
       "test_parse_vtt_voice_tags_and_notes",
       "test_parse_csv_with_and_without_header",

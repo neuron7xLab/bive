@@ -41,6 +41,7 @@ _T: dict[str, dict[str, str]] = {
         "gap": "Розрив перевірюваності",
         "claims": "тверджень",
         "h_timeline": "Хронологія",
+        "h_entities": "Сутності справи",
         "h_witnesses": "Свідки",
         "h_cross": "Крос-звірка показів свідків",
         "h_conflicts": "Потенційні суперечності — перевірити вручну",
@@ -70,6 +71,7 @@ _T: dict[str, dict[str, str]] = {
         "gap": "Разрыв проверяемости",
         "claims": "утверждений",
         "h_timeline": "Хронология",
+        "h_entities": "Сущности дела",
         "h_witnesses": "Свидетели",
         "h_cross": "Кросс-сверка показаний свидетелей",
         "h_conflicts": "Потенциальные противоречия — проверить вручную",
@@ -99,6 +101,7 @@ _T: dict[str, dict[str, str]] = {
         "gap": "Verifiability gap",
         "claims": "claims",
         "h_timeline": "Timeline",
+        "h_entities": "Case entities",
         "h_witnesses": "Witnesses",
         "h_cross": "Cross-witness comparison",
         "h_conflicts": "Potential inconsistencies — verify manually",
@@ -138,6 +141,14 @@ def to_dossier_markdown(output: COGVERITASOutput, lang: str = "uk") -> str:
     lines.append(f"**{t['gap']}:** {gap.get(output.verifiability_gap, output.verifiability_gap)} · "
                  f"**{t['claims']}:** {len(output.audit_trail)}")
     lines.append("")
+
+    if output.entities:
+        lines.append(f"## {t['h_entities']}")
+        for e in output.entities:
+            forms = ", ".join(f for f in e.forms if f != e.canonical)
+            suffix = f" ({forms})" if forms else ""
+            lines.append(f"- **{e.canonical}** — ×{e.count}{suffix}")
+        lines.append("")
 
     if output.witnesses:
         lines.append(f"**{t['h_witnesses']}:** {', '.join(output.witnesses)}")

@@ -9,11 +9,13 @@ from __future__ import annotations
 
 from .corroboration import corroboration_questions, unverifiable_notes, verifiability_gap
 from .dossier import to_dossier_markdown
+from .entities import extract_entities
 from .lang import detect_language
 from .output_contract import (
     COGVERITASOutput,
     ConflictItem,
     CrossWitnessItem,
+    EntityRef,
     ProvenanceNode,
     TimelineEntry,
     WorklistItem,
@@ -53,6 +55,7 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
     worklist = [WorklistItem(**item) for item in corroboration_worklist(claims)]  # type: ignore[arg-type]
     timeline = [TimelineEntry(**entry) for entry in build_timeline(claims)]  # type: ignore[arg-type]
     conflicts = [ConflictItem(**c) for c in detect_conflicts(claims)]  # type: ignore[arg-type]
+    entities = [EntityRef(**e) for e in extract_entities(claims)]  # type: ignore[arg-type]
     # Cross-witness: only meaningful when the input names more than one speaker.
     speaker_claims = analyze_by_speaker(text)
     speakers = distinct_speakers(speaker_claims)
@@ -69,6 +72,7 @@ def analyze_verifiability(text: str) -> COGVERITASOutput:
         corroboration_worklist=worklist,
         timeline=timeline,
         conflicts=conflicts,
+        entities=entities,
         witnesses=speakers if len(speakers) > 1 else [],
         cross_witness=cross,
         detected_language=lang,

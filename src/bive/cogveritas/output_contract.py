@@ -97,6 +97,21 @@ class ConflictItem(BaseModel):
     quotes: list[str]
 
 
+class EntityRef(BaseModel):
+    """A named entity clustered from its inflected mentions across the case.
+
+    ``canonical`` is a representative surface form; ``forms`` are the observed
+    variants; ``claim_ids`` index where it appears. An occurrence index, not a
+    judgment about the entity.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    canonical: str
+    forms: list[str] = []
+    count: int = 0
+    claim_ids: list[str] = []
+
+
 class CrossWitnessItem(BaseModel):
     """A cross-speaker relation — a contradiction to resolve or a corroboration.
 
@@ -122,6 +137,7 @@ class COGVERITASOutput(BaseModel):
     corroboration_worklist: list[WorklistItem] = []
     timeline: list[TimelineEntry] = []
     conflicts: list[ConflictItem] = []
+    entities: list[EntityRef] = []
     witnesses: list[str] = []
     cross_witness: list[CrossWitnessItem] = []
     calibrated_probability: float | None = None
@@ -163,6 +179,7 @@ def build_output(
     corroboration_worklist: list[WorklistItem] | None = None,
     timeline: list[TimelineEntry] | None = None,
     conflicts: list[ConflictItem] | None = None,
+    entities: list[EntityRef] | None = None,
     witnesses: list[str] | None = None,
     cross_witness: list[CrossWitnessItem] | None = None,
     detected_language: str = "en",
@@ -189,6 +206,7 @@ def build_output(
         corroboration_worklist=corroboration_worklist or [],
         timeline=timeline or [],
         conflicts=conflicts or [],
+        entities=entities or [],
         witnesses=witnesses or [],
         cross_witness=cross_witness or [],
         calibrated_probability=prob,

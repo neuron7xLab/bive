@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 232,
+  "test_functions": 237,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -156,6 +156,13 @@
       "test_verifiability_requires_api_version",
       "test_verifiability_fails_closed_on_empty",
       "test_verifiability_gap_is_ordinal_not_probability"
+    ],
+    "tests/test_cogveritas_lang.py": [
+      "test_language_detection",
+      "test_ukrainian_end_to_end_separates_checkable_from_opinion",
+      "test_russian_produces_russian_phrasing",
+      "test_opinion_markers_are_language_specific",
+      "test_english_regression_still_english"
     ],
     "tests/test_dependency_contracts.py": [
       "test_dependency_contract_script_passes",

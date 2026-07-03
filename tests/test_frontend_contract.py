@@ -51,6 +51,9 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     assert "methodologyDisclosure" in js
     assert "apiUrl('/api/v1/cogveritas/methodology')" in js
     assert "empirical_law" in js
+    # The corroboration worklist (record-type routing) must render.
+    assert "corroboration_worklist" in js
+    assert "record_types" in js
 
 
 def test_frontend_token_is_session_bounded() -> None:

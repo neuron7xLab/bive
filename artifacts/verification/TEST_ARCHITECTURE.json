@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 237,
+  "test_functions": 243,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -163,6 +163,14 @@
       "test_russian_produces_russian_phrasing",
       "test_opinion_markers_are_language_specific",
       "test_english_regression_still_english"
+    ],
+    "tests/test_cogveritas_worklist.py": [
+      "test_money_claim_routes_to_financial_records",
+      "test_phone_claim_routes_to_telecom",
+      "test_place_and_time_routes_to_cctv",
+      "test_signed_document_is_checkable_and_routed",
+      "test_pure_opinion_is_not_in_worklist",
+      "test_english_worklist_uses_english_labels"
     ],
     "tests/test_dependency_contracts.py": [
       "test_dependency_contract_script_passes",

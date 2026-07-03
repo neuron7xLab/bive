@@ -608,6 +608,15 @@ textarea {
 .why__law { margin: 0 0 8px; color: var(--text-2); }
 .why__findings { margin: 0 0 8px; padding-left: 18px; display: flex; flex-direction: column; gap: 4px; }
 .why__prov { margin: 0; font-style: italic; opacity: 0.8; }
+.worklist { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 12px; }
+.worklist__item {
+  border-left: 2px solid var(--accent, #ffc46f);
+  padding: 6px 0 6px 12px;
+}
+.worklist__claim { margin: 0 0 6px; color: var(--text-2); font-size: var(--fs-sm); }
+.worklist__records { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.worklist__record { display: flex; align-items: center; gap: 8px; color: var(--text-3); font-size: var(--fs-xs); }
+.worklist__record .question__mark { flex: 0 0 auto; }
 
 /* Skeleton (loading) */
 .skeleton {

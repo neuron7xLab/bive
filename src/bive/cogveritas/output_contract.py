@@ -59,6 +59,20 @@ class ProvenanceNode(BaseModel):
     agent: str = "bive.cogveritas.verifiability_tagger"
 
 
+class WorklistItem(BaseModel):
+    """One checkable claim routed to the record types that would corroborate it.
+
+    ``quote`` is verbatim user evidence (like ``ProvenanceNode.text``), not the
+    system's framing; ``record_types`` are fixed system labels naming *where to
+    look*. Neither is a judgment — this item never states a claim is false.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    claim_id: str
+    quote: str
+    record_types: list[str] = []
+
+
 class COGVERITASOutput(BaseModel):
     """The public output. ``verdict`` is always ``None`` — structurally."""
 
@@ -67,6 +81,7 @@ class COGVERITASOutput(BaseModel):
     verifiability_gap: VerifiabilityGap
     rm_criteria_flagged: list[str] = []
     corroboration_questions: list[str]
+    corroboration_worklist: list[WorklistItem] = []
     calibrated_probability: float | None = None
     calibration_ci: tuple[float, float] | None = None
     ordinal_flag: OrdinalFlag
@@ -102,6 +117,7 @@ def build_output(
     audit_trail: list[ProvenanceNode],
     *,
     rm_criteria_flagged: list[str] | None = None,
+    corroboration_worklist: list[WorklistItem] | None = None,
     calibrated_probability: float | None = None,
     calibration_ci: tuple[float, float] | None = None,
     ece: float | None = None,
@@ -122,6 +138,7 @@ def build_output(
         verifiability_gap=verifiability_gap,
         rm_criteria_flagged=rm_criteria_flagged or [],
         corroboration_questions=corroboration_questions,
+        corroboration_worklist=corroboration_worklist or [],
         calibrated_probability=prob,
         calibration_ci=ci,
         ordinal_flag=ordinal,

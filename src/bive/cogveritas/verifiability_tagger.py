@@ -139,7 +139,11 @@ def classify_claim_verifiability(claim: Claim) -> str:
     lowered = [t.lower() for t in claim.tokens]
     spatial = sum(t in p.spatial for t in lowered)
     opinion = sum(t in p.unverifiable for t in lowered)
-    if checkable + spatial >= 1 and checkable + spatial >= opinion:
+    # A record-producing action (signed/paid/called…) is a checkable signal even
+    # without a named-entity anchor — the action leaves an external record.
+    action = sum(any(t.startswith(stem) for stem in p.actions) for t in lowered)
+    positive = checkable + spatial + action
+    if positive >= 1 and positive >= opinion:
         return "externally_checkable"
     return "not_externally_checkable"
 

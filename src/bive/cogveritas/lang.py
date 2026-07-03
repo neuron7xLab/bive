@@ -29,6 +29,10 @@ class LanguagePack:
     temporal: re.Pattern[str]
     spatial: frozenset[str]
     unverifiable: frozenset[str]
+    # Stems of record-producing actions (signed, paid, called, met…). A claim that
+    # names such an action is externally checkable even without a named-entity
+    # anchor — the action itself leaves a verifiable record.
+    actions: frozenset[str] = frozenset()
 
 
 # --- English -----------------------------------------------------------------
@@ -59,6 +63,13 @@ _EN = LanguagePack(
             "opinion", "maybe", "probably", "hope", "wish", "love", "hate", "like",
             "beautiful", "amazing", "wonderful", "terrible", "awful", "nice", "great",
             "good", "bad", "perfect", "worst", "best",
+        }
+    ),
+    actions=frozenset(
+        {
+            "gave", "signed", "paid", "transferred", "called", "met", "bought",
+            "sold", "received", "sent", "drove", "wrote", "delivered", "arrived",
+            "departed", "handed", "deposited", "withdrew",
         }
     ),
 )
@@ -105,6 +116,14 @@ _UK = LanguagePack(
             "поганий", "погано", "найкращий", "найгірший", "красиво", "красивий",
         }
     ),
+    actions=frozenset(
+        {
+            "переда", "підписа", "оплат", "заплат", "переказ", "дзвон", "подзвон",
+            "зателефон", "зустрі", "купив", "купила", "продав", "отрима", "надісла",
+            "надсила", "поїха", "приїха", "виїха", "написа", "вручив", "вніс",
+            "зняв", "перерахув",
+        }
+    ),
 )
 
 # --- Russian -----------------------------------------------------------------
@@ -141,6 +160,13 @@ _RU = LanguagePack(
             "чувствую", "почувствовал", "люблю", "ненавижу", "нравится",
             "красивый", "красиво", "прекрасный", "ужасный", "ужасно", "плохой",
             "плохо", "лучший", "худший", "замечательный",
+        }
+    ),
+    actions=frozenset(
+        {
+            "переда", "подписа", "оплат", "заплат", "перевёл", "перевел", "звон",
+            "позвон", "встрет", "купил", "продал", "получил", "отправ", "поеха",
+            "приеха", "выеха", "написа", "вручил", "внёс", "внес", "снял", "перечисл",
         }
     ),
 )

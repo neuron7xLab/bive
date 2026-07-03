@@ -976,7 +976,8 @@ function renderVerifiability(data) {
   const h = make('h3', 'verdict__label');
   text(h, meta.label);
   const m = make('p', 'verdict__meta');
-  text(m, `COGVERITAS · вирок: відсутній (за задумом) · ${(data.audit_trail || []).length} тверджень`);
+  const caseId = (data.integrity && data.integrity.case_id) ? ` · case ${data.integrity.case_id}` : '';
+  text(m, `COGVERITAS · вирок: відсутній (за задумом) · ${(data.audit_trail || []).length} тверджень${caseId}`);
   box.append(h, m);
   v.append(box);
   head.append(v);

@@ -63,6 +63,8 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     assert "format: 'markdown'" in js
     # Per-speaker verifiability profiles must render.
     assert "data.speaker_profiles" in js
+    # The chain-of-custody fingerprint must be surfaced.
+    assert "data.integrity" in js and "case_id" in js
     # Transcript uploads carry a filename so the backend picks the parser.
     assert "x-bive-filename" in js
     # Cross-witness comparison must render.

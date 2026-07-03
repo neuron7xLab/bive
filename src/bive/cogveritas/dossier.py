@@ -60,6 +60,8 @@ _T: dict[str, dict[str, str]] = {
         "p_claim": "Твердження",
         "p_check": "Перевірюваність",
         "p_entities": "Сутності",
+        "h_integrity": "Цілісність (chain-of-custody)",
+        "integrity_note": "Відтворюваний відбиток. Той самий текст → той самий хеш; будь-яка зміна змінює його.",
         "h_limits": "Межі та наукова основа",
         "approx": " (приблизно)",
         "limit_1": (
@@ -92,6 +94,8 @@ _T: dict[str, dict[str, str]] = {
         "p_claim": "Утверждение",
         "p_check": "Проверяемость",
         "p_entities": "Сущности",
+        "h_integrity": "Целостность (chain-of-custody)",
+        "integrity_note": "Воспроизводимый отпечаток. Тот же текст → тот же хеш; любое изменение меняет его.",
         "h_limits": "Границы и научная основа",
         "approx": " (приблизительно)",
         "limit_1": (
@@ -124,6 +128,8 @@ _T: dict[str, dict[str, str]] = {
         "p_claim": "Claim",
         "p_check": "Verifiability",
         "p_entities": "Entities",
+        "h_integrity": "Integrity (chain-of-custody)",
+        "integrity_note": "Reproducible fingerprint. Same text → same hash; any change alters it.",
         "h_limits": "Limits and empirical basis",
         "approx": " (approximate)",
         "limit_1": (
@@ -245,5 +251,16 @@ def to_dossier_markdown(output: COGVERITASOutput, lang: str = "uk") -> str:
     lines.append(f"- {t['limit_1']} {t['source']}: `{_PROVENANCE}`.")
     lines.append(f"- {t['limit_2']}")
     lines.append("")
+
+    ib = output.integrity
+    if ib.case_id:
+        lines.append(f"## {t['h_integrity']}")
+        lines.append(f"_{t['integrity_note']}_")
+        lines.append("")
+        lines.append(f"- **case_id:** `{ib.case_id}`")
+        lines.append(f"- **engine:** `{ib.engine}`")
+        lines.append(f"- **source_sha256:** `{ib.source_sha256}`")
+        lines.append(f"- **analysis_sha256:** `{ib.analysis_sha256}`")
+        lines.append("")
 
     return "\n".join(lines)

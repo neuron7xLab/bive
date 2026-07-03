@@ -663,6 +663,85 @@
         "summary": "Cogveritas Verifiability"
       }
     },
+    "/api/v1/cogveritas/verify-integrity": {
+      "post": {
+        "description": "Reproduce a dossier's fingerprint from its source and confirm it matches.\n\nBody: ``{\"text\": str, \"expected\": {\"case_id\"/\"source_sha256\"/\"analysis_sha256\"/\n\"engine\": ...}, \"statuses\": {...}}``. Recomputes the deterministic fingerprint\nand reports whether every provided field agrees — a chain-of-custody check.",
+        "operationId": "cogveritas_verify_integrity_api_v1_cogveritas_verify_integrity_post",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "api-version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Api-Version"
+            }
+          },
+          {
+            "in": "header",
+            "name": "authorization",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Authorization"
+            }
+          },
+          {
+            "in": "header",
+            "name": "x-bive-api-key",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "X-Bive-Api-Key"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "title": "Response Cogveritas Verify Integrity Api V1 Cogveritas Verify Integrity Post"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cogveritas Verify Integrity"
+      }
+    },
     "/api/v1/reports": {
       "get": {
         "operationId": "list_reports_api_v1_reports_get",

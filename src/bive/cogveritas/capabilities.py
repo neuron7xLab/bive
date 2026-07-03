@@ -51,6 +51,11 @@ _CAPABILITIES: tuple[dict[str, str], ...] = (
         "mention count and claim references.",
     },
     {
+        "id": "reality_monitoring",
+        "does": "Profiles each claim's detail richness (Reality Monitoring criteria) "
+        "as a review aid — richer detail is easier to check, never a truth score.",
+    },
+    {
         "id": "case_tracking",
         "does": "Records the analyst's corroboration status (pending/confirmed/refuted) "
         "per item and tallies verification progress.",

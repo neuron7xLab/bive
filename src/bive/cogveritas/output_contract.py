@@ -90,6 +90,24 @@ class VerificationProgress(BaseModel):
     pending: int = 0
 
 
+class RMProfile(BaseModel):
+    """Per-claim Reality Monitoring detail profile — richness flags, not truth.
+
+    Which detail criteria a claim carries (temporal/spatial/perceptual/quantitative)
+    plus the reversed cognitive-operations marker. Richer detail is easier to check,
+    never more likely true; this is an ordinal review aid, not a probability.
+    """
+
+    model_config = ConfigDict(extra="forbid")
+    claim_id: str
+    temporal: bool = False
+    spatial: bool = False
+    perceptual: bool = False
+    quantitative: bool = False
+    cognitive_operations: bool = False
+    detail_count: int = 0
+
+
 class InterviewQuestion(BaseModel):
     """A follow-up the interviewer could ask to elicit checkable detail.
 
@@ -198,6 +216,7 @@ class COGVERITASOutput(BaseModel):
     timeline: list[TimelineEntry] = []
     conflicts: list[ConflictItem] = []
     entities: list[EntityRef] = []
+    rm_profiles: list[RMProfile] = []
     witnesses: list[str] = []
     speaker_profiles: list[SpeakerProfile] = []
     cross_witness: list[CrossWitnessItem] = []
@@ -243,6 +262,7 @@ def build_output(
     timeline: list[TimelineEntry] | None = None,
     conflicts: list[ConflictItem] | None = None,
     entities: list[EntityRef] | None = None,
+    rm_profiles: list[RMProfile] | None = None,
     witnesses: list[str] | None = None,
     speaker_profiles: list[SpeakerProfile] | None = None,
     cross_witness: list[CrossWitnessItem] | None = None,
@@ -280,6 +300,7 @@ def build_output(
         timeline=timeline or [],
         conflicts=conflicts or [],
         entities=entities or [],
+        rm_profiles=rm_profiles or [],
         witnesses=witnesses or [],
         speaker_profiles=speaker_profiles or [],
         cross_witness=cross_witness or [],

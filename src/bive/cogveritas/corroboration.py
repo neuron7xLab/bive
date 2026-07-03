@@ -4,19 +4,63 @@ For every externally checkable claim, produce a concrete action: *which external
 source would confirm or refute this?* For unverifiable opinion, say so plainly.
 These questions are the product's actual value — they route a human reviewer to
 external facts, not to a verdict. Never a person-level judgment.
+
+Phrasing is language-specific (English, Ukrainian, Russian) so the output speaks
+the reviewer's language; the logic is identical across languages.
 """
 
 from __future__ import annotations
 
+from .lang import pack_for_code
 from .output_contract import VerifiabilityGap
-from .verifiability_tagger import (
-    _NUMERIC,
-    _PROPER,
-    _TEMPORAL,
-    Claim,
-    build_feature_vector,
-    classify_claim_verifiability,
-)
+from .verifiability_tagger import Claim, build_feature_vector, classify_claim_verifiability
+
+# Per-language phrasing. Same structure everywhere; only the words change.
+_TPL: dict[str, dict[str, str]] = {
+    "en": {
+        "question": "What independent record would confirm or refute {anchors} in: {quote}?",
+        "entities": "named entities ({v})",
+        "figures": "figures ({v})",
+        "time": "the stated time/date",
+        "specifics": "the stated specifics",
+        "sep": "; ",
+        "none": (
+            "No externally checkable detail was found — request a specific, verifiable "
+            "account (who, what, when, where, with which documents) before any review conclusion."
+        ),
+        "unverifiable": "unverifiable assertion — corroboration required: {quote}",
+    },
+    "uk": {
+        "question": "Який незалежний запис підтвердить або спростує {anchors} у: {quote}?",
+        "entities": "згадані сутності ({v})",
+        "figures": "числа/суми ({v})",
+        "time": "зазначені час/дату",
+        "specifics": "зазначені деталі",
+        "sep": "; ",
+        "none": (
+            "Зовнішньо перевірюваних деталей не виявлено — запитайте конкретний "
+            "перевірюваний виклад (хто, що, коли, де, якими документами) до будь-яких висновків."
+        ),
+        "unverifiable": "голослівне твердження — потрібна корроборація: {quote}",
+    },
+    "ru": {
+        "question": "Какая независимая запись подтвердит или опровергнет {anchors} в: {quote}?",
+        "entities": "упомянутые сущности ({v})",
+        "figures": "числа/суммы ({v})",
+        "time": "указанные время/дату",
+        "specifics": "указанные детали",
+        "sep": "; ",
+        "none": (
+            "Внешне проверяемых деталей не найдено — запросите конкретное "
+            "проверяемое изложение (кто, что, когда, где, какими документами) до любых выводов."
+        ),
+        "unverifiable": "голословное утверждение — требуется корроборация: {quote}",
+    },
+}
+
+
+def _tpl(lang: str) -> dict[str, str]:
+    return _TPL.get(lang, _TPL["en"])
 
 
 def _evidence(text: str) -> str:
@@ -41,35 +85,38 @@ def _quote(text: str, n: int = 90) -> str:
     return _evidence(clipped)
 
 
+def _doc_lang(claims: list[Claim]) -> str:
+    return claims[0].lang if claims else "en"
+
+
 def corroboration_questions(claims: list[Claim], limit: int = 6) -> list[str]:
     """Concrete external-verification questions for the checkable claims."""
     questions: list[str] = []
     for claim in claims:
         if classify_claim_verifiability(claim) != "externally_checkable":
             continue
-        entities = _PROPER.findall(claim.text)
-        numbers = _NUMERIC.findall(claim.text)
-        times = _TEMPORAL.findall(claim.text)
+        pack = pack_for_code(claim.lang)
+        tpl = _tpl(claim.lang)
+        entities = pack.proper.findall(claim.text)
+        numbers = pack.numeric.findall(claim.text)
+        times = pack.temporal.findall(claim.text)
         anchors: list[str] = []
         if entities:
             # Entity names are user-derived; wrap them as evidence so a name like
             # "Guilty" cannot leak into the (unstripped) system framing.
-            anchors.append(f"named entities ({_evidence(', '.join(entities[:3]))})")
+            anchors.append(tpl["entities"].format(v=_evidence(", ".join(entities[:3]))))
         if numbers:
-            anchors.append(f"figures ({', '.join(numbers[:3])})")
+            anchors.append(tpl["figures"].format(v=", ".join(numbers[:3])))
         if times:
-            anchors.append("the stated time/date")
-        anchor_text = "; ".join(anchors) or "the stated specifics"
+            anchors.append(tpl["time"])
+        anchor_text = tpl["sep"].join(anchors) or tpl["specifics"]
         questions.append(
-            f"What independent record would confirm or refute {anchor_text} in: {_quote(claim.text)}?"
+            tpl["question"].format(anchors=anchor_text, quote=_quote(claim.text))
         )
         if len(questions) >= limit:
             break
     if not questions:
-        questions.append(
-            "No externally checkable detail was found — request a specific, verifiable account "
-            "(who, what, when, where, with which documents) before any review conclusion."
-        )
+        questions.append(_tpl(_doc_lang(claims))["none"])
     return questions
 
 
@@ -89,7 +136,7 @@ def unverifiable_notes(claims: list[Claim], limit: int = 4) -> list[str]:
     notes: list[str] = []
     for claim in claims:
         if classify_claim_verifiability(claim) == "not_externally_checkable":
-            notes.append(f"unverifiable assertion — corroboration required: {_quote(claim.text, 70)}")
+            notes.append(_tpl(claim.lang)["unverifiable"].format(quote=_quote(claim.text, 70)))
         if len(notes) >= limit:
             break
     return notes

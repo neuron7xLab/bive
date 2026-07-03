@@ -17,36 +17,19 @@ import re
 from dataclasses import dataclass, field
 from importlib import util as _import_util
 
+from .lang import LanguagePack, detect_language, pack_for_code, pack_for_text
+
 _SENT_SPLIT = re.compile(r"(?<=[.!?])\s+|\n+")
-_WORD = re.compile(r"[A-Za-z']+")
-# Deterministic named-entity proxy: capitalised tokens (mid-sentence), numbers,
-# money, and time/date expressions are externally checkable anchors.
-_PROPER = re.compile(r"\b[A-Z][a-zA-Z]{2,}")
-_NUMERIC = re.compile(r"[$£€]?\d[\d,.:]*")
-_TEMPORAL = re.compile(
-    r"\b(\d{1,2}\s?(?:am|pm)|\d{1,2}:\d{2}|monday|tuesday|wednesday|thursday|friday|"
-    r"saturday|sunday|january|february|march|april|may|june|july|august|september|"
-    r"october|november|december|yesterday|today|tomorrow|morning|afternoon|evening|"
-    r"night|minutes?|hours?|days?|weeks?|months?|years?)\b",
-    re.IGNORECASE,
-)
-_SPATIAL = frozenset(
-    {
-        "at", "near", "across", "behind", "front", "beside", "corner", "floor",
-        "upstairs", "downstairs", "left", "right", "north", "south", "east", "west",
-        "street", "avenue", "road", "block", "downtown", "building", "room", "office",
-        "outside", "inside", "above", "below", "next", "opposite",
-    }
-)
-# Words that mark an assertion as opinion / internal state -> not externally checkable.
-_UNVERIFIABLE = frozenset(
-    {
-        "think", "believe", "feel", "felt", "guess", "suppose", "seem", "seemed",
-        "opinion", "maybe", "probably", "hope", "wish", "love", "hate", "like",
-        "beautiful", "amazing", "wonderful", "terrible", "awful", "nice", "great",
-        "good", "bad", "perfect", "worst", "best",
-    }
-)
+
+# Backward-compatible English aliases (the tagger is now language-parametrized;
+# these remain the default-English anchors for callers that reference them).
+_EN = pack_for_code("en")
+_WORD = _EN.word
+_PROPER = _EN.proper
+_NUMERIC = _EN.numeric
+_TEMPORAL = _EN.temporal
+_SPATIAL = _EN.spatial
+_UNVERIFIABLE = _EN.unverifiable
 
 _MIN_TOKENS = 3
 
@@ -56,6 +39,7 @@ class Claim:
     claim_id: str
     text: str
     tokens: list[str] = field(default_factory=list)
+    lang: str = "en"
 
 
 @dataclass(frozen=True)
@@ -116,18 +100,22 @@ def _cid(text: str, idx: int) -> str:
     return f"claim:{idx}:{hashlib.sha256(text.encode()).hexdigest()[:8]}"
 
 
-def segment_claims(sentence: str) -> list[Claim]:
+def segment_claims(sentence: str, pack: LanguagePack | None = None) -> list[Claim]:
     """One claim per sentence (a stable, transparent unit). Sub-clause splitting
-    is deferred; sentences are the reviewable atom."""
-    toks = _WORD.findall(sentence)
+    is deferred; sentences are the reviewable atom. Tokenised in the given
+    language (auto-detected when ``pack`` is omitted)."""
+    p = pack or pack_for_text(sentence)
+    toks = p.word.findall(sentence)
     if len(toks) < _MIN_TOKENS:
         return []
-    return [Claim(_cid(sentence, 0), sentence, toks)]
+    return [Claim(_cid(sentence, 0), sentence, toks, p.code)]
 
 
-def extract_named_entities(text: str) -> list[str]:
-    """spaCy entities if available, else a deterministic proper-noun/number proxy."""
-    if _SPACY_AVAILABLE:  # pragma: no cover - optional heavy path
+def extract_named_entities(text: str, pack: LanguagePack | None = None) -> list[str]:
+    """spaCy entities if available (English only), else a deterministic
+    proper-noun/number proxy in the detected language."""
+    p = pack or pack_for_text(text)
+    if p.code == "en" and _SPACY_AVAILABLE:  # pragma: no cover - optional heavy path
         try:
             import spacy  # noqa: PLC0415
 
@@ -135,19 +123,22 @@ def extract_named_entities(text: str) -> list[str]:
             return [ent.text for ent in nlp(text).ents]
         except Exception:
             pass
-    return _PROPER.findall(text) + _NUMERIC.findall(text)
+    return p.proper.findall(text) + p.numeric.findall(text)
 
 
 def classify_claim_verifiability(claim: Claim) -> str:
     """externally_checkable / not_externally_checkable / insufficient_context."""
     if len(claim.tokens) < _MIN_TOKENS:
         return "insufficient_context"
-    checkable = len(_PROPER.findall(claim.text)) + len(_NUMERIC.findall(claim.text)) + len(
-        _TEMPORAL.findall(claim.text)
+    p = pack_for_code(claim.lang)
+    checkable = (
+        len(p.proper.findall(claim.text))
+        + len(p.numeric.findall(claim.text))
+        + len(p.temporal.findall(claim.text))
     )
     lowered = [t.lower() for t in claim.tokens]
-    spatial = sum(t in _SPATIAL for t in lowered)
-    opinion = sum(t in _UNVERIFIABLE for t in lowered)
+    spatial = sum(t in p.spatial for t in lowered)
+    opinion = sum(t in p.unverifiable for t in lowered)
     if checkable + spatial >= 1 and checkable + spatial >= opinion:
         return "externally_checkable"
     return "not_externally_checkable"
@@ -161,14 +152,15 @@ def build_feature_vector(claims: list[Claim]) -> VerifiabilityFeatures:
     temporal = 0
     spatial = 0
     for claim in claims:
+        p = pack_for_code(claim.lang)
         label = classify_claim_verifiability(claim)
         if label == "externally_checkable":
             verifiable += 1
         elif label == "not_externally_checkable":
             unverifiable += 1
-        ne += len(_PROPER.findall(claim.text)) + len(_NUMERIC.findall(claim.text))
-        temporal += len(_TEMPORAL.findall(claim.text))
-        spatial += sum(t.lower() in _SPATIAL for t in claim.tokens)
+        ne += len(p.proper.findall(claim.text)) + len(p.numeric.findall(claim.text))
+        temporal += len(p.temporal.findall(claim.text))
+        spatial += sum(t.lower() in p.spatial for t in claim.tokens)
     denom = verifiable + unverifiable or 1
     return VerifiabilityFeatures(
         count_verifiable=verifiable,
@@ -187,16 +179,18 @@ def build_provenance_nodes(claims: list[Claim]) -> list[dict[str, object]]:
             "claim_id": c.claim_id,
             "text": c.text,
             "verifiability": classify_claim_verifiability(c),
-            "entities": extract_named_entities(c.text)[:12],
+            "entities": extract_named_entities(c.text, pack_for_code(c.lang))[:12],
         }
         for c in claims
     ]
 
 
 def analyze(text: str) -> tuple[VerifiabilityFeatures, list[Claim]]:
+    # Detect language once per document so every claim shares one anchor set.
+    pack = pack_for_code(detect_language(text))
     claims: list[Claim] = []
     for sent in segment_sentences(text):
-        claims.extend(segment_claims(sent))
+        claims.extend(segment_claims(sent, pack))
     return build_feature_vector(claims), claims
 
 

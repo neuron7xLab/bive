@@ -26,6 +26,11 @@ _CAPABILITIES: tuple[dict[str, str], ...] = (
         "would confirm or refute it (telecom, CCTV, bank, border, documents).",
     },
     {
+        "id": "interview_questions",
+        "does": "Proposes follow-up questions (Verifiability Approach / SUE) to elicit "
+        "checkable detail that closes verifiability gaps — never accusatory.",
+    },
+    {
         "id": "timeline",
         "does": "Orders time-anchored claims chronologically; marks relative times "
         "as approximate.",

@@ -11,6 +11,7 @@ from .corroboration import corroboration_questions, unverifiable_notes, verifiab
 from .dossier import to_dossier_markdown
 from .entities import extract_entities
 from .integrity import compute_integrity
+from .interview import interview_questions
 from .lang import detect_language
 from .output_contract import (
     COGVERITASOutput,
@@ -18,6 +19,7 @@ from .output_contract import (
     CrossWitnessItem,
     EntityRef,
     IntegrityBlock,
+    InterviewQuestion,
     ProvenanceNode,
     SpeakerProfile,
     TimelineEntry,
@@ -87,6 +89,7 @@ def analyze_verifiability(
     timeline = [TimelineEntry(**entry) for entry in build_timeline(claims)]  # type: ignore[arg-type]
     conflicts = [ConflictItem(**c) for c in detect_conflicts(claims)]  # type: ignore[arg-type]
     entities = [EntityRef(**e) for e in extract_entities(claims)]  # type: ignore[arg-type]
+    interview = [InterviewQuestion(**q) for q in interview_questions(claims)]  # type: ignore[arg-type]
     # Cross-witness: only meaningful when the input names more than one speaker.
     speakers = distinct_speakers(claims)
     profiles = (
@@ -105,6 +108,7 @@ def analyze_verifiability(
         audit_trail=nodes,
         rm_criteria_flagged=unverifiable_notes(claims),
         corroboration_worklist=worklist,
+        interview_questions=interview,
         timeline=timeline,
         conflicts=conflicts,
         entities=entities,

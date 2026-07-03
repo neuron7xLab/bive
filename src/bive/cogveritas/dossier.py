@@ -55,6 +55,7 @@ _T: dict[str, dict[str, str]] = {
         "h_worklist": "Лист корроборації — що перевірити",
         "progress": "Прогрес перевірки",
         "h_questions": "Питання для корроборації",
+        "h_interview": "Питання для допиту (закрити прогалини)",
         "h_unverifiable": "Неперевірювані твердження",
         "h_provenance": "Провенанс",
         "p_claim": "Твердження",
@@ -89,6 +90,7 @@ _T: dict[str, dict[str, str]] = {
         "h_worklist": "Лист корроборации — что проверить",
         "progress": "Прогресс проверки",
         "h_questions": "Вопросы для корроборации",
+        "h_interview": "Вопросы для допроса (закрыть пробелы)",
         "h_unverifiable": "Непроверяемые утверждения",
         "h_provenance": "Провенанс",
         "p_claim": "Утверждение",
@@ -123,6 +125,7 @@ _T: dict[str, dict[str, str]] = {
         "h_worklist": "Corroboration worklist — what to check",
         "progress": "Verification progress",
         "h_questions": "Corroboration questions",
+        "h_interview": "Interview questions (close the gaps)",
         "h_unverifiable": "Unverifiable assertions",
         "h_provenance": "Provenance",
         "p_claim": "Claim",
@@ -228,6 +231,12 @@ def to_dossier_markdown(output: COGVERITASOutput, lang: str = "uk") -> str:
         lines.append(f"## {t['h_questions']}")
         for q in output.corroboration_questions:
             lines.append(f"- {q}")
+        lines.append("")
+
+    if output.interview_questions:
+        lines.append(f"## {t['h_interview']}")
+        for iq in output.interview_questions:
+            lines.append(f"- {iq.question}")
         lines.append("")
 
     if output.rm_criteria_flagged:

@@ -1115,6 +1115,21 @@ function renderVerifiability(data) {
   });
   qs.append(list);
 
+  if ((data.interview_questions || []).length) {
+    const iqs = section(details, 'Питання для допиту — закрити прогалини');
+    const il = make('ul', 'questions');
+    data.interview_questions.forEach((iq) => {
+      const li = make('li', 'question');
+      const mark = make('span', 'question__mark');
+      mark.append(iconEl('check'));
+      const t = make('span');
+      text(t, iq.question);
+      li.append(mark, t);
+      il.append(li);
+    });
+    iqs.append(il);
+  }
+
   if ((data.corroboration_worklist || []).length) {
     const ws = section(details, 'Лист корроборації — що перевірити');
     const key = caseKey(lastVerifyInput);

@@ -123,6 +123,7 @@ docs/methodology/COGVERITAS_METHOD_ACT.md
 docs/methodology/DATASET_ACCESS_NOTES.md
 docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md
 docs/methodology/NO_VERDICT_INVARIANT.md
+docs/methodology/OPERATOR_GUIDE.md
 docs/methodology/PHASE0_VERIFIABILITY.md
 docs/openapi.json
 evals/aos_eval_tasks.json
@@ -208,6 +209,7 @@ src/bive/cognitive_control.py
 src/bive/cogveritas/__init__.py
 src/bive/cogveritas/bias_baseline.py
 src/bive/cogveritas/calibration_metrics.py
+src/bive/cogveritas/capabilities.py
 src/bive/cogveritas/corroboration.py
 src/bive/cogveritas/dossier.py
 src/bive/cogveritas/entities.py
@@ -280,6 +282,7 @@ tests/test_cli_failure_contract.py
 tests/test_cli_strict_contract.py
 tests/test_cognitive_control_plane.py
 tests/test_cogveritas.py
+tests/test_cogveritas_acceptance.py
 tests/test_cogveritas_api.py
 tests/test_cogveritas_case.py
 tests/test_cogveritas_dossier.py

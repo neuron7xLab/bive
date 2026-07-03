@@ -183,7 +183,12 @@ def detect_conflicts(
     negated = [_is_negated(c) for c in claims]
     for i in range(len(claims)):
         for j in range(i + 1, len(claims)):
-            if claims[i].lang != claims[j].lang:
+            a, b = claims[i], claims[j]
+            if a.lang != b.lang:
+                continue
+            # Cross-speaker pairs are the cross-witness layer's job; here we flag
+            # inconsistencies within a single account (or unattributed text).
+            if a.speaker and b.speaker and a.speaker != b.speaker:
                 continue
             sim = _overlap_coef(stems[i], stems[j])
             if sim < overlap:

@@ -394,6 +394,7 @@ def capabilities() -> CapabilityResponse:
             "cogveritas_verifiability_review",
             "corroboration_questions",
             "cogveritas_methodology_contract",
+            "cogveritas_capability_envelope",
         ],
         production_gates=[gate.name for gate in RELEASE_GATES],
         optional_adapters=["whisper", "openface", "opensmile", "pyannote", "mediapipe"],
@@ -709,6 +710,23 @@ async def cogveritas_verify_integrity(request: Request) -> Any:
     filename = payload.get("filename")
     text = to_statement_text(text, filename if isinstance(filename, str) else None)
     return verify_integrity(text, expected, statuses)
+
+
+@app.get(
+    "/api/v1/cogveritas/capabilities",
+    dependencies=[Depends(require_api_version)],
+)
+def cogveritas_capabilities() -> dict[str, Any]:
+    """What COGVERITAS does and — structurally — never does.
+
+    A machine-readable capability/limits envelope so an operator or auditor can see
+    the full operational surface (verifiability, worklist, timeline, cross-witness,
+    entity index, case tracking, ingestion, dossier, integrity) alongside the hard
+    limits (no verdict, no deception score, human-in-the-loop). No auth required.
+    """
+    from .cogveritas.capabilities import capabilities_envelope
+
+    return capabilities_envelope()
 
 
 @app.get(

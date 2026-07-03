@@ -445,6 +445,55 @@
         "summary": "Capabilities"
       }
     },
+    "/api/v1/cogveritas/capabilities": {
+      "get": {
+        "description": "What COGVERITAS does and — structurally — never does.\n\nA machine-readable capability/limits envelope so an operator or auditor can see\nthe full operational surface (verifiability, worklist, timeline, cross-witness,\nentity index, case tracking, ingestion, dossier, integrity) alongside the hard\nlimits (no verdict, no deception score, human-in-the-loop). No auth required.",
+        "operationId": "cogveritas_capabilities_api_v1_cogveritas_capabilities_get",
+        "parameters": [
+          {
+            "in": "query",
+            "name": "api-version",
+            "required": false,
+            "schema": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Api-Version"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "additionalProperties": true,
+                  "title": "Response Cogveritas Capabilities Api V1 Cogveritas Capabilities Get",
+                  "type": "object"
+                }
+              }
+            },
+            "description": "Successful Response"
+          },
+          "422": {
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HTTPValidationError"
+                }
+              }
+            },
+            "description": "Validation Error"
+          }
+        },
+        "summary": "Cogveritas Capabilities"
+      }
+    },
     "/api/v1/cogveritas/case": {
       "post": {
         "description": "Verifiability review with an analyst corroboration-status overlay.\n\nBody: ``{\"text\": str, \"statuses\": {claim_id: {\"status\": \"pending|confirmed|\nrefuted\", \"note\": str}}, \"format\": \"json\"|\"markdown\"}``. Statuses record a\n*human's* findings against external records and drive the verification-progress\ntally. ``verdict`` is still always ``null``.",

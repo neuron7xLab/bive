@@ -25,7 +25,7 @@ from .output_contract import (
     build_output,
 )
 from .timeline import build_timeline, detect_conflicts
-from .verifiability_tagger import analyze, classify_claim_verifiability, extract_named_entities
+from .verifiability_tagger import classify_claim_verifiability, extract_named_entities
 from .witness import analyze_by_speaker, cross_witness, distinct_speakers, speaker_profiles
 from .worklist import corroboration_worklist
 
@@ -41,7 +41,11 @@ def analyze_verifiability(
     these itself; it only echoes them and tallies verification progress.
     """
     lang = detect_language(text)
-    _, claims = analyze(text)
+    # Single claim source: speaker-aware parsing strips any "Name:" prefix, so the
+    # claim text is the clean utterance (no speaker label leaking into entities or
+    # the worklist). For plain text with no labels, speaker is "" and behaviour is
+    # unchanged.
+    claims = analyze_by_speaker(text)
     nodes = [
         ProvenanceNode(
             claim_id=c.claim_id,
@@ -84,15 +88,14 @@ def analyze_verifiability(
     conflicts = [ConflictItem(**c) for c in detect_conflicts(claims)]  # type: ignore[arg-type]
     entities = [EntityRef(**e) for e in extract_entities(claims)]  # type: ignore[arg-type]
     # Cross-witness: only meaningful when the input names more than one speaker.
-    speaker_claims = analyze_by_speaker(text)
-    speakers = distinct_speakers(speaker_claims)
+    speakers = distinct_speakers(claims)
     profiles = (
-        [SpeakerProfile(**p) for p in speaker_profiles(speaker_claims)]  # type: ignore[arg-type]
+        [SpeakerProfile(**p) for p in speaker_profiles(claims)]  # type: ignore[arg-type]
         if len(speakers) > 1
         else []
     )
     cross = (
-        [CrossWitnessItem(**c) for c in cross_witness(speaker_claims)]  # type: ignore[arg-type]
+        [CrossWitnessItem(**c) for c in cross_witness(claims)]  # type: ignore[arg-type]
         if len(speakers) > 1
         else []
     )

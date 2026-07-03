@@ -664,6 +664,14 @@ textarea {
 .profile { display: flex; align-items: baseline; justify-content: space-between; gap: 10px; }
 .profile__name { color: var(--text-1, #fff); font-size: var(--fs-sm); font-weight: 600; }
 .profile__stat { color: var(--text-3); font-size: var(--fs-xs); font-variant-numeric: tabular-nums; }
+.casesummary { display: flex; flex-wrap: wrap; gap: 8px; padding: 12px 20px 0; }
+.casechip {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  padding: 4px 10px; border-radius: 8px;
+  background: rgba(255, 255, 255, 0.04); border: 1px solid var(--line, rgba(255, 255, 255, 0.08));
+}
+.casechip__k { color: var(--text-3); font-size: var(--fs-2xs, 11px); text-transform: uppercase; letter-spacing: 0.03em; }
+.casechip__v { color: var(--text-1, #fff); font-size: var(--fs-sm); font-weight: 700; font-variant-numeric: tabular-nums; }
 .timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
 .timeline__item { display: flex; gap: 10px; align-items: baseline; }
 .timeline__time {

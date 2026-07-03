@@ -65,6 +65,8 @@ def test_cogveritas_verifiability_ui_is_wired() -> None:
     assert "data.speaker_profiles" in js
     # The chain-of-custody fingerprint must be surfaced.
     assert "data.integrity" in js and "case_id" in js
+    # An at-a-glance case summary strip must render.
+    assert "casesummary" in js
     # Transcript uploads carry a filename so the backend picks the parser.
     assert "x-bive-filename" in js
     # Cross-witness comparison must render.

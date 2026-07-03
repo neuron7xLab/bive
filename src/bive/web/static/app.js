@@ -983,6 +983,26 @@ function renderVerifiability(data) {
   head.append(v);
   card.append(head);
 
+  // At-a-glance case summary strip.
+  const summary = make('div', 'casesummary');
+  const chip = (label, value) => {
+    const c = make('span', 'casechip');
+    const k = make('span', 'casechip__k');
+    text(k, label);
+    const val = make('span', 'casechip__v');
+    text(val, String(value));
+    c.append(k, val);
+    return c;
+  };
+  summary.append(chip('тверджень', (data.audit_trail || []).length));
+  if ((data.witnesses || []).length) summary.append(chip('свідків', data.witnesses.length));
+  summary.append(chip('перевірити', (data.corroboration_worklist || []).length));
+  if ((data.conflicts || []).length) summary.append(chip('суперечностей', data.conflicts.length));
+  if ((data.cross_witness || []).length) summary.append(chip('крос-звірок', data.cross_witness.length));
+  const p = data.verification_progress || {};
+  if (p.total) summary.append(chip('підтверджено', `${p.confirmed || 0}/${p.total}`));
+  card.append(summary);
+
   const details = make('div', 'details');
 
   if ((data.entities || []).length) {

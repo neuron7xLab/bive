@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 283,
+  "test_functions": 287,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -146,6 +146,12 @@
       "test_corroboration_and_audit_mandatory",
       "test_gates_fail_closed_on_missing_artifacts",
       "test_bias_gate_blocks_release_when_unavailable"
+    ],
+    "tests/test_cogveritas_acceptance.py": [
+      "test_full_case_pipeline_end_to_end",
+      "test_case_status_then_reproducible_integrity",
+      "test_markdown_dossier_is_complete_and_verdict_free",
+      "test_capabilities_envelope_declares_limits"
     ],
     "tests/test_cogveritas_api.py": [
       "test_verifiability_endpoint_never_returns_a_verdict",

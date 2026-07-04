@@ -33,6 +33,7 @@
     "dynamic-probe",
     "evidence-bundle",
     "export",
+    "external-replication-attest",
     "external-replication-check",
     "frontend-quality",
     "institutional-scorecard-check",

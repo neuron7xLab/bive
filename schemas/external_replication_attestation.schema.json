@@ -1,0 +1,80 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "external_replication_attestation.schema.json",
+  "title": "BIVE External Replication Attestation",
+  "description": "A record submitted by a party who independently reproduced BIVE's frozen anchored result (research/cogveritas/phase0_results.json) from the public corpus, following docs/methodology/EXTERNAL_REPLICATION_GUIDE.md. The integrity gate re-derives whether the reported result reproduces the pre-registered value within its 95% CI; it never trusts a self-declared 'reproduced' flag.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "attester",
+    "attester_class",
+    "environment",
+    "data",
+    "protocol_ref",
+    "result",
+    "public_evidence_url",
+    "attested_at"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "attester": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "public_repo"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "affiliation": {"type": "string"},
+        "contact": {"type": "string"},
+        "public_repo": {"type": "string", "minLength": 1, "description": "The attester's OWN public repository/fork that ran the replication."},
+        "commit_sha": {"type": "string"}
+      }
+    },
+    "attester_class": {
+      "enum": ["independent", "self"],
+      "description": "'independent' = a party distinct from the target repository and its automation; only these can lift the benchmark-grade cap. 'self' = the repo's own maintainers/CI — a reproducibility witness, never a third-party attestation."
+    },
+    "environment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["os", "python_version"],
+      "properties": {
+        "os": {"type": "string", "minLength": 1},
+        "python_version": {"type": "string", "minLength": 1},
+        "package_version": {"type": "string"}
+      }
+    },
+    "data": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["corpus", "source_url"],
+      "properties": {
+        "corpus": {"type": "string", "minLength": 1},
+        "source_url": {"type": "string", "minLength": 1},
+        "checksum": {"type": "string", "description": "Optional sha256 of the fetched corpus for exact reproducibility."}
+      }
+    },
+    "protocol_ref": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The BIVE commit / guide the replicator followed (e.g. 'docs/methodology/EXTERNAL_REPLICATION_GUIDE.md@<sha>')."
+    },
+    "result": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["model", "roc_auc"],
+      "properties": {
+        "model": {"type": "string", "minLength": 1},
+        "roc_auc": {"type": "number", "minimum": 0, "maximum": 1},
+        "auc_ci95": {"type": "array", "items": {"type": "number"}, "minItems": 2, "maxItems": 2},
+        "ece": {"type": "number", "minimum": 0}
+      }
+    },
+    "public_evidence_url": {
+      "type": "string",
+      "minLength": 1,
+      "description": "A publicly followable artifact (CI run, notebook, log) an auditor can inspect. The gate cannot fetch it; it is the human trust anchor and is required so the claim is checkable, not merely asserted."
+    },
+    "attested_at": {"type": "string", "minLength": 1}
+  }
+}

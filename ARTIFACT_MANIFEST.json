@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 376,
+  "file_count": 381,
   "files": [
     {
       "bytes": 113,
@@ -18,9 +18,9 @@
       "sha256": "a9052c9648277fad9ad86c89443e9e5403b0f9f754208068d6ca1ebc74639aaa"
     },
     {
-      "bytes": 1972,
+      "bytes": 2040,
       "path": ".gitignore",
-      "sha256": "480241b22dd1ed865f6aef033fd09de9ada0edc7a6f43133818e52178093d636"
+      "sha256": "3eeedd81b6f6462554d8feb65a7a8f317b2c4aeba23fcea5c9c0fa54749dd37b"
     },
     {
       "bytes": 721,
@@ -63,9 +63,9 @@
       "sha256": "07c3db3e08ce16478090cadf0d99d4f01b1d31a6d2c828da6bc3ea1666c49752"
     },
     {
-      "bytes": 9000,
+      "bytes": 9129,
       "path": "Makefile",
-      "sha256": "7989d6a2e19e88fd2a725e53fa3aabb1a340716614904a3eb448884a8e9d0c28"
+      "sha256": "646e08490b2c070690fa82b3bfbc325638596a0efd195f706adf6df44c59f5cc"
     },
     {
       "bytes": 123,
@@ -148,9 +148,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 2494,
+      "bytes": 2529,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "630d3efeee6d4b2fa8432af85ecadba16e08f21ff6d6d115aff1059207caa359"
+      "sha256": "5fa2897905d236cf67d4562217ec99d421a0324b75d1bc993214d10e9b9d01f2"
     },
     {
       "bytes": 657,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 25090,
+      "bytes": 25549,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "dec230820303ccd3a16a4f49672d7a8bb996b87318aad4f94e11a1541cb9ed0a"
+      "sha256": "d80ab9f12a648aeb7c5d9a854918e0f2f5701935b1eb8d1bba037b0d4bc3ca62"
     },
     {
       "bytes": 826,
@@ -648,6 +648,11 @@
       "sha256": "4a813fb4abbbebfdef29d53b7d67cbb782f7858c9d314f9afcfe8752b9e5cb23"
     },
     {
+      "bytes": 3279,
+      "path": "docs/methodology/EXTERNAL_REPLICATION_ATTESTATION.md",
+      "sha256": "f62ee1236b0340ee703bb6466c35b8622741fda87b29a28fddbc2e161778504e"
+    },
+    {
       "bytes": 1978,
       "path": "docs/methodology/EXTERNAL_REPLICATION_GUIDE.md",
       "sha256": "860079d530bb5458d4894ac39a0310a00cea372227ac193d1bb789dd445ba6eb"
@@ -798,6 +803,11 @@
       "sha256": "6f5330bb39d39d01491a27bab229fa0b66f0cc3a3002bbf73c121b0a3d040315"
     },
     {
+      "bytes": 1172,
+      "path": "research/cogveritas/replications/README.md",
+      "sha256": "331b6e594ad48ecf2bc0e818b95dc890afcfe034f9c094c90188f6e9d438d14b"
+    },
+    {
       "bytes": 3578,
       "path": "research/cogveritas/rlt_transfer.py",
       "sha256": "b5fe8a82fa80bcb4770f7db8e40a618f0ed50aa8dc9e57e930ff8366ecb93675"
@@ -886,6 +896,11 @@
       "bytes": 1707,
       "path": "schemas/evidence_event.schema.json",
       "sha256": "fbc96c23580eb37320988d7d598cf45cf80cc39546416ec8a1b09997f7f2d4b1"
+    },
+    {
+      "bytes": 3370,
+      "path": "schemas/external_replication_attestation.schema.json",
+      "sha256": "7cb8dd99627316aa0e221b4ae1738ad4dbca5e77e93efac73c5b048c5c49f228"
     },
     {
       "bytes": 1004,
@@ -978,6 +993,11 @@
       "sha256": "d364247c7f6ab266c2c5c09ff56630013c867f8210cca56daaaf03689df8a5e8"
     },
     {
+      "bytes": 7380,
+      "path": "scripts/external_replication_attest_check.py",
+      "sha256": "4d4dadbceb47a79c90f9ee769f3c988d7ee0ee9c85f7424605dad4244b25c173"
+    },
+    {
       "bytes": 6527,
       "path": "scripts/external_replication_check.py",
       "sha256": "e878b7537b887418cc388dd97b60de12ed23462c29cb87104c273ea70a4b02ef"
@@ -993,9 +1013,9 @@
       "sha256": "09c85436d43f12580a47750b2ecb74bb4391f8a8f5b0d61ff7fa6c1adaedd290"
     },
     {
-      "bytes": 9449,
+      "bytes": 9781,
       "path": "scripts/institutional_scorecard.py",
-      "sha256": "d781e380ccdeaf4019594e15d0d3ef980c5c65a684802e6addfa0f527f110b6f"
+      "sha256": "2309e002497c9aa25305bd8182b56447d2dd702066fb7c341a4c90ffefa0004f"
     },
     {
       "bytes": 7787,
@@ -1118,9 +1138,9 @@
       "sha256": "323a086df4e1a288e111a0ae1d807f703560f4b147e13070b7d75353ef7c7885"
     },
     {
-      "bytes": 9176,
+      "bytes": 9294,
       "path": "scripts/verify_release.py",
-      "sha256": "f03381be69cc82ca57b95d5535cd613751a1f790a986a02b83d60d163922114f"
+      "sha256": "e98f96ceb41d487607ddd79835b6fb4ffc81dd74e2716e3cffc12aa39d919854"
     },
     {
       "bytes": 2223,
@@ -1733,6 +1753,11 @@
       "sha256": "84a22e1f3574041002d9838d5d42514c9d14b468b33d71e58b21cca421bcf283"
     },
     {
+      "bytes": 4943,
+      "path": "tests/test_external_replication_attestation.py",
+      "sha256": "1bcdd24dd4ca756673a0175b4238d438124dc4837e47b522c2ac3f88c2dc61da"
+    },
+    {
       "bytes": 5211,
       "path": "tests/test_frontend_contract.py",
       "sha256": "81d972dd74681c2973fabe7217935994878c35f9a04900f23c625cd21601d664"
@@ -1883,7 +1908,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T11:09:56+00:00",
+  "generated_at_utc": "2026-07-04T11:23:33+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

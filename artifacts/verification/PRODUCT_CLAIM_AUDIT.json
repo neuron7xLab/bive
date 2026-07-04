@@ -61,6 +61,7 @@
     "docs/methodology/BIAS_BASELINE_POLICY.md",
     "docs/methodology/CALIBRATION_POLICY.md",
     "docs/methodology/COGVERITAS_METHOD_ACT.md",
+    "docs/methodology/CONTAMINATION_AUDIT.md",
     "docs/methodology/DATASET_ACCESS_NOTES.md",
     "docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md",
     "docs/methodology/NO_VERDICT_INVARIANT.md",
@@ -74,6 +75,6 @@
     "src/bive/web/index.html",
     "src/bive/web/static/app.js"
   ],
-  "surfaces_scanned": 71,
+  "surfaces_scanned": 72,
   "violations": []
 }

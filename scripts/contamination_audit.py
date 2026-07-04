@@ -17,6 +17,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 RESULTS = ROOT / "research" / "cogveritas" / "phase0_results.json"
+OUT = ROOT / "artifacts" / "verification" / "CONTAMINATION_AUDIT.json"
 _DOCS = (
     "docs/EMPIRICAL_VALIDATION.md",
     "docs/methodology/BENCHMARK_CARD.md",
@@ -76,12 +77,29 @@ def audit() -> list[str]:
 
 def main() -> int:
     problems = audit()
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(
+        json.dumps(
+            {
+                "policy": "docs/methodology/CONTAMINATION_AUDIT.md",
+                "leakage_threshold": _LEAK_THRESHOLD,
+                "scanned": list(_DOCS) + ["research/cogveritas/phase0_results.json"],
+                "violations": problems,
+                "status": "PASS" if not problems else "FAIL",
+            },
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     if problems:
         for p in problems:
             print(f"CONTAMINATION {p}")
         print(f"CONTAMINATION_AUDIT_FAIL {len(problems)} un-qualified high headline(s)")
         return 1
-    print("CONTAMINATION_AUDIT_PASS")
+    print(f"CONTAMINATION_AUDIT_PASS artifact={OUT.relative_to(ROOT)}")
     return 0
 
 

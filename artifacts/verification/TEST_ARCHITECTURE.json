@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 319,
+  "test_functions": 321,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -294,6 +294,8 @@
     "tests/test_institutional_benchmark.py": [
       "test_benchmark_card_live_is_consistent",
       "test_contamination_audit_live_is_clean",
+      "test_benchmark_gate_emits_machine_readable_artifact",
+      "test_contamination_gate_emits_artifact_with_threshold",
       "test_contamination_bites_on_unqualified_high_auc",
       "test_contamination_allows_qualified_high_auc",
       "test_contamination_ignores_low_auc"

@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 404,
+  "test_functions": 407,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -321,6 +321,11 @@
     ],
     "tests/test_eval.py": [
       "test_evaluate_binary_metrics"
+    ],
+    "tests/test_evidence_bundle_reproducible.py": [
+      "test_evidence_bundle_regeneration_is_byte_stable",
+      "test_volatile_audit_output_does_not_perturb_the_bundle",
+      "test_evidence_bundle_carries_no_wall_clock_fields"
     ],
     "tests/test_evidence_graph.py": [
       "test_evidence_graph_has_nodes_and_entropy"

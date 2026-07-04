@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 305,
+  "test_functions": 310,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -290,6 +290,13 @@
       "test_frontend_static_contract",
       "test_cogveritas_verifiability_ui_is_wired",
       "test_frontend_token_is_session_bounded"
+    ],
+    "tests/test_institutional_benchmark.py": [
+      "test_benchmark_card_live_is_consistent",
+      "test_contamination_audit_live_is_clean",
+      "test_contamination_bites_on_unqualified_high_auc",
+      "test_contamination_allows_qualified_high_auc",
+      "test_contamination_ignores_low_auc"
     ],
     "tests/test_linguistics.py": [
       "test_extract_claims_marks_absolute_and_temporal",

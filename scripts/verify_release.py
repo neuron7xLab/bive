@@ -60,6 +60,8 @@ COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("cogveritas-bias-baseline", [sys.executable, "scripts/cogveritas_gates.py", "bias-baseline"], 60),
     GateCommand("cogveritas-artifacts", [sys.executable, "scripts/cogveritas_gates.py", "artifact-manifest"], 60),
     GateCommand("product-claim-audit", [sys.executable, "scripts/product_claim_audit.py"], 60),
+    GateCommand("benchmark-card", [sys.executable, "scripts/benchmark_card.py"], 60),
+    GateCommand("contamination-audit", [sys.executable, "scripts/contamination_audit.py"], 60),
     GateCommand("demo", ["make", "demo"], 120),
     GateCommand("demo-gate", [sys.executable, "-m", "bive.cli", "gate", "--input", "artifacts/local_demo_report.json"], 60),
     GateCommand("evidence-bundle", [sys.executable, "scripts/generate_evidence_bundle.py"], 120),

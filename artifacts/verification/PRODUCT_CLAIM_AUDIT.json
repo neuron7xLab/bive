@@ -57,6 +57,7 @@
     "docs/THREAT_MODEL.md",
     "docs/UI_SPEC.md",
     "docs/VALUE_FUNCTIONS.md",
+    "docs/methodology/BENCHMARK_CARD.md",
     "docs/methodology/BIAS_BASELINE_POLICY.md",
     "docs/methodology/CALIBRATION_POLICY.md",
     "docs/methodology/COGVERITAS_METHOD_ACT.md",
@@ -73,6 +74,6 @@
     "src/bive/web/index.html",
     "src/bive/web/static/app.js"
   ],
-  "surfaces_scanned": 70,
+  "surfaces_scanned": 71,
   "violations": []
 }

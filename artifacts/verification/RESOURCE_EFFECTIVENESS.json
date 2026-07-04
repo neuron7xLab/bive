@@ -1,0 +1,29 @@
+{
+  "gate_count": 4,
+  "per_gate_budget_seconds": 600.0,
+  "slowest": [
+    {
+      "command": "python scripts/validate_test_architecture.py",
+      "duration_seconds": 0.046,
+      "result": "pass"
+    },
+    {
+      "command": "python scripts/validate_bibliography.py",
+      "duration_seconds": 0.023,
+      "result": "pass"
+    },
+    {
+      "command": "python scripts/validate_automation_contract.py",
+      "duration_seconds": 0.02,
+      "result": "pass"
+    },
+    {
+      "command": "python scripts/validate_dependency_contracts.py",
+      "duration_seconds": 0.019,
+      "result": "pass"
+    }
+  ],
+  "status": "PASS",
+  "total_budget_seconds": 1800.0,
+  "total_seconds": 0.108
+}

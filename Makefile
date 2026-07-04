@@ -1,4 +1,4 @@
-.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify benchmark-card contamination-audit
+.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify benchmark-card contamination-audit domain-distance resource-effectiveness
 
 PYTHON ?= python
 VENV ?= .venv
@@ -113,6 +113,12 @@ benchmark-card:
 
 contamination-audit:
 	PYTHONPATH=src $(PYTHON) scripts/contamination_audit.py
+
+domain-distance:
+	PYTHONPATH=src $(PYTHON) scripts/domain_distance_check.py
+
+resource-effectiveness:
+	PYTHONPATH=src $(PYTHON) scripts/resource_effectiveness_check.py
 
 # Institutional Level-Up (see docs/methodology/COGVERITAS_OPENAI_STYLE_LEVEL_UP_SPEC.md).
 # Fail-closed: runs the institutional gates that EXIST and refuses to declare

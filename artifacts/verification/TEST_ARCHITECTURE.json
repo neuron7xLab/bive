@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 356,
+  "test_functions": 360,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -368,6 +368,12 @@
     "tests/test_models.py": [
       "test_evidence_event_bounds",
       "test_weighted_score_supports_and_refutes"
+    ],
+    "tests/test_mutation_score.py": [
+      "test_all_critical_mutations_are_killed_on_live_tree",
+      "test_every_mutation_targets_a_real_source_string",
+      "test_gate_detects_a_survivor",
+      "test_source_is_reverted_after_a_mutation_run"
     ],
     "tests/test_neurocognitive_protocol.py": [
       "test_neurocognitive_feature_map_has_operational_boundaries",

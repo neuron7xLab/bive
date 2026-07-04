@@ -1,4 +1,4 @@
-.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify benchmark-card-check contamination-audit cross-domain-matrix-check domain-distance-check resource-effectiveness-check misuse-threat-model-check external-replication-check capability-registry-check institutional-scorecard-check
+.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify benchmark-card-check contamination-audit cross-domain-matrix-check domain-distance-check resource-effectiveness-check misuse-threat-model-check external-replication-check capability-registry-check institutional-scorecard-check mutation-check
 
 PYTHON ?= python
 VENV ?= .venv
@@ -131,6 +131,9 @@ external-replication-check:
 
 capability-registry-check:
 	PYTHONPATH=src $(PYTHON) scripts/capability_registry_check.py
+
+mutation-check:
+	PYTHONPATH=src $(PYTHON) scripts/mutation_check.py
 
 institutional-scorecard-check:
 	PYTHONPATH=src $(PYTHON) scripts/institutional_scorecard.py

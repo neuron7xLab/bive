@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 402,
+  "test_functions": 404,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -234,7 +234,8 @@
       "test_opinion_markers_are_language_specific",
       "test_english_regression_still_english",
       "test_capitalised_function_words_are_not_entity_anchors",
-      "test_real_named_entities_stay_checkable"
+      "test_real_named_entities_stay_checkable",
+      "test_ukrainian_apostrophe_word_is_one_token"
     ],
     "tests/test_cogveritas_pipeline.py": [
       "test_registry_is_ordered_and_named",
@@ -251,6 +252,7 @@
     ],
     "tests/test_cogveritas_timeline.py": [
       "test_timeline_orders_by_clock_time",
+      "test_day_is_taken_from_the_month_not_the_clock_hour",
       "test_timeline_omits_claims_without_time",
       "test_negation_polarity_conflict_flagged",
       "test_figure_mismatch_conflict_flagged",

@@ -91,7 +91,10 @@ _EN = LanguagePack(
 
 # Cyrillic word/proper patterns are shared by uk and ru. A "word" is any run of
 # unicode letters; a proper noun is a capitalised Cyrillic token of length >= 3.
-_CYR_WORD = re.compile(r"[^\W\d_]+", re.UNICODE)
+# Keep internal apostrophes (під'їзд, п'ять) inside the token — the apostrophe is a
+# letter-joiner in Ukrainian, not a boundary, so splitting it makes apostrophe-bearing
+# anchors (e.g. the spatial set's "під'їзд") unreachable by token membership.
+_CYR_WORD = re.compile(r"[^\W\d_]+(?:['’ʼ][^\W\d_]+)*", re.UNICODE)
 _CYR_PROPER = re.compile(r"\b[А-ЯЁЄІЇҐ][а-яёєіїґ'’]{2,}")
 # Numbers, optionally prefixed by a currency sign (hryvnia ₴ included).
 _CYR_NUMERIC = re.compile(r"[$£€₴]?\d[\d,.:]*")

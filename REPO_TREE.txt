@@ -155,6 +155,7 @@ research/cogveritas/evaluate.py
 research/cogveritas/features.py
 research/cogveritas/fetch_data.sh
 research/cogveritas/leakage_audit.py
+research/cogveritas/phase0_provenance.json
 research/cogveritas/phase0_results.json
 research/cogveritas/rlt_transfer.py
 samples/checkers_speech.txt
@@ -195,6 +196,7 @@ scripts/misuse_threat_model_check.py
 scripts/mutation_check.py
 scripts/pr_check.py
 scripts/product_claim_audit.py
+scripts/reference_result_integrity_check.py
 scripts/resource_effectiveness_check.py
 scripts/run_phase0_verifiability.py
 scripts/validate_aos_kernel.py
@@ -351,6 +353,7 @@ tests/test_product_claim_audit.py
 tests/test_product_operating_model.py
 tests/test_quality_gate.py
 tests/test_red_team_and_simulation.py
+tests/test_reference_result_integrity.py
 tests/test_release_gate_contract.py
 tests/test_report.py
 tests/test_resource_effectiveness.py

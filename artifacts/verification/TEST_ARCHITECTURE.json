@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 410,
+  "test_functions": 419,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -458,6 +458,17 @@
     "tests/test_red_team_and_simulation.py": [
       "test_red_team_cases_pass",
       "test_simulation_outputs_are_deterministic_enough"
+    ],
+    "tests/test_reference_result_integrity.py": [
+      "test_real_committed_result_passes",
+      "test_main_passes_on_committed_data",
+      "test_freeze_pin_catches_result_drift",
+      "test_kill_verdict_is_re_derived_not_trusted",
+      "test_baseline_must_be_a_null_control",
+      "test_headline_must_be_separated_from_baseline",
+      "test_leakage_ceiling_must_be_declared_contaminated",
+      "test_tier_must_be_anchored",
+      "test_headline_calibration_is_enforced"
     ],
     "tests/test_release_gate_contract.py": [
       "test_test_architecture_script_passes",

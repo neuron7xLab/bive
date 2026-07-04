@@ -12,6 +12,18 @@ def _entities(text: str) -> list[dict[str, object]]:
     return extract_entities(claims)
 
 
+def test_sentence_initial_adverb_is_not_an_entity() -> None:
+    # Regression: "Пізніше"/"Позже" (later) etc. are capitalised at sentence start and
+    # were mis-listed as named entities — a glaring credibility bug in the output.
+    for text, adverb in (
+        ("Пізніше він заплатив 500 гривень Петрові.", "Пізніше"),
+        ("Позже он передал деньги Ивану.", "Позже"),
+        ("Спочатку ми зустрілись, потім пішли.", "Спочатку"),
+    ):
+        canon = {str(e["canonical"]) for e in _entities(text)}
+        assert adverb not in canon, f"{adverb!r} wrongly listed as an entity in {canon}"
+
+
 def test_inflected_mentions_cluster_to_one_entity() -> None:
     ents = _entities(
         "Я зустрів Петра увечері. Петро прийшов до банку. Я віддав Петру гроші."

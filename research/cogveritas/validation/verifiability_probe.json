@@ -1,0 +1,33 @@
+{
+ "provenance": {
+  "source": "curated exemplars (hand-labeled)",
+  "purpose": "FACE-VALIDITY sanity check of externally_checkable vs not_externally_checkable — NOT a population accuracy estimate and NOT deception detection",
+  "label_rule": "checkable = the claim asserts an externally recordable fact (name/date/place/amount/action leaving a record); opinion = a subjective evaluation or mental state with no external record"
+ },
+ "sentences": [
+  {"text": "Іван підписав договір 5 січня о 14:30 у нотаріуса.", "gold": "externally_checkable", "lang": "uk"},
+  {"text": "Свідок передав 5000 гривень біля станції Хрещатик.", "gold": "externally_checkable", "lang": "uk"},
+  {"text": "Марія приїхала до Львова потягом 3 березня.", "gold": "externally_checkable", "lang": "uk"},
+  {"text": "Він заплатив 200 доларів у банку на вулиці Банковій.", "gold": "externally_checkable", "lang": "uk"},
+  {"text": "Мені здається, що він був дуже знервований того дня.", "gold": "not_externally_checkable", "lang": "uk"},
+  {"text": "Я думаю, що це було жахливо і абсолютно неправильно.", "gold": "not_externally_checkable", "lang": "uk"},
+  {"text": "Здавалося, що вона була засмучена і не хотіла говорити.", "gold": "not_externally_checkable", "lang": "uk"},
+  {"text": "На мою думку, він поводився підозріло і дивно.", "gold": "not_externally_checkable", "lang": "uk"},
+  {"text": "Он заплатил 3000 рублей в банке на улице Ленина.", "gold": "externally_checkable", "lang": "ru"},
+  {"text": "Мария приехала в Москву поездом 5 мая.", "gold": "externally_checkable", "lang": "ru"},
+  {"text": "Иван подписал договор 10 января у нотариуса.", "gold": "externally_checkable", "lang": "ru"},
+  {"text": "Свидетель передал деньги возле дома на улице Пушкина.", "gold": "externally_checkable", "lang": "ru"},
+  {"text": "Мне кажется, он был очень расстроен и нервничал.", "gold": "not_externally_checkable", "lang": "ru"},
+  {"text": "Я думаю, это было ужасно и совершенно несправедливо.", "gold": "not_externally_checkable", "lang": "ru"},
+  {"text": "Казалось, что она была подавлена и не хотела говорить.", "gold": "not_externally_checkable", "lang": "ru"},
+  {"text": "По-моему, он вёл себя подозрительно и странно.", "gold": "not_externally_checkable", "lang": "ru"},
+  {"text": "John signed the contract at the Hilton on March 3.", "gold": "externally_checkable", "lang": "en"},
+  {"text": "She paid 500 dollars at the bank on Main Street yesterday.", "gold": "externally_checkable", "lang": "en"},
+  {"text": "Maria arrived in London by train on 5 May.", "gold": "externally_checkable", "lang": "en"},
+  {"text": "The witness handed 2000 euros to Peter near the station.", "gold": "externally_checkable", "lang": "en"},
+  {"text": "I think it was a terrible and completely unfair situation.", "gold": "not_externally_checkable", "lang": "en"},
+  {"text": "It felt wrong to me, and he seemed very nervous.", "gold": "not_externally_checkable", "lang": "en"},
+  {"text": "In my opinion, she was upset and did not want to talk.", "gold": "not_externally_checkable", "lang": "en"},
+  {"text": "He behaved suspiciously and strangely, I believe.", "gold": "not_externally_checkable", "lang": "en"}
+ ]
+}

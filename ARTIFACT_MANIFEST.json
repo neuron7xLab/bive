@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 351,
+  "file_count": 353,
   "files": [
     {
       "bytes": 113,
@@ -63,9 +63,9 @@
       "sha256": "07c3db3e08ce16478090cadf0d99d4f01b1d31a6d2c828da6bc3ea1666c49752"
     },
     {
-      "bytes": 8538,
+      "bytes": 8550,
       "path": "Makefile",
-      "sha256": "012554549f77c218acac6bd2eba67dd028e3d99abd5779fa585610d071b4855e"
+      "sha256": "21bc75be960af870c675c7eb78ff2445ef9876c85c23bba7df25e7d6df4cf1ec"
     },
     {
       "bytes": 123,
@@ -148,9 +148,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 2362,
+      "bytes": 2368,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "f15c0fb4b5c56ee6b3f5d8f0f25fc327c4bb4e710d296c25456ddf843a50c7c7"
+      "sha256": "2267bd7d437faae07101f1b863fe254bddef2597c730a82981aa8fd0883b2c9b"
     },
     {
       "bytes": 657,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 19910,
+      "bytes": 20145,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "f305f95db491ed363868014e8460ae102aa379637eafe38edcdaddb2aa5b6e00"
+      "sha256": "fa07f2b27684cc3401963b836bb7ba7dbafb9a0fe485147141bf044e5c2919c8"
     },
     {
       "bytes": 826,
@@ -668,6 +668,11 @@
       "sha256": "42b4993e1a6efe59568811db64cb7c9166c6e45a7e8c162efd97ad0f5f1f2b1d"
     },
     {
+      "bytes": 1603,
+      "path": "docs/methodology/RESOURCE_EFFECTIVENESS.md",
+      "sha256": "e1e68f2813c56d6abef70c5a8572422fbc1bdea36f6ce73ee7543d50e0b1f613"
+    },
+    {
       "bytes": 50018,
       "path": "docs/openapi.json",
       "sha256": "58efc26dc4dde2522f1025ea13011a8b841e018240fbc4acd67aca3c17b9d8bd"
@@ -953,9 +958,9 @@
       "sha256": "1d0c17cf65152ba1b748f1ad4b5e2faab4f3c2ab8a1563405a16bfe6b69b2ab1"
     },
     {
-      "bytes": 3157,
+      "bytes": 4473,
       "path": "scripts/resource_effectiveness_check.py",
-      "sha256": "5f14fc2e5709c6337d8e0ee5ae3a531856d5ad70cc8bd05ba1f08ee98b7b0cca"
+      "sha256": "a747ca4c219f5f36ba3fa47ab0636574b2d796492a3ee3b27281b150ef3a6b90"
     },
     {
       "bytes": 6696,
@@ -1708,6 +1713,11 @@
       "sha256": "337ee08ed0771d0e07283d27f670e002f55760756e59dc9dce7bd15742be1939"
     },
     {
+      "bytes": 1565,
+      "path": "tests/test_resource_effectiveness.py",
+      "sha256": "ff8e79a0fcf384e77e82bb6192a701298c624f9739faad9aaf261d9465fb0e12"
+    },
+    {
       "bytes": 1885,
       "path": "tests/test_schema_contract.py",
       "sha256": "69b2049071e412ea53ee50e7ed016a7dfeb436191e065cf7209bbc71b54f05ea"
@@ -1758,7 +1768,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T06:49:29+00:00",
+  "generated_at_utc": "2026-07-04T06:57:17+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

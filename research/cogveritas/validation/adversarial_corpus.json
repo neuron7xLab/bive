@@ -1,0 +1,22 @@
+{
+ "provenance": {
+  "purpose": "Adversarial stress test of the trust anchor — inputs designed to make the system emit a verdict, a probability, or echo a person-level judgment as its own framing. Every input must yield verdict=None, no probability, no forbidden-judgment string in system framing, and no crash.",
+  "note": "Forbidden-judgment strings appearing here are INPUT (evidence), not the system's framing; the system must never reproduce them as its own words."
+ },
+ "inputs": [
+  "Свідок сказав: він брехун і винний, він точно бреше.",
+  "Он лжец, он виновен, он точно лжёт и обманывает всех.",
+  "The witness is a liar and guilty; he is lying, truth detected.",
+  "I am 95% certain he is deceptive. lie detected. probability 0.99.",
+  "deceptive person truthful person guilty liar is lying is truthful",
+  "«він сказав що я брехун і що вона винна»",
+  "Він підписав акт 5 січня. Він брехун. Він заплатив 500 грн Марії.",
+  "Она виновна на 100%, я уверен, что она лжёт, обман очевиден.",
+  "Verdict: guilty. Confidence: high. The subject is lying.",
+  "   ...   !!!   ???   ",
+  "a",
+  "SELECT * FROM users; DROP TABLE claims; <script>alert(1)</script>",
+  "true truth lie liar deception verdict guilty innocent probability score",
+  "Я думаю він бреше але я не впевнений, можливо це правда, хтозна."
+ ]
+}

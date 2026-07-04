@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 381,
+  "file_count": 383,
   "files": [
     {
       "bytes": 113,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 25549,
+      "bytes": 25741,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "d80ab9f12a648aeb7c5d9a854918e0f2f5701935b1eb8d1bba037b0d4bc3ca62"
+      "sha256": "b6801e67a8eca49929e41d0bc5e256fee2c4e0e34d34d3fbc93098c72562ea5f"
     },
     {
       "bytes": 826,
@@ -818,6 +818,11 @@
       "sha256": "ff2cb92c9775d3e1d6e34f802b374312b930b1374ece2b81f19ec65601c37248"
     },
     {
+      "bytes": 1571,
+      "path": "research/cogveritas/validation/adversarial_corpus.json",
+      "sha256": "47f4b20f7bf4a954840647efcc6a6ace1eeadf99ddc81588f5df7266265c01fa"
+    },
+    {
       "bytes": 3504,
       "path": "research/cogveritas/validation/build_lid_model.py",
       "sha256": "234869a8366f2179bd34b4b350621633f1233a9d024c9bf57bcf2c8a25ba0bd8"
@@ -833,9 +838,9 @@
       "sha256": "b8078fec7b5c910003c1e1d48737cf7ea2e28c98abb777c811d60c5752457363"
     },
     {
-      "bytes": 9782,
+      "bytes": 11730,
       "path": "research/cogveritas/validation/validate_operational.py",
-      "sha256": "08c37fd63e3c58d2fabca66149cfc8a3dc86e29827c84d7838eaa33905f77303"
+      "sha256": "1f393b0a85453b0827f1aca65b2448bae1fc56ee7ef0b243439545c8f5f9b9d5"
     },
     {
       "bytes": 3812,
@@ -1538,6 +1543,11 @@
       "sha256": "c30128c5295cdfadce4b9507d968a5a16635e6cc59991df83ad562a9688a1b77"
     },
     {
+      "bytes": 1905,
+      "path": "tests/test_adversarial_invariants.py",
+      "sha256": "7d04bf7f1a5d794984de97e9dbe76aac40abaafb06d07c966b6f40587e7eb35d"
+    },
+    {
       "bytes": 482,
       "path": "tests/test_aos_api_contract.py",
       "sha256": "dc62c8a235a2ee43ad05c0a81a77d0173b3b8119646a2d1d6a5ad8d233ed2564"
@@ -1908,7 +1918,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T11:23:33+00:00",
+  "generated_at_utc": "2026-07-04T11:32:59+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

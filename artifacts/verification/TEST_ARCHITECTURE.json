@@ -1,12 +1,16 @@
 {
   "status": "pass",
-  "test_functions": 431,
+  "test_functions": 433,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
       "test_adapter_command_truncates_unbounded_stderr",
       "test_media_adapters_fail_closed_when_executable_missing",
       "test_media_adapter_success_path_uses_timeout"
+    ],
+    "tests/test_adversarial_invariants.py": [
+      "test_adversarial_input_never_breaks_the_trust_anchor",
+      "test_adversarial_corpus_actually_contains_forbidden_strings_as_input"
     ],
     "tests/test_aos_api_contract.py": [
       "test_aos_kernel_api_contract"

@@ -161,6 +161,7 @@ research/cogveritas/phase0_results.json
 research/cogveritas/replications/README.md
 research/cogveritas/rlt_transfer.py
 research/cogveritas/validation/README.md
+research/cogveritas/validation/adversarial_corpus.json
 research/cogveritas/validation/build_lid_model.py
 research/cogveritas/validation/lang_corpus.json
 research/cogveritas/validation/lang_heldout.json
@@ -305,6 +306,7 @@ src/bive/web/static/app.js
 src/bive/web/static/styles.css
 src/bive/weights.py
 tests/test_adapters_contract.py
+tests/test_adversarial_invariants.py
 tests/test_aos_api_contract.py
 tests/test_aos_kernel.py
 tests/test_api.py

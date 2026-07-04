@@ -41,6 +41,7 @@ artifacts/verification/CROSS_DOMAIN_MATRIX.json
 artifacts/verification/DOMAIN_DISTANCE_POLICY.json
 artifacts/verification/MISUSE_THREAT_MODEL_AUDIT.json
 artifacts/verification/EXTERNAL_REPLICATION_READINESS.json
+artifacts/verification/EXTERNAL_REPLICATION_ATTESTATION_STATUS.json
 artifacts/verification/CAPABILITY_REGISTRY.json
 artifacts/verification/INSTITUTIONAL_SCORECARD.json
 artifacts/verification/RELEASE_TIMINGS.json

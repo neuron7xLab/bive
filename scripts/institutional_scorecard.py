@@ -122,7 +122,12 @@ def compute() -> dict[str, object]:
         )
     raw_score = round(weighted / 10.0, 2)  # 0-100 -> 0-10
 
-    externally_replicated = False  # no third-party replication recorded
+    # Evidence-gated, not a literal: True only if a valid INDEPENDENT replication
+    # attestation is recorded (scripts/external_replication_attest_check.py re-derives
+    # it). Defaults False with no attestation; raises fail-closed on a fraudulent one.
+    from external_replication_attest_check import independent_attestation_present
+
+    externally_replicated = independent_attestation_present(ROOT)
     capped_score = min(raw_score, _UNREPLICATED_CAP) if not externally_replicated else raw_score
     return {
         "dimensions": dims,

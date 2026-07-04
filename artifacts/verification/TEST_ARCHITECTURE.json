@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 423,
+  "test_functions": 431,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -336,6 +336,16 @@
     ],
     "tests/test_evidence_graph.py": [
       "test_evidence_graph_has_nodes_and_entropy"
+    ],
+    "tests/test_external_replication_attestation.py": [
+      "test_empty_repo_is_the_honest_default",
+      "test_valid_independent_attestation_verifies",
+      "test_self_issued_as_independent_is_rejected",
+      "test_non_reproducing_auc_is_rejected",
+      "test_wrong_model_is_rejected",
+      "test_malformed_attestation_is_rejected",
+      "test_recorded_independent_attestation_opens_the_path",
+      "test_fraudulent_attestation_fails_closed"
     ],
     "tests/test_frontend_contract.py": [
       "test_frontend_static_contract",

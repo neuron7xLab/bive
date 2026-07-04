@@ -127,6 +127,7 @@ docs/methodology/CROSS_DOMAIN_MATRIX.md
 docs/methodology/DATASET_ACCESS_NOTES.md
 docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md
 docs/methodology/DOMAIN_DISTANCE_POLICY.md
+docs/methodology/EXTERNAL_REPLICATION_ATTESTATION.md
 docs/methodology/EXTERNAL_REPLICATION_GUIDE.md
 docs/methodology/INSTITUTIONAL_SCORECARD.md
 docs/methodology/MUTATION_TESTING.md
@@ -157,6 +158,7 @@ research/cogveritas/fetch_data.sh
 research/cogveritas/leakage_audit.py
 research/cogveritas/phase0_provenance.json
 research/cogveritas/phase0_results.json
+research/cogveritas/replications/README.md
 research/cogveritas/rlt_transfer.py
 research/cogveritas/validation/README.md
 research/cogveritas/validation/build_lid_model.py
@@ -175,6 +177,7 @@ samples/gettysburg_address.txt
 samples/third_universal_1917.txt
 schemas/cogveritas/output.schema.json
 schemas/evidence_event.schema.json
+schemas/external_replication_attestation.schema.json
 schemas/transcript_analyze_request.schema.json
 schemas/verification_report.schema.json
 scripts/api_smoke.py
@@ -193,6 +196,7 @@ scripts/determinism_stress.py
 scripts/domain_distance_check.py
 scripts/dynamic_environment_probe.py
 scripts/export_openapi.py
+scripts/external_replication_attest_check.py
 scripts/external_replication_check.py
 scripts/generate_evidence_bundle.py
 scripts/generate_manifest.py
@@ -344,6 +348,7 @@ tests/test_ekman_guards.py
 tests/test_eval.py
 tests/test_evidence_bundle_reproducible.py
 tests/test_evidence_graph.py
+tests/test_external_replication_attestation.py
 tests/test_frontend_contract.py
 tests/test_institutional_benchmark.py
 tests/test_institutional_domain_resource.py

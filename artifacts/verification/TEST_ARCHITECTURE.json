@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 348,
+  "test_functions": 354,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -109,6 +109,14 @@
       "test_every_capability_is_backed_by_a_real_module",
       "test_gate_emits_artifact_with_human_in_the_loop",
       "test_unbacked_capability_would_fail"
+    ],
+    "tests/test_check_repo_clean.py": [
+      "test_committed_tree_passes",
+      "test_gitignored_cache_does_not_trip",
+      "test_tracked_modification_trips",
+      "test_untracked_nonignored_file_trips",
+      "test_build_output_is_allowed",
+      "test_non_git_directory_fails_closed"
     ],
     "tests/test_cli_convert_contract.py": [
       "test_analyze_accepts_srt",

@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 21665,
+      "bytes": 21923,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "2a4194dd3374ffa67293c3551f40c1bde8434802d4cb5cc0f472bc10266fb94d"
+      "sha256": "c23f54448beb172b942067637d75da4bbe1c10f700be03245ecd103d81d8d294"
     },
     {
       "bytes": 826,
@@ -958,9 +958,9 @@
       "sha256": "09c85436d43f12580a47750b2ecb74bb4391f8a8f5b0d61ff7fa6c1adaedd290"
     },
     {
-      "bytes": 5591,
+      "bytes": 6618,
       "path": "scripts/institutional_scorecard.py",
-      "sha256": "3886424ee9a511a1deca2cafba620b74cb5135157013eacd4ee23b55c3ab0fdb"
+      "sha256": "bd3cb325090da5c7348e9888a5c69948bd8a288459cee0df905c057d72c92a07"
     },
     {
       "bytes": 5861,
@@ -1698,9 +1698,9 @@
       "sha256": "377829c6dbbbc411b03a49377fafb680f524318fa60ddddbfcf9bb0b8c5c3d8f"
     },
     {
-      "bytes": 1410,
+      "bytes": 3664,
       "path": "tests/test_institutional_scorecard.py",
-      "sha256": "2e99ec1a8f0080eddda400c8bca62c3ef9c91f4097c5f92f1e78813a92fd0d65"
+      "sha256": "f7f54575767b4c5e208ae7269ee5557b1a179d562062dd066776c6e431aadcdf"
     },
     {
       "bytes": 2781,
@@ -1823,7 +1823,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T07:57:39+00:00",
+  "generated_at_utc": "2026-07-04T08:07:35+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

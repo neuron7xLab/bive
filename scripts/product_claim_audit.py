@@ -47,7 +47,7 @@ _EXEMPT = {
     "docs/methodology/PRODUCT_CLAIM_POLICY.md",
     "docs/methodology/COGVERITAS_OPENAI_STYLE_LEVEL_UP_SPEC.md",
     # The threat model describes overclaims *as misuse to prevent* — governance text.
-    "docs/methodology/MISUSE_THREAT_MODEL.md",
+    "docs/security/MISUSE_THREAT_MODEL.md",
 }
 
 # Overclaim patterns: an *asserted* capability the evidence does not support.

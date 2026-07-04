@@ -1,4 +1,4 @@
-.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify benchmark-card-check contamination-audit cross-domain-matrix-check domain-distance-check resource-effectiveness misuse-threat-model external-replication
+.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify benchmark-card-check contamination-audit cross-domain-matrix-check domain-distance-check resource-effectiveness misuse-threat-model-check external-replication-check
 
 PYTHON ?= python
 VENV ?= .venv
@@ -123,10 +123,10 @@ domain-distance-check:
 resource-effectiveness:
 	PYTHONPATH=src $(PYTHON) scripts/resource_effectiveness_check.py
 
-misuse-threat-model:
+misuse-threat-model-check:
 	PYTHONPATH=src $(PYTHON) scripts/misuse_threat_model_check.py
 
-external-replication:
+external-replication-check:
 	PYTHONPATH=src $(PYTHON) scripts/external_replication_check.py
 
 # Institutional Level-Up (see docs/methodology/COGVERITAS_OPENAI_STYLE_LEVEL_UP_SPEC.md).

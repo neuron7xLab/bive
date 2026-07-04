@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 326,
+  "test_functions": 329,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -315,9 +315,12 @@
     ],
     "tests/test_institutional_misuse_replication.py": [
       "test_misuse_threat_model_live_passes",
-      "test_misuse_model_covers_required_scenarios",
+      "test_misuse_model_covers_all_ten_required_risks",
       "test_misuse_safeguards_point_to_real_mechanisms",
+      "test_misuse_gate_emits_audit_artifact",
+      "test_misuse_doc_lives_under_security",
       "test_external_replication_live_ready",
+      "test_external_gate_emits_readiness_artifact_not_replicated",
       "test_replication_requires_all_assets"
     ],
     "tests/test_linguistics.py": [

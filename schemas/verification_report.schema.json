@@ -6,6 +6,7 @@
   "required": [
     "report_id",
     "created_at",
+    "content_digest",
     "report_version",
     "subject_scope",
     "input_summary",
@@ -25,6 +26,7 @@
   "properties": {
     "report_id": {"type": "string", "minLength": 1},
     "created_at": {"type": "string", "minLength": 1},
+    "content_digest": {"type": "string", "pattern": "^[0-9a-f]{64}$"},
     "report_version": {"type": "string", "minLength": 1},
     "subject_scope": {"type": "string", "minLength": 1},
     "input_summary": {

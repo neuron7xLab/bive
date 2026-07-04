@@ -219,11 +219,15 @@ class VerificationReport:
         "Every elevated hypothesis must include counter-evidence or missing evidence.",
         "Human review required for real-world decisions.",
     )
+    # sha256 over the substantive content (see bive.integrity). Finalized by the report
+    # generator; excluded from its own input. "" only on a not-yet-finalized report.
+    content_digest: str = ""
 
     def to_dict(self) -> dict[str, Any]:
         return {
             "report_id": self.report_id,
             "created_at": self.created_at,
+            "content_digest": self.content_digest,
             "report_version": self.report_version,
             "subject_scope": self.subject_scope,
             "input_summary": self.input_summary,
@@ -262,11 +266,13 @@ class VerificationReport:
                 "verification_questions",
                 "provenance",
                 "policy_invariants",
+                "content_digest",
             },
         )
         return cls(
             report_id=str(data["report_id"]),
             created_at=str(data["created_at"]),
+            content_digest=str(data.get("content_digest", "")),
             report_version=str(data.get("report_version", "1.0")),
             subject_scope=str(data["subject_scope"]),
             input_summary=dict(data["input_summary"]),

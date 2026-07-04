@@ -73,9 +73,9 @@
       "sha256": "c2bce05a62fb38a880ac893a4d52755f2537d89981d6fc31ee758722f3aaa0fd"
     },
     {
-      "bytes": 10639,
+      "bytes": 9239,
       "path": "README.md",
-      "sha256": "4db633343bb5f4f8b684504e459aa6aa829b22510daaa3354bd0ae4e4a75a85e"
+      "sha256": "bf4323e19a3353ae072e2b892201a257f69dbe48b87bc4da3e4eb50af03784e2"
     },
     {
       "bytes": 599,
@@ -1918,7 +1918,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T11:56:30+00:00",
+  "generated_at_utc": "2026-07-04T13:24:37+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

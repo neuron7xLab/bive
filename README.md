@@ -1,235 +1,174 @@
-# BIVE v0.4.0 — Behavioral Integrity Verification Engine
+<div align="center">
+
+<img src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='104' height='104' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='15' fill='none' stroke='%23888' stroke-opacity='.35'/%3E%3Ccircle cx='32' cy='32' r='19' fill='none' stroke='%23ffc46f' stroke-width='3'/%3E%3Ccircle cx='32' cy='32' r='6' fill='%23ffc46f'/%3E%3C/svg%3E" alt="COGVERITAS" width="104" height="104" />
+
+# COGVERITAS
+
+### Evidence-first testimony review — deliberately without a verdict.
+
+Turn a raw statement into a structured review: which claims are **externally checkable**,
+where to find the record that confirms them, the reconstructed **timeline**, the entities,
+the follow-up questions — and a tamper-evident fingerprint. It never labels a person a liar.
+
+<br/>
 
 [![CI](https://github.com/neuron7xLab/bive/actions/workflows/ci.yml/badge.svg)](https://github.com/neuron7xLab/bive/actions/workflows/ci.yml)
 [![CodeQL](https://github.com/neuron7xLab/bive/actions/workflows/codeql.yml/badge.svg)](https://github.com/neuron7xLab/bive/actions/workflows/codeql.yml)
 [![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/neuron7xLab/bive/badge)](https://scorecard.dev/viewer/?uri=github.com/neuron7xLab/bive)
-[![License: Apache-2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](LICENSE)
-[![Python](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12-blue.svg)](pyproject.toml)
+[![License: Apache-2.0](https://img.shields.io/badge/license-Apache_2.0-3b6ea8)](LICENSE)
+[![Python](https://img.shields.io/badge/python-3.10_·_3.11_·_3.12-3b6ea8)](pyproject.toml)
+<br/>
+[![verdict](https://img.shields.io/badge/verdict-null%20by%20construction-c9964a)](#the-invariant-that-earns-trust)
+[![not a lie detector](https://img.shields.io/badge/not-a%20lie%20detector-8b8f9e)](#the-honest-boundary)
+[![language detection](https://img.shields.io/badge/language%20detection-99.4%25%20held--out-1f857a)](research/cogveritas/validation/)
 
-BIVE is an evidence-first transcript verification system. It builds reviewable evidence graphs, calibrated hypotheses, counter-evidence, uncertainty, missing-evidence lists and follow-up questions. It does **not** label people as liars, guilty or truthful.
+**[▶  Open the live demo](https://claude.ai/code/artifact/33b3fbef-1254-4ea8-bf3c-6ae594b242f3)** &nbsp;·&nbsp; a real Ukrainian statement analysed by the live engine
 
-## Product boundary
+</div>
 
-BIVE is a research-to-product engineering repository for analysts, auditors, investigators, journalists, OSINT teams and safety researchers who need structured evidence review. It is not an automated decision system. Any real-world decision that affects a person requires human review, domain expertise and external corroboration.
+---
 
-> **COGVERITAS is an evidence-review system. It does not determine whether a person is truthful. It extracts externally checkable claims, reports uncertainty, asks corroboration questions, and preserves provenance.**
+> **COGVERITAS is an evidence-review surface, not a lie detector.** It extracts externally
+> checkable claims, says what to corroborate and where, reports uncertainty, and preserves
+> provenance — and leaves the judgment to a human. Passive verbal deception detection is
+> empirically at chance on real high-stakes testimony, so no "truthfulness score" is emitted.
+> That refusal is the feature.
 
-The COGVERITAS layer ([`docs/methodology/`](docs/methodology/COGVERITAS_METHOD_ACT.md)) is fail-closed: no person-level verdict ever; probabilities only when calibration is demonstrated (ECE < 0.10); Phase 1 stays blocked until subject-independent AUC > 0.60 on both required datasets. Empirically, verbal cues do not detect real high-stakes deception ([`docs/EMPIRICAL_VALIDATION.md`](docs/EMPIRICAL_VALIDATION.md)) — so the system stays an assistant, not a detector. Verify: `make cogveritas-verify`.
+## What it produces
 
-## Current executable scope
+From one block of testimony (Ukrainian, Russian or English — auto-detected):
 
-- deterministic transcript ingestion from JSON, JSONL, SRT, WebVTT, CSV and plain text (auto-detected), plus ASR JSON (Whisper);
-- file upload from the web console (drag-and-drop) and a dependency-free upload API;
-- conservative text-feature and claim extraction;
-- local contradiction/tension detection;
-- evidence event model with provenance;
-- calibrated hypothesis fusion with reliability weights;
-- evidence graph entropy signal;
-- anti-pseudoscience quality gate;
-- built-in red-team and simulation gates;
-- FastAPI backend, SQLite storage and packaged static web UI;
-- operational API: health, liveness, readiness, metrics, system status, design contract, interface contract and science registry;
-- frontend console: demo payload, API token flow, report summary, evidence cards, hypotheses, human-review questions, raw JSON and Markdown export;
-- safe frontend rendering: no raw dynamic HTML injection for transcript/report-derived data;
-- wheel smoke, API smoke, schema, metadata, frontend-quality, science-registry, dynamic-probe, OpenAPI and release-manifest gates;
-- GitHub CI, PR template, issue templates, security policy and release checklist;
-- AOS Prompt OS layer: prompt kernel, eval harness, scoring schema, execution contracts, CLI, API endpoint and validation gate;
-- product operating layer: product model, jobs-to-be-done, activation path, industrial release scorecard, explicit GitHub-vs-production decision boundary.
+| Output | What it gives an analyst |
+| --- | --- |
+| **Verifiability map** | Each statement tagged *externally checkable* vs *opinion / judgment* |
+| **Corroboration worklist** | Per checkable claim, the record type that would confirm it — *where to look* |
+| **Timeline** | Time-anchored claims in chronological order, with clean human dates |
+| **Entity index** | People and places clustered across inflections, with mention counts |
+| **Interview questions** | Elicit-only follow-ups that surface checkable detail — never accusations |
+| **Integrity fingerprint** | Deterministic `sha256` chain-of-custody; any edit changes the hash |
 
-## Install and verify
+Every response carries `verdict = null` — structurally, at the type boundary.
+
+## Validated on real, open data
+
+Measured on a real open corpus (Tatoeba, CC BY 2.0 FR), on a **held-out** split the model
+was never tuned on, with 95% Wilson intervals. Full harness: [`research/cogveritas/validation/`](research/cogveritas/validation/).
+
+| Property | Result |
+| --- | --- |
+| Language detection — overall | **0.994** &nbsp;[0.969, 0.999] |
+| &nbsp;&nbsp;· Ukrainian / English | 1.000 / 1.000 |
+| &nbsp;&nbsp;· Russian | 0.983 &nbsp;[0.911, 0.997] |
+| Verifiability separation (face validity) | 0.958 &nbsp;[0.80, 0.99], n = 24 |
+| No-verdict invariant | **holds** over 383 real + 14 adversarial inputs |
+| Probability suppression | holds — 0 unproven probabilities emitted |
+| Integrity fingerprint | reproducible in-run **and** across `PYTHONHASHSEED` |
 
 ```bash
-python -m venv .venv
-. .venv/bin/activate
+PYTHONPATH=src python research/cogveritas/validation/validate_operational.py
+# → OPERATIONAL_VALIDATION_PASS
+```
+
+## The invariant that earns trust
+
+The no-verdict rule is **enforced at construction, not promised in prose**:
+
+- `verdict` is typed `None` and rejected at construction if ever set.
+- A calibrated probability is impossible unless calibration evidence (`ece < 0.10`) rides with it — checked on the type, not by convention.
+- The forbidden-judgment scan closes over the **whole** output tree, fail-safe: any system-authored text field is scanned for person-level judgment unless explicitly declared user evidence.
+- The institutional maturity score is derived only from passing gates and **capped below benchmark-grade** while no third-party replication exists.
+
+> A higher maturity score is earned by making unsupported claims impossible — if the system
+> cannot prove it is not lying, the correct state is *blocked*, not *pass*.
+
+## Quickstart
+
+```bash
+python -m venv .venv && . .venv/bin/activate
 python -m pip install -U pip
 python -m pip install -e ".[dev,api,security]"
-python -m pip check
-python scripts/check_environment.py
-make verify-release
+make verify-release          # → VERIFY_RELEASE_PASS
+make api                     # → http://127.0.0.1:8080
 ```
 
-Expected terminal invariants:
-
-```text
-[BIVE PREFLIGHT] pass
-VERIFY_RELEASE_PASS
-```
-
-The repository builds with the standard, PyPA-maintained `setuptools.build_meta` backend (see [docs/BUILD_BACKEND_DECISION.md](docs/BUILD_BACKEND_DECISION.md)); build requirements are pinned to non-vulnerable floors in `pyproject.toml`. The canonical, advisory-clean version set lives in [`requirements/constraints.txt`](requirements/constraints.txt); install with `pip install --constraint requirements/constraints.txt -e '.[dev,api,security]'`. If a package index or proxy is unavailable, dependency installation can still fail; use a pre-populated wheel cache and rerun the same commands. `make bootstrap-env` remains a convenience wrapper around the constrained local setup path.
-
-## CLI
-
-```bash
-# analyze accepts JSON, JSONL, SRT, VTT, CSV or TXT — the format is auto-detected
-bive analyze --input samples/demo_transcript.json --output artifacts/local_demo_report.json
-bive analyze --input samples/demo_transcript.srt --output artifacts/local_demo_report.json
-bive convert --input samples/demo_transcript.vtt --output artifacts/canonical.json
-bive formats
-bive validate --input artifacts/local_demo_report.json
-bive render --input artifacts/local_demo_report.json --output artifacts/local_demo_report.md
-bive simulate
-bive red-team
-bive gate --input artifacts/local_demo_report.json
-bive-aos status
-bive-aos compile "Automate a repository release with evidence gates"
-bive-aos neurocognitive
-bive-aos product
-```
-
-## API and UI
-
-Local development:
-
-```bash
-make api
-# open http://127.0.0.1:8080
-```
-
-Production/staging requires an API token:
-
-```bash
-export BIVE_ENV=production
-export BIVE_API_TOKEN='replace-with-real-secret'
-bive-api
-```
-
-Core endpoints:
-
-- `GET /health`
-- `GET /livez`
-- `GET /readyz`
-- `GET /metrics`
-- `GET /api/v1/capabilities`
-- `GET /api/v1/system/status`
-- `GET /api/v1/system/design-contract`
-- `GET /api/v1/system/interface-contract`
-- `GET /api/v1/system/science-registry`
-- `GET /api/v1/system/science-registry/full`
-- `GET /api/v1/system/aos-kernel`
-- `GET /api/v1/system/cognitive-control-plane`
-- `GET /api/v1/system/neurocognitive-protocol`
-- `GET /api/v1/system/product-readiness`
-- `POST /api/v1/reports/from-transcript`
-- `POST /api/v1/reports/from-upload`
-- `GET /api/v1/reports`
-- `GET /api/v1/reports/{report_id}`
-- `GET /api/v1/reports/{report_id}/markdown`
-
-OpenAPI contract: `docs/openapi.json`.
-
-### Upload your data
-
-The web console at `/` accepts drag-and-drop of a transcript file in any
-supported format; parsing happens server-side (one source of truth). From the
-command line or an integration, upload the raw file bytes:
+Analyse a statement from the console (drag-and-drop) or the API:
 
 ```bash
 curl -sS -X POST \
-  "http://127.0.0.1:8080/api/v1/reports/from-upload?api-version=2026-06-11" \
-  -H 'x-bive-filename: interview.srt' \
-  --data-binary @interview.srt
+  "http://127.0.0.1:8080/api/v1/cogveritas/verifiability?api-version=2026-06-11" \
+  --data-binary @statement.txt
+# → the full COGVERITAS contract; verdict is always null
 ```
 
-The format is inferred from `x-bive-filename` and the content; pass
-`&format=srt` to force a parser. Audio and video are out of scope for the
-deterministic core: transcribe them to text first (e.g. Whisper) and upload the
-resulting JSON, SRT or VTT.
-
-## Release gates
+Or from the CLI, on a transcript in any supported format (JSON, JSONL, SRT, VTT, CSV, TXT — auto-detected):
 
 ```bash
-make repo-clean
-make metadata
-make lint
-make typecheck
-make test
-make coverage
-make schema
-make ui-check
-make frontend-quality
-make science-registry
-make aos-kernel
-make cognitive-control
-make neurocognitive-protocol
-make product-readiness
-make dynamic-probe
-make openapi
-make api-smoke
-make wheel-smoke
-make security-static
-make manifest-check
+bive analyze --input samples/demo_transcript.srt --output report.json
+bive render  --input report.json --output report.md
 ```
 
-Dependency CVE state and Docker runtime verification require network/Docker availability:
+## How it's built
+
+A src-layout Python package (FastAPI + pydantic v2), `mypy --strict`, deterministic core,
+SQLite storage and a packaged static web console. Correctness is defended by a release
+battery and an institutional-verification capstone in CI (py 3.10 / 3.11 / 3.12 + CodeQL):
+
+- **~46 release gates** — repo hygiene, contracts, lint, type, coverage, schema, security-static, wheel-smoke, manifest.
+- **Mutation testing** — proves the crown-jewel invariant tests fail on a real defect.
+- **Adversarial guard** — hostile inputs (injected verdicts, accusations, degenerate text) can't break the no-verdict / no-judgment invariant.
+- **Institutional scorecard** — maturity computed only from passing gates, honestly capped.
+
+<details>
+<summary><b>Verification battery</b> — the full local gate list</summary>
 
 ```bash
-make dependency-audit
-make docker-build
+make repo-clean metadata lint typecheck test coverage schema ui-check \
+     frontend-quality science-registry aos-kernel cognitive-control \
+     neurocognitive-protocol product-readiness dynamic-probe openapi \
+     api-smoke wheel-smoke security-static manifest-check
+make institutional-verify     # base battery → 11-gate roadmap → capped scorecard
+make mutation-check           # crown-jewel tests are defect-sensitive
+# network / Docker gates:
+make dependency-audit docker-build
 ```
+</details>
 
-## Repository map
+<details>
+<summary><b>API surface</b> — endpoints</summary>
 
-- `src/bive/` — core package, CLI, API, storage, report model;
-- `src/bive/web/` — static operational frontend shipped inside the wheel;
-- `schemas/` — JSON contracts;
-- `prompts/`, `evals/`, `contracts/`, `data/aos/` — AOS prompt OS, eval tasks, scoring schema and automation contract templates;
-- `tests/` — executable behavior and contract tests;
-- `scripts/` — release, schema, metadata, OpenAPI, frontend, science-registry, dynamic-probe and manifest tools;
-- `data/science/` — mirrored bounded science registry for repository review;
-- `data/operations/` — dynamic environment scenario registry;
-- `docs/` — architecture, operations, security, dynamic environment, science registry, release gates, design system and research protocols;
-- `.github/` — CI, PR and issue workflow.
+- **COGVERITAS** — `POST /api/v1/cogveritas/verifiability` · `/case` · `/verify-integrity` · `GET /capabilities` · `/methodology`
+- **Reports** — `POST /api/v1/reports/from-transcript` · `/from-upload` · `GET /api/v1/reports` · `/{id}` · `/{id}/markdown`
+- **Ops** — `GET /health` · `/livez` · `/readyz` · `/metrics` · `/api/v1/system/{status,design-contract,interface-contract,science-registry,product-readiness}`
 
-## Non-negotiable invariant
+Contract: [`docs/openapi.json`](docs/openapi.json). `/api/v1/*` requires `api-version=2026-06-11`.
+</details>
 
-BIVE outputs evidence for review. It must not output automatic person-level verdicts, guilt claims, deterministic lie labels or decisions that bypass human review.
+<details>
+<summary><b>Repository map</b></summary>
 
-## Stage 8 Microsoft hardening
+- `src/bive/` — core package, CLI, API, storage, report model
+- `src/bive/cogveritas/` — verifiability engine, language packs, integrity
+- `src/bive/web/` — static operational console shipped in the wheel
+- `research/cogveritas/validation/` — the real-data validation harness
+- `schemas/` · `docs/` — JSON contracts and methodology
+- `scripts/` · `tests/` — release / verification tooling and behaviour tests
+- `.github/` — CI, PR and issue workflow
+</details>
 
-The API now requires `api-version=2026-06-11` on `/api/v1/*`, emits Microsoft-style error envelopes, propagates `x-ms-request-id`, echoes `x-ms-client-request-id`, validates a STRIDE threat model, and ships compiled dependency intent files.
+## The honest boundary
 
+#### BIVE v0.4.0 — Behavioral Integrity Verification Engine
 
-## Stage 10 Cognitive Control Plane
+COGVERITAS is a research-to-product engineering repository for analysts, auditors,
+investigators, journalists, OSINT and safety teams who need **structured evidence review**.
+It is not an automated decision system; any decision affecting a person requires human review
+and external corroboration.
 
-BIVE now includes an AOS cognitive-control layer that computes excitation/inhibition weights, multi-agent votes, fractal invariant checks and reverse-inference remediation plans.
+Empirical basis: passive verbal deception detection is at chance on real high-stakes cases
+(RLT AUC ≈ 0.56, CI straddling chance — [`docs/EMPIRICAL_VALIDATION.md`](docs/EMPIRICAL_VALIDATION.md)), so
+the system stays an assistant, never a detector. `make product-readiness` deliberately keeps
+the product **below GREEN** while dependency-CVE audit, Docker runtime, deployment smoke and
+human-impact review remain external gates — an open-source product candidate, not yet a
+deployed service.
 
-Run:
-
-```bash
-make cognitive-control
-bive-aos control "Inspect repository and produce reversible verification tasks"
-```
-
-API:
-
-```text
-GET /api/v1/system/cognitive-control-plane?api-version=2026-06-11
-```
-
-The layer does not claim biological intelligence. It is a deterministic governance mechanism for balancing action pressure against risk, uncertainty, complexity and missing evidence.
-
-## Stage 10: cognitive control and neurocognitive operational protocol
-
-Stage 10 adds a bounded cognitive-control layer for AOS execution. It is not a biological-brain claim. It maps CNS-inspired functions to executable repository mechanisms:
-
-- excitation/inhibition balance -> `src/bive/cognitive_control.py`;
-- salience gating -> risk/evidence/failure routing;
-- working-memory budget -> AOS intent contract and context capsule discipline;
-- error monitoring -> adversarial verifier and release gates;
-- predictive reverse inference -> missing-evidence closure plan;
-- homeostatic stability -> safe weight ranges;
-- fractal invariant recursion -> repeated checks across intent, boundary, contract, verification and release;
-- plasticity calibration -> prompt/kernel changes only from measured eval failure.
-
-Runtime inspection:
-
-```bash
-make cognitive-control
-make neurocognitive-protocol
-bive-aos neurocognitive
-bive-cognitive-control "Inspect repository and produce bounded verification tasks"
-```
-
-## Product readiness state
-
-Current packaged state is an open-source GitHub product candidate, not a deployed production service. `make product-readiness` and `/api/v1/system/product-readiness?api-version=2026-06-11` intentionally keep the product at non-GREEN while dependency CVE audit, Docker runtime, deployment smoke and human-impact review remain external gates.
+<div align="center"><br/><sub>Apache-2.0 · <code>verdict = null · probability = suppressed</code> · built to make unsupported claims impossible</sub></div>

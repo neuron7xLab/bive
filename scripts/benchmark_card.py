@@ -17,6 +17,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 CARD = ROOT / "docs" / "methodology" / "BENCHMARK_CARD.md"
 RESULTS = ROOT / "research" / "cogveritas" / "phase0_results.json"
+OUT = ROOT / "artifacts" / "verification" / "BENCHMARK_CARD.json"
+_LEAK_LINE = 0.85
 
 # Sections/fields the card MUST carry, per benchmark discipline.
 _REQUIRED_CARD = (
@@ -66,14 +68,52 @@ def check() -> list[str]:
     return problems
 
 
+def _card_artifact(problems: list[str]) -> dict[str, object]:
+    """Machine-readable benchmark card derived from the frozen result."""
+    benchmarks: list[dict[str, object]] = []
+    if RESULTS.is_file():
+        data = json.loads(RESULTS.read_text(encoding="utf-8"))
+        rows = []
+        for r in data.get("results", []):
+            auc = r.get("roc_auc")
+            rows.append(
+                {
+                    "model": r.get("model", ""),
+                    "roc_auc": auc,
+                    "ece": r.get("ece"),
+                    "contamination_flag": bool(isinstance(auc, (int, float)) and auc >= _LEAK_LINE),
+                }
+            )
+        benchmarks.append(
+            {
+                "corpus": data.get("corpus", ""),
+                "protocol": data.get("protocol", ""),
+                "limitation": data.get("limitation", ""),
+                "results": rows,
+            }
+        )
+    return {
+        "card_doc": "docs/methodology/BENCHMARK_CARD.md",
+        "leakage_line": _LEAK_LINE,
+        "benchmarks": benchmarks,
+        "issues": problems,
+        "status": "PASS" if not problems else "FAIL",
+    }
+
+
 def main() -> int:
     problems = check()
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(
+        json.dumps(_card_artifact(problems), ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
     if problems:
         for p in problems:
             print(f"BENCHMARK_CARD_ISSUE {p}")
         print(f"BENCHMARK_CARD_FAIL {len(problems)} issue(s)")
         return 1
-    print("BENCHMARK_CARD_PASS")
+    print(f"BENCHMARK_CARD_PASS artifact={OUT.relative_to(ROOT)}")
     return 0
 
 

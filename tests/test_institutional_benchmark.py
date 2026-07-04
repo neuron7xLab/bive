@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import json
 import sys
 from pathlib import Path
 
@@ -16,6 +17,24 @@ def test_benchmark_card_live_is_consistent() -> None:
 
 def test_contamination_audit_live_is_clean() -> None:
     assert ca.audit() == []
+
+
+def test_benchmark_gate_emits_machine_readable_artifact() -> None:
+    assert bc.main() == 0
+    art = json.loads(bc.OUT.read_text(encoding="utf-8"))
+    assert art["status"] == "PASS"
+    assert art["benchmarks"] and art["benchmarks"][0]["results"]
+    # A high headline must carry the contamination flag; the calibrated model must not.
+    flags = {r["model"]: r["contamination_flag"] for r in art["benchmarks"][0]["results"]}
+    assert any(v for v in flags.values()), "no contamination-flagged ceiling row"
+
+
+def test_contamination_gate_emits_artifact_with_threshold() -> None:
+    assert ca.main() == 0
+    art = json.loads(ca.OUT.read_text(encoding="utf-8"))
+    assert art["status"] == "PASS"
+    assert art["leakage_threshold"] == 0.85
+    assert art["violations"] == []
 
 
 def test_contamination_bites_on_unqualified_high_auc() -> None:

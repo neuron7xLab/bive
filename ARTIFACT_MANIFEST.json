@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 344,
+  "file_count": 345,
   "files": [
     {
       "bytes": 113,
@@ -18,9 +18,9 @@
       "sha256": "a9052c9648277fad9ad86c89443e9e5403b0f9f754208068d6ca1ebc74639aaa"
     },
     {
-      "bytes": 803,
+      "bytes": 1431,
       "path": ".gitignore",
-      "sha256": "e51cbbc6141c40f31b18a1ad7d4d2538298a1c81585c5878d66510fb0ba71e12"
+      "sha256": "18eb4da7a10eb57295a727c20cf828e36c82c6289b77584f26d90a5cc6a46e77"
     },
     {
       "bytes": 721,
@@ -63,9 +63,9 @@
       "sha256": "07c3db3e08ce16478090cadf0d99d4f01b1d31a6d2c828da6bc3ea1666c49752"
     },
     {
-      "bytes": 8373,
+      "bytes": 8385,
       "path": "Makefile",
-      "sha256": "30aac1d03a15e985283c81198a520637c462006e8cb956cd8003251c1b6ca3f2"
+      "sha256": "18282aed53f0a99b7d1d3c2298329899ad409e1373a362edcb79b85293a96927"
     },
     {
       "bytes": 123,
@@ -148,9 +148,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 2305,
+      "bytes": 2311,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "e8133fcfc7260f2217e3fff065e13c3d90efdfa3c2b1a471b268e263ecde90ac"
+      "sha256": "704cc9270e59b7a48d0c989410ef29734671e7da0369e2bcfe70dccfb78c0083"
     },
     {
       "bytes": 657,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 19281,
+      "bytes": 19405,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "8696d94a26720e4ed7b3462a91aa893438a341ed437266a91ba97ad3648f42c4"
+      "sha256": "d4927e92fea717e0a8ec56d62e3b5bd9d4ebbdbe6013edd5f7df6e5074e38464"
     },
     {
       "bytes": 826,
@@ -618,6 +618,11 @@
       "sha256": "5325b0fea068171c7f16dbf87aa42d43e963f57940502bcbc67973495356a660"
     },
     {
+      "bytes": 1548,
+      "path": "docs/methodology/CONTAMINATION_AUDIT.md",
+      "sha256": "582f668a1d552d6a650b5684452ababd5295c0620b60e78493536792bbfdf7b0"
+    },
+    {
       "bytes": 789,
       "path": "docs/methodology/DATASET_ACCESS_NOTES.md",
       "sha256": "c189cabab274a9cae1a3ed69520eeb9455d8beb387a7da87d14450835d2ec5e9"
@@ -823,9 +828,9 @@
       "sha256": "424e8b22e46ea0acb06671684d712361f6bd3c9f45642bfd2647724264a59105"
     },
     {
-      "bytes": 2984,
+      "bytes": 4461,
       "path": "scripts/benchmark_card.py",
-      "sha256": "bc5add1fe9f487e6277a9cb99282d1394be077b314bb07601bfc1e959479d4b6"
+      "sha256": "9faf8d652ad890a2f310d7f5df7ead79910797d06f03a90938e6266b3e861b23"
     },
     {
       "bytes": 1689,
@@ -858,9 +863,9 @@
       "sha256": "b45f4cf1f60566d7c86e45db80caea6ba2f87e38849830262ed0f2a3e5820cf0"
     },
     {
-      "bytes": 3203,
+      "bytes": 3878,
       "path": "scripts/contamination_audit.py",
-      "sha256": "8389150175949410754e84d2118b6b68df3ab7abdd52c4b20af03c60708bad32"
+      "sha256": "5bdeb325d2c4b2bde8e9a3707d8649dd19b7ef8e92047526688e7ec391ca0f2f"
     },
     {
       "bytes": 2253,
@@ -1603,9 +1608,9 @@
       "sha256": "81d972dd74681c2973fabe7217935994878c35f9a04900f23c625cd21601d664"
     },
     {
-      "bytes": 1080,
+      "bytes": 1873,
       "path": "tests/test_institutional_benchmark.py",
-      "sha256": "46c5a6f12e82439c86d27970440c20f1448cde86404807d2372514879e7b4a03"
+      "sha256": "ef26859a3d1730a725ec15b6cd76b89648140930d429b8abfc240d9530cb37b3"
     },
     {
       "bytes": 1463,
@@ -1723,7 +1728,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T06:15:00+00:00",
+  "generated_at_utc": "2026-07-04T06:28:13+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

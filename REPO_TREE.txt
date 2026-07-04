@@ -121,6 +121,7 @@ docs/methodology/BENCHMARK_CARD.md
 docs/methodology/BIAS_BASELINE_POLICY.md
 docs/methodology/CALIBRATION_POLICY.md
 docs/methodology/COGVERITAS_METHOD_ACT.md
+docs/methodology/CONTAMINATION_AUDIT.md
 docs/methodology/DATASET_ACCESS_NOTES.md
 docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md
 docs/methodology/MISUSE_THREAT_MODEL.md

@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 23275,
+      "bytes": 23419,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "21be22d1aa3924dbf5de1b9a9ad1a63e6494d31a980fdf0e45136617202dcd75"
+      "sha256": "4f09a0a85c0a50d7d4d2ca20222c8bceeb91e8726825d614315f2486af3ec3b4"
     },
     {
       "bytes": 826,
@@ -878,9 +878,9 @@
       "sha256": "b7c310b6cb094543baa9487edb44c8e93ecb880376956d91b68c26ed62285915"
     },
     {
-      "bytes": 3879,
+      "bytes": 6317,
       "path": "scripts/capability_registry_check.py",
-      "sha256": "c99e6cc163b5cf821566dda83dd651f5b6875bc00deb8472e4b1eaf1c55b2fb4"
+      "sha256": "cdcc6c52456369c1b2de5b28408b65e99e958b076dc09b2dbebf06b61148a064"
     },
     {
       "bytes": 5792,
@@ -1538,9 +1538,9 @@
       "sha256": "4c66e992302f09648877b3bd64625e8e11ac67687d1929830babc7caad34ce54"
     },
     {
-      "bytes": 1448,
+      "bytes": 3040,
       "path": "tests/test_capability_registry.py",
-      "sha256": "424c62a2391eeeb021f24ad32ada5c3307fd192040108efeb5947fcdfd2ef9ad"
+      "sha256": "216570a30bd8cea5061993f1c556d1eb2806b29695671d65632cf4ef5350666b"
     },
     {
       "bytes": 3421,
@@ -1828,7 +1828,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T08:40:37+00:00",
+  "generated_at_utc": "2026-07-04T08:46:32+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 392,
+  "test_functions": 395,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -108,7 +108,10 @@
       "test_registry_live_passes",
       "test_every_capability_is_backed_by_a_real_module",
       "test_gate_emits_artifact_with_human_in_the_loop",
-      "test_unbacked_capability_would_fail"
+      "test_unbacked_capability_would_fail",
+      "test_stub_backing_module_is_not_backed",
+      "test_real_module_is_not_flagged_as_stub",
+      "test_stub_reason_detects_placeholders"
     ],
     "tests/test_check_repo_clean.py": [
       "test_committed_tree_passes",

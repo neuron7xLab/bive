@@ -254,14 +254,73 @@ class COGVERITASOutput(BaseModel):
             raise ValueError("calibration_ci requires a calibrated_probability")
         if self.calibration_ece is not None and self.calibrated_probability is None:
             raise ValueError("calibration_ece requires a calibrated_probability")
-        # No forbidden person-level judgment in the SYSTEM's own framing. Verbatim
-        # user quotes («…») are evidence, not judgment, and are stripped first.
-        for field in (*self.rm_criteria_flagged, *self.corroboration_questions):
-            system_framing = _QUOTE_SPAN.sub("«…»", field)
-            hits = contains_forbidden_judgment(system_framing)
-            if hits:
-                raise ValueError(f"forbidden person-level judgment string(s): {hits}")
+        # No forbidden person-level judgment in the SYSTEM's own framing — scanned
+        # recursively over the WHOLE output tree, fail-safe: every text field is
+        # scanned unless explicitly declared user-evidence/controlled-vocabulary in
+        # _EXEMPT_STRING_FIELDS, so a newly added field cannot silently escape. User
+        # quotes («…») are evidence and are stripped before the scan.
+        hits = _scan_system_framing(self)
+        if hits:
+            raise ValueError(f"forbidden person-level judgment string(s) in system framing: {hits}")
         return self
+
+
+# The no-judgment invariant binds the system's OWN framing, recursively over every
+# text-bearing field of the output. This declares, per model, the string fields that
+# are NOT system framing and are therefore exempt from the scan: verbatim user quotes,
+# fixed controlled vocabulary (Literals / label enums), opaque identifiers, hashes,
+# and human-analyst input. Anything NOT listed here is scanned by default — the
+# partition is fail-safe, so a new text field is scanned until it is deliberately
+# exempted, never silently skipped.
+_EXEMPT_STRING_FIELDS: dict[type[BaseModel], frozenset[str]] = {
+    ProvenanceNode: frozenset(
+        {"claim_id", "text", "verifiability", "entities", "activity", "agent"}
+    ),  # text/entities = user content; verifiability/activity/agent = fixed labels
+    WorklistItem: frozenset({"claim_id", "quote", "record_types", "status", "note"}),
+    # quote = user; record_types/status = fixed labels; note = human-analyst input
+    InterviewQuestion: frozenset({"claim_id"}),  # question + rationale ARE system framing
+    TimelineEntry: frozenset({"claim_id", "quote", "time_label"}),  # quote = user; time_label = derived
+    ConflictItem: frozenset({"type", "claim_ids", "quotes"}),  # type = label; quotes = user
+    EntityRef: frozenset({"canonical", "forms", "claim_ids"}),  # user surface forms
+    SpeakerProfile: frozenset({"speaker"}),  # user speaker id
+    CrossWitnessItem: frozenset({"type", "speakers", "quotes"}),  # label + user content
+    RMProfile: frozenset({"claim_id"}),
+    IntegrityBlock: frozenset({"engine", "source_sha256", "analysis_sha256", "case_id"}),  # label + hashes
+    COGVERITASOutput: frozenset(
+        {"verifiability_gap", "ordinal_flag", "detected_language", "witnesses"}
+    ),  # gap/flag/language = controlled vocab; witnesses = user speaker names
+}
+
+
+def _scan_text(value: str) -> list[str]:
+    """Forbidden-judgment hits in one framing string, after stripping user quotes."""
+    return contains_forbidden_judgment(_QUOTE_SPAN.sub("«…»", value))
+
+
+def _scan_system_framing(model: BaseModel) -> list[str]:
+    """Forbidden-judgment strings across the model's own framing, recursively.
+
+    Nested models are always descended into (each governs its own exemptions);
+    string / list-of-string fields are scanned unless the field is exempt for this
+    model. Non-text values (numbers, bools, None) are ignored.
+    """
+    hits: list[str] = []
+    exempt = _EXEMPT_STRING_FIELDS.get(type(model), frozenset())
+    for name in type(model).model_fields:
+        value = getattr(model, name)
+        scan = name not in exempt
+        if isinstance(value, BaseModel):
+            hits.extend(_scan_system_framing(value))
+        elif isinstance(value, str):
+            if scan:
+                hits.extend(_scan_text(value))
+        elif isinstance(value, (list, tuple)):
+            for item in value:
+                if isinstance(item, BaseModel):
+                    hits.extend(_scan_system_framing(item))
+                elif isinstance(item, str) and scan:
+                    hits.extend(_scan_text(item))
+    return hits
 
 
 def build_output(

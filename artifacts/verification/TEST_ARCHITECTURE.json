@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 407,
+  "test_functions": 410,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -159,6 +159,9 @@
       "test_bootstrap_ci_fixed_random_state",
       "test_verdict_always_none",
       "test_no_forbidden_person_level_strings",
+      "test_forbidden_judgment_is_scanned_in_every_system_framing_field",
+      "test_user_quotes_are_evidence_not_framing",
+      "test_exemption_registry_never_exempts_the_system_framing_fields",
       "test_no_float_probability_when_ece_fails",
       "test_probability_cannot_bypass_calibration_via_direct_construction",
       "test_corroboration_and_audit_mandatory",

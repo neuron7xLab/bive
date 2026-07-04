@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 24190,
+      "bytes": 24388,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "f8bda099fda84a712e98eb097092d624a420e1059a20395f3f3c518d042fdae5"
+      "sha256": "63cdf46131ff15cc2d50c64a2994cb69820f01b594860757192547c9fa58e7fe"
     },
     {
       "bytes": 826,
@@ -973,9 +973,9 @@
       "sha256": "bdc54e1a7ffa832ae21e2d97d7f13aa729631c893a22ddeb057ae187c6361abf"
     },
     {
-      "bytes": 4911,
+      "bytes": 4809,
       "path": "scripts/mutation_check.py",
-      "sha256": "6bb7096464a8b82d2ba25b5aacef619cead649021a54fd6501c147a5b0b04a67"
+      "sha256": "6faec3c2349e820c0bc3958f947286cdd9d3d107a61b60311c09af5492a42f5c"
     },
     {
       "bytes": 123,
@@ -1228,9 +1228,9 @@
       "sha256": "be1591af1e7343f56b01aa2ad686b546205abd9ea11305d555dab848777c843f"
     },
     {
-      "bytes": 12392,
+      "bytes": 15598,
       "path": "src/bive/cogveritas/output_contract.py",
-      "sha256": "6f65ff7fd9f84b96eadb429f2e83365aa5907b54a4b002c9dfb7168d1f8689d7"
+      "sha256": "e702577a3bff07c3fd87e39676d9f8cb2202f4aad87069145e9158237006104a"
     },
     {
       "bytes": 3286,
@@ -1568,9 +1568,9 @@
       "sha256": "73a1e483a3770e05eb9dcc3ae736c96c4fa1f7505740863bd8cd5ee2046c0b80"
     },
     {
-      "bytes": 7638,
+      "bytes": 9904,
       "path": "tests/test_cogveritas.py",
-      "sha256": "df931e12e8b67ef3e0c3beb4d120a25d80c730552957c476615783f26bb4dc52"
+      "sha256": "e676596f0ee12717fe39aaa0f8bb03336484aa6ca1db6779aa01443e1e000f20"
     },
     {
       "bytes": 5210,
@@ -1833,7 +1833,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T09:50:47+00:00",
+  "generated_at_utc": "2026-07-04T09:57:23+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

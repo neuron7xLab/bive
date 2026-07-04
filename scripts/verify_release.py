@@ -66,6 +66,7 @@ COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("cogveritas-artifacts", [sys.executable, "scripts/cogveritas_gates.py", "artifact-manifest"], 60),
     GateCommand("product-claim-audit", [sys.executable, "scripts/product_claim_audit.py"], 60),
     GateCommand("benchmark-card", [sys.executable, "scripts/benchmark_card.py"], 60),
+    GateCommand("reference-result-integrity", [sys.executable, "scripts/reference_result_integrity_check.py"], 60),
     GateCommand("contamination-audit", [sys.executable, "scripts/contamination_audit.py"], 60),
     GateCommand("cross-domain-matrix", [sys.executable, "scripts/cross_domain_matrix_check.py"], 60),
     GateCommand("domain-distance", [sys.executable, "scripts/domain_distance_check.py"], 60),

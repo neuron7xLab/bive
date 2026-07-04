@@ -36,6 +36,7 @@ artifacts/verification/EVIDENCE_TELEMETRY.json
 artifacts/verification/PRODUCT_CLAIM_AUDIT.json
 artifacts/verification/BENCHMARK_CARD.json
 artifacts/verification/CONTAMINATION_AUDIT.json
+artifacts/verification/REFERENCE_RESULT_INTEGRITY.json
 artifacts/verification/CROSS_DOMAIN_MATRIX.json
 artifacts/verification/DOMAIN_DISTANCE_POLICY.json
 artifacts/verification/MISUSE_THREAT_MODEL_AUDIT.json

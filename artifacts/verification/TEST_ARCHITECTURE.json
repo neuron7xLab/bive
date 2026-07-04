@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 401,
+  "test_functions": 402,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -228,6 +228,7 @@
     ],
     "tests/test_cogveritas_lang.py": [
       "test_language_detection",
+      "test_russian_without_unique_letters_routes_to_russian_pack",
       "test_ukrainian_end_to_end_separates_checkable_from_opinion",
       "test_russian_produces_russian_phrasing",
       "test_opinion_markers_are_language_specific",

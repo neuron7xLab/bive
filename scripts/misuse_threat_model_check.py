@@ -11,6 +11,7 @@ Writes ``artifacts/verification/MISUSE_THREAT_MODEL_AUDIT.json``; emits
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -42,20 +43,32 @@ _MECHANISMS = {
 }
 
 
+def _risk_blocks(text: str) -> list[str]:
+    """The body of each ``## Risk:`` section (a global occurrence count cannot tell
+    whether every *individual* risk carries its own mitigation + residual record)."""
+    parts = re.split(r"^##\s+Risk:\s*", text, flags=re.MULTILINE)
+    return parts[1:]  # parts[0] is the preamble before the first risk
+
+
 def check() -> list[str]:
     if not DOC.is_file():
         return [f"missing threat model: {DOC.relative_to(ROOT)}"]
     problems: list[str] = []
     text = DOC.read_text(encoding="utf-8")
     lowered = text.lower()
+    blocks = _risk_blocks(text)
+    # Per-risk mapping: each required risk must have its OWN block that records both a
+    # mitigation and a residual risk — not merely N occurrences of the words anywhere.
     for risk in _REQUIRED_RISKS:
-        if risk not in lowered:
+        block = next((b for b in blocks if risk in b.lower()), None)
+        if block is None:
             problems.append(f"threat model omits required risk: {risk!r}")
-    # Every risk block must carry a mitigation AND a residual-risk record.
-    if lowered.count("mitigation") < len(_REQUIRED_RISKS):
-        problems.append("not every risk records a mitigation")
-    if lowered.count("residual risk") < len(_REQUIRED_RISKS):
-        problems.append("not every risk records a residual risk")
+            continue
+        flat = block.lower().replace("*", "")  # tolerate **bold** markers
+        if "mitigation:" not in flat:
+            problems.append(f"risk {risk!r} records no mitigation")
+        if "residual risk:" not in flat:
+            problems.append(f"risk {risk!r} records no residual risk")
     for label, rel in _MECHANISMS.items():
         if label in text and not (ROOT / rel).is_file():
             problems.append(f"mitigation cites a missing mechanism: {label} -> {rel}")

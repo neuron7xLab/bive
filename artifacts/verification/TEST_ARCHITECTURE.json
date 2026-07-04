@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 395,
+  "test_functions": 398,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -350,6 +350,9 @@
       "test_misuse_safeguards_point_to_real_mechanisms",
       "test_misuse_gate_emits_audit_artifact",
       "test_misuse_doc_lives_under_security",
+      "test_misuse_has_one_block_per_required_risk",
+      "test_missing_mitigation_in_one_risk_block_fails",
+      "test_occurrence_stuffing_no_longer_passes",
       "test_external_replication_live_ready",
       "test_external_gate_emits_readiness_artifact_not_replicated",
       "test_replication_requires_all_assets",

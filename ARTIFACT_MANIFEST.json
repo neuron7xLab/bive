@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 23419,
+      "bytes": 23580,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "4f09a0a85c0a50d7d4d2ca20222c8bceeb91e8726825d614315f2486af3ec3b4"
+      "sha256": "1b0189cb7c47c05765476773d7772a75124c596ab9c7ab104cff80b145ba8d74"
     },
     {
       "bytes": 826,
@@ -968,9 +968,9 @@
       "sha256": "4822761ee0527f0d811cb4fa83664cd3e0a6648644bf35e08b74d7ab165a51a7"
     },
     {
-      "bytes": 3497,
+      "bytes": 4118,
       "path": "scripts/misuse_threat_model_check.py",
-      "sha256": "9f6d8b9ef6253afaca007409f0ff11bf288e348e93e88386764a4df86a2cef74"
+      "sha256": "bdc54e1a7ffa832ae21e2d97d7f13aa729631c893a22ddeb057ae187c6361abf"
     },
     {
       "bytes": 4911,
@@ -1698,9 +1698,9 @@
       "sha256": "75f5ebf557ac4cdd3d2c2a1b413ad8e08c6579e57e514185cae4c6ed57029f76"
     },
     {
-      "bytes": 3773,
+      "bytes": 5299,
       "path": "tests/test_institutional_misuse_replication.py",
-      "sha256": "ef73caf695f092b2814f7659ac6df609579dea1207aeb6af26605ab6020717bc"
+      "sha256": "4514b6db89d3c2e841cf78b409d9e9268ae7305c16ddb801d88a89f13cd52ce4"
     },
     {
       "bytes": 5716,
@@ -1828,7 +1828,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T08:46:32+00:00",
+  "generated_at_utc": "2026-07-04T09:03:54+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

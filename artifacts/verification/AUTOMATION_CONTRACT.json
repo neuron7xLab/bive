@@ -44,6 +44,7 @@
     "metadata",
     "microsoft-rest",
     "misuse-threat-model-check",
+    "mutation-check",
     "neurocognitive-protocol",
     "no-verdict-check",
     "openapi",

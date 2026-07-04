@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 361,
+  "file_count": 364,
   "files": [
     {
       "bytes": 113,
@@ -18,9 +18,9 @@
       "sha256": "a9052c9648277fad9ad86c89443e9e5403b0f9f754208068d6ca1ebc74639aaa"
     },
     {
-      "bytes": 1523,
+      "bytes": 1566,
       "path": ".gitignore",
-      "sha256": "3749520cec609ecbd614e4c9bfe6aa83feff18dcf78b9a93750f22103464286d"
+      "sha256": "9341111700558fdfac0684c24be5632ecab443e7ac0621e69d64f402c116fa70"
     },
     {
       "bytes": 721,
@@ -63,9 +63,9 @@
       "sha256": "07c3db3e08ce16478090cadf0d99d4f01b1d31a6d2c828da6bc3ea1666c49752"
     },
     {
-      "bytes": 8790,
+      "bytes": 8874,
       "path": "Makefile",
-      "sha256": "7ec254b89c27f354e442a106326b1604ccc195dc55901f48689ad350773aae76"
+      "sha256": "3a87b1029a0b868876339b90f41d9ef539a12acd1812ce4fff8c8b87715054d2"
     },
     {
       "bytes": 123,
@@ -148,9 +148,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 2438,
+      "bytes": 2460,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "8c76725edaab12f5db6f444ac6806efc620d09579577ab563f254bc2065c79f7"
+      "sha256": "be4dca0af7f6d7381b62860d9f39a7c325e654b3bdec839b9baba84ee567ddc5"
     },
     {
       "bytes": 657,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 21410,
+      "bytes": 21665,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "462a3c8147bac5b8865d5ebba214668b41f796763c209be970cb8151c6bc2cc0"
+      "sha256": "2a4194dd3374ffa67293c3551f40c1bde8434802d4cb5cc0f472bc10266fb94d"
     },
     {
       "bytes": 826,
@@ -658,6 +658,11 @@
       "sha256": "34ca3f5a8472ad5666a97f679ac6d0ddf13d08f4fd59a1c2b70d08f4caf6d0e2"
     },
     {
+      "bytes": 2011,
+      "path": "docs/methodology/MUTATION_TESTING.md",
+      "sha256": "f4afa8e5c0b3597f793b0459100ff106f16bf55b0f077f9b03790585d3a0a4db"
+    },
+    {
       "bytes": 824,
       "path": "docs/methodology/NO_VERDICT_INVARIANT.md",
       "sha256": "05787c9f0b3388161113fc56a074e0bec7b153aa9ad130b4723ab2ede6ed1ef9"
@@ -958,14 +963,19 @@
       "sha256": "3886424ee9a511a1deca2cafba620b74cb5135157013eacd4ee23b55c3ab0fdb"
     },
     {
-      "bytes": 5811,
+      "bytes": 5861,
       "path": "scripts/institutional_verify.py",
-      "sha256": "1eea2bb4003f61598241e3b56df5d300b52a486bee881e43513ce48af4ffe442"
+      "sha256": "4822761ee0527f0d811cb4fa83664cd3e0a6648644bf35e08b74d7ab165a51a7"
     },
     {
       "bytes": 3497,
       "path": "scripts/misuse_threat_model_check.py",
       "sha256": "9f6d8b9ef6253afaca007409f0ff11bf288e348e93e88386764a4df86a2cef74"
+    },
+    {
+      "bytes": 4911,
+      "path": "scripts/mutation_check.py",
+      "sha256": "6bb7096464a8b82d2ba25b5aacef619cead649021a54fd6501c147a5b0b04a67"
     },
     {
       "bytes": 123,
@@ -1713,6 +1723,11 @@
       "sha256": "f356d90b18da46d72b3c25d36097893c6a289233bfc91754e808bed607073e8a"
     },
     {
+      "bytes": 1864,
+      "path": "tests/test_mutation_score.py",
+      "sha256": "ddc3685b3fe764e888c19cc0e48f1a591230454e5b225728ab28e4940495b85a"
+    },
+    {
       "bytes": 2702,
       "path": "tests/test_neurocognitive_protocol.py",
       "sha256": "54585d9b5b4fd582e2fc55fbd8c1571fa23cc4ea114041b750ab206b8360214b"
@@ -1808,7 +1823,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T07:51:35+00:00",
+  "generated_at_utc": "2026-07-04T07:57:39+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

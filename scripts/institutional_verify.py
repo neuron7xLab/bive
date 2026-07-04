@@ -35,6 +35,7 @@ _ROADMAP = [
     ("MISUSE_THREAT_MODEL_PASS", "misuse_threat_model_check.py"),
     ("EXTERNAL_REPLICATION_READY", "external_replication_check.py"),
     ("CAPABILITY_REGISTRY_PASS", "capability_registry_check.py"),
+    ("MUTATION_SCORE_PASS", "mutation_check.py"),
     ("INSTITUTIONAL_SCORECARD_PASS", "institutional_scorecard.py"),
 ]
 

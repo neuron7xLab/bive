@@ -233,3 +233,5 @@ bive-cognitive-control "Inspect repository and produce bounded verification task
 ## Product readiness state
 
 Current packaged state is an open-source GitHub product candidate, not a deployed production service. `make product-readiness` and `/api/v1/system/product-readiness?api-version=2026-06-11` intentionally keep the product at non-GREEN while dependency CVE audit, Docker runtime, deployment smoke and human-impact review remain external gates.
+
+<!-- trigger probe 07257b3 -->

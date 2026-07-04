@@ -126,12 +126,13 @@ docs/methodology/CROSS_DOMAIN_MATRIX.md
 docs/methodology/DATASET_ACCESS_NOTES.md
 docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md
 docs/methodology/DOMAIN_DISTANCE_POLICY.md
-docs/methodology/MISUSE_THREAT_MODEL.md
+docs/methodology/EXTERNAL_REPLICATION_GUIDE.md
 docs/methodology/NO_VERDICT_INVARIANT.md
 docs/methodology/OPERATOR_GUIDE.md
 docs/methodology/PHASE0_VERIFIABILITY.md
 docs/methodology/PRODUCT_CLAIM_POLICY.md
 docs/openapi.json
+docs/security/MISUSE_THREAT_MODEL.md
 evals/aos_eval_tasks.json
 evals/aos_score_schema.json
 prompts/AOS_PROMPT_KERNEL_v1.0.txt

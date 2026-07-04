@@ -2,7 +2,7 @@
 
 The spec requires reporting not only *whether* a gate passes but the cost, time,
 and failure mode of reaching that result. This reads the timing produced by the
-release battery (``artifacts/verification/gates.json``), writes a resource report,
+release battery (``artifacts/verification/RELEASE_TIMINGS.json``), writes a resource report,
 and enforces a wall-time budget so the verification suite cannot silently bloat.
 
 Emits ``RESOURCE_EFFECTIVENESS_PASS``; exits non-zero if the timing artifact is
@@ -12,10 +12,14 @@ missing, over budget, or contains a failed gate.
 from __future__ import annotations
 
 import json
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
-GATES = ROOT / "artifacts" / "verification" / "gates.json"
+# The FULL-battery per-gate timing (all ~46 gates), written by verify_release.
+# NOT gates.json — that is the evidence-bundle's 4-gate subset, which would make the
+# budget check trivially pass and measure nothing of the real battery.
+GATES = ROOT / "artifacts" / "verification" / "RELEASE_TIMINGS.json"
 OUT = ROOT / "artifacts" / "verification" / "RESOURCE_EFFECTIVENESS.json"
 
 # Budgets: the whole battery and any single gate. Generous but bounded — the point
@@ -26,24 +30,28 @@ _PER_GATE_BUDGET_S = 600.0
 
 def audit() -> tuple[dict[str, object], list[str]]:
     if not GATES.is_file():
-        return {}, [f"missing timing artifact: {GATES.relative_to(ROOT)} (run verify-release first)"]
+        return {}, [f"missing timing artifact: {GATES.name} (run verify-release first)"]
     data = json.loads(GATES.read_text(encoding="utf-8"))
     gates = data.get("gates", [])
     problems: list[str] = []
     per_gate: list[dict[str, object]] = []
     total = 0.0
     for g in gates:
-        cmd = " ".join(g.get("command", [])) if isinstance(g.get("command"), list) else str(g.get("command", ""))
+        cmd = str(g.get("name", g.get("command", "")))
         dur = float(g.get("duration_seconds", 0.0))
         total += dur
         per_gate.append({"command": cmd, "duration_seconds": dur, "result": g.get("result", "")})
         if dur > _PER_GATE_BUDGET_S:
             problems.append(f"gate over per-gate budget ({dur:.1f}s > {_PER_GATE_BUDGET_S}s): {cmd}")
         if g.get("result") not in ("pass", ""):
-            excerpt = str(g.get("failure_excerpt", ""))[:120]
-            problems.append(f"non-passing gate in timing: {cmd} -> {g.get('result')} {excerpt!r}")
+            problems.append(f"non-passing gate in timing: {cmd} -> {g.get('result')}")
     if total > _TOTAL_BUDGET_S:
         problems.append(f"battery over total budget ({total:.1f}s > {_TOTAL_BUDGET_S}s)")
+    # Completeness: the timing must cover the FULL release battery, not a subset —
+    # otherwise the budget bounds nothing real (the defect this replaces).
+    expected = _expected_gate_count()
+    if expected and len(gates) < expected:
+        problems.append(f"incomplete timing ({len(gates)} < {expected} gates) — not the full battery")
 
     slowest = sorted(per_gate, key=lambda x: -float(x["duration_seconds"]))[:5]  # type: ignore[arg-type]
     expensive_failures = [
@@ -67,6 +75,17 @@ def audit() -> tuple[dict[str, object], list[str]]:
         "status": "PASS" if not problems else "FAIL",
     }
     return report, problems
+
+
+def _expected_gate_count() -> int:
+    """Full release-battery gate count — the completeness threshold."""
+    sys.path.insert(0, str(ROOT / "scripts"))
+    try:
+        import verify_release  # noqa: PLC0415
+
+        return len(verify_release.COMMANDS)
+    except Exception:  # noqa: BLE001
+        return 0
 
 
 def _dependency_count() -> int:

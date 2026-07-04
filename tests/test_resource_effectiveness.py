@@ -1,4 +1,9 @@
-"""PR-3 Resource-Effectiveness Audit — cost + posture reporting."""
+"""PR-3 Resource-Effectiveness Audit — cost + posture, on the FULL battery timing.
+
+Tests use controlled synthetic timing (never the live, possibly-mid-run artifact),
+and include mutation proof that the budget and completeness checks actually FAIL on a
+real defect — otherwise the gate would be decoration (A3).
+"""
 
 from __future__ import annotations
 
@@ -10,35 +15,54 @@ sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "scripts"))
 import resource_effectiveness_check as re_check  # noqa: E402  (needs scripts/ on sys.path first)
 
 
-def test_report_declares_all_mandated_fields() -> None:
+def _timing(tmp_path: Path, gates: list[dict[str, object]]) -> Path:
+    p = tmp_path / "RELEASE_TIMINGS.json"
+    p.write_text(json.dumps({"gates": gates, "gate_count": len(gates), "status": "pass"}), encoding="utf-8")
+    return p
+
+
+def _ok_gates(n: int) -> list[dict[str, object]]:
+    return [{"name": f"g{i}", "duration_seconds": 1.0, "result": "pass"} for i in range(n)]
+
+
+def test_complete_passing_battery_reports_all_fields(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    monkeypatch.setattr(re_check, "_expected_gate_count", lambda: 46)
+    monkeypatch.setattr(re_check, "GATES", _timing(tmp_path, _ok_gates(46)))
     report, problems = re_check.audit()
-    if not report:  # no timing artifact in a bare checkout — must fail closed
-        assert problems
-        return
-    # The mandate requires wall time, memory policy, dependencies, tests, gates,
-    # artifacts, and expensive failures.
-    for field in (
-        "total_seconds", "memory_policy", "dependencies", "test_count",
-        "gate_count", "artifacts_present", "expensive_failures",
-    ):
-        assert field in report, f"resource report omits {field}"
+    assert problems == []
+    for field in ("total_seconds", "memory_policy", "dependencies", "test_count", "gate_count", "artifacts_present", "expensive_failures"):
+        assert field in report
 
 
-def test_report_within_budget_and_no_expensive_failures() -> None:
-    report, _ = re_check.audit()
-    if not report:
-        return
-    assert float(report["total_seconds"]) <= float(report["total_budget_seconds"])  # type: ignore[arg-type]
-    assert report["expensive_failures"] == []  # a non-passing gate would fail the audit
+def test_incomplete_battery_fails(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    monkeypatch.setattr(re_check, "_expected_gate_count", lambda: 46)
+    monkeypatch.setattr(re_check, "GATES", _timing(tmp_path, _ok_gates(4)))  # only 4 of 46
+    _report, problems = re_check.audit()
+    assert any("incomplete timing" in p for p in problems)
 
 
-def test_counts_are_non_negative() -> None:
-    assert re_check._dependency_count() >= 0
-    assert re_check._test_count() >= 1
+def test_budget_bites_on_slow_gate(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # Mutation proof: a gate exceeding the per-gate budget must FAIL the audit.
+    monkeypatch.setattr(re_check, "_expected_gate_count", lambda: 1)
+    slow = [{"name": "bloated", "duration_seconds": re_check._PER_GATE_BUDGET_S + 1, "result": "pass"}]
+    monkeypatch.setattr(re_check, "GATES", _timing(tmp_path, slow))
+    _report, problems = re_check.audit()
+    assert any("per-gate budget" in p for p in problems)
 
 
-def test_gate_emits_artifact() -> None:
-    assert re_check.main() == 0
-    art = json.loads(re_check.OUT.read_text(encoding="utf-8"))
-    assert art["status"] == "PASS"
-    assert "memory_policy" in art
+def test_failed_gate_in_timing_fails(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    monkeypatch.setattr(re_check, "_expected_gate_count", lambda: 1)
+    gates = [{"name": "broken", "duration_seconds": 1.0, "result": "fail"}]
+    monkeypatch.setattr(re_check, "GATES", _timing(tmp_path, gates))
+    _report, problems = re_check.audit()
+    assert any("non-passing gate" in p for p in problems)
+
+
+def test_missing_timing_artifact_fails_closed(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    monkeypatch.setattr(re_check, "GATES", tmp_path / "absent.json")
+    report, problems = re_check.audit()
+    assert report == {} and problems
+
+
+def test_expected_gate_count_is_the_full_battery() -> None:
+    assert re_check._expected_gate_count() >= 40

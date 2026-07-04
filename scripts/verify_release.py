@@ -1,14 +1,19 @@
 from __future__ import annotations
 
+import json
 import os
 import signal
 import subprocess
 import sys
+import time
 from contextlib import suppress
 from dataclasses import dataclass
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
+# Real per-gate wall-time for the FULL battery — the resource-effectiveness gate's
+# evidence (gates.json is only the 4-gate evidence bundle, not this).
+TIMINGS = ROOT / "artifacts" / "verification" / "RELEASE_TIMINGS.json"
 LOG = ROOT / "artifacts" / "verification" / "VERIFY_RELEASE.log"
 
 
@@ -113,12 +118,16 @@ def main() -> int:
             "wheel smoke, manifest and evidence bundle. External dependency CVE audit and Docker "
             "runtime remain separate network/host gates.\n"
         )
+        timings: list[dict[str, object]] = []
         for item in COMMANDS:
             header = f"\n$ {' '.join(item.command)}\n"
             print(header, end="", flush=True)
             log.write(header)
             log.flush()
+            started = time.perf_counter()
             code, output = run_gate(item, env)
+            elapsed = round(time.perf_counter() - started, 3)
+            timings.append({"name": item.name, "duration_seconds": elapsed, "result": "pass" if code == 0 else "fail"})
             if output:
                 print(output, end="", flush=True)
                 log.write(output)
@@ -126,6 +135,7 @@ def main() -> int:
                 msg = f"VERIFY_RELEASE_FAIL {item.name} exit={code}\n"
                 print(msg, end="", flush=True)
                 log.write(msg)
+                _write_timings(timings, "fail")
                 return code
             ok = f"VERIFY_GATE_PASS {item.name}\n"
             print(ok, end="", flush=True)
@@ -133,7 +143,24 @@ def main() -> int:
             log.flush()
         print("VERIFY_RELEASE_PASS", flush=True)
         log.write("VERIFY_RELEASE_PASS\n")
+    _write_timings(timings, "pass")
     return 0
+
+
+def _write_timings(timings: list[dict[str, object]], status: str) -> None:
+    """Record real per-gate wall-time for the full battery (resource gate's evidence)."""
+    total = round(sum(float(t["duration_seconds"]) for t in timings if isinstance(t["duration_seconds"], (int, float))), 3)
+    TIMINGS.parent.mkdir(parents=True, exist_ok=True)
+    TIMINGS.write_text(
+        json.dumps(
+            {"gates": timings, "gate_count": len(timings), "total_seconds": total, "status": status},
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
 
 
 if __name__ == "__main__":

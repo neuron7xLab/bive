@@ -61,6 +61,7 @@
     "red-team",
     "reference-result-integrity",
     "repo-clean",
+    "report-determinism",
     "resource-effectiveness-check",
     "schema",
     "science-registry",

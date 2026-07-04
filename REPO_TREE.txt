@@ -207,6 +207,7 @@ scripts/mutation_check.py
 scripts/pr_check.py
 scripts/product_claim_audit.py
 scripts/reference_result_integrity_check.py
+scripts/report_determinism_check.py
 scripts/resource_effectiveness_check.py
 scripts/run_phase0_verifiability.py
 scripts/validate_aos_kernel.py
@@ -368,6 +369,7 @@ tests/test_red_team_and_simulation.py
 tests/test_reference_result_integrity.py
 tests/test_release_gate_contract.py
 tests/test_report.py
+tests/test_report_determinism.py
 tests/test_resource_effectiveness.py
 tests/test_schema_contract.py
 tests/test_science_api_contract.py

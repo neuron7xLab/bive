@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 431,
+  "test_functions": 437,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -495,6 +495,14 @@
     "tests/test_report.py": [
       "test_report_builds_and_validates",
       "test_report_serialization"
+    ],
+    "tests/test_report_determinism.py": [
+      "test_substantive_content_is_a_pure_function_of_input",
+      "test_report_id_is_stable_across_runs",
+      "test_report_id_is_the_content_digest",
+      "test_report_id_excludes_the_timestamp",
+      "test_different_transcript_changes_the_id",
+      "test_report_id_keeps_the_conventional_format"
     ],
     "tests/test_resource_effectiveness.py": [
       "test_complete_passing_battery_reports_all_fields",

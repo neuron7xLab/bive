@@ -1,16 +1,16 @@
 {
   "entries": [
     {
-      "bytes": 63875,
+      "bytes": 64212,
       "exists": true,
       "path": "ARTIFACT_MANIFEST.json",
-      "sha256": "15a7cb7ccc130d0410ddad609baf018e18457498751e588782bdfffeecd26ecd"
+      "sha256": "a39ba5303b47434c89cf066ddd47ccb5912f48a5cf0a9afccdf2c7c22783c166"
     },
     {
       "bytes": 1316,
       "exists": true,
       "path": "PRODUCT_SYSTEM_INDEX.json",
-      "sha256": "8bb30f2887f8b400eb4b848440028cf7d793900c29e1ab160dcff7a3502b4fd7"
+      "sha256": "191c8445b326ada8d76791ebf561bad730a8aba6e72e2abb8099880f259181c8"
     },
     {
       "bytes": 5801,
@@ -31,16 +31,16 @@
       "sha256": "9ffc0d8b49efa0c3085879e314dd2e7238460567d180793c18199fbd9bc9c981"
     },
     {
-      "bytes": 25549,
+      "bytes": 25902,
       "exists": true,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "d80ab9f12a648aeb7c5d9a854918e0f2f5701935b1eb8d1bba037b0d4bc3ca62"
+      "sha256": "366596c95c93f70c54e63190f65b349cbe173fe41dfbeb764b902be6f61792df"
     },
     {
-      "bytes": 2529,
+      "bytes": 2555,
       "exists": true,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "5fa2897905d236cf67d4562217ec99d421a0324b75d1bc993214d10e9b9d01f2"
+      "sha256": "5f123a5f3adb5a77428dd44f3ac3eed6646ac764ac6e22a7d1ff8b42fa7e4a18"
     },
     {
       "bytes": 657,

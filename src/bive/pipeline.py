@@ -1,13 +1,29 @@
 from __future__ import annotations
 
+import hashlib
 import json
-import uuid
 from pathlib import Path
 from typing import Any
 
 from .ingest import TranscriptSegment
 from .models import VerificationReport
 from .report import build_report_from_segments
+
+
+def _content_report_id(report: VerificationReport) -> str:
+    """A content-addressed report id: sha256 over the substantive analysis.
+
+    The id is a pure function of the input transcript, NOT of wall-clock time or a
+    random uuid — two auditors who analyze the same transcript get the same id, so
+    reports are reproducible, deduplicable and tamper-evident (a changed analysis
+    changes the id). ``report_id`` and the volatile ``created_at`` timestamp are
+    excluded from the digest so the id encodes the analysis, not when it was run.
+    """
+    payload = report.to_dict()
+    payload.pop("report_id", None)
+    payload.pop("created_at", None)
+    canonical = json.dumps(payload, sort_keys=True, separators=(",", ":"), ensure_ascii=False)
+    return hashlib.sha256(canonical.encode("utf-8")).hexdigest()[:12]
 
 
 def parse_transcript_payload(payload: dict[str, Any]) -> list[TranscriptSegment]:
@@ -40,8 +56,9 @@ def analyze_transcript_payload(
     report = build_report_from_segments(
         parse_transcript_payload(payload), subject_scope=subject_scope
     )
-    # deterministic enough for tests while avoiding id collisions in API usage
-    object.__setattr__(report, "report_id", f"bive-report-{uuid.uuid4().hex[:12]}")
+    # Content-addressed: the id is a pure function of the analysis (same transcript ->
+    # same id), so reports are reproducible and tamper-evident rather than random.
+    object.__setattr__(report, "report_id", f"bive-report-{_content_report_id(report)}")
     return report
 
 

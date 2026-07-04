@@ -76,6 +76,7 @@ COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("capability-registry", [sys.executable, "scripts/capability_registry_check.py"], 60),
     GateCommand("demo", ["make", "demo"], 120),
     GateCommand("demo-gate", [sys.executable, "-m", "bive.cli", "gate", "--input", "artifacts/local_demo_report.json"], 60),
+    GateCommand("report-determinism", [sys.executable, "scripts/report_determinism_check.py"], 60),
     GateCommand("evidence-bundle", [sys.executable, "scripts/generate_evidence_bundle.py"], 120),
 )
 

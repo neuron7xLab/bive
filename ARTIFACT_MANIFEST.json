@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 381,
+  "file_count": 383,
   "files": [
     {
       "bytes": 113,
@@ -18,9 +18,9 @@
       "sha256": "a9052c9648277fad9ad86c89443e9e5403b0f9f754208068d6ca1ebc74639aaa"
     },
     {
-      "bytes": 2040,
+      "bytes": 2087,
       "path": ".gitignore",
-      "sha256": "3eeedd81b6f6462554d8feb65a7a8f317b2c4aeba23fcea5c9c0fa54749dd37b"
+      "sha256": "91391676353ce2da33535a490a75e49d0cc7ab74900edc9c91d6b173f9e21340"
     },
     {
       "bytes": 721,
@@ -63,9 +63,9 @@
       "sha256": "07c3db3e08ce16478090cadf0d99d4f01b1d31a6d2c828da6bc3ea1666c49752"
     },
     {
-      "bytes": 9129,
+      "bytes": 9231,
       "path": "Makefile",
-      "sha256": "646e08490b2c070690fa82b3bfbc325638596a0efd195f706adf6df44c59f5cc"
+      "sha256": "eec2351f5feae300e6eb3628fab2087804b4b7097d86dc8969b5937efb45d56a"
     },
     {
       "bytes": 123,
@@ -148,9 +148,9 @@
       "sha256": "ab9401837d618a425f41d3eb266bfe7df109912d1317f5e3ea0db23d68bd6a9f"
     },
     {
-      "bytes": 2529,
+      "bytes": 2555,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "5fa2897905d236cf67d4562217ec99d421a0324b75d1bc993214d10e9b9d01f2"
+      "sha256": "5f123a5f3adb5a77428dd44f3ac3eed6646ac764ac6e22a7d1ff8b42fa7e4a18"
     },
     {
       "bytes": 657,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 25549,
+      "bytes": 25902,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "d80ab9f12a648aeb7c5d9a854918e0f2f5701935b1eb8d1bba037b0d4bc3ca62"
+      "sha256": "366596c95c93f70c54e63190f65b349cbe173fe41dfbeb764b902be6f61792df"
     },
     {
       "bytes": 826,
@@ -1048,6 +1048,11 @@
       "sha256": "b11aae63b3fdc9dd0abc0f2140037d930733458d9f58b3f0e190a9a4c15a8714"
     },
     {
+      "bytes": 4058,
+      "path": "scripts/report_determinism_check.py",
+      "sha256": "f3694398df976827e2e5c4edfb5f3c400d832a4bc384fac0e745422303245072"
+    },
+    {
       "bytes": 5704,
       "path": "scripts/resource_effectiveness_check.py",
       "sha256": "0397584a8134909f61488b9c4696e404c5651d8bb684e9216035ae542629bd62"
@@ -1138,9 +1143,9 @@
       "sha256": "323a086df4e1a288e111a0ae1d807f703560f4b147e13070b7d75353ef7c7885"
     },
     {
-      "bytes": 9294,
+      "bytes": 9394,
       "path": "scripts/verify_release.py",
-      "sha256": "e98f96ceb41d487607ddd79835b6fb4ffc81dd74e2716e3cffc12aa39d919854"
+      "sha256": "6602e037224f9e7d2f1223570d808083fb19f6603a6e99634e5fd08473a4ac34"
     },
     {
       "bytes": 2223,
@@ -1388,9 +1393,9 @@
       "sha256": "8657f9fedb87b471d9cfd437c436edc17ee0d0b454b09a8bbdb2f0f5f8998899"
     },
     {
-      "bytes": 1894,
+      "bytes": 2819,
       "path": "src/bive/pipeline.py",
-      "sha256": "76ce343e2aa5738be220294f90f737adf7551d14a1c315535590e299cdde85a9"
+      "sha256": "83e49774e46540c4254de5360eb6df7950b6a416eb1733a7d6da48997a01ada5"
     },
     {
       "bytes": 2341,
@@ -1853,6 +1858,11 @@
       "sha256": "337ee08ed0771d0e07283d27f670e002f55760756e59dc9dce7bd15742be1939"
     },
     {
+      "bytes": 2290,
+      "path": "tests/test_report_determinism.py",
+      "sha256": "53ba03c0d84264ca0660d0ade740af6a4ca8fc53006355b78c4f569b5db0a094"
+    },
+    {
       "bytes": 4696,
       "path": "tests/test_resource_effectiveness.py",
       "sha256": "1339e0ee4b1ef7d72a8602d8135e06e14601516edecbae8bb8baa19e22f80c4c"
@@ -1908,7 +1918,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T11:23:33+00:00",
+  "generated_at_utc": "2026-07-04T11:35:53+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 364,
+  "file_count": 365,
   "files": [
     {
       "bytes": 113,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 21923,
+      "bytes": 22305,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "c23f54448beb172b942067637d75da4bbe1c10f700be03245ecd103d81d8d294"
+      "sha256": "48d82885bc37d1070d8526835dba85b45db7b46c81ef462cae479d5ea157bf3d"
     },
     {
       "bytes": 826,
@@ -913,9 +913,9 @@
       "sha256": "5bdeb325d2c4b2bde8e9a3707d8649dd19b7ef8e92047526688e7ec391ca0f2f"
     },
     {
-      "bytes": 4495,
+      "bytes": 6097,
       "path": "scripts/cross_domain_matrix_check.py",
-      "sha256": "8d839fd7fd1b84571b4005a81f8eaa51e5e7205325120041c5d9ec03a70cc746"
+      "sha256": "ec27d0bbaba9cf382d6cc01c9db5b934569f1193939c620acef8f53b70238988"
     },
     {
       "bytes": 2253,
@@ -1643,6 +1643,11 @@
       "sha256": "ec8c3a95536c441863dd05ff48441bac904432d449df3ed73e43a02e954d21c7"
     },
     {
+      "bytes": 4531,
+      "path": "tests/test_cross_domain_matrix.py",
+      "sha256": "9ae3efc236dfd40f1b21f8bc43a532f4e6576716c48112bf2f3d342418ad1c15"
+    },
+    {
       "bytes": 2432,
       "path": "tests/test_dependency_contracts.py",
       "sha256": "3c389e40738134db1dbd97d7f36e926df014881a4301330c15d4e63bb75bd5a6"
@@ -1823,7 +1828,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T08:07:35+00:00",
+  "generated_at_utc": "2026-07-04T08:18:43+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

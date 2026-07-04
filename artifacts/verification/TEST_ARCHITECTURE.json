@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 364,
+  "test_functions": 371,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -265,6 +265,15 @@
       "test_signed_document_is_checkable_and_routed",
       "test_pure_opinion_is_not_in_worklist",
       "test_english_worklist_uses_english_labels"
+    ],
+    "tests/test_cross_domain_matrix.py": [
+      "test_honest_matrix_passes",
+      "test_dropping_the_ceiling_cross_row_fails",
+      "test_dropping_the_entire_ceiling_model_fails",
+      "test_low_in_domain_ceiling_is_not_a_collapse",
+      "test_widened_chance_band_is_rejected",
+      "test_ceiling_not_collapsing_fails",
+      "test_the_frozen_repo_matrix_still_passes"
     ],
     "tests/test_dependency_contracts.py": [
       "test_dependency_contract_script_passes",

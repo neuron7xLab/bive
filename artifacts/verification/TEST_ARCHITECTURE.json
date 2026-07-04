@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 371,
+  "test_functions": 378,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -355,7 +355,14 @@
       "test_release_governance_fails_without_log",
       "test_release_governance_fails_when_a_governance_gate_did_not_pass",
       "test_release_governance_fails_on_recorded_gate_failure",
-      "test_release_governance_passes_on_full_governance_evidence"
+      "test_release_governance_passes_on_full_governance_evidence",
+      "test_live_card_is_internally_consistent",
+      "test_tampered_score_above_raw_is_caught",
+      "test_score_above_unreplicated_cap_is_caught",
+      "test_wrong_fraction_is_caught",
+      "test_band_mismatch_is_caught",
+      "test_unknown_source_is_caught",
+      "test_main_fails_on_a_corrupted_card"
     ],
     "tests/test_institutional_verify_honesty.py": [
       "test_absent_log_is_unverified",

@@ -136,13 +136,77 @@ def compute() -> dict[str, object]:
     }
 
 
+def _integrity_problems(card: dict[str, object]) -> list[str]:
+    """Verify the card is a well-formed, gate-derived computation.
+
+    ``computed_from_gates``/``manual_override`` are literal constants in ``compute``
+    and can never flip, so asserting them proves nothing. This instead re-derives the
+    scoring math from the recorded dimensions and fails on any inconsistency — the
+    honest pass condition is that the computation is internally sound, not that the
+    score is high.
+    """
+    problems: list[str] = []
+    if card.get("manual_override") or not card.get("computed_from_gates"):
+        problems.append("computation not gate-derived")
+
+    dims = card.get("dimensions")
+    if not isinstance(dims, list) or not dims:
+        problems.append("scorecard has no dimensions")
+        return problems
+
+    known_sources = {s for _n, _w, srcs in _DIMENSIONS for s in srcs}
+    total_weight = 0
+    weighted = 0.0
+    for d in dims:
+        name = d.get("name")
+        weight = d.get("weight")
+        sources = d.get("sources", [])
+        passing = d.get("passing", [])
+        frac = d.get("fraction")
+        if not isinstance(weight, int) or not isinstance(sources, list) or not sources:
+            problems.append(f"{name}: malformed dimension")
+            continue
+        total_weight += weight
+        if not set(passing).issubset(set(sources)):
+            problems.append(f"{name}: passing not a subset of sources")
+        if not set(sources).issubset(known_sources):
+            problems.append(f"{name}: cites an unknown gate source")
+        expected_frac = round(len(passing) / len(sources), 3)
+        if frac != expected_frac:
+            problems.append(f"{name}: fraction {frac} != {expected_frac} (len passing/sources)")
+        weighted += weight * (frac if isinstance(frac, (int, float)) else -1.0)
+
+    if total_weight != 100:
+        problems.append(f"dimension weights sum to {total_weight}, not 100")
+
+    raw = card.get("raw_score")
+    if raw != round(weighted / 10.0, 2):
+        problems.append(f"raw_score {raw} does not match re-derived {round(weighted / 10.0, 2)}")
+
+    score = card.get("score")
+    replicated = bool(card.get("externally_replicated"))
+    if isinstance(score, (int, float)) and isinstance(raw, (int, float)):
+        if score > raw:
+            problems.append(f"capped score {score} exceeds raw {raw}")
+        if not replicated and score > _UNREPLICATED_CAP:
+            problems.append(f"score {score} exceeds unreplicated cap {_UNREPLICATED_CAP}")
+        if card.get("band") != _band(float(score)):
+            problems.append(f"band {card.get('band')!r} does not match score {score}")
+    else:
+        problems.append("score/raw_score not numeric")
+    return problems
+
+
 def main() -> int:
     card = compute()
     OUT.parent.mkdir(parents=True, exist_ok=True)
     OUT.write_text(json.dumps(card, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
     # Integrity of the computation is the pass condition — not a high score.
-    if card["manual_override"] or not card["computed_from_gates"]:
-        print("INSTITUTIONAL_SCORECARD_FAIL computation not gate-derived")
+    problems = _integrity_problems(card)
+    if problems:
+        for p in problems:
+            print(f"INSTITUTIONAL_SCORECARD_ISSUE {p}")
+        print(f"INSTITUTIONAL_SCORECARD_FAIL {len(problems)} integrity issue(s)")
         return 1
     print(f"INSTITUTIONAL_SCORECARD_PASS score={card['score']} band={card['band']!r}")
     return 0

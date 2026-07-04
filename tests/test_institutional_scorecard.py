@@ -87,3 +87,62 @@ def test_release_governance_fails_on_recorded_gate_failure(tmp_path: Path, monke
 
 def test_release_governance_passes_on_full_governance_evidence(tmp_path: Path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
     assert _governance(tmp_path, monkeypatch, _FULL_LOG) is True
+
+
+# --- integrity self-audit: a corrupted computation must fail, not print PASS ---
+
+
+def test_live_card_is_internally_consistent() -> None:
+    assert sc._integrity_problems(sc.compute()) == []
+
+
+def test_tampered_score_above_raw_is_caught() -> None:
+    card = sc.compute()
+    card["score"] = float(card["raw_score"]) + 1.0  # type: ignore[arg-type]
+    problems = sc._integrity_problems(card)
+    assert any("exceeds raw" in p for p in problems), problems
+
+
+def test_score_above_unreplicated_cap_is_caught() -> None:
+    card = sc.compute()
+    card["raw_score"] = 9.9
+    card["score"] = 9.9  # would be benchmark-grade without replication
+    card["externally_replicated"] = False
+    problems = sc._integrity_problems(card)
+    assert any("unreplicated cap" in p for p in problems), problems
+
+
+def test_wrong_fraction_is_caught() -> None:
+    card = sc.compute()
+    dims = card["dimensions"]
+    assert isinstance(dims, list) and dims
+    dims[0]["fraction"] = 0.999  # inconsistent with passing/sources
+    problems = sc._integrity_problems(card)
+    assert any("fraction" in p for p in problems), problems
+
+
+def test_band_mismatch_is_caught() -> None:
+    card = sc.compute()
+    card["band"] = "externally replicated benchmark-grade system"  # lie about the band
+    problems = sc._integrity_problems(card)
+    assert any("band" in p for p in problems), problems
+
+
+def test_unknown_source_is_caught() -> None:
+    card = sc.compute()
+    dims = card["dimensions"]
+    assert isinstance(dims, list) and dims
+    dims[0]["sources"] = [*dims[0]["sources"], "not_a_real_gate.py"]
+    problems = sc._integrity_problems(card)
+    assert any("unknown gate source" in p or "fraction" in p for p in problems), problems
+
+
+def test_main_fails_on_a_corrupted_card(monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    good = sc.compute()
+
+    def _bad() -> dict[str, object]:
+        good["score"] = float(good["raw_score"]) + 2.0  # type: ignore[arg-type]
+        return good
+
+    monkeypatch.setattr(sc, "compute", _bad)
+    assert sc.main() == 1

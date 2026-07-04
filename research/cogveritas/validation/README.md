@@ -39,7 +39,7 @@ With the char-3-gram language-ID model (`src/bive/cogveritas/lid_model.json`):
 | No-verdict invariant | HOLDS over 383 inputs | (falsification gate) |
 | Probability suppression | HOLDS (0 probabilities emitted) | (falsification gate) |
 | Integrity | reproducible in-run **and** across `PYTHONHASHSEED` | |
-| Verifiability face-validity | 0.875 [0.69, 0.96], n=24 | (sanity check) |
+| Verifiability face-validity | 0.958 [0.796, 0.992], n=24 | (sanity check) |
 
 95% Wilson intervals in brackets. Hard invariants are falsification gates — any
 violation exits non-zero.

@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 25022,
+      "bytes": 25090,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "0b71a7e16ce664269f53b1de3516033539400a6cef7ebfb59d96be1c6e387588"
+      "sha256": "dec230820303ccd3a16a4f49672d7a8bb996b87318aad4f94e11a1541cb9ed0a"
     },
     {
       "bytes": 826,
@@ -803,9 +803,9 @@
       "sha256": "b5fe8a82fa80bcb4770f7db8e40a618f0ed50aa8dc9e57e930ff8366ecb93675"
     },
     {
-      "bytes": 3187,
+      "bytes": 3189,
       "path": "research/cogveritas/validation/README.md",
-      "sha256": "983b4525015b3103f9b5796831c1483e9f3262c37220d02e36c564ea9344c82b"
+      "sha256": "ff2cb92c9775d3e1d6e34f802b374312b930b1374ece2b81f19ec65601c37248"
     },
     {
       "bytes": 3504,
@@ -1303,9 +1303,9 @@
       "sha256": "bbbe9dd7d630bc96be13b7218a8092daba8497dc5ee141cb6f57ada677d7f6a5"
     },
     {
-      "bytes": 7125,
+      "bytes": 7322,
       "path": "src/bive/cogveritas/verifiability_tagger.py",
-      "sha256": "2f2dc7a726eaf9479862c8bec937289134cc8e984eae8f74f96b5f1182f02b81"
+      "sha256": "8d3be5570b888b564453842e13cf7d0879164938d2cc431584d62a360d0e8fb3"
     },
     {
       "bytes": 5443,
@@ -1658,9 +1658,9 @@
       "sha256": "69394df788d920eb4b0e53eb1a5d8e46c42c3896a199a8b1341593d033c351ae"
     },
     {
-      "bytes": 6132,
+      "bytes": 6812,
       "path": "tests/test_cogveritas_lang.py",
-      "sha256": "7e2f0af2bb0b84d32f4fdc6afab509b4bb5372b54080dcfce639bd376f9e4627"
+      "sha256": "df997c9c7ea21aad0a489733a59ea0555617ad9383a947b517b057a09536917b"
     },
     {
       "bytes": 2259,
@@ -1883,7 +1883,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T11:02:30+00:00",
+  "generated_at_utc": "2026-07-04T11:09:56+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

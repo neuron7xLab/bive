@@ -119,9 +119,15 @@ def extract_named_entities(text: str, pack: LanguagePack | None = None) -> list[
 
 def _proper_names(text: str, pack: LanguagePack) -> list[str]:
     """Proper-noun proxy matches, minus capitalised function words (This, There,
-    Maybe, він, там…) the regex over-captures at sentence start — those are not
-    named-entity anchors and must not make an opinion read as externally checkable."""
-    return [m for m in pack.proper.findall(text) if m.lower() not in pack.stop_names]
+    Maybe, він, там…) and opinion markers (Здавалося, Казалось…) the regex
+    over-captures at sentence start — those are not named-entity anchors and must not
+    make an opinion read as externally checkable. A word cannot be both the opinion
+    cue and a named entity."""
+    return [
+        m
+        for m in pack.proper.findall(text)
+        if m.lower() not in pack.stop_names and m.lower() not in pack.unverifiable
+    ]
 
 
 def classify_claim_verifiability(claim: Claim) -> str:

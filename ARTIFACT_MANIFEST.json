@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 383,
+  "file_count": 384,
   "files": [
     {
       "bytes": 113,
@@ -73,9 +73,9 @@
       "sha256": "c2bce05a62fb38a880ac893a4d52755f2537d89981d6fc31ee758722f3aaa0fd"
     },
     {
-      "bytes": 9239,
+      "bytes": 8925,
       "path": "README.md",
-      "sha256": "bf4323e19a3353ae072e2b892201a257f69dbe48b87bc4da3e4eb50af03784e2"
+      "sha256": "7586ce18b322cffa1891a4dd11ef76d844a0d0fdc4fb3915e69af332c43f1a07"
     },
     {
       "bytes": 599,
@@ -596,6 +596,11 @@
       "bytes": 968,
       "path": "docs/VALUE_FUNCTIONS.md",
       "sha256": "5cafdde74834485e7190664b3a16ffbf2f94f98657a2602d9595c247301bf519"
+    },
+    {
+      "bytes": 365,
+      "path": "docs/assets/cogveritas-mark.svg",
+      "sha256": "669e28021cf96fd124bb4a27a5435c73e786c787d58249d470e4d1118a502ed5"
     },
     {
       "bytes": 2571,
@@ -1918,7 +1923,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T13:24:37+00:00",
+  "generated_at_utc": "2026-07-04T13:36:48+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

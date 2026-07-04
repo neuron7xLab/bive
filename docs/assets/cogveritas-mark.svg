@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="104" height="104" viewBox="0 0 64 64" role="img" aria-label="COGVERITAS">
+  <rect x="1.5" y="1.5" width="61" height="61" rx="15" fill="none" stroke="#8a8f9e" stroke-opacity="0.4"/>
+  <circle cx="32" cy="32" r="19" fill="none" stroke="#ffc46f" stroke-width="3"/>
+  <circle cx="32" cy="32" r="6" fill="#ffc46f"/>
+</svg>

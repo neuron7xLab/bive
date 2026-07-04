@@ -326,6 +326,7 @@ tests/test_cogveritas_reality_monitoring.py
 tests/test_cogveritas_timeline.py
 tests/test_cogveritas_witness.py
 tests/test_cogveritas_worklist.py
+tests/test_cross_domain_matrix.py
 tests/test_dependency_contracts.py
 tests/test_determinism_stress.py
 tests/test_domain_distance_policy.py

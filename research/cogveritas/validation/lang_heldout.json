@@ -1,0 +1,904 @@
+{
+ "provenance": {
+  "source": "Tatoeba",
+  "license": "CC BY 2.0 FR",
+  "role": "HELD-OUT (pages 7-12, disjoint from lang_corpus)"
+ },
+ "sentences": [
+  {
+   "id": 13936194,
+   "text": "У тебе лише кілька днів.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936198,
+   "text": "Скільки коштує корова?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936202,
+   "text": "Скільки коштує новий дах?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936208,
+   "text": "Вона чудово проводить час.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936216,
+   "text": "Зусилля виправдалися?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936217,
+   "text": "Усім заправляють чудовиська.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936218,
+   "text": "Будь обережною та не поранься об шипи, коли чиститимеш рибу.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936219,
+   "text": "Із луски виходить чудове добриво.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936220,
+   "text": "Як звати твою старшу сестру?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936221,
+   "text": "Як звати твою молодшу сестру?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936222,
+   "text": "Як звати президента Алжиру?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936223,
+   "text": "Ти хороший котик, Кукі.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936225,
+   "text": "Чому ти не прийшла на могилу?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936226,
+   "text": "Чому ніхто їй не повірив?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936227,
+   "text": "Ці кляті психопати керують світом і руйнують його. Придурки!",
+   "gold": "uk"
+  },
+  {
+   "id": 13936228,
+   "text": "Число — це кількість, а цифра — символ.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936229,
+   "text": "Ти йдеш на ринок?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936240,
+   "text": "Життя безглузде.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936256,
+   "text": "Я вже думала тобі дзвонити.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936263,
+   "text": "Може, я засну, дзвони, якщо що.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936265,
+   "text": "Пішли якісь приколи.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936267,
+   "text": "У мене загубився кіт.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936269,
+   "text": "Там ще щось роблять?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936271,
+   "text": "Бігала ловила цього гаврика. І він з'явився нізвідки.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936273,
+   "text": "Я це в голові прокручувала.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936275,
+   "text": "Хочеш поперекладати?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936277,
+   "text": "Усі ці викрадені та продані дані, а вони все ще рекламують мені водку й підгузки.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936279,
+   "text": "Мені не вдалося скинути їм поему Івана Багряного.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936281,
+   "text": "Невідомо, але дамо їм перевагу сумніву.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936283,
+   "text": "Я прибрала для тебе, і я визнаю, що до цього було ще гірше.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936285,
+   "text": "Мені треба набити волоські горіхи.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936287,
+   "text": "Дякую за розмову.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936289,
+   "text": "Дякую за вашу роботу та активну участь.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936291,
+   "text": "Мені не треба худнути, мне потрібно почуватися добре.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936293,
+   "text": "Що найкраще в цьому й що найгірше?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936295,
+   "text": "Що тобі найбільше сподобалося?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936297,
+   "text": "Вони сказали мені, що то була слива.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936299,
+   "text": "У нас дві парасольки, одна з яких зламана.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936309,
+   "text": "Мені сподобалося годувати голубів.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936310,
+   "text": "Дякую за уточнення.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936323,
+   "text": "Ця будівля — об’єкт Світової спадщини ЮНЕСКО.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936348,
+   "text": "Вона подарувала мені купу всього.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936350,
+   "text": "Я вже погодувала рибок.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936352,
+   "text": "Мені дуже сподобалась тканина.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936354,
+   "text": "Хочеш погодувати голубів?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936356,
+   "text": "Я скупилася на 200 гривень.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936358,
+   "text": "Я вже їла полуницю.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936360,
+   "text": "Я вже стільки всього чула про цей фільм.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936362,
+   "text": "Чи могла б я працювати з Вами над цим проєктом? Ваші вимоги мені вже відомі.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936365,
+   "text": "Він надрукований на 3D-принтері.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936367,
+   "text": "Вона подарувала мені два відрізки тканини.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936371,
+   "text": "Чи можна голубам пшоно?",
+   "gold": "uk"
+  },
+  {
+   "id": 13936384,
+   "text": "Я працюю над новим проєктом, пізніше покажу тобі, як вийшло.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936387,
+   "text": "Усе вело до цього моменту.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936392,
+   "text": "Я хочу знайти якусь цікаву тканину.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936395,
+   "text": "Від сонця в мене горить обличчя.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936397,
+   "text": "Це цікава тканина, але мені не подобаються ці кольори.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936431,
+   "text": "Ти ніколи не дізнаєшся, як сильно я сумую за тобою.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936587,
+   "text": "Це типовий самовпевнений балабол із застарілими поглядами.",
+   "gold": "uk"
+  },
+  {
+   "id": 13936588,
+   "text": "Це типовий самовпевнений зашкарублий всезнайко.",
+   "gold": "uk"
+  },
+  {
+   "id": 13963595,
+   "text": "Я хотела быть танцовщицей.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963597,
+   "text": "Я хочу поступить в Гарвард.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963639,
+   "text": "Самолёт вылетает вовремя?",
+   "gold": "ru"
+  },
+  {
+   "id": 13963641,
+   "text": "Том наконец нашёл свои ключи.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963643,
+   "text": "Я хочу пойти погулять.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963644,
+   "text": "Я хочу пойти прогуляться.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963646,
+   "text": "Я хочу построить дом.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963647,
+   "text": "Я хочу быть дипломатом.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963648,
+   "text": "Я хочу быть дизайнером.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963650,
+   "text": "Я редко приезжаю в Бостон.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963653,
+   "text": "Теперь я жалею, что я это сделал.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963657,
+   "text": "Мне нужно сделать это сегодня.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963658,
+   "text": "Яблоки упали с дерева.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963659,
+   "text": "Пфф! Кого волнует, что думает Том?",
+   "gold": "ru"
+  },
+  {
+   "id": 13963666,
+   "text": "Прости. Я тебя не слышал. Я был сосредоточен на другом.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963667,
+   "text": "Мне нужно сделать это ещё раз.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963669,
+   "text": "Том много чего купил.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963670,
+   "text": "Я знаю, что мне делать.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963671,
+   "text": "Том спросил меня, сделал ли я это.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963672,
+   "text": "Мы с Томом доверяем друг другу.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963673,
+   "text": "Я знаю, каким образом ты разбогател.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963674,
+   "text": "Я знаю, каким образом вы разбогатели.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964082,
+   "text": "Книгопечатание было изобретено в Китае.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964083,
+   "text": "Лапша была изобретена в Китае.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964084,
+   "text": "Задача была непростой.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964085,
+   "text": "Эта задача была непростой.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964147,
+   "text": "Задача была непростая.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964151,
+   "text": "Жена понятия не имеет, сколько денег я потерял.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964152,
+   "text": "Жена даже не представляет, сколько денег я потерял.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964153,
+   "text": "Иногда и одна жена — это слишком много.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964155,
+   "text": "Том, похоже, много кого знал на вечеринке.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964156,
+   "text": "Многие пары в конце концов разводятся.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964169,
+   "text": "Они поливают свой сад.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964170,
+   "text": "Они поливают сад.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964210,
+   "text": "Я из Италии.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964213,
+   "text": "Чтение книг сделает вас умнее.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964228,
+   "text": "Богиня Исида — мать Гора.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964236,
+   "text": "Парки улучшают качество жизни жителей.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964238,
+   "text": "Мы с Томом проговорили всю ночь.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964239,
+   "text": "Я много знаю о собаках.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964240,
+   "text": "Я много знаю о машинах.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964241,
+   "text": "Я знаю, что я плохо танцую.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964242,
+   "text": "Я знаю, что танцор из меня плохой.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964243,
+   "text": "Я знаю, что танцор из меня никудышный.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964262,
+   "text": "Одежда красивая.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964263,
+   "text": "Одежда хорошая.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964271,
+   "text": "Первым делом составь список.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964272,
+   "text": "Первым делом составьте список.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964273,
+   "text": "Первым делом надо составить список.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964274,
+   "text": "Я знаю, что мне надо это сделать.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964275,
+   "text": "Я знаю, что надо это сделать.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964276,
+   "text": "Я знаю, что надо его сделать.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964277,
+   "text": "Я знаю, что надо её сделать.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964279,
+   "text": "Я продолжал задавать вопросы.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964323,
+   "text": "Мы с Томом ещё не готовы.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964331,
+   "text": "У Тома сломана правая нога.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964332,
+   "text": "Мне надо сделать это сегодня.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964334,
+   "text": "У меня в планах это сделать.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964350,
+   "text": "Мне не нужны телохранители.",
+   "gold": "ru"
+  },
+  {
+   "id": 13964352,
+   "text": "Мне не нравится современное искусство.",
+   "gold": "ru"
+  },
+  {
+   "id": 13963971,
+   "text": "Today we'll learn about the fall of the Roman Empire.",
+   "gold": "en"
+  },
+  {
+   "id": 13963978,
+   "text": "The government started to close the borders.",
+   "gold": "en"
+  },
+  {
+   "id": 13963984,
+   "text": "During the war, all borders were closed.",
+   "gold": "en"
+  },
+  {
+   "id": 13963989,
+   "text": "One million people left East Germany.",
+   "gold": "en"
+  },
+  {
+   "id": 13963993,
+   "text": "Noodles were invented in China.",
+   "gold": "en"
+  },
+  {
+   "id": 13963995,
+   "text": "People were overjoyed when the Berlin Wall fell.",
+   "gold": "en"
+  },
+  {
+   "id": 13964001,
+   "text": "The report has twelve paragraphs.",
+   "gold": "en"
+  },
+  {
+   "id": 13964005,
+   "text": "My uncle lived in East Berlin and my aunt in West Berlin.",
+   "gold": "en"
+  },
+  {
+   "id": 13964011,
+   "text": "The perpetrator ran five kilometers to escape the police.",
+   "gold": "en"
+  },
+  {
+   "id": 13964016,
+   "text": "Did you go to Paris last month?",
+   "gold": "en"
+  },
+  {
+   "id": 13964023,
+   "text": "Scientists have uncovered the world's oldest known noodles, dating back 4,000 years, at an archaeological site along the upper reaches of the Yellow river in north-west China.",
+   "gold": "en"
+  },
+  {
+   "id": 13964026,
+   "text": "The prince and the princess went to their room.",
+   "gold": "en"
+  },
+  {
+   "id": 13964031,
+   "text": "The king and the queen went to the cathedral with the bishop.",
+   "gold": "en"
+  },
+  {
+   "id": 13964069,
+   "text": "Chinese is written without spaces between successive characters and words.",
+   "gold": "en"
+  },
+  {
+   "id": 13964070,
+   "text": "Written Chinese doesn't need spacing between characters or words because there are only certain character combinations that make sense.",
+   "gold": "en"
+  },
+  {
+   "id": 13964073,
+   "text": "Chinese characters are cool.",
+   "gold": "en"
+  },
+  {
+   "id": 13964087,
+   "text": "When I say shiv, I mean this.",
+   "gold": "en"
+  },
+  {
+   "id": 13964091,
+   "text": "The media stuck a shiv into his reputation.",
+   "gold": "en"
+  },
+  {
+   "id": 13964097,
+   "text": "He pulled a shiv on the guard.",
+   "gold": "en"
+  },
+  {
+   "id": 13964125,
+   "text": "She hummed a song in four beats.",
+   "gold": "en"
+  },
+  {
+   "id": 13964127,
+   "text": "She hummed a song in four-four time.",
+   "gold": "en"
+  },
+  {
+   "id": 13964128,
+   "text": "She was humming a song in four beats.",
+   "gold": "en"
+  },
+  {
+   "id": 13964129,
+   "text": "She is humming a song in four beats.",
+   "gold": "en"
+  },
+  {
+   "id": 13964137,
+   "text": "Could you turn round for a moment?",
+   "gold": "en"
+  },
+  {
+   "id": 13964149,
+   "text": "If you don't speak now, later, you won't be able to.",
+   "gold": "en"
+  },
+  {
+   "id": 13964249,
+   "text": "The clothes are good.",
+   "gold": "en"
+  },
+  {
+   "id": 13964250,
+   "text": "The clothing is good.",
+   "gold": "en"
+  },
+  {
+   "id": 13964254,
+   "text": "Yes, the clothes are good, they look very beautiful.",
+   "gold": "en"
+  },
+  {
+   "id": 13964255,
+   "text": "Britain ran concentration camps in the colonial Kenya.",
+   "gold": "en"
+  },
+  {
+   "id": 13964260,
+   "text": "The clothes are beautiful.",
+   "gold": "en"
+  },
+  {
+   "id": 13964265,
+   "text": "Tom went to the post office to pick up a parcel.",
+   "gold": "en"
+  },
+  {
+   "id": 13964266,
+   "text": "Tom went to the post office to collect a parcel.",
+   "gold": "en"
+  },
+  {
+   "id": 13964267,
+   "text": "Tom went to the post office for a parcel.",
+   "gold": "en"
+  },
+  {
+   "id": 13964299,
+   "text": "Open data promotes transparency.",
+   "gold": "en"
+  },
+  {
+   "id": 13964305,
+   "text": "Anyone can reuse open data.",
+   "gold": "en"
+  },
+  {
+   "id": 13964308,
+   "text": "Open data stimulates innovation.",
+   "gold": "en"
+  },
+  {
+   "id": 13964313,
+   "text": "Open data benefits the whole society.",
+   "gold": "en"
+  },
+  {
+   "id": 13964317,
+   "text": "Open data is a common good.",
+   "gold": "en"
+  },
+  {
+   "id": 13964320,
+   "text": "Open data makes application development easier.",
+   "gold": "en"
+  },
+  {
+   "id": 13964326,
+   "text": "Research results should be accessible to everyone.",
+   "gold": "en"
+  },
+  {
+   "id": 13964330,
+   "text": "Now, researchers publish their work in open access.",
+   "gold": "en"
+  },
+  {
+   "id": 13964335,
+   "text": "Free software supports open science.",
+   "gold": "en"
+  },
+  {
+   "id": 13964347,
+   "text": "Open-access scientific publications are more visible.",
+   "gold": "en"
+  },
+  {
+   "id": 13964362,
+   "text": "International collaboration accelerates scientific discoveries.",
+   "gold": "en"
+  },
+  {
+   "id": 13964371,
+   "text": "Scientific journals encourage transparency.",
+   "gold": "en"
+  },
+  {
+   "id": 13964375,
+   "text": "FAIR data improves research quality.",
+   "gold": "en"
+  },
+  {
+   "id": 13964542,
+   "text": "Everybody knew it, but now we know it for sure.",
+   "gold": "en"
+  },
+  {
+   "id": 13964546,
+   "text": "Tom was his rival in love.",
+   "gold": "en"
+  },
+  {
+   "id": 13964579,
+   "text": "Your friend is the one you're with.",
+   "gold": "en"
+  },
+  {
+   "id": 13964580,
+   "text": "Your friend is the person you're with.",
+   "gold": "en"
+  },
+  {
+   "id": 13964621,
+   "text": "The lights were turned off.",
+   "gold": "en"
+  },
+  {
+   "id": 13964790,
+   "text": "Turn left at the traffic lights.",
+   "gold": "en"
+  },
+  {
+   "id": 13964899,
+   "text": "There's always something Tom can do to help his team.",
+   "gold": "en"
+  },
+  {
+   "id": 13964960,
+   "text": "Do you party?",
+   "gold": "en"
+  },
+  {
+   "id": 13964963,
+   "text": "You want a bump?",
+   "gold": "en"
+  },
+  {
+   "id": 13964964,
+   "text": "You want a brownie?",
+   "gold": "en"
+  },
+  {
+   "id": 13964966,
+   "text": "Do you guys party?",
+   "gold": "en"
+  },
+  {
+   "id": 13965107,
+   "text": "The city lights are on.",
+   "gold": "en"
+  },
+  {
+   "id": 13965111,
+   "text": "Software engineering is the discipline of designing, developing, and maintaining high-quality software.",
+   "gold": "en"
+  }
+ ]
+}

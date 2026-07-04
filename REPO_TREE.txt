@@ -158,6 +158,11 @@ research/cogveritas/leakage_audit.py
 research/cogveritas/phase0_provenance.json
 research/cogveritas/phase0_results.json
 research/cogveritas/rlt_transfer.py
+research/cogveritas/validation/README.md
+research/cogveritas/validation/lang_corpus.json
+research/cogveritas/validation/lang_heldout.json
+research/cogveritas/validation/validate_operational.py
+research/cogveritas/validation/verifiability_probe.json
 samples/checkers_speech.txt
 samples/demo_transcript.csv
 samples/demo_transcript.json

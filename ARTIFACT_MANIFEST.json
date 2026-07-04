@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 23130,
+      "bytes": 23275,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "ad2c9dff014a07e68ee9ef2e037490c4c20de80f7b2d10664b632f241236b11c"
+      "sha256": "21be22d1aa3924dbf5de1b9a9ad1a63e6494d31a980fdf0e45136617202dcd75"
     },
     {
       "bytes": 826,
@@ -988,9 +988,9 @@
       "sha256": "1d0c17cf65152ba1b748f1ad4b5e2faab4f3c2ab8a1563405a16bfe6b69b2ab1"
     },
     {
-      "bytes": 5254,
+      "bytes": 5704,
       "path": "scripts/resource_effectiveness_check.py",
-      "sha256": "af81e21bb6606274415bbc1021395bf6a2707e18f9ec6a00205a18eb5395914d"
+      "sha256": "0397584a8134909f61488b9c4696e404c5651d8bb684e9216035ae542629bd62"
     },
     {
       "bytes": 6696,
@@ -1773,9 +1773,9 @@
       "sha256": "337ee08ed0771d0e07283d27f670e002f55760756e59dc9dce7bd15742be1939"
     },
     {
-      "bytes": 3126,
+      "bytes": 4696,
       "path": "tests/test_resource_effectiveness.py",
-      "sha256": "bb923c7cfac836cc9cbacc52859cb6d04bc4f35a9423e90fc9bdb7c3754ee11e"
+      "sha256": "1339e0ee4b1ef7d72a8602d8135e06e14601516edecbae8bb8baa19e22f80c4c"
     },
     {
       "bytes": 1885,
@@ -1828,7 +1828,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T08:35:15+00:00",
+  "generated_at_utc": "2026-07-04T08:40:37+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

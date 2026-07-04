@@ -38,13 +38,20 @@ def audit() -> tuple[dict[str, object], list[str]]:
     total = 0.0
     for g in gates:
         cmd = str(g.get("name", g.get("command", "")))
-        dur = float(g.get("duration_seconds", 0.0))
-        total += dur
-        per_gate.append({"command": cmd, "duration_seconds": dur, "result": g.get("result", "")})
-        if dur > _PER_GATE_BUDGET_S:
+        raw_dur = g.get("duration_seconds")
+        dur = float(raw_dur) if isinstance(raw_dur, (int, float)) else -1.0
+        result = g.get("result")
+        total += max(dur, 0.0)
+        per_gate.append({"command": cmd, "duration_seconds": dur, "result": result if result is not None else ""})
+        # A real gate is measured (positive duration) and explicitly recorded pass.
+        # A missing/empty result or zero/absent duration is unmeasured, not "free" — it
+        # must not be counted as a silent pass (the fail-open this replaces).
+        if dur <= 0.0:
+            problems.append(f"gate has no measured duration (unmeasured): {cmd}")
+        elif dur > _PER_GATE_BUDGET_S:
             problems.append(f"gate over per-gate budget ({dur:.1f}s > {_PER_GATE_BUDGET_S}s): {cmd}")
-        if g.get("result") not in ("pass", ""):
-            problems.append(f"non-passing gate in timing: {cmd} -> {g.get('result')}")
+        if result != "pass":
+            problems.append(f"gate not recorded as pass: {cmd} -> {result!r}")
     if total > _TOTAL_BUDGET_S:
         problems.append(f"battery over total budget ({total:.1f}s > {_TOTAL_BUDGET_S}s)")
     # Completeness: the timing must cover the FULL release battery, not a subset —
@@ -57,7 +64,7 @@ def audit() -> tuple[dict[str, object], list[str]]:
     expensive_failures = [
         {"command": str(g["command"]), "result": str(g["result"])}
         for g in per_gate
-        if g["result"] not in ("pass", "")
+        if g["result"] != "pass"
     ]
     report: dict[str, object] = {
         # Cost.

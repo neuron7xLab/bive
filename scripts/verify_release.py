@@ -62,6 +62,7 @@ COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("product-claim-audit", [sys.executable, "scripts/product_claim_audit.py"], 60),
     GateCommand("benchmark-card", [sys.executable, "scripts/benchmark_card.py"], 60),
     GateCommand("contamination-audit", [sys.executable, "scripts/contamination_audit.py"], 60),
+    GateCommand("cross-domain-matrix", [sys.executable, "scripts/cross_domain_matrix_check.py"], 60),
     GateCommand("domain-distance", [sys.executable, "scripts/domain_distance_check.py"], 60),
     GateCommand("misuse-threat-model", [sys.executable, "scripts/misuse_threat_model_check.py"], 60),
     GateCommand("external-replication", [sys.executable, "scripts/external_replication_check.py"], 60),

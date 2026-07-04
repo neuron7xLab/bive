@@ -1,0 +1,12 @@
+{
+  "description": "Frozen train->test cross-domain evaluation matrix. Byte-stable; never silently recomputed. Sources: research/cogveritas/phase0_results.json (in-domain + ceiling), docs/EMPIRICAL_VALIDATION.md (cross-corpus + Real-Life Trial transfer).",
+  "chance_band": [0.45, 0.58],
+  "cells": [
+    {"model": "verbal-science", "train": "Ott", "test": "Ott", "regime": "in-domain", "roc_auc": 0.7507, "calibrated": true},
+    {"model": "verbal-science", "train": "Ott", "test": "Diplomacy", "regime": "cross-corpus", "roc_auc": 0.61, "calibrated": false},
+    {"model": "verbal-science", "train": "Ott", "test": "RLT", "regime": "cross-domain-high-stakes", "roc_auc": 0.548, "calibrated": false},
+    {"model": "verbal-science", "train": "RLT", "test": "RLT", "regime": "in-domain-high-stakes", "roc_auc": 0.562, "calibrated": false},
+    {"model": "tf-idf-ceiling", "train": "Ott", "test": "Ott", "regime": "in-domain", "roc_auc": 0.9548, "calibrated": false},
+    {"model": "tf-idf-ceiling", "train": "Ott", "test": "Diplomacy", "regime": "cross-corpus", "roc_auc": 0.510, "calibrated": false}
+  ]
+}

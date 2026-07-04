@@ -24,11 +24,14 @@ ROOT = Path(__file__).resolve().parents[1]
 _ROADMAP = [
     ("BENCHMARK_CARD_PASS", "benchmark_card.py"),
     ("CONTAMINATION_AUDIT_PASS", "contamination_audit.py"),
+    ("CROSS_DOMAIN_MATRIX_PASS", "cross_domain_matrix_check.py"),
     ("DOMAIN_DISTANCE_PASS", "domain_distance_check.py"),
     ("RESOURCE_EFFECTIVENESS_PASS", "resource_effectiveness_check.py"),
     ("PRODUCT_CLAIM_AUDIT_PASS", "product_claim_audit.py"),
     ("MISUSE_THREAT_MODEL_PASS", "misuse_threat_model_check.py"),
     ("EXTERNAL_REPLICATION_READY", "external_replication_check.py"),
+    ("CAPABILITY_REGISTRY_PASS", "capability_registry_check.py"),
+    ("INSTITUTIONAL_SCORECARD_PASS", "institutional_scorecard.py"),
 ]
 
 

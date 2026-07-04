@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 314,
+  "test_functions": 319,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -303,6 +303,13 @@
       "test_domain_distance_requires_regime_labels",
       "test_resource_report_within_budget_when_timing_present",
       "test_resource_budget_constants_are_bounded"
+    ],
+    "tests/test_institutional_misuse_replication.py": [
+      "test_misuse_threat_model_live_passes",
+      "test_misuse_model_covers_required_scenarios",
+      "test_misuse_safeguards_point_to_real_mechanisms",
+      "test_external_replication_live_ready",
+      "test_replication_requires_all_assets"
     ],
     "tests/test_linguistics.py": [
       "test_extract_claims_marks_absolute_and_temporal",

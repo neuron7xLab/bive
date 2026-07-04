@@ -63,6 +63,8 @@ COMMANDS: tuple[GateCommand, ...] = (
     GateCommand("benchmark-card", [sys.executable, "scripts/benchmark_card.py"], 60),
     GateCommand("contamination-audit", [sys.executable, "scripts/contamination_audit.py"], 60),
     GateCommand("domain-distance", [sys.executable, "scripts/domain_distance_check.py"], 60),
+    GateCommand("misuse-threat-model", [sys.executable, "scripts/misuse_threat_model_check.py"], 60),
+    GateCommand("external-replication", [sys.executable, "scripts/external_replication_check.py"], 60),
     GateCommand("demo", ["make", "demo"], 120),
     GateCommand("demo-gate", [sys.executable, "-m", "bive.cli", "gate", "--input", "artifacts/local_demo_report.json"], 60),
     GateCommand("evidence-bundle", [sys.executable, "scripts/generate_evidence_bundle.py"], 120),

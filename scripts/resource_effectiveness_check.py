@@ -46,15 +46,50 @@ def audit() -> tuple[dict[str, object], list[str]]:
         problems.append(f"battery over total budget ({total:.1f}s > {_TOTAL_BUDGET_S}s)")
 
     slowest = sorted(per_gate, key=lambda x: -float(x["duration_seconds"]))[:5]  # type: ignore[arg-type]
+    expensive_failures = [
+        {"command": str(g["command"]), "result": str(g["result"])}
+        for g in per_gate
+        if g["result"] not in ("pass", "")
+    ]
     report: dict[str, object] = {
+        # Cost.
         "gate_count": len(per_gate),
         "total_seconds": round(total, 3),
         "total_budget_seconds": _TOTAL_BUDGET_S,
         "per_gate_budget_seconds": _PER_GATE_BUDGET_S,
         "slowest": slowest,
+        # Resource posture the mandate requires an institutional run to report.
+        "memory_policy": "pinned dependencies; deterministic gates; no network in the core path",
+        "dependencies": _dependency_count(),
+        "test_count": _test_count(),
+        "artifacts_present": _required_artifacts_present(),
+        "expensive_failures": expensive_failures,
         "status": "PASS" if not problems else "FAIL",
     }
     return report, problems
+
+
+def _dependency_count() -> int:
+    total = 0
+    for lock in (ROOT / "requirements").glob("*.txt"):
+        for line in lock.read_text(encoding="utf-8").splitlines():
+            s = line.strip()
+            if s and not s.startswith("#") and "==" in s:
+                total += 1
+    return total
+
+
+def _test_count() -> int:
+    return len(list((ROOT / "tests").glob("test_*.py")))
+
+
+def _required_artifacts_present() -> dict[str, bool]:
+    names = (
+        "BENCHMARK_CARD", "CONTAMINATION_AUDIT", "CROSS_DOMAIN_MATRIX", "DOMAIN_DISTANCE_POLICY",
+        "PRODUCT_CLAIM_AUDIT", "MISUSE_THREAT_MODEL_AUDIT", "EXTERNAL_REPLICATION_READINESS",
+    )
+    ver = ROOT / "artifacts" / "verification"
+    return {n: (ver / f"{n}.json").is_file() for n in names}
 
 
 def main() -> int:

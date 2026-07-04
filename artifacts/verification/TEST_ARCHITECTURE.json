@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 329,
+  "test_functions": 333,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -384,6 +384,12 @@
     "tests/test_report.py": [
       "test_report_builds_and_validates",
       "test_report_serialization"
+    ],
+    "tests/test_resource_effectiveness.py": [
+      "test_report_declares_all_mandated_fields",
+      "test_report_within_budget_and_no_expensive_failures",
+      "test_counts_are_non_negative",
+      "test_gate_emits_artifact"
     ],
     "tests/test_schema_contract.py": [
       "test_transcript_schema_rejects_extra_fields",

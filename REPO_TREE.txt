@@ -131,6 +131,7 @@ docs/methodology/NO_VERDICT_INVARIANT.md
 docs/methodology/OPERATOR_GUIDE.md
 docs/methodology/PHASE0_VERIFIABILITY.md
 docs/methodology/PRODUCT_CLAIM_POLICY.md
+docs/methodology/RESOURCE_EFFECTIVENESS.md
 docs/openapi.json
 docs/security/MISUSE_THREAT_MODEL.md
 evals/aos_eval_tasks.json
@@ -339,6 +340,7 @@ tests/test_quality_gate.py
 tests/test_red_team_and_simulation.py
 tests/test_release_gate_contract.py
 tests/test_report.py
+tests/test_resource_effectiveness.py
 tests/test_schema_contract.py
 tests/test_science_api_contract.py
 tests/test_science_registry.py

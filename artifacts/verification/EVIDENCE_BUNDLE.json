@@ -1,17 +1,16 @@
 {
-  "commit": "12b0e69274f7e61d0ef9a310747ffb8fd90a5c9a",
   "entries": [
     {
-      "bytes": 60154,
+      "bytes": 61158,
       "exists": true,
       "path": "ARTIFACT_MANIFEST.json",
-      "sha256": "b0bd39050a385aaef7f0ec5b44a57059664eeb5b590390e93da0f63b57316e72"
+      "sha256": "872ac34c3776dfcb23cba7ab34b586f04a97b233db9d176edd55aa7657a5d9c1"
     },
     {
       "bytes": 1316,
       "exists": true,
       "path": "PRODUCT_SYSTEM_INDEX.json",
-      "sha256": "de17f5a532dbbff05d5badcd076a4d7bda54dc40065c664cffba8480fc7e656e"
+      "sha256": "64e2b603266ecef22d594dac0a281ed832af3304ea7cba98145feffe04bdb81d"
     },
     {
       "bytes": 5801,
@@ -32,16 +31,16 @@
       "sha256": "9ffc0d8b49efa0c3085879e314dd2e7238460567d180793c18199fbd9bc9c981"
     },
     {
-      "bytes": 21012,
+      "bytes": 23594,
       "exists": true,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "41ebb8afd575f353d07401a4f536034cc073b607ccc65045f2d6f024a0d74857"
+      "sha256": "5d7b637cf78718c0695c18291be84394a6d63fdf532a9eeb3cf6dffcf023dde5"
     },
     {
-      "bytes": 2438,
+      "bytes": 2460,
       "exists": true,
       "path": "artifacts/verification/AUTOMATION_CONTRACT.json",
-      "sha256": "8c76725edaab12f5db6f444ac6806efc620d09579577ab563f254bc2065c79f7"
+      "sha256": "be4dca0af7f6d7381b62860d9f39a7c325e654b3bdec839b9baba84ee567ddc5"
     },
     {
       "bytes": 657,
@@ -56,20 +55,19 @@
       "sha256": "cd671fd6dbafdd9dff97f4464bda4991946fc9fb87dbba3acaea18dae44398b1"
     },
     {
-      "bytes": 7972,
+      "bytes": 8652,
       "exists": true,
       "path": "artifacts/security/pip-audit.json",
-      "sha256": "3dce144b0b2bf99efcb2d56def8644ebcda32ed908389b8df26e557533feda71"
+      "sha256": "86704e582a30c8b0f1b2fe1feea2825a749c2d059d5086237268582c989348ff"
     },
     {
-      "bytes": 1015,
+      "bytes": 787,
       "exists": true,
       "path": "artifacts/verification/gates.json",
-      "sha256": "1aab44bd6cff9f60ccf816bd550c7ccdd1271802c68610f5033cd7f19cc9fa78"
+      "sha256": "130eb390b28007595d7174224b8a85ba2f2c13420e9e8773e525e07bf4d52239"
     }
   ],
   "gates_path": "artifacts/verification/gates.json",
-  "generated_at": "2026-07-04T07:26:07Z",
   "schema_version": 1,
   "status": "pass"
 }

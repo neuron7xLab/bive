@@ -333,6 +333,7 @@ tests/test_domain_distance_policy.py
 tests/test_dynamic_environment_probe.py
 tests/test_ekman_guards.py
 tests/test_eval.py
+tests/test_evidence_bundle_reproducible.py
 tests/test_evidence_graph.py
 tests/test_frontend_contract.py
 tests/test_institutional_benchmark.py

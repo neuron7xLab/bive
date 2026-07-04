@@ -56,7 +56,10 @@ def test_evidence_bundle_records_hashes() -> None:
     assert evidence_main() == 0
     data = json.loads(Path("artifacts/verification/EVIDENCE_BUNDLE.json").read_text())
     assert data["status"] == "pass"
-    assert all(item["sha256"] for item in data["entries"])
+    # Pinned entries carry a reproducible hash; witnessed (volatile) entries are
+    # recorded by existence only — a stable sha256 is impossible for them by design.
+    assert all(item["sha256"] for item in data["entries"] if not item.get("volatile"))
+    assert all(item["exists"] for item in data["entries"])
 
 
 def test_release_log_declares_external_unknowns() -> None:

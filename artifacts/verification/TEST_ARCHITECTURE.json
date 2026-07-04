@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 422,
+  "test_functions": 423,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -237,6 +237,7 @@
       "test_opinion_markers_are_language_specific",
       "test_english_regression_still_english",
       "test_capitalised_function_words_are_not_entity_anchors",
+      "test_sentence_initial_opinion_verb_is_not_an_entity_anchor",
       "test_real_named_entities_stay_checkable",
       "test_short_russian_without_unique_letters_routes_to_ru",
       "test_language_detection_is_deterministic",

@@ -92,6 +92,21 @@ def test_capitalised_function_words_are_not_entity_anchors(opinion: str) -> None
     assert classify_claim_verifiability(claims[0]) == "not_externally_checkable"
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Здавалося, що вона була засмучена і не хотіла говорити.",
+        "Казалось, что она была подавлена и не хотела говорить.",
+    ],
+)
+def test_sentence_initial_opinion_verb_is_not_an_entity_anchor(text: str) -> None:
+    # Regression: "Здавалося"/"Казалось" (it seemed) are the opinion cue AND were being
+    # counted as proper-noun anchors at sentence start, tipping opinion to checkable.
+    _, claims = analyze(text)
+    assert claims
+    assert classify_claim_verifiability(claims[0]) == "not_externally_checkable"
+
+
 def test_real_named_entities_stay_checkable() -> None:
     # The stop-name filter must not suppress genuine proper-noun anchors.
     _, claims = analyze("Ivan signed the contract on 5 May.")

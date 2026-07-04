@@ -72,7 +72,22 @@ def _proxy(name: str) -> bool:
             expected = 0
         return not (expected and log.count("VERIFY_GATE_PASS") < expected)
     if name == "release_governance":
-        return (ROOT / "scripts" / "verify_release.py").is_file() and (ROOT / "SECURITY.md").is_file()
+        # File existence proves NO governance ran — verify_release.py and SECURITY.md
+        # sitting in the repo is a checkbox that can never fail. Earn this dimension
+        # from evidence that the recorded release battery actually EXECUTED and PASSED
+        # the governance gates.
+        if not ((ROOT / "scripts" / "verify_release.py").is_file() and (ROOT / "SECURITY.md").is_file()):
+            return False
+        log_path = ROOT / "artifacts" / "verification" / "VERIFY_RELEASE.log"
+        if not log_path.is_file():
+            return False
+        log = log_path.read_text(encoding="utf-8", errors="replace")
+        if "VERIFY_RELEASE_FAIL" in log or "VERIFY_GATE_FAIL" in log or "VERIFY_RELEASE_PASS" not in log:
+            return False
+        # Named governance gates must each show a recorded pass — not merely a complete
+        # run (that is ci_release_status). This asserts the risk-governance gates ran.
+        governance_gates = ("threat-model", "security-static", "misuse-threat-model", "product-claim-audit")
+        return all(f"VERIFY_GATE_PASS {gate}" in log for gate in governance_gates)
     return False
 
 

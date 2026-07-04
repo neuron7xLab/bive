@@ -1,16 +1,16 @@
 {
   "entries": [
     {
-      "bytes": 63875,
+      "bytes": 64236,
       "exists": true,
       "path": "ARTIFACT_MANIFEST.json",
-      "sha256": "15a7cb7ccc130d0410ddad609baf018e18457498751e588782bdfffeecd26ecd"
+      "sha256": "6949ba632dfd785f68335c6b23297ea4b7dae3f17676b65d4e8f96aeb0d69207"
     },
     {
       "bytes": 1316,
       "exists": true,
       "path": "PRODUCT_SYSTEM_INDEX.json",
-      "sha256": "8bb30f2887f8b400eb4b848440028cf7d793900c29e1ab160dcff7a3502b4fd7"
+      "sha256": "124ae6264925af6150c303231c25c781d875be2101b0a9277ce833860c4651ff"
     },
     {
       "bytes": 5801,
@@ -31,10 +31,10 @@
       "sha256": "9ffc0d8b49efa0c3085879e314dd2e7238460567d180793c18199fbd9bc9c981"
     },
     {
-      "bytes": 25549,
+      "bytes": 25741,
       "exists": true,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "d80ab9f12a648aeb7c5d9a854918e0f2f5701935b1eb8d1bba037b0d4bc3ca62"
+      "sha256": "b6801e67a8eca49929e41d0bc5e256fee2c4e0e34d34d3fbc93098c72562ea5f"
     },
     {
       "bytes": 2529,

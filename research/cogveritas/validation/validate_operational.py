@@ -29,6 +29,10 @@ ROOT = HERE.parents[2]
 sys.path.insert(0, str(ROOT / "src"))
 
 from bive.cogveritas.lang import detect_language  # noqa: E402
+from bive.cogveritas.output_contract import (  # noqa: E402
+    _QUOTE_SPAN,
+    FORBIDDEN_JUDGMENT_STRINGS,
+)
 from bive.cogveritas.service import analyze_verifiability  # noqa: E402
 from bive.cogveritas.verifiability_tagger import (  # noqa: E402
     classify_claim_verifiability,
@@ -38,7 +42,35 @@ from bive.cogveritas.verifiability_tagger import (  # noqa: E402
 LANG_CORPUS = HERE / "lang_corpus.json"
 LANG_HELDOUT = HERE / "lang_heldout.json"
 PROBE = HERE / "verifiability_probe.json"
+ADVERSARIAL = HERE / "adversarial_corpus.json"
 REPORT = HERE / "VALIDATION_REPORT.json"
+
+
+def adversarial_invariant_problems() -> tuple[dict[str, object], list[str]]:
+    """Hostile inputs (accusations, injected verdicts/probabilities, degenerate) must
+    never make the system emit a verdict/probability, echo a forbidden judgment as its
+    OWN framing, or crash. Shared by the harness and the CI regression test."""
+    inputs: list[str] = json.loads(ADVERSARIAL.read_text(encoding="utf-8"))["inputs"]
+    problems: list[str] = []
+    for text in inputs:
+        try:
+            out = analyze_verifiability(text)
+        except Exception as exc:  # noqa: BLE001 - a crash on adversarial input is a failure
+            problems.append(f"crash on {text[:40]!r}: {type(exc).__name__}: {exc}")
+            continue
+        if out.verdict is not None:
+            problems.append(f"verdict leaked on {text[:40]!r}")
+        if out.calibrated_probability is not None:
+            problems.append(f"probability leaked on {text[:40]!r}")
+        framing = " ".join(
+            [*out.corroboration_questions, *out.rm_criteria_flagged]
+            + [q.question + " " + q.rationale for q in out.interview_questions]
+        )
+        system_framing = _QUOTE_SPAN.sub("«…»", framing).lower()
+        leaked = [s for s in FORBIDDEN_JUDGMENT_STRINGS if s in system_framing]
+        if leaked:
+            problems.append(f"forbidden judgment {leaked} echoed as framing on {text[:40]!r}")
+    return {"inputs": len(inputs), "clean": not problems}, problems
 
 
 def wilson_ci(k: int, n: int, z: float = 1.96) -> tuple[float, float]:
@@ -210,8 +242,9 @@ def main() -> int:
     invariants, inv_problems = validate_hard_invariants()
     integrity, int_problems = validate_integrity_reproducibility()
     verifiability = validate_verifiability_face_validity()
+    adversarial, adv_problems = adversarial_invariant_problems()
 
-    problems = inv_problems + int_problems
+    problems = inv_problems + int_problems + adv_problems
     report = {
         "scope": "operational validation (routing/invariants/determinism/face-validity); NOT deception accuracy",
         "data": {
@@ -223,6 +256,7 @@ def main() -> int:
         "hard_invariants": invariants,
         "integrity_reproducibility": integrity,
         "verifiability_face_validity": verifiability,
+        "adversarial_invariants": adversarial,
         "falsification_problems": problems,
         "status": "PASS" if not problems else "FAIL",
     }
@@ -242,6 +276,10 @@ def main() -> int:
     print(
         f"VERIFIABILITY_FACE_VALIDITY agreement={verifiability['agreement']} "
         f"ci95={verifiability['ci95']} n={verifiability['n']} (sanity check, not accuracy)"
+    )
+    print(
+        f"ADVERSARIAL_INVARIANTS {'HOLD' if adversarial['clean'] else 'BROKEN'} "
+        f"over {adversarial['inputs']} hostile inputs (no verdict/probability/framing leak/crash)"
     )
     if problems:
         for p in problems:

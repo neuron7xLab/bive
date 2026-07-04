@@ -28,12 +28,14 @@ be a category error, not a validation.
 
 ## Results (snapshot; re-run to reproduce)
 
+With the char-3-gram language-ID model (`src/bive/cogveritas/lid_model.json`):
+
 | Metric | In-sample | Held-out (unbiased) |
 |---|---|---|
-| Language accuracy (overall) | 0.939 [0.894, 0.966] | 0.922 [0.873, 0.953] |
+| Language accuracy (overall) | 0.994 [0.969, 0.999] | 0.994 [0.969, 0.999] |
 | — English | 1.000 | 1.000 |
 | — Ukrainian | 1.000 | 1.000 |
-| — Russian | 0.817 [0.701, 0.894] | 0.767 [0.646, 0.856] |
+| — Russian | 0.983 [0.911, 0.997] | 0.983 [0.911, 0.997] |
 | No-verdict invariant | HOLDS over 383 inputs | (falsification gate) |
 | Probability suppression | HOLDS (0 probabilities emitted) | (falsification gate) |
 | Integrity | reproducible in-run **and** across `PYTHONHASHSEED` | |
@@ -42,18 +44,21 @@ be a category error, not a validation.
 95% Wilson intervals in brackets. Hard invariants are falsification gates — any
 violation exits non-zero.
 
-## Known limitation surfaced by this validation
+## Russian detection: the fix, and the fix that was rejected first
 
-Russian detection is **~77–82%**: every error is `ru → uk`. Root cause: short
-Cyrillic sentences that carry none of the orthography-unique letters (ы/э/ъ/ё vs
-і/ї/є/ґ), no listed function word, and no `-л/-в` masculine-past marker default to
-Ukrainian (the product's Ukrainian-facing default).
+The initial heuristic scored **ru ~77–82%** (held-out): every error was `ru → uk` —
+short Cyrillic sentences with none of the orthography-unique letters (ы/э/ъ/ё vs
+і/ї/є/ґ), no function-word hit, and no `-л/-в` masculine-past marker defaulted to
+Ukrainian.
 
 A morphological `-ть`/`-шь` rule was prototyped and **rejected**: Ukrainian present
 tense (`проводить`, `керують`) and `-ість` nouns (`кількість`) also end in `-ть`, so
-the rule regressed Ukrainian (100% → 98%) on held-out data for a small Russian gain.
-Tuning on the observed failures would be test-set leakage. The honest fix is a
-statistical char-n-gram language identifier (or explicit language selection for
-Cyrillic testimony); a heuristic cannot cleanly separate short uk/ru text.
-Ukrainian and Russian anchor sets overlap heavily, so a misroute degrades gracefully
-rather than fabricating a verdict.
+it regressed Ukrainian on held-out data; tuning on the observed failures would be
+test-set leakage.
+
+The shipped fix is a deterministic **char-3-gram naive-Bayes** classifier trained on
+the Tatoeba per-language dumps, **disjoint** from both validation corpora (rebuild
+with `build_lid_model.py`). It lifts held-out Russian to **0.983** with no Ukrainian
+or English regression, and — being pure counts — keeps detection reproducible across
+`PYTHONHASHSEED`. The definitive unique-letter checks still short-circuit before the
+model.

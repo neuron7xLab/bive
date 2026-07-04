@@ -6,16 +6,20 @@ lexical knowledge is isolated here so the tagger stays language-agnostic and new
 languages are added without touching the logic.
 
 Supported: English (``en``), Ukrainian (``uk``), Russian (``ru``). Detection is a
-transparent Cyrillic/Latin ratio with a Ukrainian-vs-Russian tie-break on
-language-unique letters — no model, fully reproducible.
+Cyrillic/Latin script ratio, a Ukrainian-vs-Russian tie-break on language-unique
+letters, and a deterministic char-3-gram naive-Bayes model for the remaining short
+Cyrillic text. Pure counts — fully reproducible, no randomness, no runtime deps.
 
 Nothing here judges a speaker; these are review anchors, not deception cues.
 """
 
 from __future__ import annotations
 
+import json
+import math
 import re
 from dataclasses import dataclass
+from pathlib import Path
 
 
 @dataclass(frozen=True)
@@ -222,41 +226,62 @@ _RU_ONLY = frozenset("ыэъёЫЭЪЁ")
 _CYRILLIC = re.compile(r"[Ѐ-ӿ]")  # full Cyrillic block U+0400–U+04FF
 _LATIN = re.compile(r"[A-Za-z]")
 
-# Function-word tie-break for Cyrillic text that carries no language-unique
-# letters (common in short statements). High-frequency words that differ between
-# the orthographies; a few hits reliably separate the two.
-_UK_WORDS = frozenset(
-    {
-        "він", "вона", "вони", "це", "був", "була", "було", "біля", "вулиця",
-        "вулиці", "будинок", "будинку", "та", "що", "де", "коли", "мене", "мені",
-        "гривень", "гривні", "передав", "поїхали", "зустрів", "потім", "адже",
-    }
-)
-_RU_WORDS = frozenset(
-    {
-        "он", "она", "они", "это", "был", "была", "было", "возле", "около",
-        "улица", "улице", "дом", "дома", "доме", "что", "где", "когда", "меня",
-        "мне", "рублей", "долларов", "передал", "поехали", "встретил", "потом", "ведь",
-    }
-)
-_WORDS = re.compile(r"[^\W\d_]+", re.UNICODE)
-# Masculine singular past tense: Russian ends in a vowel + ``л`` (був->был, купив->
-# купил, сказав->сказал); Ukrainian ends in a vowel + ``в``. This discriminates
-# Cyrillic text that carries none of the orthography-unique letters or function words
-# (the case that previously defaulted blindly to Ukrainian and mis-anchored Russian).
-_RU_PAST = re.compile(r"[аоуыияе]л$")
-_UK_PAST = re.compile(r"[аоуияіє]в$")
+# Character-3-gram naive-Bayes language-ID model (uk/ru/en), trained on Tatoeba
+# (CC BY 2.0 FR), disjoint from the validation corpora. Replaces the function-word /
+# masculine-past heuristic for Cyrillic text with no orthography-unique letter — the
+# case that previously mis-routed short Russian to Ukrainian (measured ru 0.77 -> 0.98
+# held-out). Pure counts: deterministic, dependency-free, order-independent scoring.
+_LID_MODEL_PATH = Path(__file__).with_name("lid_model.json")
+
+
+@dataclass(frozen=True)
+class _LidModel:
+    n: int
+    log_denom: dict[str, float]  # log(total_L + V) per language
+    profiles: dict[str, dict[str, int]]
+
+
+def _load_lid_model() -> _LidModel:
+    raw = json.loads(_LID_MODEL_PATH.read_text(encoding="utf-8"))
+    vocab = int(raw["vocab_size"])
+    totals: dict[str, int] = raw["totals"]
+    log_denom = {lang: math.log(totals[lang] + vocab) for lang in totals}
+    return _LidModel(n=int(raw["n"]), log_denom=log_denom, profiles=raw["profiles"])
+
+
+_LID = _load_lid_model()
+
+
+def _lid_grams(text: str) -> list[str]:
+    """Lowercase, collapse non-letters to single spaces, pad, and emit char n-grams."""
+    out: list[str] = []
+    prev_space = False
+    for ch in text.lower():
+        if ch.isalpha():
+            out.append(ch)
+            prev_space = False
+        elif not prev_space:
+            out.append(" ")
+            prev_space = True
+    s = " " + "".join(out).strip() + " "
+    n = _LID.n
+    return [s[i : i + n] for i in range(len(s) - n + 1)] if len(s) >= n else []
+
+
+def _lid_score(grams: list[str], lang: str) -> float:
+    profile = _LID.profiles[lang]
+    denom = _LID.log_denom[lang]
+    # sum of log((count+1)/(total+V)); order-independent -> hash-seed-independent.
+    return sum(math.log(profile.get(g, 0) + 1) - denom for g in grams)
 
 
 def detect_language(text: str) -> str:
-    """Return ``en``/``uk``/``ru`` from script ratio, then language-unique letters,
-    then function words, then masculine-past morphology.
+    """Return ``en``/``uk``/``ru``.
 
-    Transparent and reproducible: majority script decides Latin vs Cyrillic; among
-    Cyrillic, Ukrainian-unique letters (і, ї, є, ґ) outrank Russian-unique ones
-    (ы, э, ъ, ё); when neither appears, high-frequency function words break the tie,
-    then the -л/-в masculine-past ending. Empty input and Latin-majority default to
-    English; a genuine tie defaults to Ukrainian for this Ukrainian-facing product.
+    Majority script decides Latin (``en``) vs Cyrillic; Ukrainian-unique letters
+    (і, ї, є, ґ) vs Russian-unique ones (ы, э, ъ, ё) settle the definitive cases; the
+    remaining short Cyrillic text is classified by a char-3-gram naive-Bayes model.
+    Deterministic and reproducible. Empty / Latin-majority input is English.
     """
     if not text:
         return "en"
@@ -268,19 +293,10 @@ def detect_language(text: str) -> str:
     ru_hits = sum(ch in _RU_ONLY for ch in text)
     if uk_hits != ru_hits:
         return "uk" if uk_hits > ru_hits else "ru"
-    # No distinguishing letters — fall back to function-word frequency.
-    tokens = [t.lower() for t in _WORDS.findall(text)]
-    uk_w = sum(t in _UK_WORDS for t in tokens)
-    ru_w = sum(t in _RU_WORDS for t in tokens)
-    if uk_w != ru_w:
-        return "uk" if uk_w > ru_w else "ru"
-    # Function words tied — masculine-past morphology (-л Russian vs -в Ukrainian).
-    ru_past = sum(1 for t in tokens if _RU_PAST.search(t))
-    uk_past = sum(1 for t in tokens if _UK_PAST.search(t))
-    if ru_past != uk_past:
-        return "ru" if ru_past > uk_past else "uk"
-    # Genuinely ambiguous -> Ukrainian-facing default; the anchor sets overlap anyway.
-    return "uk"
+    grams = _lid_grams(text)
+    if not grams:
+        return "uk"  # nothing to score -> Ukrainian-facing default
+    return "uk" if _lid_score(grams, "uk") >= _lid_score(grams, "ru") else "ru"
 
 
 def pack_for_code(code: str) -> LanguagePack:

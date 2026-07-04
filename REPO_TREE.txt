@@ -159,6 +159,7 @@ research/cogveritas/phase0_provenance.json
 research/cogveritas/phase0_results.json
 research/cogveritas/rlt_transfer.py
 research/cogveritas/validation/README.md
+research/cogveritas/validation/build_lid_model.py
 research/cogveritas/validation/lang_corpus.json
 research/cogveritas/validation/lang_heldout.json
 research/cogveritas/validation/validate_operational.py
@@ -249,6 +250,7 @@ src/bive/cogveritas/ingest.py
 src/bive/cogveritas/integrity.py
 src/bive/cogveritas/interview.py
 src/bive/cogveritas/lang.py
+src/bive/cogveritas/lid_model.json
 src/bive/cogveritas/methodology.py
 src/bive/cogveritas/output_contract.py
 src/bive/cogveritas/phase0_cv.py

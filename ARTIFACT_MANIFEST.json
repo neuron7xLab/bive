@@ -1,6 +1,6 @@
 {
   "artifact": "bive_productized_repo_v0_4_0",
-  "file_count": 359,
+  "file_count": 360,
   "files": [
     {
       "bytes": 113,
@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 20673,
+      "bytes": 21012,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "73ed61738efbe95c81a59fe0345cf251fb4991f1d588964fb6a0bae3dd097273"
+      "sha256": "41ebb8afd575f353d07401a4f536034cc073b607ccc65045f2d6f024a0d74857"
     },
     {
       "bytes": 826,
@@ -953,14 +953,14 @@
       "sha256": "09c85436d43f12580a47750b2ecb74bb4391f8a8f5b0d61ff7fa6c1adaedd290"
     },
     {
-      "bytes": 4879,
+      "bytes": 5591,
       "path": "scripts/institutional_scorecard.py",
-      "sha256": "1646e960d4c457ae68956e1caf65f1f38c38d4bf2a89d6f7cb6552148a251896"
+      "sha256": "3886424ee9a511a1deca2cafba620b74cb5135157013eacd4ee23b55c3ab0fdb"
     },
     {
-      "bytes": 3675,
+      "bytes": 5811,
       "path": "scripts/institutional_verify.py",
-      "sha256": "b1f0eb375247254bcb15dbcb3f65bd29509daadac8a8800af3c0a235a36c6296"
+      "sha256": "1eea2bb4003f61598241e3b56df5d300b52a486bee881e43513ce48af4ffe442"
     },
     {
       "bytes": 3497,
@@ -1688,6 +1688,11 @@
       "sha256": "2e99ec1a8f0080eddda400c8bca62c3ef9c91f4097c5f92f1e78813a92fd0d65"
     },
     {
+      "bytes": 2781,
+      "path": "tests/test_institutional_verify_honesty.py",
+      "sha256": "c12fe9e269c20a143ecf52f658bef1c9e612dda76525d9899e4f6f21778852d0"
+    },
+    {
       "bytes": 2118,
       "path": "tests/test_linguistics.py",
       "sha256": "6ff635c521c6c7c0d782155a011305ea4aa88215675f6a4c3302741914f85413"
@@ -1798,7 +1803,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T07:01:49+00:00",
+  "generated_at_utc": "2026-07-04T07:25:47+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

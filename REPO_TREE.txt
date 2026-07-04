@@ -335,6 +335,7 @@ tests/test_institutional_benchmark.py
 tests/test_institutional_domain_resource.py
 tests/test_institutional_misuse_replication.py
 tests/test_institutional_scorecard.py
+tests/test_institutional_verify_honesty.py
 tests/test_linguistics.py
 tests/test_microsoft_hardening_contract.py
 tests/test_models.py

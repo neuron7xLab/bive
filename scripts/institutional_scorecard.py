@@ -53,8 +53,24 @@ def _proxy(name: str) -> bool:
     if name == "ci_release_status":
         if not GATES.is_file():
             return False
-        data = json.loads(GATES.read_text(encoding="utf-8"))
-        return str(data.get("status", "")).lower() in ("pass", "passed", "green")
+        # ci_release_discipline is earned only by a COMPLETE, all-passing release run
+        # — evidenced by VERIFY_RELEASE.log, not the evidence-bundle's 4-gate subset.
+        log_path = ROOT / "artifacts" / "verification" / "VERIFY_RELEASE.log"
+        if not log_path.is_file():
+            return False
+        log = log_path.read_text(encoding="utf-8", errors="replace")
+        if "VERIFY_RELEASE_FAIL" in log or "VERIFY_GATE_FAIL" in log:
+            return False
+        if "VERIFY_RELEASE_PASS" not in log:
+            return False
+        sys.path.insert(0, str(ROOT / "scripts"))
+        try:
+            import verify_release  # noqa: PLC0415
+
+            expected = len(verify_release.COMMANDS)
+        except Exception:  # noqa: BLE001
+            expected = 0
+        return not (expected and log.count("VERIFY_GATE_PASS") < expected)
     if name == "release_governance":
         return (ROOT / "scripts" / "verify_release.py").is_file() and (ROOT / "SECURITY.md").is_file()
     return False

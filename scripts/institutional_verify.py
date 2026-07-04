@@ -72,8 +72,26 @@ def main() -> int:
     if missing or failed:
         print("INSTITUTIONAL_VERIFY_INCOMPLETE (fail-closed; maturity not claimed)")
         return 1
+
+    _print_hierarchy()
     print("INSTITUTIONAL_VERIFY_COMPLETE")
     return 0
+
+
+def _print_hierarchy() -> None:
+    """Hierarchical inference view: leaf gates -> weighted dimensions -> capped score
+    -> maturity band. Read from the scorecard artifact the scorecard gate just wrote."""
+    scorecard = ROOT / "artifacts" / "verification" / "INSTITUTIONAL_SCORECARD.json"
+    if not scorecard.is_file():
+        return
+    import json
+
+    card = json.loads(scorecard.read_text(encoding="utf-8"))
+    print("--- hierarchical maturity inference (leaf gates -> dimensions -> score -> band) ---")
+    for d in card.get("dimensions", []):
+        print(f"  {d['name']} (w{d['weight']}): {len(d['passing'])}/{len(d['sources'])} sources -> {d['fraction']:.2f}")
+    print(f"  raw_score {card.get('raw_score')} -> capped {card.get('score')} ({card.get('band_cap_reason')})")
+    print(f"  BAND: {card.get('band')!r}")
 
 
 if __name__ == "__main__":

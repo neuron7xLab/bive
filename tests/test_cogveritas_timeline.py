@@ -3,8 +3,8 @@
 from __future__ import annotations
 
 from bive.cogveritas.service import analyze_verifiability
-from bive.cogveritas.timeline import build_timeline, detect_conflicts
-from bive.cogveritas.verifiability_tagger import analyze
+from bive.cogveritas.timeline import _time_key, build_timeline, detect_conflicts
+from bive.cogveritas.verifiability_tagger import analyze, segment_claims
 
 
 def test_timeline_orders_by_clock_time() -> None:
@@ -13,6 +13,15 @@ def test_timeline_orders_by_clock_time() -> None:
     labels = [t["time_label"] for t in tl]
     assert labels == ["9:00", "14:30"]  # chronological, not source order
     assert all(t["resolved"] for t in tl)
+
+
+def test_day_is_taken_from_the_month_not_the_clock_hour() -> None:
+    # Regression: "о 9 годині 5 січня" must record day 5 (adjacent to січня), not the
+    # clock hour 9 (the first digit run, which the old whole-text scan grabbed).
+    claim = segment_claims("Ми зустрілись о 9 годині 5 січня.")[0]
+    key, _label, _resolved = _time_key(claim)
+    month, day, _minutes = key
+    assert (month, day) == (1, 5)
 
 
 def test_timeline_omits_claims_without_time() -> None:

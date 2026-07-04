@@ -19,7 +19,19 @@ from .verifiability_tagger import Claim
 
 _CLOCK = re.compile(r"\b(\d{1,2}):(\d{2})\b")
 _HOUR = re.compile(r"\b(?:о|в|at)\s?(\d{1,2})\b", re.IGNORECASE)
-_DAY = re.compile(r"\b([0-3]?\d)\b")
+
+
+def _day_near_month(text: str, month_token: str) -> int:
+    """The 1-2 digit day adjacent to the month name (before or after it), or 99 if
+    none — never a distant digit like the clock hour."""
+    if not month_token:
+        return 99
+    esc = re.escape(month_token)
+    for pattern in (rf"(\d{{1,2}})\s+{esc}", rf"{esc}\s+(\d{{1,2}})"):
+        m = re.search(pattern, text, re.IGNORECASE)
+        if m and 1 <= int(m.group(1)) <= 31:
+            return int(m.group(1))
+    return 99
 
 # Month-name stems -> month number, per language. Matched by token startswith.
 _MONTHS: dict[str, dict[str, int]] = {
@@ -77,19 +89,22 @@ def _time_key(claim: Claim) -> tuple[tuple[int, int, int], str, bool] | None:
 
     month = 99
     day = 99
+    month_token = ""
     for tok in lowered:
         for stem, num in months.items():
             if tok.startswith(stem):
                 month = num
+                month_token = tok
                 label_parts.append(tok)
                 resolved = True
                 break
         if month != 99:
             break
     if month != 99:
-        dm = _DAY.search(text)
-        if dm and 1 <= int(dm.group(1)) <= 31:
-            day = int(dm.group(1))
+        # The day is the number ADJACENT to the month name ("5 січня", "March 3"),
+        # not the first digit run in the sentence — which is usually the clock hour
+        # ("о 9 годині 5 січня" must yield day 5, not 9).
+        day = _day_near_month(text, month_token)
 
     rel_offset = None
     for tok in lowered:

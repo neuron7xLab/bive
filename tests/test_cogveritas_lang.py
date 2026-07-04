@@ -97,3 +97,14 @@ def test_real_named_entities_stay_checkable() -> None:
     _, claims = analyze("Ivan signed the contract on 5 May.")
     assert claims
     assert classify_claim_verifiability(claims[0]) == "externally_checkable"
+
+
+def test_ukrainian_apostrophe_word_is_one_token() -> None:
+    # Regression: "під'їзд" was split into ['під', 'їзд'], making the apostrophe-bearing
+    # spatial anchor unreachable by token membership.
+    from bive.cogveritas.lang import pack_for_code
+
+    assert pack_for_code("uk").word.findall("під'їзд") == ["під'їзд"]
+    _, claims = analyze("Це був під'їзд будинку.")
+    assert claims
+    assert "під'їзд" in [t.lower() for t in claims[0].tokens]

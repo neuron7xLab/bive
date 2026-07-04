@@ -114,7 +114,14 @@ def extract_named_entities(text: str, pack: LanguagePack | None = None) -> list[
             return [ent.text for ent in nlp(text).ents]
         except Exception:
             pass
-    return p.proper.findall(text) + p.numeric.findall(text)
+    return _proper_names(text, p) + p.numeric.findall(text)
+
+
+def _proper_names(text: str, pack: LanguagePack) -> list[str]:
+    """Proper-noun proxy matches, minus capitalised function words (This, There,
+    Maybe, він, там…) the regex over-captures at sentence start — those are not
+    named-entity anchors and must not make an opinion read as externally checkable."""
+    return [m for m in pack.proper.findall(text) if m.lower() not in pack.stop_names]
 
 
 def classify_claim_verifiability(claim: Claim) -> str:
@@ -123,7 +130,7 @@ def classify_claim_verifiability(claim: Claim) -> str:
         return "insufficient_context"
     p = pack_for_code(claim.lang)
     checkable = (
-        len(p.proper.findall(claim.text))
+        len(_proper_names(claim.text, p))
         + len(p.numeric.findall(claim.text))
         + len(p.temporal.findall(claim.text))
     )
@@ -153,7 +160,7 @@ def build_feature_vector(claims: list[Claim]) -> VerifiabilityFeatures:
             verifiable += 1
         elif label == "not_externally_checkable":
             unverifiable += 1
-        ne += len(p.proper.findall(claim.text)) + len(p.numeric.findall(claim.text))
+        ne += len(_proper_names(claim.text, p)) + len(p.numeric.findall(claim.text))
         temporal += len(p.temporal.findall(claim.text))
         spatial += sum(t.lower() in p.spatial for t in claim.tokens)
     denom = verifiable + unverifiable or 1

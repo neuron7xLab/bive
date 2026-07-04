@@ -60,3 +60,26 @@ def test_english_regression_still_english() -> None:
     assert out.verdict is None
     assert any("independent record" in q for q in out.corroboration_questions)
     assert pack_for_text("plain english text here").code == "en"
+
+
+@pytest.mark.parametrize(
+    "opinion",
+    [
+        "This is beautiful.",
+        "There was nothing here.",
+        "Maybe it was wrong here.",
+    ],
+)
+def test_capitalised_function_words_are_not_entity_anchors(opinion: str) -> None:
+    # Regression: sentence-initial "This"/"There"/"Maybe" were counted as proper-noun
+    # anchors, tagging pure opinion as externally checkable and understating the gap.
+    _, claims = analyze(opinion)
+    assert claims
+    assert classify_claim_verifiability(claims[0]) == "not_externally_checkable"
+
+
+def test_real_named_entities_stay_checkable() -> None:
+    # The stop-name filter must not suppress genuine proper-noun anchors.
+    _, claims = analyze("Ivan signed the contract on 5 May.")
+    assert claims
+    assert classify_claim_verifiability(claims[0]) == "externally_checkable"

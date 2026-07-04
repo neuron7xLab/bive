@@ -24,40 +24,12 @@ class _Cluster:
     claim_ids: list[str] = field(default_factory=list)
     count: int = 0
 
-# Capitalised function words that the proper-noun proxy over-captures at sentence
-# start — pronouns, conjunctions, deictics. Excluded so they are not "entities".
-_STOP_NAMES: dict[str, frozenset[str]] = {
-    "uk": frozenset(
-        {
-            "він", "вона", "вони", "воно", "це", "цей", "ця", "потім", "тоді",
-            "тут", "там", "коли", "якщо", "проте", "однак", "але", "так", "ні",
-            "що", "як", "де", "бо", "адже", "отже", "тобто", "також", "ще", "вже",
-            "мене", "мені", "нього", "неї", "їх", "ми", "ти", "ви", "я",
-        }
-    ),
-    "ru": frozenset(
-        {
-            "он", "она", "они", "оно", "это", "этот", "эта", "потом", "тогда",
-            "тут", "там", "когда", "если", "однако", "но", "так", "нет", "что",
-            "как", "где", "потому", "итак", "также", "ещё", "уже", "меня", "мне",
-            "него", "неё", "их", "мы", "ты", "вы", "я",
-        }
-    ),
-    "en": frozenset(
-        {
-            "the", "this", "that", "then", "there", "when", "if", "but", "so",
-            "no", "yes", "also", "he", "she", "they", "it", "we", "you", "i",
-        }
-    ),
-}
-
-
 def extract_entities(claims: list[Claim], limit: int = 40) -> list[dict[str, object]]:
     """Cluster proper-noun mentions into canonical entities with a mention index."""
     clusters: dict[str, _Cluster] = {}
     for claim in claims:
         pack = pack_for_code(claim.lang)
-        stop = _STOP_NAMES.get(claim.lang, _STOP_NAMES["en"])
+        stop = pack.stop_names  # capitalised function words the proper-noun proxy over-captures
         for mention in pack.proper.findall(claim.text):
             if mention.lower() in stop:
                 continue

@@ -36,6 +36,10 @@ class LanguagePack:
     # Negation words — for polarity-based contradiction detection (two claims that
     # overlap heavily but disagree in negation are a review-worthy inconsistency).
     negation: frozenset[str] = frozenset()
+    # Capitalised function words (pronouns, deictics, conjunctions) the proper-noun
+    # proxy over-captures at sentence start. Excluded so they are NOT counted as
+    # named-entity anchors — otherwise "This is beautiful." reads as checkable.
+    stop_names: frozenset[str] = frozenset()
 
 
 # --- English -----------------------------------------------------------------
@@ -76,6 +80,13 @@ _EN = LanguagePack(
         }
     ),
     negation=frozenset({"not", "no", "never", "none", "nobody", "nothing", "neither", "nor"}),
+    stop_names=frozenset(
+        {
+            "the", "this", "that", "then", "there", "when", "if", "but", "so",
+            "no", "yes", "also", "he", "she", "they", "it", "we", "you", "i",
+            "maybe", "perhaps", "here", "now", "today", "yesterday", "tomorrow",
+        }
+    ),
 )
 
 # Cyrillic word/proper patterns are shared by uk and ru. A "word" is any run of
@@ -134,6 +145,14 @@ _UK = LanguagePack(
             "жодним", "жоден", "ніхто", "нічого", "ніде", "ніяк", "аніяк",
         }
     ),
+    stop_names=frozenset(
+        {
+            "він", "вона", "вони", "воно", "це", "цей", "ця", "потім", "тоді",
+            "тут", "там", "коли", "якщо", "проте", "однак", "але", "так", "ні",
+            "що", "як", "де", "бо", "адже", "отже", "тобто", "також", "ще", "вже",
+            "мене", "мені", "нього", "неї", "їх", "ми", "ти", "ви", "я",
+        }
+    ),
 )
 
 # --- Russian -----------------------------------------------------------------
@@ -181,6 +200,14 @@ _RU = LanguagePack(
     ),
     negation=frozenset(
         {"не", "нет", "никогда", "нету", "ни", "никто", "ничего", "нигде", "нисколько"}
+    ),
+    stop_names=frozenset(
+        {
+            "он", "она", "они", "оно", "это", "этот", "эта", "потом", "тогда",
+            "тут", "там", "когда", "если", "однако", "но", "так", "нет", "что",
+            "как", "где", "потому", "итак", "также", "ещё", "уже", "меня", "мне",
+            "него", "неё", "их", "мы", "ты", "вы", "я",
+        }
     ),
 )
 

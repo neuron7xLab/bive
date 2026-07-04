@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 342,
+  "test_functions": 348,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -335,6 +335,14 @@
       "test_band_is_capped_below_benchmark_grade_without_replication",
       "test_score_never_exceeds_raw",
       "test_gate_emits_artifact"
+    ],
+    "tests/test_institutional_verify_honesty.py": [
+      "test_absent_log_is_unverified",
+      "test_failed_gate_in_log_is_unverified",
+      "test_incomplete_run_is_unverified",
+      "test_no_terminal_pass_is_unverified",
+      "test_complete_all_passing_run_is_verified",
+      "test_expected_gate_count_reads_release_battery"
     ],
     "tests/test_linguistics.py": [
       "test_extract_claims_marks_absolute_and_temporal",

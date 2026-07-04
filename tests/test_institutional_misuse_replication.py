@@ -54,3 +54,51 @@ def test_external_gate_emits_readiness_artifact_not_replicated() -> None:
 def test_replication_requires_all_assets() -> None:
     for asset in er._REQUIRED_ASSETS:
         assert (er.RESEARCH / asset).is_file(), f"missing replication asset: {asset}"
+
+
+# --- existence is not readiness: a stub asset must fail ---
+
+
+def test_empty_python_asset_is_a_stub() -> None:
+    assert er._py_stub_reason("") is not None
+    assert er._py_stub_reason("# just a comment\n\n\n") is not None
+
+
+def test_notimplemented_only_module_is_a_stub() -> None:
+    src = (
+        "import os\nimport sys\n\n"
+        "def run():\n    raise NotImplementedError\n\n"
+        "def load():\n    raise NotImplementedError('todo')\n\n"
+        "def audit():\n    ...\n"
+    )
+    assert er._py_stub_reason(src) == "every function is a stub (pass/.../NotImplementedError)"
+
+
+def test_real_python_asset_is_not_a_stub() -> None:
+    for asset in er._PY_ENTRYPOINTS:
+        src = (er.RESEARCH / asset).read_text(encoding="utf-8")
+        assert er._py_stub_reason(src) is None, f"{asset} misclassified as stub"
+
+
+def test_empty_shell_asset_is_a_stub() -> None:
+    assert er._sh_stub_reason("#!/bin/sh\n# nothing here\n") is not None
+
+
+def test_real_shell_asset_is_not_a_stub() -> None:
+    src = (er.RESEARCH / "fetch_data.sh").read_text(encoding="utf-8")
+    assert er._sh_stub_reason(src) is None
+
+
+def test_check_fails_when_an_entrypoint_is_a_stub(tmp_path: Path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # Full asset set present, but evaluate.py is a NotImplementedError stub -> not ready.
+    research = tmp_path / "research" / "cogveritas"
+    research.mkdir(parents=True)
+    for asset in er._REQUIRED_ASSETS:
+        (research / asset).write_text((er.RESEARCH / asset).read_text(encoding="utf-8"), encoding="utf-8")
+    (research / "evaluate.py").write_text(
+        "def main():\n    raise NotImplementedError\n", encoding="utf-8"
+    )
+    monkeypatch.setattr(er, "RESEARCH", research)
+    monkeypatch.setattr(er, "GUIDE", research / "REPLICATION.md")
+    problems = er.check()
+    assert any("evaluate.py" in p and "not runnable" in p for p in problems), problems

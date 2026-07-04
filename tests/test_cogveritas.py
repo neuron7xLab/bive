@@ -115,6 +115,63 @@ def test_no_forbidden_person_level_strings() -> None:
         build_output("elevated", ["this person is a liar"], [_node()])
 
 
+def _valid_output_kwargs() -> dict[str, object]:
+    return {
+        "verifiability_gap": "nominal",
+        "corroboration_questions": ["Corroborate with an external record."],
+        "ordinal_flag": "markers_nominal",
+        "audit_trail": [_node()],
+    }
+
+
+def test_forbidden_judgment_is_scanned_in_every_system_framing_field() -> None:
+    from bive.cogveritas.output_contract import (
+        COGVERITASOutput,
+        InterviewQuestion,
+        WorklistItem,
+    )
+
+    # interview_questions (question + rationale) were previously UNSCANNED.
+    with pytest.raises(ValueError, match="system framing"):
+        COGVERITASOutput(
+            **_valid_output_kwargs(),
+            interview_questions=[InterviewQuestion(claim_id="c0", question="the subject is a liar")],
+        )
+    with pytest.raises(ValueError, match="system framing"):
+        COGVERITASOutput(
+            **_valid_output_kwargs(),
+            interview_questions=[
+                InterviewQuestion(claim_id="c0", question="ok?", rationale="because he is lying")
+            ],
+        )
+    # A worklist note (human-analyst field) is exempt only as declared; the scan must
+    # still cover any field NOT exempted. Here the note IS exempt, so this constructs.
+    COGVERITASOutput(
+        **_valid_output_kwargs(),
+        corroboration_worklist=[WorklistItem(claim_id="c0", quote="q", note="analyst note")],
+    )
+
+
+def test_user_quotes_are_evidence_not_framing() -> None:
+    from bive.cogveritas.output_contract import COGVERITASOutput, WorklistItem
+
+    # A forbidden string inside a «…» user quote is stripped before scanning.
+    out = COGVERITASOutput(
+        **_valid_output_kwargs(),
+        corroboration_worklist=[WorklistItem(claim_id="c0", quote="він сказав: «я не брехун, is lying»")],
+    )
+    assert out.verdict is None
+
+
+def test_exemption_registry_never_exempts_the_system_framing_fields() -> None:
+    # Fail-safe guard: the fields the system authors as free text must NOT be exempt.
+    from bive.cogveritas.output_contract import _EXEMPT_STRING_FIELDS, COGVERITASOutput
+
+    out_exempt = _EXEMPT_STRING_FIELDS[COGVERITASOutput]
+    assert "rm_criteria_flagged" not in out_exempt
+    assert "corroboration_questions" not in out_exempt
+
+
 def test_no_float_probability_when_ece_fails() -> None:
     # ECE above threshold -> probabilities disabled, ordinal flags only.
     out = build_output(

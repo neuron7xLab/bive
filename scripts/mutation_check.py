@@ -41,8 +41,8 @@ _MUTATIONS = (
         id="disable_forbidden_judgment_scan",
         invariant="no person-level judgment in system framing",
         file="src/bive/cogveritas/output_contract.py",
-        old="            if hits:\n                raise ValueError(f\"forbidden person-level judgment string(s): {hits}\")",
-        new="            if hits and False:\n                raise ValueError(f\"forbidden person-level judgment string(s): {hits}\")",
+        old="        hits = _scan_system_framing(self)\n        if hits:",
+        new="        hits = _scan_system_framing(self)\n        if hits and False:",
         killer_test="tests/test_cogveritas.py::test_no_forbidden_person_level_strings",
     ),
     Mutation(

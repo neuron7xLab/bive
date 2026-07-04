@@ -55,7 +55,34 @@ def test_failed_gate_in_timing_fails(tmp_path, monkeypatch) -> None:  # type: ig
     gates = [{"name": "broken", "duration_seconds": 1.0, "result": "fail"}]
     monkeypatch.setattr(re_check, "GATES", _timing(tmp_path, gates))
     _report, problems = re_check.audit()
-    assert any("non-passing gate" in p for p in problems)
+    assert any("not recorded as pass" in p for p in problems)
+
+
+def test_blank_result_is_not_a_silent_pass(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # The fail-open this replaces: a missing/empty result must NOT count as passing.
+    monkeypatch.setattr(re_check, "_expected_gate_count", lambda: 1)
+    gates = [{"name": "unmarked", "duration_seconds": 1.0}]  # no "result" key
+    monkeypatch.setattr(re_check, "GATES", _timing(tmp_path, gates))
+    _report, problems = re_check.audit()
+    assert any("not recorded as pass" in p for p in problems), problems
+
+
+def test_zero_duration_is_unmeasured_not_free(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # A gate with no measured time is unmeasured, not a free pass.
+    monkeypatch.setattr(re_check, "_expected_gate_count", lambda: 1)
+    gates = [{"name": "instant", "duration_seconds": 0.0, "result": "pass"}]
+    monkeypatch.setattr(re_check, "GATES", _timing(tmp_path, gates))
+    _report, problems = re_check.audit()
+    assert any("no measured duration" in p for p in problems), problems
+
+
+def test_all_blank_battery_does_not_pass(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # The exact theater: a complete-count artifact of empty entries must fail, not PASS.
+    monkeypatch.setattr(re_check, "_expected_gate_count", lambda: 3)
+    gates: list[dict[str, object]] = [{"name": f"g{i}"} for i in range(3)]
+    monkeypatch.setattr(re_check, "GATES", _timing(tmp_path, gates))
+    _report, problems = re_check.audit()
+    assert problems, "an all-blank timing artifact must not pass the resource audit"
 
 
 def test_missing_timing_artifact_fails_closed(tmp_path, monkeypatch) -> None:  # type: ignore[no-untyped-def]

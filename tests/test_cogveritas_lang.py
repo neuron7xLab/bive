@@ -99,6 +99,35 @@ def test_real_named_entities_stay_checkable() -> None:
     assert classify_claim_verifiability(claims[0]) == "externally_checkable"
 
 
+@pytest.mark.parametrize(
+    "text",
+    [
+        "Белка взобралась на дерево.",
+        "Правда сложнее.",
+        "На светофоре поверните налево.",
+        "Его жена татарка.",
+        "Учительница позвала директора.",
+        "Том слишком часто пропускает занятия.",
+    ],
+)
+def test_short_russian_without_unique_letters_routes_to_ru(text: str) -> None:
+    # These carry no ы/э/ъ/ё and no -л/-в past marker; the char-3-gram model must
+    # still route them to Russian (the heuristic mis-routed them to Ukrainian).
+    assert detect_language(text) == "ru"
+
+
+def test_language_detection_is_deterministic() -> None:
+    for text in ("Белка взобралась на дерево.", "Він купив автомобіль тут.", "Plain english here."):
+        assert len({detect_language(text) for _ in range(5)}) == 1
+
+
+def test_lid_model_is_loaded() -> None:
+    from bive.cogveritas.lang import _LID
+
+    assert set(_LID.profiles) == {"uk", "ru", "en"}
+    assert _LID.n == 3
+
+
 def test_ukrainian_apostrophe_word_is_one_token() -> None:
     # Regression: "під'їзд" was split into ['під', 'їзд'], making the apostrophe-bearing
     # spatial anchor unreachable by token membership.

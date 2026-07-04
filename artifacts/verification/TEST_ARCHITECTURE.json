@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 419,
+  "test_functions": 422,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -238,6 +238,9 @@
       "test_english_regression_still_english",
       "test_capitalised_function_words_are_not_entity_anchors",
       "test_real_named_entities_stay_checkable",
+      "test_short_russian_without_unique_letters_routes_to_ru",
+      "test_language_detection_is_deterministic",
+      "test_lid_model_is_loaded",
       "test_ukrainian_apostrophe_word_is_one_token"
     ],
     "tests/test_cogveritas_pipeline.py": [

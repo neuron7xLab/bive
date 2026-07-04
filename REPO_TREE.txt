@@ -170,6 +170,7 @@ scripts/cogveritas_gates.py
 scripts/contamination_audit.py
 scripts/dependency_audit.py
 scripts/determinism_stress.py
+scripts/domain_distance_check.py
 scripts/dynamic_environment_probe.py
 scripts/export_openapi.py
 scripts/generate_evidence_bundle.py
@@ -177,6 +178,7 @@ scripts/generate_manifest.py
 scripts/institutional_verify.py
 scripts/pr_check.py
 scripts/product_claim_audit.py
+scripts/resource_effectiveness_check.py
 scripts/run_phase0_verifiability.py
 scripts/validate_aos_kernel.py
 scripts/validate_automation_contract.py
@@ -313,6 +315,7 @@ tests/test_eval.py
 tests/test_evidence_graph.py
 tests/test_frontend_contract.py
 tests/test_institutional_benchmark.py
+tests/test_institutional_domain_resource.py
 tests/test_linguistics.py
 tests/test_microsoft_hardening_contract.py
 tests/test_models.py

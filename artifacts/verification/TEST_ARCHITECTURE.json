@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 310,
+  "test_functions": 314,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -297,6 +297,12 @@
       "test_contamination_bites_on_unqualified_high_auc",
       "test_contamination_allows_qualified_high_auc",
       "test_contamination_ignores_low_auc"
+    ],
+    "tests/test_institutional_domain_resource.py": [
+      "test_domain_distance_live_passes",
+      "test_domain_distance_requires_regime_labels",
+      "test_resource_report_within_budget_when_timing_present",
+      "test_resource_budget_constants_are_bounded"
     ],
     "tests/test_linguistics.py": [
       "test_extract_claims_marks_absolute_and_temporal",

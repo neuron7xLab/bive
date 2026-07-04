@@ -38,6 +38,37 @@ def test_misuse_doc_lives_under_security() -> None:
     assert mt.DOC.as_posix().endswith("docs/security/MISUSE_THREAT_MODEL.md")
 
 
+def test_misuse_has_one_block_per_required_risk() -> None:
+    assert len(mt._risk_blocks(mt.DOC.read_text(encoding="utf-8"))) == len(mt._REQUIRED_RISKS)
+
+
+def test_missing_mitigation_in_one_risk_block_fails(tmp_path: Path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # Drop the mitigation label from the over-reliance block (not the no-verdict one).
+    text = mt.DOC.read_text(encoding="utf-8").replace(
+        "**Mitigation:** `human_in_the_loop`", "**Note:** `human_in_the_loop`", 1
+    )
+    doc = tmp_path / "MISUSE.md"
+    doc.write_text(text, encoding="utf-8")
+    monkeypatch.setattr(mt, "DOC", doc)
+    problems = mt.check()
+    assert any("over-reliance" in p and "records no mitigation" in p for p in problems), problems
+
+
+def test_occurrence_stuffing_no_longer_passes(tmp_path: Path, monkeypatch) -> None:  # type: ignore[no-untyped-def]
+    # The exact theater this replaces: strip the per-risk labels but stuff the words
+    # globally. The old count-based gate passed; per-risk mapping must now fail.
+    text = mt.DOC.read_text(encoding="utf-8")
+    stripped = text.replace("**Mitigation:**", "**Xitigation:**").replace(
+        "**Residual risk:**", "**Xesidual risk:**"
+    )
+    stuffed = stripped + "\n\n" + "\n".join(["mitigation: filler; residual risk: filler"] * 12)
+    doc = tmp_path / "MISUSE.md"
+    doc.write_text(stuffed, encoding="utf-8")
+    monkeypatch.setattr(mt, "DOC", doc)
+    problems = mt.check()
+    assert any("records no mitigation" in p for p in problems), problems
+
+
 def test_external_replication_live_ready() -> None:
     assert er.check() == []
 

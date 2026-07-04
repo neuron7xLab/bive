@@ -15,6 +15,16 @@ def test_timeline_orders_by_clock_time() -> None:
     assert all(t["resolved"] for t in tl)
 
 
+def test_time_label_is_clean_day_month_clock() -> None:
+    # A product surface: the label must read as a human date ("5 січня, 14:30"),
+    # with the day present — not raw matched tokens ("14:30 січня" / "січня").
+    _, claims = analyze(
+        "5 січня о 14:30 я зустрів Петра. Ми домовились повернути кошти до 20 січня."
+    )
+    labels = [t["time_label"] for t in build_timeline(claims)]
+    assert labels == ["5 січня, 14:30", "20 січня"]
+
+
 def test_day_is_taken_from_the_month_not_the_clock_hour() -> None:
     # Regression: "о 9 годині 5 січня" must record day 5 (adjacent to січня), not the
     # clock hour 9 (the first digit run, which the old whole-text scan grabbed).

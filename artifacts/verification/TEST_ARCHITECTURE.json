@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 333,
+  "test_functions": 342,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -103,6 +103,12 @@
       "test_platt_moves_toward_labels",
       "test_evaluate_probabilities_shape",
       "test_validation_errors"
+    ],
+    "tests/test_capability_registry.py": [
+      "test_registry_live_passes",
+      "test_every_capability_is_backed_by_a_real_module",
+      "test_gate_emits_artifact_with_human_in_the_loop",
+      "test_unbacked_capability_would_fail"
     ],
     "tests/test_cli_convert_contract.py": [
       "test_analyze_accepts_srt",
@@ -322,6 +328,13 @@
       "test_external_replication_live_ready",
       "test_external_gate_emits_readiness_artifact_not_replicated",
       "test_replication_requires_all_assets"
+    ],
+    "tests/test_institutional_scorecard.py": [
+      "test_weights_sum_to_100",
+      "test_score_is_gate_derived_no_manual_override",
+      "test_band_is_capped_below_benchmark_grade_without_replication",
+      "test_score_never_exceeds_raw",
+      "test_gate_emits_artifact"
     ],
     "tests/test_linguistics.py": [
       "test_extract_claims_marks_absolute_and_temporal",

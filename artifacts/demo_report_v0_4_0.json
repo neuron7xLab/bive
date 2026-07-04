@@ -329,5 +329,6 @@
     "Every elevated hypothesis must include counter-evidence or missing evidence.",
     "Human review required for real-world decisions."
   ],
-  "report_version": "1.0"
+  "report_version": "1.0",
+  "content_digest": "b6d1f86ecfa34af4f7648cf57515c60405b1de0bc3b309f58d22a52698707d74"
 }

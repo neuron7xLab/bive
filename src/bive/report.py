@@ -7,6 +7,7 @@ from pathlib import Path
 from .evidence_graph import build_evidence_graph
 from .fusion import EvidenceFusionEngine
 from .ingest import TranscriptSegment, load_transcript_any
+from .integrity import content_digest
 from .linguistics import LinguisticAnalyzer, extract_claims
 from .models import (
     EvidenceEvent,
@@ -51,7 +52,7 @@ def build_report_from_segments(
             parameters={"segment_count": len(segments), "claim_count": len(claims)},
         ),
     )
-    return VerificationReport(
+    report = VerificationReport(
         report_id="bive-report-0001",
         created_at=utc_now_iso(),
         subject_scope=subject_scope,
@@ -74,6 +75,9 @@ def build_report_from_segments(
         verification_questions=build_verification_questions(claims, hypotheses),
         provenance=provenance,
     )
+    # Finalize tamper-evidence: stamp the content digest over the substantive analysis.
+    object.__setattr__(report, "content_digest", content_digest(report.to_dict()))
+    return report
 
 
 def build_report_from_transcript(path: str | Path) -> VerificationReport:
@@ -124,6 +128,7 @@ def render_markdown(report: VerificationReport) -> str:
         f"# BIVE Verification Report `{report.report_id}`",
         "",
         f"Created: {report.created_at}",
+        f"Content digest (sha256): `{report.content_digest}`",
         f"Final status: **{report.final_status.value}**",
         "",
         "## Assessment",

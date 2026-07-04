@@ -130,6 +130,35 @@ def test_no_float_probability_when_ece_fails() -> None:
         calibrated_probability=0.7, calibration_ci=(0.6, 0.8), ece=0.02,
     )
     assert ok.calibrated_probability == 0.7
+    assert ok.calibration_ece == 0.02  # the passing evidence rides with the probability
+
+
+def test_probability_cannot_bypass_calibration_via_direct_construction() -> None:
+    # The suppression invariant must hold at the TYPE boundary, not only in
+    # build_output — constructing the class directly must reject an unproven probability.
+    base = {
+        "verifiability_gap": "nominal",
+        "corroboration_questions": ["Corroborate with an external record."],
+        "ordinal_flag": "markers_nominal",
+        "audit_trail": [_node()],
+    }
+    # No calibration evidence at all.
+    with pytest.raises(ValueError, match="calibration_ece"):
+        COGVERITASOutput(**base, calibrated_probability=0.93, calibration_ci=(0.88, 0.97))
+    # Evidence present but ECE above threshold -> still rejected.
+    with pytest.raises(ValueError, match="demonstrated calibration"):
+        COGVERITASOutput(
+            **base, calibrated_probability=0.93, calibration_ci=(0.88, 0.97),
+            calibration_ece=ECE_THRESHOLD + 0.01,
+        )
+    # Orphan evidence without a probability is rejected too.
+    with pytest.raises(ValueError, match="calibration_ece requires"):
+        COGVERITASOutput(**base, calibration_ece=0.02)
+    # A genuinely calibrated probability (ece below threshold) is accepted.
+    good = COGVERITASOutput(
+        **base, calibrated_probability=0.93, calibration_ci=(0.88, 0.97), calibration_ece=0.02
+    )
+    assert good.calibrated_probability == 0.93
 
 
 def test_corroboration_and_audit_mandatory() -> None:

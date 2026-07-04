@@ -222,6 +222,7 @@ class COGVERITASOutput(BaseModel):
     cross_witness: list[CrossWitnessItem] = []
     calibrated_probability: float | None = None
     calibration_ci: tuple[float, float] | None = None
+    calibration_ece: float | None = None
     ordinal_flag: OrdinalFlag
     audit_trail: list[ProvenanceNode]
     detected_language: str = "en"
@@ -236,11 +237,23 @@ class COGVERITASOutput(BaseModel):
             raise ValueError("corroboration_questions are mandatory")
         if not self.audit_trail:
             raise ValueError("audit_trail is mandatory")
-        # Probabilities are gated on demonstrated calibration.
-        if self.calibrated_probability is not None and self.calibration_ci is None:
-            raise ValueError("calibrated_probability requires a calibration_ci")
+        # Probabilities are gated on demonstrated calibration — enforced HERE, at the
+        # type boundary, so a probability cannot escape by constructing the class
+        # directly (the build_output helper is not the only construction path).
+        if self.calibrated_probability is not None:
+            if self.calibration_ci is None:
+                raise ValueError("calibrated_probability requires a calibration_ci")
+            if self.calibration_ece is None:
+                raise ValueError("calibrated_probability requires calibration_ece evidence")
+            if self.calibration_ece >= ECE_THRESHOLD:
+                raise ValueError(
+                    "calibrated_probability requires demonstrated calibration "
+                    f"(ece {self.calibration_ece} >= threshold {ECE_THRESHOLD})"
+                )
         if self.calibration_ci is not None and self.calibrated_probability is None:
             raise ValueError("calibration_ci requires a calibrated_probability")
+        if self.calibration_ece is not None and self.calibrated_probability is None:
+            raise ValueError("calibration_ece requires a calibrated_probability")
         # No forbidden person-level judgment in the SYSTEM's own framing. Verbatim
         # user quotes («…») are evidence, not judgment, and are stripped first.
         for field in (*self.rm_criteria_flagged, *self.corroboration_questions):
@@ -274,10 +287,12 @@ def build_output(
     """Construct an output, disabling probabilities when calibration is not demonstrated."""
     prob = calibrated_probability
     ci = calibration_ci
+    kept_ece = ece
     if ece is None or ece >= ECE_THRESHOLD:
         # Calibration not demonstrated -> ordinal flags only.
         prob = None
         ci = None
+        kept_ece = None
     ordinal: OrdinalFlag = {
         "elevated": "markers_elevated",
         "nominal": "markers_nominal",
@@ -306,6 +321,7 @@ def build_output(
         cross_witness=cross_witness or [],
         calibrated_probability=prob,
         calibration_ci=ci,
+        calibration_ece=kept_ece,
         ordinal_flag=ordinal,
         audit_trail=audit_trail,
         detected_language=detected_language,

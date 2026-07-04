@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 398,
+  "test_functions": 399,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -160,6 +160,7 @@
       "test_verdict_always_none",
       "test_no_forbidden_person_level_strings",
       "test_no_float_probability_when_ece_fails",
+      "test_probability_cannot_bypass_calibration_via_direct_construction",
       "test_corroboration_and_audit_mandatory",
       "test_gates_fail_closed_on_missing_artifacts",
       "test_bias_gate_blocks_release_when_unavailable"

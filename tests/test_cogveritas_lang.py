@@ -19,10 +19,24 @@ from bive.cogveritas.verifiability_tagger import analyze, classify_claim_verifia
         ("I met John at the Hilton on March 3", "en"),
         ("", "en"),
         ("12345 67890 !!!", "en"),
+        # Russian carrying no orthography-unique letters and no listed function words —
+        # disambiguated by the -л masculine-past ending, not defaulted to Ukrainian.
+        ("Иван купил машину.", "ru"),
+        ("Иван купил машину вчера.", "ru"),
+        ("Николай сказал правду.", "ru"),
+        # Ukrainian -в past stays Ukrainian.
+        ("Микола зробив помилку.", "uk"),
     ],
 )
 def test_language_detection(text: str, expected: str) -> None:
     assert detect_language(text) == expected
+
+
+def test_russian_without_unique_letters_routes_to_russian_pack() -> None:
+    # Regression: the whole anchor set (temporal etc.) must follow the right language.
+    out = analyze_verifiability("Иван купил машину вчера.")
+    assert out.detected_language == "ru"
+    assert out.verdict is None
 
 
 def test_ukrainian_end_to_end_separates_checkable_from_opinion() -> None:

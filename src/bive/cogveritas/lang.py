@@ -237,16 +237,23 @@ _RU_WORDS = frozenset(
     }
 )
 _WORDS = re.compile(r"[^\W\d_]+", re.UNICODE)
+# Masculine singular past tense: Russian ends in a vowel + ``л`` (був->был, купив->
+# купил, сказав->сказал); Ukrainian ends in a vowel + ``в``. This discriminates
+# Cyrillic text that carries none of the orthography-unique letters or function words
+# (the case that previously defaulted blindly to Ukrainian and mis-anchored Russian).
+_RU_PAST = re.compile(r"[аоуыияе]л$")
+_UK_PAST = re.compile(r"[аоуияіє]в$")
 
 
 def detect_language(text: str) -> str:
     """Return ``en``/``uk``/``ru`` from script ratio, then language-unique letters,
-    then function words.
+    then function words, then masculine-past morphology.
 
     Transparent and reproducible: majority script decides Latin vs Cyrillic; among
     Cyrillic, Ukrainian-unique letters (і, ї, є, ґ) outrank Russian-unique ones
-    (ы, э, ъ, ё); when neither appears, high-frequency function words break the
-    tie. Empty input and Latin-majority default to English.
+    (ы, э, ъ, ё); when neither appears, high-frequency function words break the tie,
+    then the -л/-в masculine-past ending. Empty input and Latin-majority default to
+    English; a genuine tie defaults to Ukrainian for this Ukrainian-facing product.
     """
     if not text:
         return "en"
@@ -262,10 +269,14 @@ def detect_language(text: str) -> str:
     tokens = [t.lower() for t in _WORDS.findall(text)]
     uk_w = sum(t in _UK_WORDS for t in tokens)
     ru_w = sum(t in _RU_WORDS for t in tokens)
-    if ru_w > uk_w:
-        return "ru"
-    # Ties (including no marker hits) default to Ukrainian for this
-    # Ukrainian-facing product; the anchor sets overlap heavily anyway.
+    if uk_w != ru_w:
+        return "uk" if uk_w > ru_w else "ru"
+    # Function words tied — masculine-past morphology (-л Russian vs -в Ukrainian).
+    ru_past = sum(1 for t in tokens if _RU_PAST.search(t))
+    uk_past = sum(1 for t in tokens if _UK_PAST.search(t))
+    if ru_past != uk_past:
+        return "ru" if ru_past > uk_past else "uk"
+    # Genuinely ambiguous -> Ukrainian-facing default; the anchor sets overlap anyway.
     return "uk"
 
 

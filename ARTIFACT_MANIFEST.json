@@ -253,9 +253,9 @@
       "sha256": "4a9b7e83d6cc299518a3a9a219979001e5194859a33dee07d92a81116e6b4314"
     },
     {
-      "bytes": 25796,
+      "bytes": 25846,
       "path": "artifacts/verification/TEST_ARCHITECTURE.json",
-      "sha256": "898a847ad38119c556b9e8f01bba0f557b6e71989ed19f03a7bd0cff7dbf8feb"
+      "sha256": "2915f80b53f6eae58b05731a9283254f029334d6da54679e846fd8325f13b2eb"
     },
     {
       "bytes": 826,
@@ -1323,9 +1323,9 @@
       "sha256": "f8eaacb63fc113b9ee0179804a18f4749e7eaa85113de9452b3fc11384dd6b4d"
     },
     {
-      "bytes": 8772,
+      "bytes": 9176,
       "path": "src/bive/cogveritas/timeline.py",
-      "sha256": "bbbe9dd7d630bc96be13b7218a8092daba8497dc5ee141cb6f57ada677d7f6a5"
+      "sha256": "42aa71280adca905aeafa3a0b39b1184665656db8c3a486a97ca7edc6c06c172"
     },
     {
       "bytes": 7322,
@@ -1703,9 +1703,9 @@
       "sha256": "79d492e71ad50c3dd468bff62dba91ebd3ebab1976040da6c4e303dd82404250"
     },
     {
-      "bytes": 2589,
+      "bytes": 3118,
       "path": "tests/test_cogveritas_timeline.py",
-      "sha256": "346e39f980f72d45c6d3496b9e3f18918d83cbcdcef819ac239b61121b59a6e8"
+      "sha256": "4bf874327e19e14207f76995f93312235e6fdc504460a224df3bed27fba050a8"
     },
     {
       "bytes": 1975,
@@ -1918,7 +1918,7 @@
       "sha256": "cc4f85a12d3447cfb49967601565ea2ac636114a54b0b2241ff56f4e737c474a"
     }
   ],
-  "generated_at_utc": "2026-07-04T11:42:23+00:00",
+  "generated_at_utc": "2026-07-04T11:56:30+00:00",
   "name": "bive",
   "release_state": "machine-assisted; dependency CVE and Docker runtime gates require external environment when unavailable",
   "scope": "open-source productized evidence-first transcript verification engine",

@@ -72,19 +72,19 @@ def _time_key(claim: Claim) -> tuple[tuple[int, int, int], str, bool] | None:
     relative = _RELATIVE.get(claim.lang, _RELATIVE["en"])
 
     minutes = _NO_KEY[2]
-    label_parts: list[str] = []
+    clock_str = ""
     resolved = False
 
     clock = _CLOCK.search(text)
     if clock:
         minutes = int(clock.group(1)) * 60 + int(clock.group(2))
-        label_parts.append(clock.group(0))
+        clock_str = clock.group(0)
         resolved = True
     else:
         hour = _HOUR.search(text)
         if hour and int(hour.group(1)) < 24:
             minutes = int(hour.group(1)) * 60
-            label_parts.append(hour.group(0))
+            clock_str = hour.group(0)
             resolved = True
 
     month = 99
@@ -95,7 +95,6 @@ def _time_key(claim: Claim) -> tuple[tuple[int, int, int], str, bool] | None:
             if tok.startswith(stem):
                 month = num
                 month_token = tok
-                label_parts.append(tok)
                 resolved = True
                 break
         if month != 99:
@@ -107,10 +106,11 @@ def _time_key(claim: Claim) -> tuple[tuple[int, int, int], str, bool] | None:
         day = _day_near_month(text, month_token)
 
     rel_offset = None
+    rel_token = ""
     for tok in lowered:
         if tok in relative:
             rel_offset = relative[tok]
-            label_parts.append(tok)
+            rel_token = tok
             break
 
     if not resolved and rel_offset is None:
@@ -121,7 +121,19 @@ def _time_key(claim: Claim) -> tuple[tuple[int, int, int], str, bool] | None:
         key = (50 + rel_offset, 99, minutes)
     else:
         key = (month, day, minutes)
-    return key, " ".join(label_parts).strip(), resolved
+    return key, _format_label(day, month_token, clock_str, rel_token), resolved
+
+
+def _format_label(day: int, month_token: str, clock_str: str, rel_token: str) -> str:
+    """A clean human date label: "5 січня, 14:30" / "12 січня" / "вчора, 09:00"."""
+    parts: list[str] = []
+    if month_token:
+        parts.append(f"{day} {month_token}" if day != 99 else month_token)
+    elif rel_token:
+        parts.append(rel_token)
+    if clock_str:
+        parts.append(clock_str)
+    return ", ".join(parts)
 
 
 def build_timeline(claims: list[Claim]) -> list[dict[str, object]]:

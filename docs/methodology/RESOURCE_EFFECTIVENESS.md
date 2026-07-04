@@ -13,7 +13,7 @@ bounded, never silent.
 
 | field | source | enforced |
 |---|---|---|
-| per-gate wall time | `artifacts/verification/gates.json` | per-gate budget (600 s) |
+| per-gate wall time | `artifacts/verification/RELEASE_TIMINGS.json` | per-gate budget (600 s) |
 | total wall time | sum of gate durations | total budget (1800 s) |
 | slowest gates | ranked from gates.json | surfaced |
 | memory policy | pinned deps / no-network core | reported |

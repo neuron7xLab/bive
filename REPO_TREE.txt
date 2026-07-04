@@ -122,8 +122,10 @@ docs/methodology/BIAS_BASELINE_POLICY.md
 docs/methodology/CALIBRATION_POLICY.md
 docs/methodology/COGVERITAS_METHOD_ACT.md
 docs/methodology/CONTAMINATION_AUDIT.md
+docs/methodology/CROSS_DOMAIN_MATRIX.md
 docs/methodology/DATASET_ACCESS_NOTES.md
 docs/methodology/DECISION_PHASE0_DATASET_DIVERGENCE.md
+docs/methodology/DOMAIN_DISTANCE_POLICY.md
 docs/methodology/MISUSE_THREAT_MODEL.md
 docs/methodology/NO_VERDICT_INVARIANT.md
 docs/methodology/OPERATOR_GUIDE.md
@@ -143,6 +145,7 @@ requirements/security.in
 research/cogveritas/.gitignore
 research/cogveritas/PHASE0_REPORT.md
 research/cogveritas/REPLICATION.md
+research/cogveritas/cross_domain_matrix.json
 research/cogveritas/evaluate.py
 research/cogveritas/features.py
 research/cogveritas/fetch_data.sh
@@ -171,6 +174,7 @@ scripts/check_repo_clean.py
 scripts/check_ui_assets.py
 scripts/cogveritas_gates.py
 scripts/contamination_audit.py
+scripts/cross_domain_matrix_check.py
 scripts/dependency_audit.py
 scripts/determinism_stress.py
 scripts/domain_distance_check.py
@@ -314,6 +318,7 @@ tests/test_cogveritas_witness.py
 tests/test_cogveritas_worklist.py
 tests/test_dependency_contracts.py
 tests/test_determinism_stress.py
+tests/test_domain_distance_policy.py
 tests/test_dynamic_environment_probe.py
 tests/test_ekman_guards.py
 tests/test_eval.py

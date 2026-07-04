@@ -1,6 +1,6 @@
 {
   "status": "pass",
-  "test_functions": 321,
+  "test_functions": 326,
   "files": {
     "tests/test_adapters_contract.py": [
       "test_adapter_command_timeout_returns_structured_failure",
@@ -267,6 +267,13 @@
       "test_normalizer_blanks_only_volatile_keys",
       "test_manifest_excludes_nonreproducible_log",
       "test_volatile_log_is_gitignored"
+    ],
+    "tests/test_domain_distance_policy.py": [
+      "test_cross_domain_matrix_live_passes",
+      "test_cross_domain_gate_emits_artifact_with_degradation",
+      "test_tfidf_ceiling_collapses_toward_chance",
+      "test_domain_distance_live_passes_and_suppresses_probability",
+      "test_domain_distance_gate_emits_policy_artifact"
     ],
     "tests/test_dynamic_environment_probe.py": [
       "test_dynamic_environment_probe_script_runs"

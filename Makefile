@@ -1,4 +1,4 @@
-.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify benchmark-card-check contamination-audit domain-distance resource-effectiveness misuse-threat-model external-replication
+.PHONY: verify verify-release test test-slow coverage lint typecheck schema demo pr-check api api-smoke wheel-smoke ui-check frontend-quality science-registry dynamic-probe determinism-stress simulate red-team security-static dependency-audit license-audit dependency-contracts deps-check deps-compile metadata openapi manifest manifest-check repo-clean automation-contract test-architecture bibliography threat-model microsoft-rest operational-excellence aos-kernel cognitive-control neurocognitive-protocol product-readiness evidence-bundle docker-build docker-run purge-cache bootstrap-env test-all secure-audit docker-smoke docker-verify clean product-claim-audit institutional-verify benchmark-card-check contamination-audit cross-domain-matrix-check domain-distance-check resource-effectiveness misuse-threat-model external-replication
 
 PYTHON ?= python
 VENV ?= .venv
@@ -114,7 +114,10 @@ benchmark-card-check:
 contamination-audit:
 	PYTHONPATH=src $(PYTHON) scripts/contamination_audit.py
 
-domain-distance:
+cross-domain-matrix-check:
+	PYTHONPATH=src $(PYTHON) scripts/cross_domain_matrix_check.py
+
+domain-distance-check:
 	PYTHONPATH=src $(PYTHON) scripts/domain_distance_check.py
 
 resource-effectiveness:

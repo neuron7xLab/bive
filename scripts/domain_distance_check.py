@@ -21,9 +21,20 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "src"))
 
+import json  # noqa: E402
+
 from bive.cogveritas.methodology import methodology_contract  # noqa: E402
+from bive.cogveritas.service import analyze_verifiability  # noqa: E402
 
 _DOC = ROOT / "docs" / "EMPIRICAL_VALIDATION.md"
+OUT = ROOT / "artifacts" / "verification" / "DOMAIN_DISTANCE_POLICY.json"
+# The regime -> allowed-output policy this gate declares and enforces at runtime.
+_POLICY = [
+    {"regime": "in-domain", "calibrated": True, "allowed_output": "ordinal; calibrated probability only if ECE<0.10 demonstrated"},
+    {"regime": "cross-corpus", "calibrated": False, "allowed_output": "ordinal-only"},
+    {"regime": "cross-domain-high-stakes", "calibrated": False, "allowed_output": "ordinal-only"},
+    {"regime": "unknown", "calibrated": False, "allowed_output": "ordinal-only"},
+]
 # The regimes that MUST be distinguished, by keyword.
 _REGIMES = ("in-domain", "cross-corpus", "real-life trial")
 # Cross-domain honesty: probabilities are not emitted out of domain.
@@ -56,17 +67,45 @@ def check() -> list[str]:
                 problems.append(f"empirical doc omits regime: {regime!r}")
         if not any(k in doc for k in _DEGRADATION):
             problems.append("empirical doc omits the cross-domain degradation rule (ordinal, not probabilities)")
+
+    # Runtime enforcement: probability must be suppressed (Phase 0 — cross-domain
+    # calibration not demonstrated). If a live analysis emits a probability, the
+    # policy has drifted from behaviour.
+    probability_suppressed = _probability_suppressed_at_runtime()
+    if not probability_suppressed:
+        problems.append("runtime emitted a calibrated_probability outside a calibrated regime")
     return problems
+
+
+def _probability_suppressed_at_runtime() -> bool:
+    out = analyze_verifiability("3 березня о 14:30 я передав Петру 5000 гривень біля станції.")
+    return out.calibrated_probability is None and out.verdict is None
 
 
 def main() -> int:
     problems = check()
+    OUT.parent.mkdir(parents=True, exist_ok=True)
+    OUT.write_text(
+        json.dumps(
+            {
+                "policy": _POLICY,
+                "runtime_probability_suppressed": _probability_suppressed_at_runtime(),
+                "problems": problems,
+                "status": "PASS" if not problems else "FAIL",
+            },
+            ensure_ascii=False,
+            indent=2,
+            sort_keys=True,
+        )
+        + "\n",
+        encoding="utf-8",
+    )
     if problems:
         for p in problems:
             print(f"DOMAIN_DISTANCE_ISSUE {p}")
         print(f"DOMAIN_DISTANCE_FAIL {len(problems)} issue(s)")
         return 1
-    print("DOMAIN_DISTANCE_PASS")
+    print(f"DOMAIN_DISTANCE_PASS artifact={OUT.relative_to(ROOT)}")
     return 0
 
 

@@ -4,7 +4,7 @@
 # pyproject.toml. Build tooling (setuptools/wheel/pip) is held at the lowest
 # non-vulnerable release; mypy/ruff are held stable to keep the lint/typecheck
 # gates deterministic. See docs/DEPENDENCY_POLICY.md.
-pip==26.1.2
+pip==26.2
 setuptools==82.0.1
 wheel==0.47.0
 pydantic==2.13.4
